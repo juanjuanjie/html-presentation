@@ -27,6 +27,26 @@
 
 相比传统 PPT，它更适合被 AI 接管、被 Git 版本控制、被脚本批量处理。
 
+## 结构 × 风格
+
+本项目现在支持把“演示结构”和“视觉风格”分开处理：
+
+```yaml
+task: html_presentation
+source_material: "原始材料或主题"
+slide_structure: compact_report_6
+style_id: video_dark_default
+output:
+  format: html
+  offline_only: true
+```
+
+- `slide_structure` 决定页序和内容组织，定义见 [`slide_structures.yaml`](./slide_structures.yaml)。
+- `style_id` 决定视觉风格；默认使用视频友好的黑紫高对比风，也可以使用 `themes/` 中的主题。
+- 详细协议见 [`docs/structure-style-protocol.md`](./docs/structure-style-protocol.md)。
+
+原则：**风格是风格，结构是结构；可以替换风格，但是结构不变。**
+
 ## 核心特点
 
 | 特性 | 说明 |

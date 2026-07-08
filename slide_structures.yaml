@@ -1,0 +1,115 @@
+version: "1.0"
+structures:
+  enterprise_report_12:
+    name: "企业完整汇报 12 页"
+    description: "适合课题汇报、项目汇报、正式企业汇报。"
+    pages:
+      - id: cover
+        title: 封面页
+        purpose: "建立主题、汇报对象、时间与项目归属。"
+        regions: [title, subtitle, meta, brand]
+      - id: agenda
+        title: 目录页
+        purpose: "说明汇报结构和听众预期。"
+        regions: [agenda_items]
+      - id: background
+        title: 背景
+        purpose: "说明问题背景、业务背景或项目背景。"
+        regions: [context, pain_points]
+      - id: objective
+        title: 目的
+        purpose: "明确本次工作的目标和评价标准。"
+        regions: [goals, success_metrics]
+      - id: content
+        title: 具体内容
+        purpose: "展开核心工作内容，可按模块扩展多页。"
+        regions: [modules, key_points]
+      - id: experiment_design
+        title: 实验方案设计
+        purpose: "说明方案、流程、变量、样本、方法。"
+        regions: [process, method, variables]
+      - id: data_analysis
+        title: 过程及数据分析
+        purpose: "展示过程数据、分析结果、趋势和异常。"
+        regions: [metrics, chart_area, findings]
+      - id: tools
+        title: 分析工具
+        purpose: "放鱼骨图、柏拉图、流程图、对比图等。"
+        regions: [tool_visual, explanation]
+      - id: review
+        title: 总结复盘
+        purpose: "总结成果、问题、经验和改进点。"
+        regions: [summary, lessons]
+      - id: suggestions
+        title: 建议
+        purpose: "给出下一步行动和资源需求。"
+        regions: [actions, owners, timeline]
+      - id: references
+        title: 参考文献
+        purpose: "列出数据来源、资料来源和标准依据。"
+        regions: [references]
+      - id: approval
+        title: 审核意见页
+        purpose: "预留审核、签批、意见反馈。"
+        regions: [approval_table, notes]
+  compact_report_6:
+    name: "精简汇报 6 页"
+    description: "适合材料较少或快速汇报。"
+    pages:
+      - id: cover
+        title: 封面页
+        purpose: "建立主题。"
+        regions: [title, subtitle, meta]
+      - id: background_objective
+        title: 背景与目标
+        purpose: "合并说明背景、问题和目标。"
+        regions: [context, goals]
+      - id: method
+        title: 方法与过程
+        purpose: "说明怎么做。"
+        regions: [process, method]
+      - id: result
+        title: 数据与结果
+        purpose: "展示关键数据和结果。"
+        regions: [metrics, findings]
+      - id: conclusion
+        title: 总结复盘
+        purpose: "总结成果与问题。"
+        regions: [summary, lessons]
+      - id: next_steps
+        title: 下一步建议
+        purpose: "明确行动计划。"
+        regions: [actions, timeline]
+  storyboard:
+    name: "视频分镜 / 内容展示"
+    description: "适合短视频分镜、内容卡片、叙事型展示。"
+    pages:
+      - id: hook
+        title: 开场钩子
+        purpose: "提出问题或强观点。"
+        regions: [headline, hook_visual]
+      - id: problem
+        title: 问题 / 痛点
+        purpose: "建立冲突和观看动机。"
+        regions: [pain_points]
+      - id: insight
+        title: 核心发现
+        purpose: "提出主要洞察。"
+        regions: [insight, evidence]
+      - id: method
+        title: 方法拆解
+        purpose: "给出步骤或框架。"
+        regions: [steps]
+      - id: example
+        title: 案例演示
+        purpose: "用例子证明观点。"
+        regions: [case, comparison]
+      - id: ending
+        title: 总结收束
+        purpose: "给出结论和行动建议。"
+        regions: [summary, call_to_action]
+defaults:
+  structure: compact_report_6
+  max_points_per_page: 5
+  offline_only: true
+  keep_slide_engine: true

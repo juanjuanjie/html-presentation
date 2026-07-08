@@ -9,6 +9,41 @@ description: "生成适合视频演示的 HTML 幻灯片：大字号、低密度
 
 本规范用于指导生成适合 B 站讲解、知识分享、教程分镜的 HTML 幻灯片。
 
+## 分层原则：结构 × 风格
+
+本 Skill 采用分层模型：
+
+- **结构层**：决定页序、每页信息结构、演讲逻辑。
+- **风格层**：决定颜色、字体、背景、组件质感、装饰语法。
+- **执行层**：决定 HTML 幻灯片引擎、翻页、进度条、页码和动画。
+
+核心原则：
+
+```text
+风格是风格，结构是结构。
+可以替换风格，但结构不变。
+```
+
+优先把用户请求整理成：
+
+```yaml
+task: html_presentation
+source_material: "原始材料或主题"
+slide_structure: compact_report_6
+style_id: video_dark_default
+output:
+  format: html
+  offline_only: true
+```
+
+其中：
+
+- `source_material`：原始材料、会议纪要、技术文档、汇报主题。
+- `slide_structure`：页面结构，读取 [`slide_structures.yaml`](./slide_structures.yaml)，可使用 `enterprise_report_12`、`compact_report_6`、`storyboard`。
+- `style_id`：视觉风格；未指定时使用本文件的默认黑紫视频友好风，也可选择仓库内 `themes/` 中的主题。
+
+详细组合协议见 [`docs/structure-style-protocol.md`](./docs/structure-style-protocol.md)。
+
 ## 默认视觉风格
 
 - **背景**：深黑 `#08090d`，封面页可单独使用 `#070609`。
@@ -184,11 +219,38 @@ description: "生成适合视频演示的 HTML 幻灯片：大字号、低密度
 
 ## 输出工作流
 
-1. 复制 `templates/presentation.html`。
-2. 按"单页单点"原则编写内容。
-3. 浏览器打开预览翻页节奏。
-4. 运行 `python screenshot_html_slides.py xxx.html -o slides_out`。
-5. 将 PNG 序列导入剪辑软件。
+1. 读取或确认 `slide_structure`，优先使用 `slide_structures.yaml`。
+2. 从 `source_material` 提炼 `content_outline`。
+3. 将 `content_outline` 映射到所选结构的 `pages[].regions`。
+4. 确定视觉风格：默认黑紫视频友好风，或仓库 `themes/` 中的主题。
+5. 复制 `templates/presentation.html`，保留 Slide Engine、Controls、Progress Bar、Dots。
+6. 按"单页单点"原则编写内容。
+7. 只替换视觉 tokens 和组件质感，不改变页序结构。
+8. 浏览器打开预览翻页节奏。
+9. 运行 `python screenshot_html_slides.py xxx.html -o slides_out`。
+10. 将 PNG 序列导入剪辑软件。
+
+## 结构选项
+
+机读页序定义在 [`slide_structures.yaml`](./slide_structures.yaml)：
+
+| slide_structure | 用途 |
+|---|---|
+| `enterprise_report_12` | 企业完整汇报 / 项目汇报 / 课题汇报 |
+| `compact_report_6` | 精简汇报 / 快速讲解 |
+| `storyboard` | 视频分镜 / 内容展示 |
+
+当用户要求“从材料生成 PPT 大纲和讲稿”或“企业课题汇报”时，优先使用 `enterprise_report_12`；内容不足时可降级到 `compact_report_6`。
+
+## 风格替换规则
+
+当用户指定风格或主题时：
+
+1. 保持 `slide_structure` 页序不变。
+2. 保持 Slide Engine 不变。
+3. 保持 Controls / Progress Bar / Dots / screenshot hiding 不变。
+4. 只替换背景、主色、字体气质、卡片/面板质感、装饰元素和强调色。
+5. 生成后检查结构和风格是否同时成立。
 
 ## 禁止项
 
