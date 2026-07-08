@@ -170,7 +170,7 @@ styles:
     default_layouts: ["dark_gold_three_col"]
 
   - style_id: raw_paper_notes
-    style_name: "Raw Paper 文本笔记"
+    style_name: "Raw Paper 米白黑纸感文本笔记"
     reference:
       image: "文本类_V2.png"
       html: "文本类_V2.html"
@@ -210,7 +210,7 @@ styles:
     default_layouts: ["raw_paper_storyboard"]
 
   - style_id: social_card_layering_v2a
-    style_name: "自媒体 V2a 层叠卡片封面"
+    style_name: "自媒体 V2a 蓝紫橙层叠卡片封面"
     reference:
       image: "自媒体风格_V2a.png"
       html: "自媒体风格_V2a.html"
@@ -248,7 +248,7 @@ styles:
     default_layouts: ["social_cover_v2a"]
 
   - style_id: social_dashboard_v2b
-    style_name: "自媒体 V2b 仪表盘信息流"
+    style_name: "自媒体 V2b 浅灰白橙仪表盘信息流"
     reference:
       image: "自媒体风格_V2b.png"
       html: "自媒体风格_V2b.html"

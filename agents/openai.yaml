@@ -1,0 +1,7 @@
+interface:
+  display_name: "HTML Presentation"
+  short_description: "生成苹果风/Notion 风 HTML 演示文稿"
+  default_prompt: "Use $html-presentation to create an HTML slide deck from my outline or source material."
+
+policy:
+  allow_implicit_invocation: true

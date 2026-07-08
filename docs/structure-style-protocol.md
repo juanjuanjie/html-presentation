@@ -54,6 +54,14 @@ output:
   offline_only: true
 ```
 
+Deck `theme_id` accepts both native deck themes and page-style adapter themes:
+
+- Native deck themes: `blockframe`, `blockframe-dark`, `blue-professional`, `purple-gold-presentation`.
+- Page-style adapter themes: `weekly_report_mflex`, `dark_gold_insight`, `raw_paper_notes`, `social_card_layering_v2a`, `social_dashboard_v2b`, `aurora_ui`.
+
+When a page style is used as `theme_id`, the deck keeps `slide_structure` as the page order and reads visual tokens from `../references/styles.yaml`.
+It does not repeat the fixed one-page layout on every slide.
+
 ## Structure Options
 
 Deck structures are defined in [`../slide_structures.yaml`](../slide_structures.yaml):
@@ -62,7 +70,7 @@ Deck structures are defined in [`../slide_structures.yaml`](../slide_structures.
 - `compact_report_6`: concise report
 - `storyboard`: video storyboard / educational explainer
 
-Page layouts and styles are defined in [`../references/styles.yaml`](../references/styles.yaml).
+Page layouts and styles are defined in [`../references/styles.yaml`](../references/styles.yaml). The same style tokens can also be used by deck as page-style adapter themes.
 
 ## Style Replacement Rules
 

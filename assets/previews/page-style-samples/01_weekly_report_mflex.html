@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MFLEX 蓝白项目汇报</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:grid;place-items:center;background:#111;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif}
+.stage{position:relative;width:min(100vw,177.7778vh);height:min(100vh,56.25vw);overflow:hidden}
+.stage{background:#fff;color:#17223b}
+.top{position:absolute;left:0;right:0;top:0;height:13%;background:#062662}
+.logo{position:absolute;right:7%;top:3.6%;background:#fff;color:#062662;padding:.55em 2.2em;font-weight:900;letter-spacing:.08em;font-size:clamp(18px,2.1vw,34px)}
+.title{position:absolute;left:7%;top:5.1%;color:#fff}
+.title h1{margin:0;font-size:clamp(26px,3.2vw,56px);letter-spacing:.02em}
+.title p{margin:.5em 0 0;color:#dce8f7;font-size:clamp(13px,1.2vw,22px)}
+.grid{position:absolute;left:7%;right:7%;top:21%;bottom:18%;display:grid;grid-template-columns:1fr 1fr;gap:4.2% 5%}
+.q{border-top:3px solid #194b9b;padding:1.3em 1em 1em 0}
+.q h2{margin:0 0 .7em;color:#0b3a8a;font-size:clamp(18px,1.8vw,32px)}
+.q p{margin:0;color:#3f4a5f;line-height:1.72;font-size:clamp(13px,1.12vw,21px)}
+.wave{position:absolute;left:-8%;right:-8%;bottom:5%;height:15%;background:
+radial-gradient(70% 85% at 25% 100%,rgba(158,187,226,.34) 0 42%,transparent 43%),
+radial-gradient(70% 85% at 75% 100%,rgba(102,148,207,.34) 0 42%,transparent 43%),
+#edf4fb;clip-path:ellipse(62% 58% at 50% 100%)}
+.footer{position:absolute;left:0;right:0;bottom:0;height:5%;background:#062662;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 7%;font-size:clamp(10px,.9vw,16px);font-weight:700}
+</style>
+</head>
+<body>
+<section class="stage">
+  <div class="top"></div><div class="logo">MFLEX</div>
+  <div class="title"><h1>项目周报 / 工作汇报</h1><p>MFLEX 蓝白项目汇报 · 四象限信息结构</p></div>
+  <div class="grid">
+    <div class="q"><h2>01 本周进展</h2><p>完成核心流程联调，关键数据链路进入稳定验证阶段，交付节奏清晰。</p></div>
+    <div class="q"><h2>02 关键数据</h2><p>任务完成率 82%，阻塞项 3 个，风险等级保持可控，下一步聚焦闭环。</p></div>
+    <div class="q"><h2>03 风险问题</h2><p>设备一致性、参数版本和现场操作习惯仍需通过 SOP 固化。</p></div>
+    <div class="q"><h2>04 下周计划</h2><p>完成复测、交付检查和文档同步，形成可复用流程模板。</p></div>
+  </div>
+  <div class="wave"></div><div class="footer"><span>MFLEX · WEEKLY REPORT</span><span>01 / 06</span></div>
+</section>
+</body>
+</html>

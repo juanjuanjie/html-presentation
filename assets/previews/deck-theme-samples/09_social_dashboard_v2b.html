@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自媒体 V2b 浅灰白橙仪表盘 · deck 适配主题</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:grid;place-items:center;background:#111;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif}
+.stage{position:relative;width:min(100vw,177.7778vh);height:min(100vh,56.25vw);overflow:hidden}
+.stage{background:#f1f4f8;color:#1f2d3d;padding:5% 6%}
+.header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.4%}
+h1{margin:0;font-size:clamp(28px,3.8vw,68px);line-height:1;font-weight:1000}
+.date{color:#718096;font-weight:800;font-size:clamp(12px,1vw,18px)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4%;height:24%}
+.card{background:#fff;border:1px solid #dfe6ef;border-radius:18px;padding:1.25em;box-shadow:0 14px 32px rgba(31,45,61,.08)}
+.num{font-size:clamp(26px,3vw,54px);font-weight:1000;color:#f15a24}
+.card p{margin:.4em 0 0;color:#718096;font-size:clamp(12px,1vw,18px)}
+.main{display:grid;grid-template-columns:1fr 1.25fr;gap:2%;height:49%;margin-top:2%}
+.progress,.feed{background:#fff;border-radius:20px;border:1px solid #dfe6ef;padding:1.7em}
+.ring{width:min(22vw,34vh);aspect-ratio:1;margin:1.2em auto;border-radius:50%;background:conic-gradient(#f15a24 0 72%,#e6edf5 72%);display:grid;place-items:center}
+.ring span{width:72%;height:72%;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:clamp(24px,3vw,54px);font-weight:1000;color:#f15a24}
+h2{margin:0;color:#1f2d3d;font-size:clamp(18px,1.7vw,30px)}
+.item{display:grid;grid-template-columns:auto 1fr auto;gap:1em;align-items:center;border-bottom:1px solid #dfe6ef;padding:1em 0;font-size:clamp(12px,1vw,18px)}
+.dot{width:.75em;height:.75em;border-radius:50%;background:#f15a24}.status{color:#718096;font-weight:800}
+.footer{position:absolute;left:6%;right:6%;bottom:3.4%;color:#718096;font-weight:800;font-size:clamp(11px,.9vw,16px)}
+</style>
+</head>
+<body>
+<section class="stage">
+  <div class="header"><h1>项目看板 · 本周节奏</h1><div class="date">V2B DASHBOARD / 2026</div></div>
+  <div class="metrics">
+    <div class="card"><div class="num">82%</div><p>任务完成率</p></div>
+    <div class="card"><div class="num">18</div><p>已关闭事项</p></div>
+    <div class="card"><div class="num">03</div><p>待处理风险</p></div>
+    <div class="card"><div class="num">6.4h</div><p>平均响应</p></div>
+  </div>
+  <div class="main">
+    <div class="progress"><h2>整体进度</h2><div class="ring"><span>72%</span></div></div>
+    <div class="feed"><h2>近期动态</h2><div class="item"><span class="dot"></span><b>SOP 复测完成</b><span class="status">Done</span></div><div class="item"><span class="dot"></span><b>参数文件归档</b><span class="status">Today</span></div><div class="item"><span class="dot"></span><b>交付清单确认</b><span class="status">Next</span></div></div>
+  </div>
+  <div class="footer">浅灰白橙仪表盘信息流 · metric cards / progress / activity</div>
+</section>
+</body>
+</html>

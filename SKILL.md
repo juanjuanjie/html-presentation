@@ -71,9 +71,9 @@ output:
 |---|---|---|
 | `weekly_report_mflex` | MFLEX 蓝白项目汇报 | `weekly_report_2x2` |
 | `dark_gold_insight` | 暗金数据洞察 | `dark_gold_three_col` |
-| `raw_paper_notes` | Raw Paper 文本笔记 | `raw_paper_storyboard` |
-| `social_card_layering_v2a` | 自媒体 V2a 层叠卡片 | `social_cover_v2a` |
-| `social_dashboard_v2b` | 自媒体 V2b 仪表盘 | `social_dashboard_v2b` |
+| `raw_paper_notes` | Raw Paper 米白黑纸感文本笔记 | `raw_paper_storyboard` |
+| `social_card_layering_v2a` | 自媒体 V2a 蓝紫橙层叠卡片 | `social_cover_v2a` |
+| `social_dashboard_v2b` | 自媒体 V2b 浅灰白橙仪表盘 | `social_dashboard_v2b` |
 | `aurora_ui` | Aurora UI 极光科技 | `aurora_cover` |
 
 ### deck 主题
@@ -84,6 +84,12 @@ output:
 | `blockframe-dark` | 新粗野主义·暗 |
 | `blue-professional` | 奶油+钴蓝·专业 |
 | `purple-gold-presentation` | 紫金暗色电影感，默认 deck 主题 |
+| `weekly_report_mflex` | MFLEX 蓝白项目汇报（page 风格适配 deck） |
+| `dark_gold_insight` | 暗金数据洞察（page 风格适配 deck） |
+| `raw_paper_notes` | Raw Paper 米白黑纸感文本笔记（page 风格适配 deck） |
+| `social_card_layering_v2a` | 自媒体 V2a 蓝紫橙层叠卡片（page 风格适配 deck） |
+| `social_dashboard_v2b` | 自媒体 V2b 浅灰白橙仪表盘（page 风格适配 deck） |
+| `aurora_ui` | Aurora UI 极光科技（page 风格适配 deck） |
 
 ## 默认视觉风格
 
@@ -265,7 +271,7 @@ output:
 3. **page**：读取 `references/styles.yaml`，取 `style_id` 的 tokens/must_have/avoid 与 `layout_id` 的 regions，生成 16:9 单页 HTML。
 4. **deck**：读取或确认 `slide_structure`，优先使用 `slide_structures.yaml`。
 5. **deck**：从 `source_material` 提炼 `content_outline`，映射到所选结构的 `pages[].regions`。
-6. **deck**：确定视觉主题：默认黑紫视频友好风，或仓库 `themes/` 中的主题。
+6. **deck**：确定视觉主题：默认黑紫视频友好风、仓库 `themes/` 中的原生 deck 主题，或 `references/styles.yaml` 中的 page 风格适配主题。
 7. **deck**：复制 `templates/presentation.html`，保留 Slide Engine、Controls、Progress Bar、Dots。
 8. **deck**：按"单页单点"原则编写内容，只替换视觉 tokens 和组件质感，不改变页序结构。
 9. 浏览器打开预览；使用 `checklist.md` 自检结构与风格。
@@ -292,6 +298,13 @@ output:
 3. 保持 Controls / Progress Bar / Dots / screenshot hiding 不变。
 4. 只替换背景、主色、字体气质、卡片/面板质感、装饰元素和强调色。
 5. 生成后检查结构和风格是否同时成立。
+
+当 `deck.theme_id` 使用 page 风格 ID（如 `weekly_report_mflex`）时：
+
+- 仍按 `slide_structure` 生成多页 deck。
+- 风格 tokens / must_have / avoid 从 `references/styles.yaml` 读取。
+- 把单页布局元素抽象为 deck 组件语言，例如 MFLEX 的顶部深蓝横幅、页脚条和底部波浪会延续到每一页；暗金的边框、颗粒、金/青/紫光晕会延续为多页主题。
+- 不把某个 page 版式强行复制到每一页；结构仍由 `slide_structure` 决定。
 
 ## 禁止项
 

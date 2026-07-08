@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raw Paper 米白黑纸感文本笔记</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:grid;place-items:center;background:#111;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif}
+.stage{position:relative;width:min(100vw,177.7778vh);height:min(100vh,56.25vw);overflow:hidden}
+.stage{background:#f7f5ef;color:#111}
+.stage:before{content:"";position:absolute;inset:0;background:
+linear-gradient(rgba(0,0,0,.025) 1px,transparent 1px),
+linear-gradient(90deg,rgba(0,0,0,.018) 1px,transparent 1px);background-size:22px 22px;opacity:.8}
+.left{position:absolute;left:7%;top:14%;width:42%;z-index:2}
+.label{display:inline-block;background:#111;color:#f7f5ef;padding:.45em .8em;border-radius:999px;font-weight:900;font-size:clamp(11px,.9vw,16px)}
+h1{margin:.34em 0 .16em;font-size:clamp(46px,7.2vw,118px);line-height:.9;letter-spacing:-.03em;font-weight:1000}
+.note{max-width:78%;font-size:clamp(14px,1.25vw,22px);line-height:1.65;color:#2c2c2c}
+.tags{display:flex;gap:.8em;flex-wrap:wrap;margin-top:2em}
+.tag{background:#efd49b;border:1px solid rgba(0,0,0,.16);border-radius:999px;padding:.45em .9em;font-weight:800;font-size:clamp(11px,.9vw,16px)}
+.panel{position:absolute;right:8%;top:12%;width:39%;height:70%;background:#fff;box-shadow:0 20px 42px rgba(0,0,0,.18);transform:rotate(-2deg);padding:3.2em 2.5em;z-index:2}
+.panel:before{content:"";position:absolute;left:-7%;top:12%;width:34%;height:22%;background:#f2ead9;box-shadow:0 8px 18px rgba(0,0,0,.12);transform:rotate(9deg)}
+.panel:after{content:"";position:absolute;right:-6%;bottom:10%;width:38%;height:28%;background:#b89c72;opacity:.75;transform:rotate(7deg)}
+.paper{position:relative;z-index:1;border-left:5px solid #111;padding-left:1.1em}
+.paper h2{margin:0 0 .8em;font-size:clamp(22px,2.3vw,42px)}
+.paper p{font-size:clamp(14px,1.15vw,21px);line-height:1.85;color:#2c2c2c}
+.stamp{position:absolute;right:9%;top:9%;border:2px solid #111;padding:.35em .55em;font-weight:1000;transform:rotate(8deg)}
+</style>
+</head>
+<body>
+<section class="stage">
+  <div class="left">
+    <span class="label">RAW PAPER NOTES</span>
+    <h1>未完成的<br>想法现场</h1>
+    <p class="note">米白纸面、粗黑标题、扫描纹理和拼贴块，保留草稿状态里的判断痕迹。</p>
+    <div class="tags"><span class="tag">draft</span><span class="tag">scan</span><span class="tag">anti-polish</span></div>
+  </div>
+  <div class="panel">
+    <div class="stamp">V2</div>
+    <div class="paper"><h2>纸感故事板</h2><p>把摘录、批注和临时结论放在同一张纸上，不追求完美排版，而强调思考正在发生。</p></div>
+  </div>
+</section>
+</body>
+</html>

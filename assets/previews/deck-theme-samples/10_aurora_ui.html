@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aurora UI 极光科技 · deck 适配主题</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:grid;place-items:center;background:#111;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif}
+.stage{position:relative;width:min(100vw,177.7778vh);height:min(100vh,56.25vw);overflow:hidden}
+.stage{background:
+radial-gradient(circle at 18% 22%,rgba(255,59,152,.35),transparent 22%),
+radial-gradient(circle at 78% 30%,rgba(16,215,232,.38),transparent 24%),
+radial-gradient(circle at 66% 78%,rgba(77,45,131,.55),transparent 28%),
+linear-gradient(135deg,#071324 0%,#111044 46%,#061a2a 100%);color:#f5f7ff}
+.stage:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);filter:blur(1px)}
+.left{position:absolute;left:7%;top:18%;width:43%;z-index:2}
+.kicker{color:#10d7e8;font-weight:900;letter-spacing:.18em;font-size:clamp(12px,1vw,18px)}
+h1{font-size:clamp(44px,6.2vw,108px);line-height:.98;margin:.25em 0;font-weight:1000}
+.lead{color:#cbd1e2;font-size:clamp(15px,1.35vw,24px);line-height:1.65;max-width:82%}
+.glass{position:absolute;right:8%;top:15%;width:38%;height:68%;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.14);backdrop-filter:blur(18px);border-radius:30px;box-shadow:0 28px 80px rgba(0,0,0,.35);padding:2em;z-index:2}
+.orb{position:absolute;border-radius:50%;filter:blur(2px);opacity:.9}.o1{right:32%;top:9%;width:9%;aspect-ratio:1;background:#10d7e8}.o2{right:7%;bottom:13%;width:12%;aspect-ratio:1;background:#ff3b98}
+.glass h2{font-size:clamp(24px,2.6vw,48px);margin:.2em 0 .9em}
+.mini{display:grid;gap:1em}
+.mini div{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:1.1em;color:#f5f7ff;font-weight:800;font-size:clamp(12px,1vw,18px)}
+.chip{display:inline-block;margin-top:2em;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:.75em 1em;color:#f5f7ff;font-weight:900}
+</style>
+</head>
+<body>
+<section class="stage">
+  <div class="left">
+    <div class="kicker">AURORA UI</div>
+    <h1>极光科技<br>界面语言</h1>
+    <p class="lead">深蓝、黑紫、青色与粉色柔光叠加，配合玻璃拟态面板，形成沉浸式科技封面。</p>
+    <span class="chip">glass panel / neon glow / dark depth</span>
+  </div>
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <div class="glass">
+    <h2>Signal Stack</h2>
+    <div class="mini"><div>01 · Real-time Insight</div><div>02 · Generative Workflow</div><div>03 · Adaptive Interface</div></div>
+  </div>
+</section>
+</body>
+</html>

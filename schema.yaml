@@ -1,7 +1,6 @@
 version: "3.0"
-# 统一输入 schema。融合两个 skill：
-#   Skill A = html-style-protocol（单页 6 风格，离线）→ page 模式
-#   Skill B = html-presentation（视频 deck 引擎 + 4 主题 + PNG 导出）→ deck 模式
+# 统一输入 schema。融合历史 html-style-protocol 的 page 风格协议
+# 与 html-presentation 的 deck 引擎、主题和 PNG 导出能力。
 # 通过 `mode` 区分。两模式共用别名表与验收清单。
 
 input:
@@ -35,9 +34,12 @@ input:
       applies_to: deck
       default: purple-gold-presentation
       description: >-
-        deck 视觉主题。每个主题是一套完整设计系统（见 references/themes/<slug>.design.md）。
-        缺失时按 references/themes_index.json 的 mood/tone/scheme 匹配；无线索则 purple-gold-presentation。
-      enum: [blockframe, blockframe-dark, blue-professional, purple-gold-presentation]
+        deck 视觉主题。可使用 themes/ 下的原生 deck 主题，也可使用 references/styles.yaml
+        中的 page 风格 ID 作为 deck 适配主题。缺失时按 references/themes_index.json
+        的 mood/tone/scheme 匹配；无线索则 purple-gold-presentation。
+      enum: [blockframe, blockframe-dark, blue-professional, purple-gold-presentation,
+             weekly_report_mflex, dark_gold_insight, raw_paper_notes,
+             social_card_layering_v2a, social_dashboard_v2b, aurora_ui]
     slide_structure:
       type: string
       applies_to: deck
@@ -87,7 +89,7 @@ input:
         report_match_level: true
         check_slide_engine: true    # deck：引擎四件套
         check_known_fixes: true     # deck：两个已知修复
-        check_theme_fidelity: true  # deck：字体/配色/装饰是否忠于 design.md、有无串主题
+        check_theme_fidelity: true  # deck：原生主题忠于 design.md；page 风格适配主题忠于 styles.yaml
 
 output:
   required: [html_file, match_report]

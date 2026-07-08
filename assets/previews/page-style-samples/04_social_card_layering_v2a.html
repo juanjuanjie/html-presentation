@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自媒体 V2a 蓝紫橙层叠卡片</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:grid;place-items:center;background:#111;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif}
+.stage{position:relative;width:min(100vw,177.7778vh);height:min(100vh,56.25vw);overflow:hidden}
+.stage{background:linear-gradient(90deg,#f3e9e5 0 50%,#d9f3ff 50% 100%);color:#10182d}
+.left{position:absolute;left:7%;top:12%;width:38%;z-index:3}
+.eyebrow{font-weight:900;letter-spacing:.16em;color:#2536d9;font-size:clamp(12px,1vw,18px)}
+h1{font-size:clamp(46px,6.8vw,116px);line-height:.92;margin:.18em 0;font-weight:1000;letter-spacing:-.04em}
+.lead{font-size:clamp(15px,1.35vw,24px);line-height:1.65;max-width:86%}
+.panel{position:absolute;right:7%;top:10%;width:43%;height:77%;background:#fff;border-radius:28px;box-shadow:0 28px 70px rgba(18,35,80,.2);overflow:hidden}
+.shape{position:absolute;border-radius:24px}
+.blue{left:12%;top:12%;width:54%;height:23%;background:#2536d9}
+.violet{right:10%;top:25%;width:48%;height:24%;background:#4b4cf2}
+.orange{left:18%;top:45%;width:62%;height:18%;background:#ff7416}
+.peach{right:8%;bottom:9%;width:56%;height:25%;background:#ffd9bd}
+.whitecard{position:absolute;left:10%;bottom:12%;width:48%;background:#fff;border-radius:18px;padding:1.2em;box-shadow:0 18px 42px rgba(16,24,45,.2);font-weight:900}
+.info{position:absolute;left:10%;right:10%;top:70%;display:grid;grid-template-columns:repeat(3,1fr);gap:.8em}
+.info div{font-size:clamp(10px,.9vw,15px);font-weight:900;color:#10182d}
+.pill{display:inline-block;margin-top:1.8em;background:#10182d;color:#fff;border-radius:999px;padding:.75em 1.1em;font-weight:900}
+</style>
+</head>
+<body>
+<section class="stage">
+  <div class="left">
+    <div class="eyebrow">SOCIAL COVER V2A</div>
+    <h1>DIMENSIONAL<br>LAYERING</h1>
+    <p class="lead">蓝紫橙高饱和色块叠加白色面板，适合观点封面、课程首屏和视觉卡片。</p>
+    <span class="pill">high contrast / stacked cards</span>
+  </div>
+  <div class="panel">
+    <div class="shape blue"></div><div class="shape violet"></div><div class="shape orange"></div><div class="shape peach"></div>
+    <div class="whitecard">Layer 03<br><span style="color:#ff7416">Key Point</span></div>
+    <div class="info"><div>01 Depth</div><div>02 Focus</div><div>03 Impact</div></div>
+  </div>
+</section>
+</body>
+</html>

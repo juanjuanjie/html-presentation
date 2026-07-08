@@ -6,9 +6,9 @@
 ## 处理顺序
 
 1. 归一自然语言 → 标准 ID（`aliases.yaml`）。
-2. 校验 `content`；page 校验 `style_id`，deck 校验 `theme_id`（缺→按 themes_index.json 匹配，兜底 `purple-gold-presentation`）。
+2. 校验 `content`；page 校验 `style_id`，deck 校验 `theme_id`（可为原生 deck 主题，也可为 page 风格 ID；缺→按 themes_index.json 匹配，兜底 `purple-gold-presentation`）。
 3. 判定 `mode`（page / deck）。
-4. 取风格 tokens / must_have / avoid / prompt_template（`styles.yaml`）。
+4. 取风格 tokens / must_have / avoid / prompt_template：page 与 page-style deck 主题读取 `styles.yaml`；原生 deck 主题读取 `themes/<slug>/design.md`。
 5. 取结构 regions / pages（page 布局在 `styles.yaml`，deck 结构在 `slide_structures.yaml`）。
 6. 按内容映射优先级把 `content` 落位。
 7. 生成单文件 HTML（16:9 / 离线 / 无外链）。
@@ -28,9 +28,10 @@
 
 - 按所选 `slide_structure` 的 `pages` 顺序逐页填 `content.pages[i]`；未显式给出时，从 `content.source_material` 拆成各页 `content_outline`。
 - 每页要点 ≤ 5；页序不可乱。
+- 若 `theme_id` 是 page 风格 ID，则把该风格的 must_have 抽象成多页主题元素，而不是把单页 layout 固定复制到每页。
 
 ## 输出约束
 
-- 必须：单文件可离线打开、无外部字体/CDN、16:9、风格与 `style_id` 一致、结构与所选 layout/structure 一致。
+- 必须：单文件可离线打开、无外部字体/CDN、16:9、风格与 `style_id` / `theme_id` 一致、结构与所选 layout/structure 一致。
 - 默认：缺 `layout_id` 用 `default_layouts[0]`；缺 `slide_structure` 用 `defaults.structure`；缺字段用中性占位且告知用户。
 - 禁止：擅自换风格、把风格做成固定单页模板、把内容强塞进错误结构。

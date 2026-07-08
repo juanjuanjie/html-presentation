@@ -48,7 +48,7 @@ output:
 ```
 
 - `slide_structure` 决定页序和内容组织，定义见 [`slide_structures.yaml`](./slide_structures.yaml)。
-- `theme_id` 决定 deck 视觉主题；默认使用视频友好的紫金暗色高对比风，也可以使用 `themes/` 中的主题。
+- `theme_id` 决定 deck 视觉主题；默认使用视频友好的紫金暗色高对比风。它可以是 `themes/` 中的 4 个原生 deck 主题，也可以是 `references/styles.yaml` 中的 6 个 page 风格适配主题。
 - `style_id` 决定 page 单页视觉风格；定义见 [`references/styles.yaml`](./references/styles.yaml)。
 - 详细协议见 [`docs/structure-style-protocol.md`](./docs/structure-style-protocol.md)。
 
@@ -68,12 +68,17 @@ content:
 
 ```yaml
 mode: deck
-theme_id: purple-gold-presentation
+theme_id: weekly_report_mflex
 slide_structure: compact_report_6
 content:
-  title: 数据平台周报
-  source_material: "本周数据接入完成 75%，核心模型开发 60%。"
+  title: SOP 培训汇报
+  source_material: "本周完成设备连接、整面标定、补偿验证和数据采集流程整理。"
 ```
+
+`deck.theme_id` 可用：
+
+- 原生 deck 主题：`blockframe` / `blockframe-dark` / `blue-professional` / `purple-gold-presentation`
+- page 风格适配主题：`weekly_report_mflex` / `dark_gold_insight` / `raw_paper_notes` / `social_card_layering_v2a` / `social_dashboard_v2b` / `aurora_ui`
 
 ## 核心特点
 
@@ -146,7 +151,7 @@ html-presentation/
 ├── index.html                         # GitHub Pages 模板广场首页
 ├── templates/
 │   └── presentation.html              # 基础模板（复制起点）
-├── themes/                            # 完整主题库
+├── themes/                            # 原生 deck 主题库
 │   ├── blockframe/                    # 新粗野主义亮色版
 │   ├── blockframe-dark/               # 新粗野主义暗色版
 │   ├── blue-professional/             # 蓝/米白专业风
@@ -222,7 +227,7 @@ html-presentation/
 
 - **视频友好化改造**：整体放大字号、降低信息密度、增加左右留白、提升对比度，删除噪点纹理，更适合视频压缩场景。
 - **精简结构**：删除 `.git/`、`__pycache__/`、生成日志、截图缓存等冗余文件；删除具体项目输出。
-- **精简主题库**：保留最适用于视频演示的 `blockframe`、`blockframe-dark`、`blue-professional` 和 `purple-gold-presentation`，并更新了索引与说明文档。
+- **扩展 deck 主题库**：保留 4 个原生 deck 主题，并将 6 个 page 风格全部适配为 deck 可用 `theme_id`，结构仍由 `slide_structure` 决定。
 - **改进截图脚本**：自动隐藏更多模板自带的导航控件，导出画面更干净。
 - **新增模板广场首页**：`index.html` 可直接部署到 GitHub Pages，方便浏览和预览主题。
 - **加入项目封面**：`blockframe` / `blockframe-dark` 默认使用开源项目封面，同时保留原主题封面；`purple-gold-presentation` 使用“PPT 正在被 HTML 淘汰”封面作为默认第一页。

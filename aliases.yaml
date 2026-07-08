@@ -16,6 +16,12 @@ theme_aliases:
   blockframe-dark: [暗色粗野, 黑底粗野, 荧光粗野, BlockFrame Dark, 暗色分镜]
   blue-professional: [蓝professional, 商务蓝, 咨询风, 奶油蓝, 专业风, Blue Professional, 钴蓝]
   purple-gold-presentation: [紫金, 紫金演示, 黑紫, 暗色电影感, 教程暗色, Purple Gold, 默认演示, 苹果风, Notion风]
+  weekly_report_mflex: [MFLEX deck, mflex deck, 蓝白deck, 企业蓝白deck, MFLEX演示, 蓝白PPT]
+  dark_gold_insight: [暗金deck, 黑金deck, 夜读deck, 暗金演示, 数据洞察deck]
+  raw_paper_notes: [Raw Paper deck, 纸感deck, 草稿deck, 文本笔记deck, 米白黑deck]
+  social_card_layering_v2a: [自媒体V2a deck, 蓝紫橙deck, 层叠卡片deck, 封面卡片deck]
+  social_dashboard_v2b: [自媒体V2b deck, 浅灰白橙deck, 仪表盘deck, 看板deck]
+  aurora_ui: [Aurora deck, 极光deck, 科技deck, 玻璃拟态deck, 极光演示]
 
 # --- page 版式：自然语言 → layout_id ---
 layout_aliases:
@@ -55,5 +61,5 @@ recommendations:
   default_deck_theme: purple-gold-presentation
   # deck 主题按 scheme 快速分流
   theme_by_scheme:
-    light: [blockframe, blue-professional]
-    dark: [blockframe-dark, purple-gold-presentation]
+    light: [blockframe, blue-professional, weekly_report_mflex, raw_paper_notes, social_card_layering_v2a, social_dashboard_v2b]
+    dark: [blockframe-dark, purple-gold-presentation, dark_gold_insight, aurora_ui]

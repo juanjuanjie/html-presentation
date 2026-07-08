@@ -12,7 +12,7 @@ page 与 deck 统一适用。带 **[deck]** 仅 deck 检查。
 
 ## 2. 视觉（page 风格 / deck 主题）
 - 使用对应 tokens；page 出现 `must_have`、未触发 `avoid`
-- **[deck]** 忠于该主题 `design.md`：字体角色、配色、间距节奏、装饰词汇、组件语法
+- **[deck]** 忠于该主题：原生 deck 主题检查 `themes/<slug>/design.md`；page 风格适配主题检查 `references/styles.yaml` 的 tokens / must_have / avoid
 - 未混入其它风格/主题的主元素（尤其 deck 不得串主题）
 
 ## 3. HTML

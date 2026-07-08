@@ -30,6 +30,8 @@ playwright install chromium
 | 把稿子做成视频分镜并导出 PNG | deck · purple-gold-presentation · storyboard · export |
 | 做一套粗野风的产品发布 slides | deck · blockframe · compact_report_6 |
 | 商务蓝、给投资人的 12 页 | deck · blue-professional · enterprise_report_12 |
+| 用 MFLEX 蓝白风做一套 SOP 培训 PPT | deck · weekly_report_mflex · compact_report_6 |
+| 用暗金风做一套观点演示 | deck · dark_gold_insight · compact_report_6 |
 
 规则：只说风格不说结构时，page 用该风格默认版式、deck 用 `compact_report_6`；deck 没说主题时按你的氛围（mood/tone/scheme）匹配，兜底 `purple-gold-presentation`。
 
@@ -73,7 +75,7 @@ export:
 
 **page 风格（6，离线）**：`weekly_report_mflex` / `dark_gold_insight` / `raw_paper_notes` / `social_card_layering_v2a` / `social_dashboard_v2b` / `aurora_ui`。
 
-**deck 主题（4，视频友好）**：
+**deck 主题（10，视频友好）**：
 
 | theme_id | 气质 | scheme |
 |---|---|---|
@@ -81,8 +83,15 @@ export:
 | `blockframe-dark` | 新粗野·黑底荧光 | dark |
 | `blue-professional` | 奶油+钴蓝·咨询级 | light |
 | `purple-gold-presentation` | 紫金暗色电影感（默认）| dark |
+| `weekly_report_mflex` | MFLEX 企业蓝白汇报 | light |
+| `dark_gold_insight` | 暗金数据洞察 | dark |
+| `raw_paper_notes` | Raw Paper 米白黑纸感笔记 | light |
+| `social_card_layering_v2a` | 自媒体蓝紫橙层叠卡片 | light |
+| `social_dashboard_v2b` | 自媒体浅灰白橙仪表盘 | light |
+| `aurora_ui` | Aurora 极光科技 | dark |
 
-每个主题的完整规范在 `references/themes/<slug>.design.md`；选择元数据在 `references/themes_index.json`。
+原生 deck 主题的完整规范在 `themes/<slug>/design.md`；page 风格适配主题读取 `references/styles.yaml`。
+选择元数据在 `references/themes_index.json`。
 
 ## 5. 可选结构（deck）
 `enterprise_report_12`(12) / `compact_report_6`(6，默认) / `storyboard`(6)。
@@ -91,9 +100,9 @@ export:
 
 ## 6. deck 换主题 / 换肤
 
-- 用某个已注册主题：给 `theme_id` 即可，skill 会读它的 `design.md` 并忠实套用（字体、配色、装饰、组件、间距）。
+- 用某个已注册主题：给 `theme_id` 即可。原生 deck 主题读取 `themes/<slug>/design.md`；page 风格适配主题读取 `references/styles.yaml`。
 - 想快速试暗色默认风：直接改 `templates/presentation.html` 顶部 `:root` 的 `--title / --accent / --bg` 等变量，页序与引擎不用动。
-- **铁律**：同一 deck 不混两个主题；不替换主题字体、不改配色、不删标志性装饰；缺某种版式时用该主题的设计系统就地设计（见 `references/AGENTS.md`）。
+- **铁律**：同一 deck 不混两个主题；不替换主题字体、不改配色、不删标志性装饰。page 风格适配 deck 时，不复制固定单页版式，只继承该风格的色彩、组件、装饰语法和 must_have。
 
 翻页：底部按钮、右侧导航点、键盘 `←/→/Home/End/空格`、触摸滑动。
 
