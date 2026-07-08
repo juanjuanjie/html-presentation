@@ -1,13 +1,31 @@
 ---
 name: "html-presentation-video"
-description: "生成适合视频演示的 HTML 幻灯片：大字号、低密度、左右留白、高对比、单文件输出。"
+description: "生成可离线打开的单文件 HTML：支持 page 单页风格页与 deck 多页视频友好幻灯片；可按结构与风格分层生成，并导出 1920×1080 PNG 分镜。"
 ---
 
 # HTML Presentation · 视频友好规范
 
 > 本规范基于 [Zara Zhang](https://github.com/zarazhangrui) 的 [frontend-slides](https://github.com/zarazhangrui/frontend-slides) 与 [beautiful-html-templates](https://github.com/zarazhangrui/beautiful-html-templates) 改编，针对视频演示场景做了调整。详见项目根目录 [`NOTICE.md`](./NOTICE.md)。
 
-本规范用于指导生成适合 B 站讲解、知识分享、教程分镜的 HTML 幻灯片。
+本规范用于指导生成适合 B 站讲解、知识分享、教程分镜的 HTML 幻灯片，也支持按注册视觉风格生成单页 HTML。
+
+## 双模式：page / deck
+
+本 Skill 有两种产物模式：
+
+| mode | 产物 | 使用场景 | 核心文件 |
+|---|---|---|---|
+| `page` | 单页风格化 HTML | 周报页、封面图、单页汇报、风格展示 | `references/styles.yaml` |
+| `deck` | 多页 HTML 幻灯片 | 演示文稿、PPT 风格 HTML、视频分镜、PNG 导出 | `templates/presentation.html` + `themes/` |
+
+执行前先读取：
+
+- `schema.yaml`
+- `aliases.yaml`
+- `checklist.md`
+- `references/generation_protocol.md`
+
+自然语言请求先经 `aliases.yaml` 归一为标准 ID，再按 `mode` 分流。
 
 ## 分层原则：结构 × 风格
 
@@ -28,6 +46,7 @@ description: "生成适合视频演示的 HTML 幻灯片：大字号、低密度
 
 ```yaml
 task: html_presentation
+mode: deck
 source_material: "原始材料或主题"
 slide_structure: compact_report_6
 style_id: video_dark_default
@@ -38,11 +57,33 @@ output:
 
 其中：
 
+- `mode`：`page` 或 `deck`。出现 `layout_id` / “单页、一页、封面图”时倾向 `page`；出现 `slide_structure` / “演示、幻灯片、PPT、分镜、视频、导出 PNG”时倾向 `deck`。
 - `source_material`：原始材料、会议纪要、技术文档、汇报主题。
 - `slide_structure`：页面结构，读取 [`slide_structures.yaml`](./slide_structures.yaml)，可使用 `enterprise_report_12`、`compact_report_6`、`storyboard`。
-- `style_id`：视觉风格；未指定时使用本文件的默认黑紫视频友好风，也可选择仓库内 `themes/` 中的主题。
+- `style_id`：page 单页视觉风格，读取 `references/styles.yaml`。
+- `theme_id`：deck 多页视觉主题；未指定时使用默认黑紫视频友好风，也可选择仓库内 `themes/` 中的主题。
 
 详细组合协议见 [`docs/structure-style-protocol.md`](./docs/structure-style-protocol.md)。
+
+### page 风格
+
+| style_id | 风格 | 默认 layout |
+|---|---|---|
+| `weekly_report_mflex` | MFLEX 蓝白项目汇报 | `weekly_report_2x2` |
+| `dark_gold_insight` | 暗金数据洞察 | `dark_gold_three_col` |
+| `raw_paper_notes` | Raw Paper 文本笔记 | `raw_paper_storyboard` |
+| `social_card_layering_v2a` | 自媒体 V2a 层叠卡片 | `social_cover_v2a` |
+| `social_dashboard_v2b` | 自媒体 V2b 仪表盘 | `social_dashboard_v2b` |
+| `aurora_ui` | Aurora UI 极光科技 | `aurora_cover` |
+
+### deck 主题
+
+| theme_id | 主题 |
+|---|---|
+| `blockframe` | 新粗野主义·亮 |
+| `blockframe-dark` | 新粗野主义·暗 |
+| `blue-professional` | 奶油+钴蓝·专业 |
+| `purple-gold-presentation` | 紫金暗色电影感，默认 deck 主题 |
 
 ## 默认视觉风格
 
@@ -219,16 +260,16 @@ output:
 
 ## 输出工作流
 
-1. 读取或确认 `slide_structure`，优先使用 `slide_structures.yaml`。
-2. 从 `source_material` 提炼 `content_outline`。
-3. 将 `content_outline` 映射到所选结构的 `pages[].regions`。
-4. 确定视觉风格：默认黑紫视频友好风，或仓库 `themes/` 中的主题。
-5. 复制 `templates/presentation.html`，保留 Slide Engine、Controls、Progress Bar、Dots。
-6. 按"单页单点"原则编写内容。
-7. 只替换视觉 tokens 和组件质感，不改变页序结构。
-8. 浏览器打开预览翻页节奏。
-9. 运行 `python screenshot_html_slides.py xxx.html -o slides_out`。
-10. 将 PNG 序列导入剪辑软件。
+1. 读取 `schema.yaml`，用 `aliases.yaml` 归一自然语言到 `mode / style_id / theme_id / layout_id / slide_structure`。
+2. 判定 `mode`。
+3. **page**：读取 `references/styles.yaml`，取 `style_id` 的 tokens/must_have/avoid 与 `layout_id` 的 regions，生成 16:9 单页 HTML。
+4. **deck**：读取或确认 `slide_structure`，优先使用 `slide_structures.yaml`。
+5. **deck**：从 `source_material` 提炼 `content_outline`，映射到所选结构的 `pages[].regions`。
+6. **deck**：确定视觉主题：默认黑紫视频友好风，或仓库 `themes/` 中的主题。
+7. **deck**：复制 `templates/presentation.html`，保留 Slide Engine、Controls、Progress Bar、Dots。
+8. **deck**：按"单页单点"原则编写内容，只替换视觉 tokens 和组件质感，不改变页序结构。
+9. 浏览器打开预览；使用 `checklist.md` 自检结构与风格。
+10. 如需分镜，运行 `python screenshot_html_slides.py xxx.html -o slides_out`，将 PNG 序列导入剪辑软件。
 
 ## 结构选项
 

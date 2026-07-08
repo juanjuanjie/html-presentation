@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  专为 <strong>B 站讲解视频</strong>、<strong>知识分享</strong>、<strong>教程分镜</strong> 优化的 HTML 幻灯片工具。
+专为 <strong>B 站讲解视频</strong>、<strong>知识分享</strong>、<strong>教程分镜</strong> 优化的 HTML 幻灯片工具。
 </p>
 
 <p align="center">
@@ -27,25 +27,53 @@
 
 相比传统 PPT，它更适合被 AI 接管、被 Git 版本控制、被脚本批量处理。
 
+它也可以作为一个 HTML 视觉生成协议使用：
+
+- `page`：生成单页风格化 HTML，如 MFLEX 周报、暗金洞察页、Aurora 封面。
+- `deck`：生成多页 HTML 演示文稿，并可导出 1920×1080 PNG 分镜。
+
 ## 结构 × 风格
 
 本项目现在支持把“演示结构”和“视觉风格”分开处理：
 
 ```yaml
 task: html_presentation
+mode: deck
 source_material: "原始材料或主题"
 slide_structure: compact_report_6
-style_id: video_dark_default
+theme_id: purple-gold-presentation
 output:
   format: html
   offline_only: true
 ```
 
 - `slide_structure` 决定页序和内容组织，定义见 [`slide_structures.yaml`](./slide_structures.yaml)。
-- `style_id` 决定视觉风格；默认使用视频友好的黑紫高对比风，也可以使用 `themes/` 中的主题。
+- `theme_id` 决定 deck 视觉主题；默认使用视频友好的紫金暗色高对比风，也可以使用 `themes/` 中的主题。
+- `style_id` 决定 page 单页视觉风格；定义见 [`references/styles.yaml`](./references/styles.yaml)。
 - 详细协议见 [`docs/structure-style-protocol.md`](./docs/structure-style-protocol.md)。
 
 原则：**风格是风格，结构是结构；可以替换风格，但是结构不变。**
+
+### page 示例
+
+```yaml
+mode: page
+style_id: weekly_report_mflex
+layout_id: weekly_report_2x2
+content:
+  title: 项目汇报
+```
+
+### deck 示例
+
+```yaml
+mode: deck
+theme_id: purple-gold-presentation
+slide_structure: compact_report_6
+content:
+  title: 数据平台周报
+  source_material: "本周数据接入完成 75%，核心模型开发 60%。"
+```
 
 ## 核心特点
 

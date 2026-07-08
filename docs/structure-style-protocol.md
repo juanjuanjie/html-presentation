@@ -1,6 +1,6 @@
 # HTML Presentation Structure × Style Protocol
 
-This protocol separates presentation generation into three layers:
+This protocol separates HTML generation into two product modes and three layers:
 
 ```text
 content_outline + slide_structure + visual_style
@@ -22,13 +22,33 @@ In Chinese:
 | Style | How it looks | dark video theme, blue corporate, Aurora, etc. |
 | Engine | How it runs | slide switching, progress bar, dots, screenshots |
 
+## Modes
+
+| mode | Output | Structure key | Style key |
+|---|---|---|---|
+| `page` | Single-page styled HTML | `layout_id` | `style_id` |
+| `deck` | Multi-page HTML presentation | `slide_structure` | `theme_id` |
+
 ## Standard Request Shape
+
+### Page
+
+```yaml
+mode: page
+style_id: weekly_report_mflex
+layout_id: weekly_report_2x2
+content:
+  title: 项目汇报
+```
+
+### Deck
 
 ```yaml
 task: html_presentation
+mode: deck
 source_material: "Raw notes, docs, transcript, or topic"
 slide_structure: enterprise_report_12
-style_id: video_dark_default
+theme_id: purple-gold-presentation
 output:
   format: html
   offline_only: true
@@ -36,11 +56,13 @@ output:
 
 ## Structure Options
 
-Defined in [`../slide_structures.yaml`](../slide_structures.yaml):
+Deck structures are defined in [`../slide_structures.yaml`](../slide_structures.yaml):
 
 - `enterprise_report_12`: formal enterprise/project report
 - `compact_report_6`: concise report
 - `storyboard`: video storyboard / educational explainer
+
+Page layouts and styles are defined in [`../references/styles.yaml`](../references/styles.yaml).
 
 ## Style Replacement Rules
 

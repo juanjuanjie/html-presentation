@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-25T13:59:24.405Z",
+  "template_count": 4,
+  "templates": [
+    {
+      "slug": "blockframe",
+      "name": "BlockFrame",
+      "tagline": "????????? + ?????? + ???????? HTML ??????????",
+      "mood": [
+        "bold",
+        "playful",
+        "graphic",
+        "fresh",
+        "confident"
+      ],
+      "occasion": [
+        "创意机构提案",
+        "独立 SaaS 发布",
+        "设计师作品集",
+        "品牌重塑",
+        "现代初创公司路演",
+        "教程与知识分享"
+      ],
+      "tone": [
+        "confident",
+        "graphic",
+        "pop",
+        "design-led"
+      ],
+      "formality": "medium-low",
+      "density": "medium",
+      "scheme": "light",
+      "best_for": "?????????????????????????????????????????????????????????? HTML ?? PPT ??????????????????",
+      "avoid_for": "需要安静、克制、传统权威感的场景（监管披露、正式法律文件、极简商务汇报）。",
+      "slide_count": 11
+    },
+    {
+      "slug": "blockframe-dark",
+      "name": "BlockFrame Dark",
+      "tagline": "BlockFrame ???????????? + ???? + ????? + ??????",
+      "mood": [
+        "bold",
+        "playful",
+        "graphic",
+        "dark",
+        "cinematic"
+      ],
+      "occasion": [
+        "创意机构提案",
+        "独立 SaaS 发布",
+        "设计师作品集",
+        "品牌重塑",
+        "现代初创公司路演",
+        "教程与知识分享",
+        "视频分镜素材"
+      ],
+      "tone": [
+        "confident",
+        "graphic",
+        "pop",
+        "design-led"
+      ],
+      "formality": "medium-low",
+      "density": "medium",
+      "scheme": "dark",
+      "best_for": "????????????????????????????????????????????????????????????????????????????",
+      "avoid_for": "需要明亮、柔和或传统权威感的场景（正式商务汇报、监管披露、浅色品牌展示）。",
+      "slide_count": 11
+    },
+    {
+      "slug": "blue-professional",
+      "name": "Blue Professional",
+      "tagline": "奶油色纸张背景搭配电光钴蓝强调，干净现代的专业风格。",
+      "mood": [
+        "professional",
+        "modern",
+        "calm",
+        "trustworthy"
+      ],
+      "occasion": [
+        "B2B SaaS 产品介绍",
+        "咨询交付物",
+        "内部评审",
+        "顾问提案",
+        "投资者更新"
+      ],
+      "tone": [
+        "clean",
+        "considered",
+        "polished",
+        "neutral"
+      ],
+      "formality": "medium-high",
+      "density": "medium",
+      "scheme": "light",
+      "best_for": "适合需要现代、克制且略带权威感的场景：B2B SaaS 产品演示、咨询交付物、顾问更新、投资者报告。也是希望显得专业但不死板的干净选择，例如研究综述、内部评审、服务型企业品牌展示。",
+      "avoid_for": "不适合需要热烈、 playful 或刻意非正式氛围的场景，冷峻的电光蓝克制感会显得过于 polished。",
+      "slide_count": 10
+    },
+    {
+      "slug": "purple-gold-presentation",
+      "name": "Purple Gold Presentation",
+      "tagline": "???????????PPT ??? HTML ??????????????????",
+      "mood": [
+        "dark",
+        "cinematic",
+        "professional",
+        "modern",
+        "tutorial"
+      ],
+      "occasion": [
+        "视频教程幻灯片",
+        "B站讲解视频素材",
+        "技术教程",
+        "知识分享",
+        "投资者更新",
+        "咨询交付物"
+      ],
+      "tone": [
+        "confident",
+        "clear",
+        "polished",
+        "modern"
+      ],
+      "formality": "medium-high",
+      "density": "medium",
+      "scheme": "dark",
+      "best_for": "?????????????????????????PPT ??? HTML ?????????????????????????? B ??????",
+      "avoid_for": "需要明亮/playful 配色、 heavy 渐变、企业蓝或彩虹强调的场景。也不适合浅色背景或紧凑信息密集型布局。",
+      "slide_count": 10
+    }
+  ]
+}

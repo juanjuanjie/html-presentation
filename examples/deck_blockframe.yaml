@@ -1,0 +1,17 @@
+# 亮色新粗野主义主题 + 视频分镜结构（换主题不改页序）
+mode: deck
+theme_id: blockframe
+slide_structure: storyboard
+content:
+  title: 用 HTML 替代 PPT 做分镜
+  subtitle: 从模板到 workflow，我踩完坑了
+  source_material: |
+    钩子：PPT 正在被 HTML 淘汰。
+    痛点：PPT 难被 AI 接管、难版本控制、难批量导图。
+    发现：HTML 幻灯片 = 纯文本可生成、浏览器可预览、一键导 1920×1080 PNG。
+    方法：复制模板 → 单页单点写内容 → 浏览器看节奏 → 截图脚本导帧。
+    案例：本项目 4 套主题，任意套一套就能出分镜。
+    收束：你的下一套 slides，何必是 PPT。
+export:
+  enabled: true
+  mode: balanced

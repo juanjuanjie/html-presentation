@@ -1,0 +1,327 @@
+version: "3.0"
+# 合并说明：本文件是「风格层」的唯一事实源（single source of truth）。
+# 原 html-style-protocol 与 html-presentation 各自引用一份 V2.styles.yaml，现合并为一份。
+# 引用方式：始终读取本 skill 目录内的 references/styles.yaml，不再依赖任何机器本地 E:\ 路径。
+
+rules:
+  canvas_ratio: "16:9"
+  offline_only: true
+  no_external_fonts: true
+  no_external_cdn: true
+  prioritize_visual_structure: true
+
+# ---------------------------------------------------------------------------
+# 组件层：跨风格复用的信息承载单元（page 与 deck 通用）
+# ---------------------------------------------------------------------------
+components:
+  title_bar:
+    purpose: "页面主标题区"
+    common_tokens: ["title", "background", "text"]
+  section_title:
+    purpose: "模块标题与细线"
+    common_tokens: ["title", "line"]
+  card:
+    purpose: "信息承载块"
+    common_tokens: ["card", "text", "muted"]
+  tag:
+    purpose: "标签/胶囊"
+    common_tokens: ["background", "muted", "accent"]
+  footer_meta:
+    purpose: "页脚元信息"
+    common_tokens: ["line", "muted"]
+  page_wave:
+    purpose: "底部波浪/纹理收尾"
+    common_tokens: ["wave_1", "wave_2"]
+  glass_panel:
+    purpose: "玻璃拟态容器"
+    common_tokens: ["glass", "text", "muted"]
+  paper_sheet:
+    purpose: "纸张/草稿容器"
+    common_tokens: ["paper", "ink", "shadow"]
+
+# ---------------------------------------------------------------------------
+# 结构层 · page 家族：单页版式（决定「一页之内」的区域划分）。
+# 注意：page 布局与风格强绑定（每个布局声明所属 style_id），因此放在风格库内。
+# 多页 deck 结构（风格无关）见 references/slide_structures.yaml。
+# ---------------------------------------------------------------------------
+layouts:
+  weekly_report_2x2:
+    style_id: weekly_report_mflex
+    description: "周报 / 项目汇报四象限版"
+    regions: [header, quadrant_1, quadrant_2, quadrant_3, quadrant_4, page_wave, footer_meta]
+  weekly_report_lr:
+    style_id: weekly_report_mflex
+    description: "左摘要右明细版"
+    regions: [header, left_summary, right_details, page_wave, footer_meta]
+  dark_gold_three_col:
+    style_id: dark_gold_insight
+    description: "暗金三栏洞察版"
+    regions: [center_title, col_left, col_mid, col_right, footer_meta]
+  raw_paper_storyboard:
+    style_id: raw_paper_notes
+    description: "纸感故事板版"
+    regions: [left_title, right_panel, paper_sheet, tags]
+  social_cover_v2a:
+    style_id: social_card_layering_v2a
+    description: "封面层叠卡片版"
+    regions: [left_copy, right_panel, layered_cards]
+  social_dashboard_v2b:
+    style_id: social_dashboard_v2b
+    description: "仪表盘信息流版"
+    # 说明：此布局名与同名 style_id 相同（历史命名），二者位于不同命名空间，保留以兼容既有引用。
+    regions: [header, metrics_row, progress, activity, footer_meta]
+  aurora_cover:
+    style_id: aurora_ui
+    description: "极光封面版"
+    regions: [left_title, right_glass_panel, glow_cards]
+  aurora_mix_panel:
+    style_id: aurora_ui
+    description: "极光信息面板版"
+    regions: [header, glass_panel, card_stack, footer_meta]
+
+# ---------------------------------------------------------------------------
+# 风格层：tokens / must_have / avoid / prompt_template
+# ---------------------------------------------------------------------------
+styles:
+  - style_id: weekly_report_mflex
+    style_name: "MFLEX 蓝白项目汇报"
+    reference:
+      image: "Mflex汇报.png"
+      html: "Mflex汇报.html"
+    use_cases: ["周报", "项目汇报", "工作同步", "阶段复盘"]
+    tokens:
+      colors:
+        primary: "#062662"
+        primary_2: "#0a377c"
+        title: "#0b3a8a"
+        line: "#194b9b"
+        background: "#ffffff"
+        text: "#17223b"
+        muted: "#3f4a5f"
+        wave_1: "rgba(158,187,226,.32)"
+        wave_2: "rgba(102,148,207,.32)"
+      fonts:
+        title: "system"
+        body: "system"
+        meta: "monospace"
+    layout:
+      canvas: "16:9"
+      structure: ["top_bar", "four_quadrants", "bottom_wave", "footer_page_no"]
+      page_no: "01 / 08"
+    must_have:
+      - "深蓝横幅"
+      - "白色 MFLEX 标志区"
+      - "四象限主体"
+      - "蓝色模块标题与细横线"
+      - "底部浅蓝波浪"
+      - "深蓝页脚条"
+    avoid:
+      - "卡片化"
+      - "强阴影"
+      - "发光"
+      - "大面积渐变"
+      - "橙紫色主调"
+    prompt_template: |
+      生成一份 16:9 HTML 单页汇报页面，风格参考 MFLEX 企业蓝白 PPT。
+      页面必须包含顶部深蓝横幅、右上 MFLEX 标志区、四象限主体、底部波浪和页码 01 / 08。
+      主题应清晰、专业、稳定、克制，不要卡片化，不要强阴影，不要发光。
+    default_layouts: ["weekly_report_2x2", "weekly_report_lr"]
+
+  - style_id: dark_gold_insight
+    style_name: "暗金数据洞察"
+    reference:
+      image: "暗金.png"
+      html: "暗金.html"
+    use_cases: ["深度笔记", "数据分析", "观点整理", "方法论拆解"]
+    tokens:
+      colors:
+        background: "#0d0c0a"
+        background_deep: "#070706"
+        gold: "#d8a74f"
+        gold_dark: "#8a652c"
+        cyan: "#45d7cf"
+        purple: "#9a72ff"
+        text: "#efe3c9"
+        muted: "#b7a78c"
+      fonts:
+        title: "serif"
+        body: "system"
+        english: "italic_serif"
+    layout:
+      canvas: "16:9"
+      structure: ["border_frame", "center_title", "three_columns", "bottom_meta"]
+    must_have:
+      - "1px 暗金边框"
+      - "颗粒纹理"
+      - "金/青/紫三栏光晕"
+      - "金色细线与菱形装饰"
+      - "底部元信息栏"
+    avoid:
+      - "纯黑空背景"
+      - "纯黑金商务"
+      - "现代仪表盘"
+      - "白色大圆角卡片"
+      - "正文纯白"
+    prompt_template: |
+      生成一份暗金数据洞察风 HTML 页面。
+      页面必须为深黑棕背景，带细颗粒纹理、暗金边框、金线与菱形装饰。
+      主体为三栏：金色主观洞察、青绿色筛选过滤、紫色建模预测。
+      需要保留三种光晕色彩，不要退化成单一黑金风格。
+    default_layouts: ["dark_gold_three_col"]
+
+  - style_id: raw_paper_notes
+    style_name: "Raw Paper 文本笔记"
+    reference:
+      image: "文本类_V2.png"
+      html: "文本类_V2.html"
+    use_cases: ["灵感记录", "文本摘录", "草稿笔记", "创作过程"]
+    tokens:
+      colors:
+        paper: "#f7f5ef"
+        paper_warm: "#f2ead9"
+        ink: "#111111"
+        muted: "#2c2c2c"
+        kraft: "#b89c72"
+        sand: "#efd49b"
+        shadow: "rgba(0,0,0,.18)"
+      fonts:
+        title: "heavy_sans"
+        body: "clean_sans"
+        label: "bold_sans"
+    layout:
+      canvas: "16:9"
+      structure: ["left_title_block", "right_paper_panel", "stacked_blocks", "tags"]
+    must_have:
+      - "米白纸感背景"
+      - "超大粗黑标题"
+      - "倾斜纸张"
+      - "拼贴色块"
+      - "低饱和胶囊标签"
+    avoid:
+      - "过度规整"
+      - "科技渐变"
+      - "玻璃拟态"
+      - "高饱和蓝紫橙"
+    prompt_template: |
+      生成一份 Raw Paper 文本笔记风格 HTML 页面。
+      背景使用米白纸感并加入轻微扫描纹理。
+      左侧放超大黑体标题，右侧放白色面板、倾斜纸张和拼贴色块。
+      整体强调未完成、手工、不完美、扫描纸感。
+    default_layouts: ["raw_paper_storyboard"]
+
+  - style_id: social_card_layering_v2a
+    style_name: "自媒体 V2a 层叠卡片封面"
+    reference:
+      image: "自媒体风格_V2a.png"
+      html: "自媒体风格_V2a.html"
+    use_cases: ["自媒体封面", "观点拆解", "视觉卡片", "内容营销首屏"]
+    tokens:
+      colors:
+        ink: "#10182d"
+        blue: "#2536d9"
+        violet: "#4b4cf2"
+        orange: "#ff7416"
+        peach: "#ffd9bd"
+        bg_left: "#f3e9e5"
+        bg_right: "#d9f3ff"
+      fonts:
+        title: "system"
+        body: "system"
+    layout:
+      canvas: "16:9"
+      structure: ["left_copy", "right_white_panel", "layered_cards"]
+    must_have:
+      - "左侧大英文标题"
+      - "右侧白色大面板"
+      - "高饱和蓝紫与亮橙"
+      - "浅桃色大色块"
+      - "三段信息区"
+    avoid:
+      - "颜色变淡"
+      - "普通数据卡片"
+      - "中文说明太多"
+      - "右侧面板过小"
+    prompt_template: |
+      生成自媒体封面风格 HTML。
+      左侧超大英文标题，右侧白色大面板，内部使用高饱和蓝紫、亮橙和浅桃色层叠色块。
+      画面要有强烈的层级和视觉冲击，不要把颜色调淡。
+    default_layouts: ["social_cover_v2a"]
+
+  - style_id: social_dashboard_v2b
+    style_name: "自媒体 V2b 仪表盘信息流"
+    reference:
+      image: "自媒体风格_V2b.png"
+      html: "自媒体风格_V2b.html"
+    use_cases: ["周报仪表盘", "项目看板", "数据汇总页"]
+    tokens:
+      colors:
+        background: "#f1f4f8"
+        card: "#ffffff"
+        ink: "#1f2d3d"
+        muted: "#718096"
+        orange: "#f15a24"
+        line: "#dfe6ef"
+      fonts:
+        title: "system"
+        body: "system"
+    layout:
+      canvas: "16:9"
+      structure: ["header", "metric_cards", "progress_and_activity", "footer_meta"]
+    must_have:
+      - "四个指标卡"
+      - "橙色数字"
+      - "环形进度"
+      - "近期动态列表"
+      - "底部信息栏"
+    avoid:
+      - "促销海报感"
+      - "过度装饰"
+      - "大面积渐变"
+    prompt_template: |
+      生成自媒体仪表盘信息流 HTML。
+      使用浅灰背景、白色指标卡、橙色数字、环形进度和近期动态列表。
+      整体应现代、干净、克制，不要变成促销海报。
+    default_layouts: ["social_dashboard_v2b"]
+
+  - style_id: aurora_ui
+    style_name: "Aurora UI 极光科技"
+    reference:
+      image: "花色V2.png"
+      html: "花色V2.html"
+    use_cases: ["科技封面", "AI 工具", "UI 灵感", "视觉趋势"]
+    tokens:
+      colors:
+        background_deep: "#071324"
+        purple: "#4d2d83"
+        indigo: "#1a1657"
+        cyan: "#10d7e8"
+        pink: "#ff3b98"
+        glass: "rgba(255,255,255,.14)"
+        text: "#f5f7ff"
+        muted: "#cbd1e2"
+      fonts:
+        title: "system"
+        body: "system"
+    layout:
+      canvas: "16:9"
+      structure: ["left_title_area", "right_glass_panel", "glow_cards"]
+    must_have:
+      - "深色多层渐变"
+      - "青色与粉色极光"
+      - "玻璃拟态面板"
+      - "半透明信息卡"
+    avoid:
+      - "单一紫色背景"
+      - "普通商务卡片"
+      - "过亮画面"
+    prompt_template: |
+      生成 Aurora UI 极光科技风 HTML 页面。
+      背景使用深蓝、黑紫、墨绿多层渐变，加入柔和青色与粉色光晕。
+      左侧放大标题，右侧使用半透明玻璃面板和半透明信息卡。
+      整体要暗色、科技、沉浸、柔光。
+    default_layouts: ["aurora_cover", "aurora_mix_panel"]
+
+# 注：deck（多页演示）不使用本文件的页风格，而是使用 references/themes/ 下的 4 个 deck 主题
+# （blockframe / blockframe-dark / blue-professional / purple-gold-presentation），
+# 默认 purple-gold-presentation ＝ templates/presentation.html 基底引擎的原生外观。
+# 上一版临时注册的 midnight_purple 已由真实主题 purple-gold-presentation 取代。

@@ -1,0 +1,18 @@
+mode: page
+style_id: aurora_ui
+layout_id: aurora_cover
+content:
+  title: Aurora UI
+  subtitle: Northern-light gradients flow behind clean content with a soft premium glow.
+  kicker: GENERAL STYLE 10 / 49
+  chips:
+    - mesh gradients
+    - luminous blend
+    - slow atmosphere
+  cards:
+    - label: PRIMARY MOVE
+      value: mesh gradients
+    - label: SURFACE BEHAVIOR
+      value: luminous blend
+    - label: VISUAL SIGNATURE
+      value: slow atmosphere

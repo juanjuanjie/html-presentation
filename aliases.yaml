@@ -1,0 +1,59 @@
+version: "3.0"
+# 自然语言 → 标准 ID。page 用 style_id，deck 用 theme_id。
+
+# --- page 视觉风格：自然语言 → style_id ---
+style_aliases:
+  weekly_report_mflex: [MFLEX, mflex, 蓝白汇报, 企业蓝白, 项目汇报, 工作汇报, 周报, PPT蓝白]
+  dark_gold_insight: [暗金, 黑金, 夜读, 数据洞察, 深色笔记, editorial]
+  raw_paper_notes: [Raw Paper, raw paper, 文本类, 纸感, 草稿, 扫描稿, Anti-Polish]
+  social_card_layering_v2a: [自媒体封面, V2a, 层叠卡片, Dimensional Layering, 蓝紫橙]
+  social_dashboard_v2b: [仪表盘, 数据看板, V2b, 项目看板, 橙色指标]
+  aurora_ui: [Aurora, Aurora UI, 极光, 科技风, 玻璃拟态, AI工具]
+
+# --- deck 视觉主题：自然语言 → theme_id ---
+theme_aliases:
+  blockframe: [粗野, 新粗野, 糖果色, 亮色粗野, BlockFrame, 贴纸风, 硬阴影]
+  blockframe-dark: [暗色粗野, 黑底粗野, 荧光粗野, BlockFrame Dark, 暗色分镜]
+  blue-professional: [蓝professional, 商务蓝, 咨询风, 奶油蓝, 专业风, Blue Professional, 钴蓝]
+  purple-gold-presentation: [紫金, 紫金演示, 黑紫, 暗色电影感, 教程暗色, Purple Gold, 默认演示, 苹果风, Notion风]
+
+# --- page 版式：自然语言 → layout_id ---
+layout_aliases:
+  weekly_report_2x2: [四象限, 四块, 2x2, 周报四象限]
+  weekly_report_lr: [左右, 双栏, 左摘要右明细]
+  dark_gold_three_col: [三栏, 三列, 洞察三栏]
+  raw_paper_storyboard: [故事板, 纸张面板, 拼贴]
+  social_cover_v2a: [封面, 左文右图, 左文右面板]
+  social_dashboard_v2b: [看板, dashboard, 指标卡]
+  aurora_cover: [极光封面, 科技封面]
+  aurora_mix_panel: [极光面板, 信息面板]
+
+# --- deck 结构：自然语言 → slide_structure ---
+structure_aliases:
+  enterprise_report_12: [企业汇报, 完整汇报, 课题汇报, 12页, 正式汇报]
+  compact_report_6: [精简汇报, 快速汇报, 6页, 短汇报]
+  storyboard: [分镜, 视频分镜, 内容展示, 叙事, 短视频]
+
+# --- 产物类型：自然语言 → mode ---
+mode_aliases:
+  page: [单页, 一页, 做一页, 一张图, 封面图]
+  deck: [演示文稿, 幻灯片, PPT, 多页, 分镜, slide, deck, 视频]
+
+# --- 导出意图 ---
+export_aliases:
+  enable_png: [导出PNG, 导出图片, 分镜图, 视频帧, 截图, 出图, 1920]
+
+recommendations:
+  default_layout_by_style:
+    weekly_report_mflex: weekly_report_2x2
+    dark_gold_insight: dark_gold_three_col
+    raw_paper_notes: raw_paper_storyboard
+    social_card_layering_v2a: social_cover_v2a
+    social_dashboard_v2b: social_dashboard_v2b
+    aurora_ui: aurora_cover
+  default_structure: compact_report_6
+  default_deck_theme: purple-gold-presentation
+  # deck 主题按 scheme 快速分流
+  theme_by_scheme:
+    light: [blockframe, blue-professional]
+    dark: [blockframe-dark, purple-gold-presentation]
