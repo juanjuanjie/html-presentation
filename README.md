@@ -91,10 +91,10 @@ playwright install chromium
 导出幻灯片图片：
 
 ```bash
-python screenshot_html_slides.py themes/purple-gold-presentation/template.html -o slides_out
+python scripts/screenshot_html_slides.py themes/purple-gold-presentation/template.html -o slides_out
 ```
 
-输出为 `slides_out/page_1.png`、`slides_out/page_2.png`...，分辨率 1920×1080，可直接拖入剪辑软件。
+输出为 `slides_out/page_01.png`、`slides_out/page_02.png`...，分辨率 1920×1080，可直接拖入剪辑软件。
 
 ## 目录结构
 
@@ -106,8 +106,12 @@ html-presentation/
 ├── LICENSE                            # MIT 许可证
 ├── requirements.txt                   # Python 依赖
 ├── .gitignore                         # Git 忽略配置
-├── screenshot_html_slides.py          # 截图导出 1920×1080 PNG
 ├── index.html                         # GitHub Pages 模板广场首页
+├── scripts/                           # 脚本工具集
+│   ├── README.md                      # 脚本详细文档
+│   ├── screenshot_html_slides.py      # 截图导出 1920×1080 PNG
+│   ├── extract_covers.py             # 从主题模板提取经典封面
+│   └── apply_cover.py                # 把封面应用到演示文稿第一页
 ├── templates/
 │   └── presentation.html              # 基础模板（复制起点）
 ├── themes/                            # 完整主题库
@@ -116,9 +120,22 @@ html-presentation/
 │   ├── blue-professional/             # 蓝/米白专业风
 │   ├── purple-gold-presentation/      # 紫/金暗色电影感
 │   ├── index.json                     # 主题索引
+│   ├── covers-index.json              # 封面索引
 │   ├── README.md                      # 主题库说明
 │   ├── AGENTS.md                      # Agent 使用手册
 │   └── scripts/                       # 主题库脚本
+│       ├── build-index.mjs            # 构建主题索引
+│       └── new-template.mjs           # 创建新主题骨架
+├── assets/                            # 静态资源
+│   ├── avatar.png                     # 作者头像
+│   └── previews/                      # 模板封面截图
+│       ├── covers/                    # 封面预览图
+│       ├── blockframe.png
+│       ├── blockframe-dark.png
+│       ├── blue-professional.png
+│       └── purple-gold-presentation.png
+├── docs/                              # 项目文档
+│   └── plans/                         # 设计方案
 ├── frontend-slides/                   # 原始 Skill/插件文档（精简）
 │   ├── README.md
 │   ├── SKILL.md
@@ -142,7 +159,19 @@ html-presentation/
 
 详细规范见 [`SKILL.md`](./SKILL.md)。
 
-## 截图脚本常用参数
+## 脚本工具
+
+项目提供三个独立的 Python 脚本，位于 `scripts/` 目录，覆盖封面管理、封面替换和幻灯片截图导出：
+
+| 脚本 | 功能 |
+|------|------|
+| `scripts/screenshot_html_slides.py` | 把 HTML 演示文稿导出为 1920×1080 PNG 序列 |
+| `scripts/extract_covers.py` | 从各主题模板提取经典封面并维护索引 |
+| `scripts/apply_cover.py` | 把封面 HTML 应用到演示文稿第一页 |
+
+所有脚本通过 `Path(__file__).resolve().parent.parent` 自动定位项目根目录，命令需在项目根目录下执行。完整参数说明和使用示例见 [`scripts/README.md`](./scripts/README.md)。
+
+### 截图脚本常用参数
 
 | 参数 | 说明 | 默认值 |
 |------|------|--------|
@@ -188,6 +217,7 @@ html-presentation/
 - **精简结构**：删除 `.git/`、`__pycache__/`、生成日志、截图缓存等冗余文件；删除具体项目输出。
 - **精简主题库**：保留最适用于视频演示的 `blockframe`、`blockframe-dark`、`blue-professional` 和 `purple-gold-presentation`，并更新了索引与说明文档。
 - **改进截图脚本**：自动隐藏更多模板自带的导航控件，导出画面更干净。
+- **整理脚本工具集**：将 `screenshot_html_slides.py`、`extract_covers.py`、`apply_cover.py` 三个脚本统一收纳到 `scripts/` 目录，脚本自动定位项目根目录，并提供完整的 [`scripts/README.md`](./scripts/README.md) 文档。
 - **新增模板广场首页**：`index.html` 可直接部署到 GitHub Pages，方便浏览和预览主题。
 - **加入项目封面**：`blockframe` / `blockframe-dark` 默认使用开源项目封面，同时保留原主题封面；`purple-gold-presentation` 使用“PPT 正在被 HTML 淘汰”封面作为默认第一页。
 

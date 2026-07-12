@@ -138,12 +138,12 @@ def resolve_html_path(raw_value: str) -> Path:
     if raw_value:
         return Path(raw_value)
 
-    script_dir = Path(__file__).resolve().parent
-    preferred = script_dir / "workspace-series-ep01.html"
+    project_root = Path(__file__).resolve().parent.parent
+    preferred = project_root / "workspace-series-ep01.html"
     if preferred.exists():
         return preferred
 
-    candidates = sorted(script_dir.glob("*.html"), key=lambda item: item.stat().st_mtime, reverse=True)
+    candidates = sorted(project_root.glob("*.html"), key=lambda item: item.stat().st_mtime, reverse=True)
     if candidates:
         return candidates[0]
 

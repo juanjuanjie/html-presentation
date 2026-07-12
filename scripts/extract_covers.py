@@ -21,7 +21,7 @@ def safe_print(msg):
     sys.stdout.buffer.write(encoded)
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 THEMES_DIR = ROOT / "themes"
 INDEX_FILE = THEMES_DIR / "covers-index.json"
 
