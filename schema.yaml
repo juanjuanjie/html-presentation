@@ -1,0 +1,117 @@
+version: "3.0"
+# 统一输入 schema。融合历史 html-style-protocol 的 page 风格协议
+# 与 html-presentation 的 deck 引擎、主题和 PNG 导出能力。
+# 通过 `mode` 区分。两模式共用别名表与验收清单。
+
+input:
+  required: [mode, content]         # mode 缺失时按线索推断；见下
+  optional: [style_id, theme_id, layout_id, slide_structure, canvas, language, output, export, validation]
+  fields:
+
+    mode:
+      type: string
+      enum: [page, deck]
+      default: page
+      description: >-
+        产物类型。缺省推断：出现 layout_id / “单页·一页·封面图” → page；
+        出现 theme_id / slide_structure / “演示·幻灯片·PPT·分镜·视频” → deck；都无则 page。
+
+    # ---------- page 模式：单页风格化 HTML（Skill A）----------
+    style_id:
+      type: string
+      applies_to: page            # deck 也可选用页风格做“中式风 deck”，但 deck 首选 theme_id
+      description: "页视觉风格。缺失时询问用户或按 aliases 从自然语言推断。"
+      enum: [weekly_report_mflex, dark_gold_insight, raw_paper_notes,
+             social_card_layering_v2a, social_dashboard_v2b, aurora_ui]
+    layout_id:
+      type: string
+      applies_to: page
+      description: "页版式，决定一页之内的区域。缺失时用该风格 default_layouts[0]。"
+
+    # ---------- deck 模式：多页视频幻灯片（Skill B）----------
+    theme_id:
+      type: string
+      applies_to: deck
+      default: purple-gold-presentation
+      description: >-
+        deck 视觉主题。可使用 themes/ 下的原生 deck 主题，也可使用 references/styles.yaml
+        中的 page 风格 ID 作为 deck 适配主题。缺失时按 references/themes_index.json
+        的 mood/tone/scheme 匹配；无线索则 purple-gold-presentation。
+      enum: [blockframe, blockframe-dark, blue-professional, purple-gold-presentation,
+             weekly_report_mflex, dark_gold_insight, raw_paper_notes,
+             social_card_layering_v2a, social_dashboard_v2b, aurora_ui]
+    slide_structure:
+      type: string
+      applies_to: deck
+      description: "多页页序结构。缺失时用 slide_structures.yaml 的 defaults.structure。"
+      enum: [enterprise_report_12, compact_report_6, storyboard]
+
+    canvas:
+      type: object
+      default: { ratio: "16:9", width: 1920, height: 1080 }   # deck 导出基准 1920×1080
+
+    language:
+      type: string
+      default: zh-CN
+
+    output:
+      type: object
+      default:
+        format: html
+        offline_only: page        # page 强离线；deck 主题可用 Google Fonts（见 export.offline）
+        save_to: "当前工作区（未指定时）"
+        naming: "风格名_布局名.html（page）/ 主题名_结构名.html（deck）"
+
+    # ---------- deck 专用：PNG 导出（视频分镜帧）----------
+    export:
+      type: object
+      applies_to: deck
+      description: "用 screenshot_html_slides.py 把 deck 导出为 1920×1080 PNG 序列。"
+      default:
+        enabled: false
+        out_dir: slides_out
+        prefix: page
+        mode: standard            # standard | balanced | compact | auto
+        device_scale: 2
+        offline: false            # true 时把主题的 Google Fonts 换成系统字体栈再导出
+
+    content:
+      type: object
+      description: "页面内容。字段随 mode/风格/主题/结构变化，title 强推荐。"
+      recommended_page: [title, subtitle, sections, metrics, columns, chips, meta]
+      recommended_deck: [title, subtitle, meta, pages, source_material]
+
+    validation:
+      type: object
+      default:
+        check_must_have: true       # page 风格 must_have / avoid
+        check_avoid: true
+        report_match_level: true
+        check_slide_engine: true    # deck：引擎四件套
+        check_known_fixes: true     # deck：两个已知修复
+        check_theme_fidelity: true  # deck：原生主题忠于 design.md；page 风格适配主题忠于 styles.yaml
+
+output:
+  required: [html_file, match_report]
+  fields:
+    html_file: { type: string, description: "生成的单文件 HTML 路径。" }
+    png_frames: { type: array, description: "export.enabled 时导出的 PNG 帧路径。" }
+    match_report:
+      type: object
+      fields:
+        mode: { enum: [page, deck] }
+        style_or_theme: { type: string, description: "实际使用的 style_id 或 theme_id。" }
+        match: { enum: [high, medium, low] }
+        missing_must_have: { type: array }
+        avoid_risks: { type: array }
+        page_count: { type: integer, description: "deck 页数；page 为 1。" }
+        structure_used: { type: string }
+        notes: { type: array }
+
+fallbacks:
+  missing_mode: "按 mode.description 推断，默认 page。"
+  missing_style_id: "page：询问用户或按 aliases 推断。"
+  missing_theme_id: "deck：按 themes_index.json 的 mood/tone/scheme 匹配；无线索用 purple-gold-presentation。"
+  missing_layout_id: "使用 style.default_layouts[0]。"
+  missing_slide_structure: "使用 slide_structures.yaml 的 defaults.structure（compact_report_6）。"
+  missing_content: "使用中性占位内容，但必须告知用户内容不足。"

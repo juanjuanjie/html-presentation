@@ -1,0 +1,17 @@
+mode: page
+style_id: dark_gold_insight
+layout_id: dark_gold_three_col
+content:
+  title: 数据之光，洞见未来
+  subtitle: In data, we trust; in insight, we act.
+  columns:
+    - heading: 主观 · 洞察
+      body: 数据不是冰冷的数字，而是业务的镜子。理解背后的动因，才能做出正确的决策。
+    - heading: 筛选 · 过滤
+      body: 去噪、去重、去伪存真，从海量信息中筛选出真正有价值的数据。
+    - heading: 建模 · 预测
+      body: 构建模型，发现规律，预测未来，指导行动。
+  meta:
+    - 项目：智能分析平台
+    - 状态：进行中
+    - 版本：v2.1.0

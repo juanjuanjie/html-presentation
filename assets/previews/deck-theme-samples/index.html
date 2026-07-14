@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>html-presentation deck 主题样例总览</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#eef2f7;color:#111827;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif}
+header{padding:36px 44px 18px}
+h1{margin:0;font-size:34px}
+p{margin:10px 0 0;color:#5b6778}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;padding:24px 44px 44px}
+.card{background:#fff;border:1px solid #d8e0ea;border-radius:12px;overflow:hidden;box-shadow:0 16px 36px rgba(15,23,42,.08)}
+iframe{display:block;width:100%;aspect-ratio:16/9;border:0;background:#111}
+.meta{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px}
+h2{font-size:18px;margin:0}
+a{color:#0b3a8a;font-weight:800;text-decoration:none}
+@media(max-width:980px){.grid{grid-template-columns:1fr;padding:18px}.meta{display:block}header{padding:26px 18px 10px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>html-presentation · deck 主题样例总览</h1>
+  <p>每个 theme_id 只生成一页，用于快速查看 deck 主题气质。前 4 个是原生 deck 主题，后 6 个是 page 风格适配 deck。完整 deck 仍会按 slide_structure 生成多页。</p>
+</header>
+<main class="grid">
+    <article class="card">
+      <iframe src="01_blockframe.html" title="BlockFrame 新粗野主义亮色"></iframe>
+      <div class="meta"><h2>BlockFrame 新粗野主义亮色</h2><a href="01_blockframe.html">打开单独文件</a></div>
+    </article>
+    <article class="card">
+      <iframe src="02_blockframe_dark.html" title="BlockFrame Dark 暗色新粗野"></iframe>
+      <div class="meta"><h2>BlockFrame Dark 暗色新粗野</h2><a href="02_blockframe_dark.html">打开单独文件</a></div>
+    </article>
+    <article class="card">
+      <iframe src="03_blue_professional.html" title="Blue Professional 奶油钴蓝专业"></iframe>
+      <div class="meta"><h2>Blue Professional 奶油钴蓝专业</h2><a href="03_blue_professional.html">打开单独文件</a></div>
+    </article>
+    <article class="card">
+      <iframe src="04_purple_gold_presentation.html" title="Purple Gold Presentation 紫金暗色视频"></iframe>
+      <div class="meta"><h2>Purple Gold Presentation 紫金暗色视频</h2><a href="04_purple_gold_presentation.html">打开单独文件</a></div>
+    </article>
+    <article class="card">
+      <iframe src="05_weekly_report_mflex.html" title="MFLEX 蓝白项目汇报 · deck 适配"></iframe>
+      <div class="meta"><h2>MFLEX 蓝白项目汇报 · deck 适配</h2><a href="05_weekly_report_mflex.html">打开单独文件</a></div>
+    </article>
+    <article class="card">
+      <iframe src="06_dark_gold_insight.html" title="暗金数据洞察 · deck 适配"></iframe>
+      <div class="meta"><h2>暗金数据洞察 · deck 适配</h2><a href="06_dark_gold_insight.html">打开单独文件</a></div>
+    </article>
+    <article class="card">
+      <iframe src="07_raw_paper_notes.html" title="Raw Paper 米白黑纸感文本笔记 · deck 适配"></iframe>
+      <div class="meta"><h2>Raw Paper 米白黑纸感文本笔记 · deck 适配</h2><a href="07_raw_paper_notes.html">打开单独文件</a></div>
+    </article>
+    <article class="card">
+      <iframe src="08_social_card_layering_v2a.html" title="自媒体 V2a 蓝紫橙层叠卡片 · deck 适配"></iframe>
+      <div class="meta"><h2>自媒体 V2a 蓝紫橙层叠卡片 · deck 适配</h2><a href="08_social_card_layering_v2a.html">打开单独文件</a></div>
+    </article>
+    <article class="card">
+      <iframe src="09_social_dashboard_v2b.html" title="自媒体 V2b 浅灰白橙仪表盘 · deck 适配"></iframe>
+      <div class="meta"><h2>自媒体 V2b 浅灰白橙仪表盘 · deck 适配</h2><a href="09_social_dashboard_v2b.html">打开单独文件</a></div>
+    </article>
+    <article class="card">
+      <iframe src="10_aurora_ui.html" title="Aurora UI 极光科技 · deck 适配"></iframe>
+      <div class="meta"><h2>Aurora UI 极光科技 · deck 适配</h2><a href="10_aurora_ui.html">打开单独文件</a></div>
+    </article>
+</main>
+</body>
+</html>

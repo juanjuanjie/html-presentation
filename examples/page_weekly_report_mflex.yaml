@@ -1,0 +1,24 @@
+mode: page
+style_id: weekly_report_mflex
+layout_id: weekly_report_2x2
+content:
+  title: 项目汇报
+  subtitle: 数据平台建设进展
+  sections:
+    - heading: 一、项目目标
+      body: 通过搭建统一数据平台，打通数据孤岛，提升数据质量与分析效率。
+    - heading: 二、项目进展
+      items:
+        - 数据接入完成 75%
+        - 核心模型开发 60%
+        - 可视化看板上线 40%
+    - heading: 三、关键成果
+      items:
+        - 接入系统数：28 个
+        - 日均处理数据量：1.52 TB
+        - 数据质量合格率：99.68%
+    - heading: 四、下一步计划
+      items:
+        - 完成标签体系梳理与建设
+        - 优化查询性能与稳定性
+        - 上线更多业务主题看板

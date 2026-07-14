@@ -1,0 +1,19 @@
+# deck 默认主题 + 精简结构 + 导出 PNG 分镜
+mode: deck
+theme_id: purple-gold-presentation
+slide_structure: compact_report_6
+content:
+  title: 数据平台建设周报
+  subtitle: 本周进展与下一步
+  meta: [汇报对象：数据委员会, 时间：2026-W27, 项目：统一数据平台]
+  pages:
+    - { id: cover, title: 数据平台建设周报 }
+    - { id: background_objective, context: 数据分散在 28 个系统，口径不一。, goals: 打通孤岛，取数从天级降到分钟级。 }
+    - { id: method, process: 接入 → 清洗 → 建模 → 看板, method: 按主题域分批接入，先核心后长尾。 }
+    - { id: result, metrics: [接入 75%, 核心模型 60%, 质量合格率 99.68%], findings: 查询平均耗时下降 42%。 }
+    - { id: conclusion, summary: 主链路跑通、质量达标。, lessons: 长尾系统接入成本被低估。 }
+    - { id: next_steps, actions: [完成标签体系, 优化查询稳定性, 上线更多主题看板], timeline: 下两周 }
+export:
+  enabled: true
+  out_dir: slides_out
+  mode: standard

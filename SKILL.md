@@ -1,13 +1,95 @@
 ---
 name: "html-presentation-video"
-description: "生成适合视频演示的 HTML 幻灯片：大字号、低密度、左右留白、高对比、单文件输出。"
+description: "生成可离线打开的单文件 HTML：支持 page 单页风格页与 deck 多页视频友好幻灯片；可按结构与风格分层生成，并导出 1920×1080 PNG 分镜。"
 ---
 
 # HTML Presentation · 视频友好规范
 
 > 本规范基于 [Zara Zhang](https://github.com/zarazhangrui) 的 [frontend-slides](https://github.com/zarazhangrui/frontend-slides) 与 [beautiful-html-templates](https://github.com/zarazhangrui/beautiful-html-templates) 改编，针对视频演示场景做了调整。详见项目根目录 [`NOTICE.md`](./NOTICE.md)。
 
-本规范用于指导生成适合 B 站讲解、知识分享、教程分镜的 HTML 幻灯片。
+本规范用于指导生成适合 B 站讲解、知识分享、教程分镜的 HTML 幻灯片，也支持按注册视觉风格生成单页 HTML。
+
+## 双模式：page / deck
+
+本 Skill 有两种产物模式：
+
+| mode | 产物 | 使用场景 | 核心文件 |
+|---|---|---|---|
+| `page` | 单页风格化 HTML | 周报页、封面图、单页汇报、风格展示 | `references/styles.yaml` |
+| `deck` | 多页 HTML 幻灯片 | 演示文稿、PPT 风格 HTML、视频分镜、PNG 导出 | `templates/presentation.html` + `themes/` |
+
+执行前先读取：
+
+- `schema.yaml`
+- `aliases.yaml`
+- `checklist.md`
+- `references/generation_protocol.md`
+
+自然语言请求先经 `aliases.yaml` 归一为标准 ID，再按 `mode` 分流。
+
+## 分层原则：结构 × 风格
+
+本 Skill 采用分层模型：
+
+- **结构层**：决定页序、每页信息结构、演讲逻辑。
+- **风格层**：决定颜色、字体、背景、组件质感、装饰语法。
+- **执行层**：决定 HTML 幻灯片引擎、翻页、进度条、页码和动画。
+
+核心原则：
+
+```text
+风格是风格，结构是结构。
+可以替换风格，但结构不变。
+```
+
+优先把用户请求整理成：
+
+```yaml
+task: html_presentation
+mode: deck
+source_material: "原始材料或主题"
+slide_structure: compact_report_6
+style_id: video_dark_default
+output:
+  format: html
+  offline_only: true
+```
+
+其中：
+
+- `mode`：`page` 或 `deck`。出现 `layout_id` / “单页、一页、封面图”时倾向 `page`；出现 `slide_structure` / “演示、幻灯片、PPT、分镜、视频、导出 PNG”时倾向 `deck`。
+- `source_material`：原始材料、会议纪要、技术文档、汇报主题。
+- `slide_structure`：页面结构，读取 [`slide_structures.yaml`](./slide_structures.yaml)，可使用 `enterprise_report_12`、`compact_report_6`、`storyboard`。
+- `style_id`：page 单页视觉风格，读取 `references/styles.yaml`。
+- `theme_id`：deck 多页视觉主题；未指定时使用默认黑紫视频友好风，也可选择仓库内 `themes/` 中的主题。
+
+详细组合协议见 [`docs/structure-style-protocol.md`](./docs/structure-style-protocol.md)。
+
+### page 风格
+
+| style_id | 风格 | 默认 layout |
+|---|---|---|
+| `weekly_report_mflex` | MFLEX 蓝白项目汇报 | `weekly_report_2x2` |
+| `dark_gold_insight` | 暗金数据洞察 | `dark_gold_three_col` |
+| `raw_paper_notes` | Raw Paper 米白黑纸感文本笔记 | `raw_paper_storyboard` |
+| `social_card_layering_v2a` | 自媒体 V2a 蓝紫橙层叠卡片 | `social_cover_v2a` |
+| `social_dashboard_v2b` | 自媒体 V2b 浅灰白橙仪表盘 | `social_dashboard_v2b` |
+| `aurora_ui` | Aurora UI 极光科技 | `aurora_cover` |
+
+### deck 主题
+
+| theme_id | 主题 |
+|---|---|
+| `blockframe` | 新粗野主义·亮 |
+| `blockframe-dark` | 新粗野主义·暗 |
+| `blue-professional` | 奶油+钴蓝·专业 |
+| `purple-gold-presentation` | 紫金暗色电影感，默认 deck 主题 |
+| `weekly_report_mflex` | MFLEX 蓝白项目汇报（page 风格适配 deck） |
+| `dark_gold_insight` | 暗金数据洞察（page 风格适配 deck） |
+| `raw_paper_notes` | Raw Paper 米白黑纸感文本笔记（page 风格适配 deck） |
+| `social_card_layering_v2a` | 自媒体 V2a 蓝紫橙层叠卡片（page 风格适配 deck） |
+| `social_dashboard_v2b` | 自媒体 V2b 浅灰白橙仪表盘（page 风格适配 deck） |
+| `aurora_ui` | Aurora UI 极光科技（page 风格适配 deck） |
 
 ## 默认视觉风格
 
@@ -184,11 +266,45 @@ description: "生成适合视频演示的 HTML 幻灯片：大字号、低密度
 
 ## 输出工作流
 
-1. 复制 `templates/presentation.html`。
-2. 按"单页单点"原则编写内容。
-3. 浏览器打开预览翻页节奏。
-4. 运行 `python screenshot_html_slides.py xxx.html -o slides_out`。
-5. 将 PNG 序列导入剪辑软件。
+1. 读取 `schema.yaml`，用 `aliases.yaml` 归一自然语言到 `mode / style_id / theme_id / layout_id / slide_structure`。
+2. 判定 `mode`。
+3. **page**：读取 `references/styles.yaml`，取 `style_id` 的 tokens/must_have/avoid 与 `layout_id` 的 regions，生成 16:9 单页 HTML。
+4. **deck**：读取或确认 `slide_structure`，优先使用 `slide_structures.yaml`。
+5. **deck**：从 `source_material` 提炼 `content_outline`，映射到所选结构的 `pages[].regions`。
+6. **deck**：确定视觉主题：默认黑紫视频友好风、仓库 `themes/` 中的原生 deck 主题，或 `references/styles.yaml` 中的 page 风格适配主题。
+7. **deck**：复制 `templates/presentation.html`，保留 Slide Engine、Controls、Progress Bar、Dots。
+8. **deck**：按"单页单点"原则编写内容，只替换视觉 tokens 和组件质感，不改变页序结构。
+9. 浏览器打开预览；使用 `checklist.md` 自检结构与风格。
+10. 如需分镜，运行 `python screenshot_html_slides.py xxx.html -o slides_out`，将 PNG 序列导入剪辑软件。
+
+## 结构选项
+
+机读页序定义在 [`slide_structures.yaml`](./slide_structures.yaml)：
+
+| slide_structure | 用途 |
+|---|---|
+| `enterprise_report_12` | 企业完整汇报 / 项目汇报 / 课题汇报 |
+| `compact_report_6` | 精简汇报 / 快速讲解 |
+| `storyboard` | 视频分镜 / 内容展示 |
+
+当用户要求“从材料生成 PPT 大纲和讲稿”或“企业课题汇报”时，优先使用 `enterprise_report_12`；内容不足时可降级到 `compact_report_6`。
+
+## 风格替换规则
+
+当用户指定风格或主题时：
+
+1. 保持 `slide_structure` 页序不变。
+2. 保持 Slide Engine 不变。
+3. 保持 Controls / Progress Bar / Dots / screenshot hiding 不变。
+4. 只替换背景、主色、字体气质、卡片/面板质感、装饰元素和强调色。
+5. 生成后检查结构和风格是否同时成立。
+
+当 `deck.theme_id` 使用 page 风格 ID（如 `weekly_report_mflex`）时：
+
+- 仍按 `slide_structure` 生成多页 deck。
+- 风格 tokens / must_have / avoid 从 `references/styles.yaml` 读取。
+- 把单页布局元素抽象为 deck 组件语言，例如 MFLEX 的顶部深蓝横幅、页脚条和底部波浪会延续到每一页；暗金的边框、颗粒、金/青/紫光晕会延续为多页主题。
+- 不把某个 page 版式强行复制到每一页；结构仍由 `slide_structure` 决定。
 
 ## 禁止项
 

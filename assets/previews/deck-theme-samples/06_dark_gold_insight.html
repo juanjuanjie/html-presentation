@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>暗金数据洞察 · deck 适配主题</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:grid;place-items:center;background:#111;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif}
+.stage{position:relative;width:min(100vw,177.7778vh);height:min(100vh,56.25vw);overflow:hidden}
+.stage{background:#0d0c0a;color:#efe3c9}
+.stage:before{content:"";position:absolute;inset:4%;border:1px solid rgba(216,167,79,.55)}
+.stage:after{content:"";position:absolute;inset:0;background:
+radial-gradient(circle at 28% 62%,rgba(216,167,79,.18),transparent 24%),
+radial-gradient(circle at 54% 62%,rgba(69,215,207,.16),transparent 23%),
+radial-gradient(circle at 77% 62%,rgba(154,114,255,.17),transparent 24%),
+repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.025) 0 1px,transparent 1px 4px);pointer-events:none}
+.inner{position:absolute;inset:9%;z-index:1}
+.kicker{text-align:center;color:#b7a78c;letter-spacing:.22em;font-size:clamp(10px,.95vw,16px)}
+h1{text-align:center;margin:.26em 0 .12em;font-family:Georgia,"Times New Roman",serif;font-size:clamp(34px,5.3vw,88px);font-weight:500;color:#f5dec0}
+.sub{text-align:center;color:#d8a74f;font-style:italic;font-size:clamp(15px,1.35vw,24px)}
+.diamond{width:.75em;height:.75em;background:#d8a74f;transform:rotate(45deg);margin:2.1em auto}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:4%;margin-top:3%}
+.col{min-height:44%;padding:2em 1.5em;border-top:1px solid rgba(216,167,79,.55);border-bottom:1px solid rgba(216,167,79,.28);background:rgba(255,255,255,.025)}
+.col h2{margin:0 0 1em;font-size:clamp(18px,1.8vw,30px);font-weight:700}
+.gold h2{color:#d8a74f}.cyan h2{color:#45d7cf}.purple h2{color:#9a72ff}
+.col p{margin:0;color:#c9b99b;line-height:1.8;font-size:clamp(13px,1.1vw,19px)}
+.meta{position:absolute;left:9%;right:9%;bottom:7%;display:flex;justify-content:space-between;color:#8f7e63;font-size:clamp(10px,.85vw,15px);z-index:2}
+</style>
+</head>
+<body>
+<section class="stage">
+  <div class="inner">
+    <div class="kicker">DARK GOLD INSIGHT</div>
+    <h1>数据之光，洞见未来</h1>
+    <div class="sub">Insight / Filter / Model</div>
+    <div class="diamond"></div>
+    <div class="cols">
+      <div class="col gold"><h2>主观 · 洞察</h2><p>数据不是结论，而是打开问题的镜面。先看趋势，再追问异常背后的机制。</p></div>
+      <div class="col cyan"><h2>筛选 · 过滤</h2><p>去掉噪声、重复和伪相关，让真正有解释力的信号浮出水面。</p></div>
+      <div class="col purple"><h2>建模 · 预测</h2><p>用结构化假设连接过去与未来，把判断转化为可复核的行动。</p></div>
+    </div>
+  </div>
+  <div class="meta"><span>FIELD NOTE 02</span><span>暗金数据洞察</span></div>
+</section>
+</body>
+</html>

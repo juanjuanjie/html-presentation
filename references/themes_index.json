@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-25T13:59:24.405Z",
+  "template_count": 10,
+  "templates": [
+    {
+      "slug": "blockframe",
+      "name": "BlockFrame",
+      "tagline": "????????? + ?????? + ???????? HTML ??????????",
+      "mood": [
+        "bold",
+        "playful",
+        "graphic",
+        "fresh",
+        "confident"
+      ],
+      "occasion": [
+        "创意机构提案",
+        "独立 SaaS 发布",
+        "设计师作品集",
+        "品牌重塑",
+        "现代初创公司路演",
+        "教程与知识分享"
+      ],
+      "tone": [
+        "confident",
+        "graphic",
+        "pop",
+        "design-led"
+      ],
+      "formality": "medium-low",
+      "density": "medium",
+      "scheme": "light",
+      "best_for": "?????????????????????????????????????????????????????????? HTML ?? PPT ??????????????????",
+      "avoid_for": "需要安静、克制、传统权威感的场景（监管披露、正式法律文件、极简商务汇报）。",
+      "slide_count": 11
+    },
+    {
+      "slug": "blockframe-dark",
+      "name": "BlockFrame Dark",
+      "tagline": "BlockFrame ???????????? + ???? + ????? + ??????",
+      "mood": [
+        "bold",
+        "playful",
+        "graphic",
+        "dark",
+        "cinematic"
+      ],
+      "occasion": [
+        "创意机构提案",
+        "独立 SaaS 发布",
+        "设计师作品集",
+        "品牌重塑",
+        "现代初创公司路演",
+        "教程与知识分享",
+        "视频分镜素材"
+      ],
+      "tone": [
+        "confident",
+        "graphic",
+        "pop",
+        "design-led"
+      ],
+      "formality": "medium-low",
+      "density": "medium",
+      "scheme": "dark",
+      "best_for": "????????????????????????????????????????????????????????????????????????????",
+      "avoid_for": "需要明亮、柔和或传统权威感的场景（正式商务汇报、监管披露、浅色品牌展示）。",
+      "slide_count": 11
+    },
+    {
+      "slug": "blue-professional",
+      "name": "Blue Professional",
+      "tagline": "奶油色纸张背景搭配电光钴蓝强调，干净现代的专业风格。",
+      "mood": [
+        "professional",
+        "modern",
+        "calm",
+        "trustworthy"
+      ],
+      "occasion": [
+        "B2B SaaS 产品介绍",
+        "咨询交付物",
+        "内部评审",
+        "顾问提案",
+        "投资者更新"
+      ],
+      "tone": [
+        "clean",
+        "considered",
+        "polished",
+        "neutral"
+      ],
+      "formality": "medium-high",
+      "density": "medium",
+      "scheme": "light",
+      "best_for": "适合需要现代、克制且略带权威感的场景：B2B SaaS 产品演示、咨询交付物、顾问更新、投资者报告。也是希望显得专业但不死板的干净选择，例如研究综述、内部评审、服务型企业品牌展示。",
+      "avoid_for": "不适合需要热烈、 playful 或刻意非正式氛围的场景，冷峻的电光蓝克制感会显得过于 polished。",
+      "slide_count": 10
+    },
+    {
+      "slug": "purple-gold-presentation",
+      "name": "Purple Gold Presentation",
+      "tagline": "???????????PPT ??? HTML ??????????????????",
+      "mood": [
+        "dark",
+        "cinematic",
+        "professional",
+        "modern",
+        "tutorial"
+      ],
+      "occasion": [
+        "视频教程幻灯片",
+        "B站讲解视频素材",
+        "技术教程",
+        "知识分享",
+        "投资者更新",
+        "咨询交付物"
+      ],
+      "tone": [
+        "confident",
+        "clear",
+        "polished",
+        "modern"
+      ],
+      "formality": "medium-high",
+      "density": "medium",
+      "scheme": "dark",
+      "best_for": "?????????????????????????PPT ??? HTML ?????????????????????????? B ??????",
+      "avoid_for": "需要明亮/playful 配色、 heavy 渐变、企业蓝或彩虹强调的场景。也不适合浅色背景或紧凑信息密集型布局。",
+      "slide_count": 10
+    },
+    {
+      "slug": "weekly_report_mflex",
+      "name": "MFLEX 蓝白项目汇报",
+      "tagline": "由 page 风格适配为 deck 主题：深蓝横幅、白色 MFLEX 标志区、蓝色细线和底部浅蓝波浪。",
+      "source": "references/styles.yaml",
+      "adapter_type": "page_style",
+      "mood": ["professional", "corporate", "calm", "structured"],
+      "occasion": ["项目汇报", "工作周报", "SOP 培训", "阶段复盘", "企业内部同步"],
+      "tone": ["clean", "stable", "formal", "restrained"],
+      "formality": "medium-high",
+      "density": "medium",
+      "scheme": "light",
+      "best_for": "适合需要企业蓝白、稳定专业、流程清晰的多页汇报。deck 中保留深蓝横幅、MFLEX 标志区、蓝色分隔线、底部波浪和页脚条。",
+      "avoid_for": "不适合强调强烈娱乐感、暗色电影感、复杂渐变或高饱和社交媒体视觉的内容。",
+      "slide_count": "structure-driven"
+    },
+    {
+      "slug": "dark_gold_insight",
+      "name": "暗金数据洞察",
+      "tagline": "由 page 风格适配为 deck 主题：深黑棕背景、暗金边框、颗粒纹理、金/青/紫三色洞察系统。",
+      "source": "references/styles.yaml",
+      "adapter_type": "page_style",
+      "mood": ["dark", "editorial", "analytical", "premium"],
+      "occasion": ["数据分析", "观点演示", "方法论拆解", "深度笔记", "夜读内容"],
+      "tone": ["insightful", "serious", "cinematic", "measured"],
+      "formality": "medium-high",
+      "density": "medium",
+      "scheme": "dark",
+      "best_for": "适合深度观点、数据洞察和方法论讲解。deck 中保留细暗金边框、颗粒纹理、金色线条、菱形装饰和金/青/紫强调。",
+      "avoid_for": "不适合普通企业蓝白汇报、纯黑金商务模板或浅色仪表盘。",
+      "slide_count": "structure-driven"
+    },
+    {
+      "slug": "raw_paper_notes",
+      "name": "Raw Paper 米白黑纸感文本笔记",
+      "tagline": "由 page 风格适配为 deck 主题：米白纸感、粗黑标题、倾斜纸张、拼贴色块和草稿痕迹。",
+      "source": "references/styles.yaml",
+      "adapter_type": "page_style",
+      "mood": ["raw", "editorial", "handmade", "draft"],
+      "occasion": ["灵感记录", "文本摘录", "草稿笔记", "创作过程", "阅读札记"],
+      "tone": ["informal", "thinking", "anti-polish", "tactile"],
+      "formality": "medium-low",
+      "density": "medium",
+      "scheme": "light",
+      "best_for": "适合展示未完成思考、草稿推演、文本摘录和创作过程。deck 中保留米白纸面、扫描纹理、粗黑标题、拼贴块和低饱和标签。",
+      "avoid_for": "不适合高度规整的企业汇报、科技渐变或玻璃拟态风格。",
+      "slide_count": "structure-driven"
+    },
+    {
+      "slug": "social_card_layering_v2a",
+      "name": "自媒体 V2a 蓝紫橙层叠卡片",
+      "tagline": "由 page 风格适配为 deck 主题：高饱和蓝紫橙、白色大面板、浅桃色块和强层级卡片。",
+      "source": "references/styles.yaml",
+      "adapter_type": "page_style",
+      "mood": ["bold", "social", "layered", "high-contrast"],
+      "occasion": ["自媒体封面", "观点拆解", "课程首屏", "内容营销", "社交媒体演示"],
+      "tone": ["energetic", "visual", "punchy", "modern"],
+      "formality": "medium-low",
+      "density": "medium",
+      "scheme": "light",
+      "best_for": "适合需要高冲击封面感和强视觉层次的多页内容。deck 中保留蓝紫橙高饱和色块、右侧白面板和层叠卡片。",
+      "avoid_for": "不适合颜色克制、文字密集或传统正式汇报。",
+      "slide_count": "structure-driven"
+    },
+    {
+      "slug": "social_dashboard_v2b",
+      "name": "自媒体 V2b 浅灰白橙仪表盘",
+      "tagline": "由 page 风格适配为 deck 主题：浅灰背景、白色指标卡、橙色数字、环形进度和动态列表。",
+      "source": "references/styles.yaml",
+      "adapter_type": "page_style",
+      "mood": ["dashboard", "clean", "operational", "social"],
+      "occasion": ["周报仪表盘", "项目看板", "数据汇总", "运营复盘", "进度同步"],
+      "tone": ["clear", "modern", "lightweight", "practical"],
+      "formality": "medium",
+      "density": "medium-high",
+      "scheme": "light",
+      "best_for": "适合指标、进度、动态和状态同步类 deck。deck 中保留浅灰背景、白色卡片、橙色数字、环形进度和底部信息栏。",
+      "avoid_for": "不适合强情绪海报、暗色电影感或复杂装饰页面。",
+      "slide_count": "structure-driven"
+    },
+    {
+      "slug": "aurora_ui",
+      "name": "Aurora UI 极光科技",
+      "tagline": "由 page 风格适配为 deck 主题：深色多层渐变、青粉极光、玻璃拟态面板和半透明信息卡。",
+      "source": "references/styles.yaml",
+      "adapter_type": "page_style",
+      "mood": ["dark", "tech", "immersive", "glow"],
+      "occasion": ["科技封面", "AI 工具", "产品演示", "视觉趋势", "创新项目"],
+      "tone": ["futuristic", "soft-glow", "polished", "immersive"],
+      "formality": "medium",
+      "density": "medium",
+      "scheme": "dark",
+      "best_for": "适合 AI、科技产品、概念演示和沉浸式视觉展示。deck 中保留深蓝黑紫背景、青粉光晕、玻璃面板和半透明卡片。",
+      "avoid_for": "不适合纯商务蓝白、纸感草稿或极简正式报告。",
+      "slide_count": "structure-driven"
+    }
+  ]
+}
