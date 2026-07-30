@@ -1127,10 +1127,10 @@
         template: 'themes/blockframe/template.html',
         docs: 'themes/blockframe/design.md',
         themes: [
-          { key: 'candy-light', name: '糖果亮色', desc: '米白画布 + 粉蓝绿黄高饱和色块', image: 'assets/previews/blockframe.png?v=2', swatch: 'linear-gradient(135deg, #FFFDF5 0 34%, #FE90E8 34% 52%, #C0F7FE 52% 70%, #99E885 70% 86%, #F7CB46 86%)', vars: { offwhite: '#FFFDF5', black: '#000000', white: '#FFFFFF', pink: '#FE90E8', blue: '#C0F7FE', green: '#99E885', yellow: '#F7CB46', cream: '#FFDC8B' } },
-          { key: 'retro-paper', name: '复古纸感', desc: '暖纸底 + 复古红蓝绿，适合怀旧教程', image: 'assets/previews/blockframe-retro-paper.png?v=1', swatch: 'linear-gradient(135deg, #F6E7C8 0 42%, #D94F45 42% 62%, #2B6CB0 62% 80%, #3E8F5B 80%)', vars: { offwhite: '#F6E7C8', black: '#1F1714', white: '#FFF8EA', pink: '#D94F7B', blue: '#2B6CB0', green: '#3E8F5B', yellow: '#E9B949', cream: '#F0C987' } },
-          { key: 'mono-pop', name: '黑白荧光', desc: '白底 + 黄色主色 + 荧光绿强调', image: 'assets/previews/blockframe-mono-pop.png?v=1', swatch: 'linear-gradient(135deg, #FFFFFF 0 44%, #FFE45C 44% 64%, #A8FF3E 64% 82%, #000000 82%)', vars: { offwhite: '#FFFFFF', black: '#000000', white: '#FFFFFF', pink: '#FFE45C', blue: '#A8FF3E', green: '#A8FF3E', yellow: '#FFE45C', cream: '#FFFFFF' } },
-          { key: 'dark-candy', name: '暗黑糖果', desc: '纯黑画布 + 糖果色霓虹强调', image: 'assets/previews/blockframe-dark.png?v=2', swatch: 'linear-gradient(135deg, #0A0A0A 0 46%, #F7CB46 46% 62%, #FE90E8 62% 78%, #C0F7FE 78%)', template: 'themes/blockframe-dark/template.html', docs: 'themes/blockframe-dark/design.md', variant: 'dark', vars: { black: '#0A0A0A', card: '#141414', 'card-elevated': '#1C1C1C', white: '#F6F6F6', muted: '#A0A0A0', 'border-color': '#F6F6F6', yellow: '#F7CB46', pink: '#FE90E8', blue: '#C0F7FE', green: '#99E885', cream: '#FFDC8B' } }
+          { key: 'candy-light', name: '糖果亮色', scheme: 'light', desc: '米白画布 + 粉蓝绿黄高饱和色块', image: 'assets/previews/blockframe.png?v=2', swatch: 'linear-gradient(135deg, #FFFDF5 0 34%, #FE90E8 34% 52%, #C0F7FE 52% 70%, #99E885 70% 86%, #F7CB46 86%)', vars: { offwhite: '#FFFDF5', black: '#000000', white: '#FFFFFF', pink: '#FE90E8', blue: '#C0F7FE', green: '#99E885', yellow: '#F7CB46', cream: '#FFDC8B' } },
+          { key: 'retro-paper', name: '复古纸感', scheme: 'light', desc: '暖纸底 + 复古红蓝绿，适合怀旧教程', image: 'assets/previews/blockframe-retro-paper.png?v=1', swatch: 'linear-gradient(135deg, #F6E7C8 0 42%, #D94F45 42% 62%, #2B6CB0 62% 80%, #3E8F5B 80%)', vars: { offwhite: '#F6E7C8', black: '#1F1714', white: '#FFF8EA', pink: '#D94F7B', blue: '#2B6CB0', green: '#3E8F5B', yellow: '#E9B949', cream: '#F0C987' } },
+          { key: 'mono-pop', name: '黑白荧光', scheme: 'light', desc: '白底 + 黄色主色 + 荧光绿强调', image: 'assets/previews/blockframe-mono-pop.png?v=1', swatch: 'linear-gradient(135deg, #FFFFFF 0 44%, #FFE45C 44% 64%, #A8FF3E 64% 82%, #000000 82%)', vars: { offwhite: '#FFFFFF', black: '#000000', white: '#FFFFFF', pink: '#FFE45C', blue: '#A8FF3E', green: '#A8FF3E', yellow: '#FFE45C', cream: '#FFFFFF' } },
+          { key: 'dark-candy', name: '暗黑糖果', scheme: 'dark', desc: '纯黑画布 + 糖果色霓虹强调', image: 'assets/previews/blockframe-dark.png?v=2', swatch: 'linear-gradient(135deg, #0A0A0A 0 46%, #F7CB46 46% 62%, #FE90E8 62% 78%, #C0F7FE 78%)', template: 'themes/blockframe-dark/template.html', docs: 'themes/blockframe-dark/design.md', variant: 'dark', vars: { black: '#0A0A0A', card: '#141414', 'card-elevated': '#1C1C1C', white: '#F6F6F6', muted: '#A0A0A0', 'border-color': '#F6F6F6', yellow: '#F7CB46', pink: '#FE90E8', blue: '#C0F7FE', green: '#99E885', cream: '#FFDC8B' } }
         ]
       },
       {
@@ -1144,8 +1144,8 @@
         template: 'themes/purple-gold-presentation/template.html',
         docs: 'themes/purple-gold-presentation/design.md',
         themes: [
-          { key: 'cream-blue', name: '奶油钴蓝', desc: '奶油纸底 + 电光钴蓝，克制专业', image: 'assets/previews/blue-professional.png?v=2', swatch: 'linear-gradient(135deg, #FDFAE7 0 58%, #1E2BFA 58% 78%, #111111 78%)', template: 'themes/blue-professional/template.html', vars: { bg: '#FDFAE7', primary: '#1E2BFA', text: '#111111', 'text-muted': '#6B6B6B', 'text-light': '#9A9A9A' } },
-          { key: 'dark', name: '紫金暗色', desc: '近黑电影感背景，紫色结构 + 金色强调', image: 'assets/previews/purple-gold-presentation.png?v=2', swatch: 'linear-gradient(135deg, #08090d 0 50%, #b98eff 50% 72%, #ffc402 72%)', vars: { bg: '#08090D', 'bg-cover': '#070609', primary: '#B98EFF', 'accent-gold': '#FFC402', text: '#F6F2E8', 'text-muted': '#AAA59A', 'text-light': '#746F66' } }
+          { key: 'cream-blue', name: '奶油钴蓝', scheme: 'light', desc: '奶油纸底 + 电光钴蓝，克制专业', image: 'assets/previews/blue-professional.png?v=2', swatch: 'linear-gradient(135deg, #FDFAE7 0 58%, #1E2BFA 58% 78%, #111111 78%)', template: 'themes/blue-professional/template.html', vars: { bg: '#FDFAE7', primary: '#1E2BFA', text: '#111111', 'text-muted': '#6B6B6B', 'text-light': '#9A9A9A' } },
+          { key: 'dark', name: '紫金暗色', scheme: 'dark', desc: '近黑电影感背景，紫色结构 + 金色强调', image: 'assets/previews/purple-gold-presentation.png?v=2', swatch: 'linear-gradient(135deg, #08090d 0 50%, #b98eff 50% 72%, #ffc402 72%)', vars: { bg: '#08090D', 'bg-cover': '#070609', primary: '#B98EFF', 'accent-gold': '#FFC402', text: '#F6F2E8', 'text-muted': '#AAA59A', 'text-light': '#746F66' } }
         ]
       },
       {
@@ -1159,7 +1159,7 @@
         template: 'themes/apple-bento-grid/template.html',
         docs: 'themes/apple-bento-grid/design.md',
         themes: [
-          { key: 'classic', name: '黑白灰便当', desc: '透明浅灰卡 + 黑色核心卡 + 分层中性灰', image: 'assets/previews/apple-bento-grid.png?v=1', swatch: 'linear-gradient(135deg, #FFFFFF 0 38%, #F8F8FA 38% 56%, #DEDEE2 56% 68%, #96979C 68% 79%, #494A50 79% 90%, #111113 90%)', vars: { bg: '#FFFFFF', surface: '#F8F8FA', 'surface-strong': '#F1F1F3', text: '#202124', muted: '#6E6E73', line: '#DEDEE2', dark: '#111113', white: '#FFFFFF', blue: '#303136', green: '#66676C', orange: '#96979C', purple: '#494A50', lavender: '#F3F3F5' } }
+          { key: 'classic', name: '黑白灰便当', scheme: 'light', desc: '透明浅灰卡 + 黑色核心卡 + 分层中性灰', image: 'assets/previews/apple-bento-grid.png?v=1', swatch: 'linear-gradient(135deg, #FFFFFF 0 38%, #F8F8FA 38% 56%, #DEDEE2 56% 68%, #96979C 68% 79%, #494A50 79% 90%, #111113 90%)', vars: { bg: '#FFFFFF', surface: '#F8F8FA', 'surface-strong': '#F1F1F3', text: '#202124', muted: '#6E6E73', line: '#DEDEE2', dark: '#111113', white: '#FFFFFF', blue: '#303136', green: '#66676C', orange: '#96979C', purple: '#494A50', lavender: '#F3F3F5' } }
         ]
       }
     ];
@@ -1238,7 +1238,7 @@
     async function render() {
       const keyword = search.value.trim().toLowerCase();
       const visible = templates.filter((item) => {
-        const inScheme = activeFilter === 'all' || item.scheme === activeFilter;
+        const inScheme = activeFilter === 'all' || getThemeList(item).some((theme) => (theme.scheme || item.scheme) === activeFilter);
         const haystack = [item.name, item.slug, item.tagline, item.scheme, ...item.tags].join(' ').toLowerCase();
         return inScheme && (!keyword || haystack.includes(keyword));
       });
@@ -1246,10 +1246,15 @@
       const coverIndex = await getCoverIndex();
 
       count.textContent = `${visible.length} 个模板`;
-      grid.innerHTML = visible.map((item) => `
+      grid.innerHTML = visible.map((item) => {
+        const matchedTheme = activeFilter !== 'all'
+          ? getThemeList(item).find((theme) => (theme.scheme || item.scheme) === activeFilter)
+          : null;
+        const displayImage = matchedTheme && matchedTheme.image ? matchedTheme.image : item.image;
+        return `
         <article class="template-card">
-          <a class="preview ${item.scheme}" href="${item.template}" target="_blank" rel="noreferrer" aria-label="预览 ${item.name}" data-default-image="${item.image}">
-            <img src="${item.image}" alt="${item.name} 封面页截图" loading="lazy">
+          <a class="preview ${item.scheme}" href="${item.template}" target="_blank" rel="noreferrer" aria-label="预览 ${item.name}" data-default-image="${displayImage}">
+            <img src="${displayImage}" alt="${item.name} 封面页截图" loading="lazy">
           </a>
           <div class="card-body">
             <div class="card-head">
@@ -1269,7 +1274,8 @@
             ${renderCoversInline(item.slug, coverIndex)}
           </div>
         </article>
-      `).join('');
+      `;
+      }).join('');
     }
 
     search.addEventListener('input', render);
