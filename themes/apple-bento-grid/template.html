@@ -172,6 +172,69 @@
     .dark .tile-label { color: rgba(255, 255, 255, 0.6); }
     .dark .tile-label::before { background: var(--purple); }
 
+    html[data-theme="dark-green"] .slide-head h2,
+    html[data-theme="dark-green"] .tile h1,
+    html[data-theme="dark-green"] .tile h3,
+    html[data-theme="dark-green"] .metric strong {
+      color: var(--text);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+    html[data-theme="dark-green"] .eyebrow,
+    html[data-theme="dark-green"] .tile p,
+    html[data-theme="dark-green"] .mini-kicker,
+    html[data-theme="dark-green"] .feature-row small,
+    html[data-theme="dark-green"] .step-card p,
+    html[data-theme="dark-green"] .milestone span {
+      color: var(--muted);
+    }
+    html[data-theme="dark-green"] .chapter {
+      background: #000;
+      color: var(--text);
+      box-shadow: 0 0 0 1px rgba(168, 255, 62, 0.08), 0 18px 38px rgba(0, 0, 0, 0.42);
+    }
+    html[data-theme="dark-green"] .tile,
+    html[data-theme="dark-green"] .tile.white,
+    html[data-theme="dark-green"] .tile.lavender {
+      border-color: rgba(168, 255, 62, 0.28);
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 20px 54px rgba(0, 0, 0, 0.36), 0 0 38px rgba(168, 255, 62, 0.08);
+    }
+    html[data-theme="dark-green"] .tile.dark {
+      border-color: rgba(168, 255, 62, 0.36);
+      background: #000;
+      color: var(--text);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.48), 0 0 52px rgba(168, 255, 62, 0.12);
+    }
+    html[data-theme="dark-green"] .tile-label,
+    html[data-theme="dark-green"] .dark .tile-label {
+      color: var(--muted);
+    }
+    html[data-theme="dark-green"] .tile-label::before,
+    html[data-theme="dark-green"] .dark .tile-label::before {
+      background: var(--blue);
+      box-shadow: 0 0 12px rgba(168, 255, 62, 0.42);
+    }
+    html[data-theme="dark-green"] .icon-chip {
+      color: #071006;
+      box-shadow: 0 12px 24px rgba(168, 255, 62, 0.16);
+    }
+    html[data-theme="dark-green"] .status {
+      background: rgba(168, 255, 62, 0.12);
+      color: var(--blue);
+    }
+    html[data-theme="dark-green"] .feature-row,
+    html[data-theme="dark-green"] .window,
+    html[data-theme="dark-green"] .step-card,
+    html[data-theme="dark-green"] .timeline,
+    html[data-theme="dark-green"] .bar-track {
+      border-color: var(--line);
+      background: var(--surface-strong);
+    }
+    html[data-theme="dark-green"] .window-grid div {
+      background: #1f1f2d;
+    }
+
     .icon-chip {
       width: 42px;
       height: 42px;
@@ -556,7 +619,10 @@
   </style>
   <script>
     (function () {
-      const raw = new URLSearchParams(window.location.search).get('vars');
+      const params = new URLSearchParams(window.location.search);
+      const theme = params.get('theme');
+      if (theme) document.documentElement.dataset.theme = theme;
+      const raw = params.get('vars');
       if (!raw) return;
       try {
         const vars = JSON.parse(raw);

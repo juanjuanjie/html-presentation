@@ -403,6 +403,176 @@
     .btn:hover { background: var(--soft); }
     .btn.primary { border-color: #111; background: #111; color: #fff; }
 
+
+    .lab-section {
+      margin: 56px calc(50% - 50vw) 0;
+      padding: 52px max(24px, calc((100vw - 1180px) / 2)) 68px;
+      background: #0a0a0f;
+      color: #f5f5f7;
+      border-top: 1px solid #2a2a3a;
+      border-bottom: 1px solid #2a2a3a;
+    }
+    .lab-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 24px;
+    }
+    .lab-kicker {
+      width: fit-content;
+      margin-bottom: 12px;
+      color: #a8ff3e;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .lab-title {
+      max-width: 820px;
+      margin: 0;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+    .lab-copy {
+      max-width: 760px;
+      margin: 16px 0 0;
+      color: #a1a1aa;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+    .lab-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(92px, 1fr));
+      gap: 10px;
+      min-width: min(360px, 100%);
+    }
+    .lab-stat {
+      min-height: 76px;
+      display: grid;
+      align-content: center;
+      border: 1px solid #2a2a3a;
+      border-radius: 8px;
+      background: #12121a;
+      padding: 12px;
+    }
+    .lab-stat strong {
+      color: #a8ff3e;
+      font-size: 24px;
+      line-height: 1;
+    }
+    .lab-stat span {
+      margin-top: 6px;
+      color: #8a8a9a;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .lab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 20px;
+    }
+    .lab-card {
+      overflow: hidden;
+      border: 1px solid #2a2a3a;
+      border-radius: 8px;
+      background: #181822;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .lab-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(168, 255, 62, 0.36);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.32), 0 0 34px rgba(168, 255, 62, 0.12);
+    }
+    .lab-preview {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-bottom: 1px solid #2a2a3a;
+      overflow: hidden;
+    }
+    .lab-preview iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+    .lab-preview-label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: rgba(0,0,0,0.66);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      pointer-events: none;
+    }
+    .lab-card-body {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+    .lab-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .lab-card-title {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+    .lab-badge {
+      flex-shrink: 0;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 0 9px;
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .lab-badge.keep { background: rgba(46, 213, 115, 0.12); color: #2ed573; border: 1px solid rgba(46, 213, 115, 0.25); }
+    .lab-badge.maybe { background: rgba(255, 159, 67, 0.12); color: #ff9f43; border: 1px solid rgba(255, 159, 67, 0.25); }
+    .lab-badge.skip { background: rgba(138, 138, 154, 0.12); color: #8a8a9a; border: 1px solid rgba(138, 138, 154, 0.25); }
+    .lab-meta {
+      display: grid;
+      gap: 9px;
+      font-size: 13px;
+    }
+    .lab-meta-row {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 10px;
+    }
+    .lab-meta-label {
+      color: #8a8a9a;
+      font-weight: 800;
+    }
+    .lab-meta-value {
+      color: #f5f5f7;
+    }
+    .lab-tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .lab-tech-tag {
+      padding: 3px 8px;
+      border-radius: 5px;
+      background: rgba(168,255,62,0.08);
+      color: #a8ff3e;
+      font-size: 11px;
+      font-weight: 750;
+    }
     footer {
       border-top: 1px solid var(--line);
       padding: 24px;
@@ -949,6 +1119,7 @@
       </a>
       <div class="nav-links">
         <a class="nav-link" href="#templates">模板</a>
+        <a class="nav-link" href="#component-lab">组件实验室</a>
         <a class="nav-link" href="#" data-md="README.md" data-title="README" data-crumb="README.md" data-type="markdown">README</a>
         <a class="nav-link" href="#" data-md="themes/index.json" data-title="模板索引" data-crumb="themes/index.json" data-type="json">模板索引</a>
         <a class="nav-link primary" href="https://www.bilibili.com/video/BV1g5j46iE5C/?spm_id_from=333.1387.homepage.video_card.click&vd_source=a44f29c4f18178d5fbf00c97794d0f32" target="_blank" rel="noreferrer">视频教程</a>
@@ -983,7 +1154,21 @@
       </div>
       <div id="template-grid" class="grid"></div>
     </section>
-
+    <section id="component-lab" class="lab-section" aria-labelledby="lab-title">
+      <div class="lab-head">
+        <div>
+          <div class="lab-kicker">组件实验室</div>
+          <h2 id="lab-title" class="lab-title">动效组件库</h2>
+          <p class="lab-copy">12 个可复用演示组件。</p>
+        </div>
+        <div class="lab-stats" aria-label="组件实验室统计">
+          <div class="lab-stat"><strong>12</strong><span>组件原型</span></div>
+          <div class="lab-stat"><strong>7</strong><span>第三方库</span></div>
+          <div class="lab-stat"><strong>8</strong><span>建议沉淀</span></div>
+        </div>
+      </div>
+      <div class="lab-grid" id="lab-grid"></div>
+    </section>
   </main>
 
   <footer>
@@ -1145,7 +1330,8 @@
         docs: 'themes/purple-gold-presentation/design.md',
         themes: [
           { key: 'cream-blue', name: '奶油钴蓝', scheme: 'light', desc: '奶油纸底 + 电光钴蓝，克制专业', image: 'assets/previews/blue-professional.png?v=2', swatch: 'linear-gradient(135deg, #FDFAE7 0 58%, #1E2BFA 58% 78%, #111111 78%)', template: 'themes/blue-professional/template.html', vars: { bg: '#FDFAE7', primary: '#1E2BFA', text: '#111111', 'text-muted': '#6B6B6B', 'text-light': '#9A9A9A' } },
-          { key: 'dark', name: '紫金暗色', scheme: 'dark', desc: '近黑电影感背景，紫色结构 + 金色强调', image: 'assets/previews/purple-gold-presentation.png?v=2', swatch: 'linear-gradient(135deg, #08090d 0 50%, #b98eff 50% 72%, #ffc402 72%)', vars: { bg: '#08090D', 'bg-cover': '#070609', primary: '#B98EFF', 'accent-gold': '#FFC402', text: '#F6F2E8', 'text-muted': '#AAA59A', 'text-light': '#746F66' } }
+          { key: 'dark', name: '紫金暗色', scheme: 'dark', desc: '近黑电影感背景，紫色结构 + 金色强调', image: 'assets/previews/purple-gold-presentation.png?v=2', swatch: 'linear-gradient(135deg, #08090d 0 50%, #b98eff 50% 72%, #ffc402 72%)', vars: { bg: '#08090D', 'bg-cover': '#070609', primary: '#B98EFF', 'accent-gold': '#FFC402', text: '#F6F2E8', 'text-muted': '#AAA59A', 'text-light': '#746F66' } },
+          { key: 'black-green', name: '黑绿专业', scheme: 'dark', desc: '深黑画布 + 荧光绿主色，适合技术报告和能力展示', image: 'assets/previews/purple-gold-presentation.png?v=2', swatch: 'linear-gradient(135deg, #0A0A0F 0 48%, #12121A 48% 68%, #A8FF3E 68%)', vars: { bg: '#0A0A0F', 'bg-cover': '#07080C', primary: '#A8FF3E', 'accent-gold': '#A8FF3E', text: '#F5F5F7', 'text-muted': '#8A8A9A', 'text-light': '#5F6070' } }
         ]
       },
       {
@@ -1160,7 +1346,7 @@
         docs: 'themes/apple-bento-grid/design.md',
         themes: [
           { key: 'classic', name: '黑白灰便当', scheme: 'light', desc: '透明浅灰卡 + 黑色核心卡 + 分层中性灰', image: 'assets/previews/apple-bento-grid.png?v=1', swatch: 'linear-gradient(135deg, #FFFFFF 0 38%, #F8F8FA 38% 56%, #DEDEE2 56% 68%, #96979C 68% 79%, #494A50 79% 90%, #111113 90%)', vars: { bg: '#FFFFFF', surface: '#F8F8FA', 'surface-strong': '#F1F1F3', text: '#202124', muted: '#6E6E73', line: '#DEDEE2', dark: '#111113', white: '#FFFFFF', blue: '#303136', green: '#66676C', orange: '#96979C', purple: '#494A50', lavender: '#F3F3F5' } },
-          { key: 'dark-green', name: '暗绿便当', scheme: 'dark', desc: '黑色背景 + 荧光绿强调，科技感数据仪表盘', image: 'assets/previews/apple-bento-grid-dark-green.png?v=1', swatch: 'linear-gradient(135deg, #0A0A0A 0 45%, #1C1C1E 45% 65%, #a8ff3e 65% 80%, #000000 80%)', vars: { bg: '#0A0A0A', surface: '#141414', 'surface-strong': '#1C1C1E', text: '#F5F5F7', muted: '#86868B', line: '#2C2C2E', dark: '#000000', white: '#FFFFFF', blue: '#a8ff3e', green: '#7ee02d', orange: '#c8ff66', purple: '#5cb816', lavender: '#1A1A1A' } }
+          { key: 'dark-green', name: '暗绿便当', scheme: 'dark', desc: '深黑底 + 荧光绿强调，贴近组件实验室视觉', image: 'assets/previews/apple-bento-grid-dark-green.png?v=1', swatch: 'linear-gradient(135deg, #0A0A0F 0 38%, #12121A 38% 56%, #181822 56% 72%, #2A2A3A 72% 86%, #A8FF3E 86%)', vars: { bg: '#0A0A0F', surface: '#12121A', 'surface-strong': '#181822', text: '#F5F5F7', muted: '#8A8A9A', line: '#2A2A3A', dark: '#000000', white: '#FFFFFF', blue: '#A8FF3E', green: '#2ED573', orange: '#FF9F43', purple: '#7EE02D', lavender: '#1F1F2D', shadow: '0 20px 60px rgba(0,0,0,0.48)', 'shadow-soft': '0 20px 54px rgba(0,0,0,0.36)' } }
         ]
       }
     ];
@@ -1869,7 +2055,327 @@
     });
   })();
   </script>
+  <script>
+    const labComponents = [
+      {
+        id: 'stagger-text',
+        name: '错开文字显现',
+        keep: 'keep',
+        keepReason: '高频标题动画，可封装为通用入场效果',
+        scene: '标题页、章节转场、金句页',
+        tech: ['GSAP', '文字拆分'],
+        libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'],
+        demo: () => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;}
+.stage{width:100%;text-align:center;color:#fff;padding:40px;}
+.word{display:inline-block;font-size:56px;font-weight:900;margin:0 10px;opacity:0;transform:translateY(40px) rotateX(-90deg);}
+.replay{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);padding:8px 18px;border:1px solid #333;background:transparent;color:#a8ff3e;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;}
+</style></head><body><div class="stage" id="stage"></div><button class="replay" onclick="play()">Replay</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
+<script>
+const text = "NEXT GEN SLIDES";
+const stage = document.getElementById('stage');
+function build(){stage.innerHTML = text.split(' ').map(w=>'<span class="word">'+w+'</span>').join('');}
+function play(){build();gsap.to('.word',{opacity:1,y:0,rotateX:0,duration:0.8,stagger:0.12,ease:'back.out(1.7)',onComplete:()=>{setTimeout(()=>gsap.to('.word',{opacity:0,y:-30,duration:0.4,stagger:0.05,onComplete:play}),1200);}});}
+play();
+<\/script></body></html>`
+      },
+      {
+        id: 'echart-dynamic',
+        name: '动态数据图表',
+        keep: 'keep',
+        keepReason: 'B端/数据类 PPT 刚需，ECharts 成熟稳定',
+        scene: '数据报告、指标展示、季度复盘',
+        tech: ['ECharts', '响应式数据'],
+        libs: ['https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js'],
+        demo: () => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
+#chart{width:90%;height:70%;}
+</style></head><body><div id="chart"></div>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"><\/script>
+<script>
+const chart = echarts.init(document.getElementById('chart'), 'dark');
+const option = {backgroundColor:'transparent',grid:{top:40,right:40,bottom:40,left:60},xAxis:{type:'category',data:['Q1','Q2','Q3','Q4'],axisLine:{lineStyle:{color:'#444'}}},yAxis:{type:'value',splitLine:{lineStyle:{color:'#222'}}},series:[{data:[120,200,150,280],type:'bar',itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#a8ff3e'},{offset:1,color:'#2a3a10'}]),borderRadius:[6,6,0,0]},animationDuration:1500,animationEasing:'elasticOut'}]};
+chart.setOption(option);
+window.addEventListener('resize',()=>chart.resize());
+setInterval(()=>{const d=option.series[0].data.map(v=>Math.max(50,Math.round(v*(0.8+Math.random()*0.4))));chart.setOption({series:[{data:d}]});},3000);
+<\/script></body></html>`
+      },
+      {
+        id: 'three-product',
+        name: '3D 产品展台',
+        keep: 'keep',
+        keepReason: '产品发布场景极具冲击力，但需封装简化配置',
+        scene: '产品发布、硬件展示、科技概念页',
+        tech: ['Three.js', 'WebGL'],
+        libs: ['https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'],
+        demo: () => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+body{margin:0;height:100vh;background:radial-gradient(circle at center,#1a1a2e 0%,#0a0a0f 100%);overflow:hidden;}
+#info{position:absolute;bottom:20px;left:20px;color:#fff;font-family:'Inter',sans-serif;}
+#info h3{margin:0;font-size:18px;}#info p{margin:4px 0 0;color:#8a8a9a;font-size:12px;}
+</style></head><body>
+<div id="info"><h3>Product X</h3><p>Drag to rotate · Scroll to zoom</p></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>
+<script>
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,0.1,100);camera.position.set(0,1.5,4);
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setSize(innerWidth,innerHeight);document.body.appendChild(renderer.domElement);
+const geo=new THREE.IcosahedronGeometry(1,1);const mat=new THREE.MeshStandardMaterial({color:0xa8ff3e,roughness:0.2,metalness:0.6,flatShading:true});const mesh=new THREE.Mesh(geo,mat);scene.add(mesh);
+const light1=new THREE.PointLight(0xffffff,1);light1.position.set(3,3,3);scene.add(light1);const light2=new THREE.PointLight(0x00ffff,0.6);light2.position.set(-3,-2,3);scene.add(light2);
+const ringGeo=new THREE.TorusGeometry(1.6,0.02,16,100);const ringMat=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.3});const ring=new THREE.Mesh(ringGeo,ringMat);ring.rotation.x=Math.PI/2;scene.add(ring);
+let mouseX=0,mouseY=0;document.addEventListener('mousemove',e=>{mouseX=(e.clientX/innerWidth-0.5)*2;mouseY=(e.clientY/innerHeight-0.5)*2;});
+function animate(){mesh.rotation.y+=0.005;mesh.rotation.x+=0.002;ring.rotation.z-=0.003;mesh.position.x+= (mouseX*0.5-mesh.position.x)*0.05;mesh.position.y+= (-mouseY*0.3-mesh.position.y)*0.05;camera.lookAt(0,0,0);renderer.render(scene,camera);requestAnimationFrame(animate);}animate();
+window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+<\/script></body></html>`
+      },
+      {
+        id: 'p5-generative',
+        name: '生成式画布背景',
+        keep: 'skip',
+        keepReason: '性能消耗大、风格不可控，仅作可选扩展',
+        scene: '封面、氛围页、艺术概念页',
+        tech: ['p5.js', 'Generative Art'],
+        libs: ['https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js'],
+        demo: () => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;overflow:hidden;background:#000;}canvas{display:block;}</style></head><body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"><\/script>
+<script>
+let particles=[];function setup(){createCanvas(windowWidth,windowHeight);for(let i=0;i<80;i++)particles.push({x:random(width),y:random(height),r:random(2,8),dx:random(-1,1),dy:random(-1,1)});}
+function draw(){background(10,10,15,40);noStroke();for(let p of particles){fill(168,255,62,map(p.r,2,8,30,120));ellipse(p.x,p.y,p.r*2);p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>width)p.dx*=-1;if(p.y<0||p.y>height)p.dy*=-1;}}
+function windowResized(){resizeCanvas(windowWidth,windowHeight);}
+<\/script></body></html>`
+      },
+      {
+        id: 'matter-physics',
+        name: '物理卡片布局',
+        keep: 'skip',
+        keepReason: '过于实验性，难以与固定 slide 叙事结合',
+        scene: '创意目录、特点罗列、互动游戏页',
+        tech: ['Matter.js', '2D Physics'],
+        libs: ['https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js'],
+        demo: () => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;height:100vh;background:#0a0a0f;overflow:hidden;}canvas{display:block;}</style></head><body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"><\/script>
+<script>
+const {Engine,Render,Runner,Bodies,Composite,Mouse,MouseConstraint}=Matter;
+const engine=Engine.create();const w=innerWidth,h=innerHeight;
+const render=Render.create({element:document.body,engine:engine,options:{width:w,height:h,background:'#0a0a0f',wireframes:false}});
+const cards=[];const texts=['AI','Data','Cloud','UX','Growth'];
+for(let i=0;i<5;i++){const box=Bodies.rectangle(w/2-200+i*100,100+i*60,110,70,{restitution:0.6,render:{fillStyle:i===0?'#a8ff3e':'#1f1f2d',strokeStyle:'#333',lineWidth:2}});cards.push(box);}
+const ground=Bodies.rectangle(w/2,h+40,w,80,{isStatic:true});const walls=[Bodies.rectangle(-40,h/2,80,h,{isStatic:true}),Bodies.rectangle(w+40,h/2,80,h,{isStatic:true})];
+Composite.add(engine.world,[...cards,ground,...walls]);
+const mouse=Mouse.create(render.canvas);const mc=MouseConstraint.create(engine,{mouse:mouse,constraint:{stiffness:0.2,render:{visible:false}}});Composite.add(engine.world,mc);
+Render.run(render);const runner=Runner.create();Runner.run(runner,engine);
+window.addEventListener('resize',()=>{render.canvas.width=innerWidth;render.canvas.height=innerHeight;});
+<\/script></body></html>`
+      },
+      {
+        id: 'typewriter',
+        name: '打字机标题',
+        keep: 'keep',
+        keepReason: '简单通用，无需额外库也可实现',
+        scene: '开场、引语页、访谈金句',
+        tech: ['GSAP', 'TextPlugin'],
+        libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js'],
+        demo: () => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;font-family:'Inter','Noto Sans SC',sans-serif;}
+.stage{color:#fff;font-size:42px;font-weight:800;max-width:80%;line-height:1.4;}
+.cursor{display:inline-block;width:3px;height:1em;background:#a8ff3e;margin-left:4px;vertical-align:middle;animation:blink 0.8s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+</style></head><body><div class="stage"><span id="text"></span><span class="cursor"></span></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"><\/script>
+<script>
+gsap.registerPlugin(TextPlugin);
+const lines=["让每一页幻灯片","都像网页一样生动"];
+let i=0;function type(){if(i>=lines.length)i=0;gsap.to('#text',{text:{value:lines[i],delimiter:''},duration:1.5,ease:'none',onComplete:()=>{setTimeout(()=>{gsap.to('#text',{text:{value:''},duration:0.6,onComplete:type});},1500);}});i++;}
+type();
+<\/script></body></html>`
+      },
+      {
+        id: 'morph-grid',
+        name: '变形网格布局',
+        keep: 'keep',
+        keepReason: '布局叙事很有价值，可发展为模板切换动画',
+        scene: '多图对比、时间轴、 gallery 展示',
+        tech: ['CSS Grid', 'GSAP Flip'],
+        libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'],
+        demo: () => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
+.container{width:80%;height:70%;display:grid;gap:12px;transition:all 0.8s cubic-bezier(0.16,1,0.3,1);}
+.cell{background:#1f1f2d;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:20px;border:1px solid #2a2a3a;transition:all 0.8s cubic-bezier(0.16,1,0.3,1);}
+.cell.active{background:#a8ff3e;color:#000;}
+.layout1{grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;}
+.layout2{grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr 1fr;}
+</style></head><body><div class="container layout1" id="grid"><div class="cell active">A</div><div class="cell">B</div><div class="cell">C</div><div class="cell">D</div><div class="cell">E</div><div class="cell">F</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
+<script>
+const grid=document.getElementById('grid');let state=1;
+setInterval(()=>{state=state===1?2:1;grid.className='container '+(state===1?'layout1':'layout2');const cells=grid.querySelectorAll('.cell');cells.forEach((c,i)=>{c.classList.toggle('active',state===1?i===0:i===1);});},2200);
+<\/script></body></html>`
+      },
+      {
+        id: 'lottie-icon',
+        name: 'Lottie 图标动画',
+        keep: 'keep',
+        keepReason: '图标/插画动画利器，但需准备 JSON 资源',
+        scene: '功能介绍、流程图、状态反馈',
+        tech: ['lottie-web', 'JSON 动画'],
+        libs: ['https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js'],
+        demo: () => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;font-family:'Inter',sans-serif;color:#fff;}
+#lottie{width:180px;height:180px;}
+.controls{display:flex;gap:12px;}
+button{padding:8px 16px;border:1px solid #333;background:transparent;color:#a8ff3e;border-radius:6px;cursor:pointer;font-weight:700;}
+</style></head><body><div id="lottie"></div><div class="controls"><button onclick="play()">Play</button><button onclick="pause()">Pause</button></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"><\/script>
+<script>
+const anim=lottie.loadAnimation({container:document.getElementById('lottie'),renderer:'svg',loop:true,autoplay:true,path:'https://lottie.host/56e04703-7328-4225-8234-1234567890.json'});
+// fallback simple animated svg if lottie fails
+anim.addEventListener('data_failed',()=>{document.getElementById('lottie').innerHTML='<svg viewBox="0 0 100 100" width="180" height="180"><circle cx="50" cy="50" r="40" stroke="#a8ff3e" stroke-width="4" fill="none"><animate attributeName="r" values="40;45;40" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="20" fill="#a8ff3e"><animate attributeName="r" values="20;25;20" dur="1.5s" repeatCount="indefinite"/></circle></svg>';});
+function play(){anim.play();}function pause(){anim.pause();}
+<\/script></body></html>`
+      },
+      {
+        id: 'particle-network',
+        name: '节点连线网络',
+        keep: 'keep',
+        keepReason: '作为背景组件非常实用，可参数化配置',
+        scene: '技术架构、关系图、抽象概念页',
+        tech: ['Canvas 2D', '粒子系统'],
+        libs: [],
+        demo: () => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;height:100vh;background:#0a0a0f;overflow:hidden;}canvas{display:block;}</style></head><body><canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let w,h,p=[];
+function resize(){w=c.width=innerWidth;h=c.height=innerHeight;}
+resize();window.addEventListener('resize',resize);
+class P{constructor(){this.x=Math.random()*w;this.y=Math.random()*h;this.vx=(Math.random()-0.5)*0.8;this.vy=(Math.random()-0.5)*0.8;this.r=Math.random()*2+1;}
+update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>w)this.vx*=-1;if(this.y<0||this.y>h)this.vy*=-1;}
+draw(){x.beginPath();x.arc(this.x,this.y,this.r,0,Math.PI*2);x.fillStyle='rgba(168,255,62,0.8)';x.fill();}}
+for(let i=0;i<60;i++)p.push(new P());
+function animate(){x.fillStyle='rgba(10,10,15,0.25)';x.fillRect(0,0,w,h);for(let i=0;i<p.length;i++){p[i].update();p[i].draw();for(let j=i+1;j<p.length;j++){const dx=p[i].x-p[j].x,dy=p[i].y-p[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){x.beginPath();x.moveTo(p[i].x,p[i].y);x.lineTo(p[j].x,p[j].y);x.strokeStyle='rgba(168,255,62,'+(1-d/120)*0.3+')';x.stroke();}}}requestAnimationFrame(animate);}
+animate();
+<\/script></body></html>`
+      },
+      {
+        id: 'scrolltrigger-story',
+        name: '滚动叙事段落',
+        keep: 'skip',
+        keepReason: '更适合长网页而非固定页 PPT',
+        scene: '长图文、故事线、时间轴滚动',
+        tech: ['GSAP ScrollTrigger'],
+        libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js'],
+        demo: () => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+body{margin:0;background:#0a0a0f;color:#fff;font-family:'Inter','Noto Sans SC',sans-serif;overflow-x:hidden;}
+.track{height:300vh;position:relative;}
+.panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(0.9);font-size:48px;font-weight:900;text-align:center;padding:40px;}
+.panel:nth-child(1){background:#1f1f2d;} .panel:nth-child(2){background:#2a2a3a;} .panel:nth-child(3){background:#a8ff3e;color:#000;}
+</style></head><body><div class="track"><div class="panel">第一章<br><small style="font-size:20px;color:#8a8a9a;font-weight:500;">ScrollTrigger 驱动</small></div><div class="panel">第二章<br><small style="font-size:20px;color:#8a8a9a;font-weight:500;">页面滚动触发</small></div><div class="panel">第三章<br><small style="font-size:20px;color:#333;font-weight:500;">长叙事体验</small></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"><\/script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const panels=gsap.utils.toArray('.panel');
+panels.forEach((panel,i)=>{gsap.to(panel,{opacity:1,scale:1,scrollTrigger:{trigger:panel,start:'top center',end:'bottom center',scrub:true},});if(i<panels.length-1){gsap.to(panel,{opacity:0,scale:1.1,scrollTrigger:{trigger:panels[i+1],start:'top center',end:'bottom center',scrub:true}});}});
+<\/script></body></html>`
+      },
+      {
+        id: 'svg-draw',
+        name: 'SVG 路径描绘',
+        keep: 'keep',
+        keepReason: '图解叙事利器，可沉淀为 SVG 动画辅助工具',
+        scene: '流程图、地图、插画页、路线图',
+        tech: ['SVG', 'GSAP stroke-dashoffset'],
+        libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'],
+        demo: () => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
+svg{width:80%;max-width:600px;height:auto;}
+.path{fill:none;stroke:#a8ff3e;stroke-width:3;stroke-linecap:round;stroke-dasharray:1000;stroke-dashoffset:1000;}
+</style></head><body>
+<svg viewBox="0 0 400 200"><path class="path" d="M20,100 C80,20 140,180 200,100 S320,20 380,100"/></svg>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
+<script>
+const path=document.querySelector('.path');const len=path.getTotalLength();path.style.strokeDasharray=len;path.style.strokeDashoffset=len;
+function draw(){gsap.fromTo(path,{strokeDashoffset:len},{strokeDashoffset:0,duration:2,ease:'power2.inOut',onComplete:()=>{setTimeout(()=>{gsap.to(path,{strokeDashoffset:len,duration:0.6,onComplete:draw});},800);}});}draw();
+<\/script></body></html>`
+      },
+      {
+        id: 'counter',
+        name: '数字滚动计数器',
+        keep: 'keep',
+        keepReason: 'KPI 展示高频组件，简单且视觉冲击强',
+        scene: 'KPI、成果展示、数据亮点',
+        tech: ['GSAP', '数字插值'],
+        libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'],
+        demo: () => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;gap:48px;font-family:'Inter','Noto Sans SC',sans-serif;flex-wrap:wrap;}
+.metric{text-align:center;}
+.metric .num{font-size:72px;font-weight:900;color:#a8ff3e;line-height:1;}
+.metric .label{color:#8a8a9a;font-size:14px;font-weight:700;margin-top:8px;text-transform:uppercase;letter-spacing:0.05em;}
+</style></head><body>
+<div class="metric"><div class="num" data-target="128">0</div><div class="label">Projects</div></div>
+<div class="metric"><div class="num" data-target="98.6">0</div><div class="label">NPS Score</div></div>
+<div class="metric"><div class="num" data-target="2400">0</div><div class="label">Users</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
+<script>
+function countAll(){document.querySelectorAll('.num').forEach(el=>{const target=parseFloat(el.dataset.target);const obj={v:0};gsap.to(obj,{v:target,duration:2,ease:'power2.out',onUpdate:()=>{el.textContent=target%1===0?Math.round(obj.v).toLocaleString():obj.v.toFixed(1);},delay:Math.random()*0.3});});}
+countAll();setInterval(countAll,4000);
+<\/script></body></html>`
+      }
+    ];
+
+    function renderComponentLab() {
+      const grid = document.getElementById('lab-grid');
+      if (!grid) return;
+      grid.innerHTML = labComponents.map(c => {
+        const srcdoc = encodeURIComponent(c.demo());
+        const badgeClass = c.keep;
+        const badgeText = c.keep === 'keep' ? '沉淀进 Skill' : c.keep === 'maybe' ? '待定' : '不沉淀';
+        return `
+          <article class="lab-card">
+            <div class="lab-preview">
+              <span class="lab-preview-label">LIVE PREVIEW</span>
+              <iframe src="data:text/html;charset=utf-8,${srcdoc}" loading="lazy" title="${c.name} 预览"></iframe>
+            </div>
+            <div class="lab-card-body">
+              <div class="lab-card-head">
+                <h3 class="lab-card-title">${c.name}</h3>
+                <span class="lab-badge ${badgeClass}">${badgeText}</span>
+              </div>
+              <div class="lab-meta">
+                <div class="lab-meta-row">
+                  <span class="lab-meta-label">场景</span>
+                  <span class="lab-meta-value">${c.scene}</span>
+                </div>
+                <div class="lab-meta-row">
+                  <span class="lab-meta-label">技术</span>
+                  <span class="lab-meta-value lab-tech-tags">${c.tech.map(t => `<span class="lab-tech-tag">${t}</span>`).join('')}</span>
+                </div>
+                <div class="lab-meta-row">
+                  <span class="lab-meta-label">评估</span>
+                  <span class="lab-meta-value">${c.keepReason}</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    renderComponentLab();
+  </script>
 </body>
 </html>
+
 
 

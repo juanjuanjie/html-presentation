@@ -9,6 +9,7 @@ generate_variant_previews.py
 """
 
 import asyncio
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -53,20 +54,23 @@ VARIANTS = [
     {
         "template": "themes/apple-bento-grid/template.html",
         "output": "apple-bento-grid-dark-green.png",
+        "theme": "dark-green",
         "vars": {
-            "bg": "#0A0A0A",
-            "surface": "#141414",
-            "surface-strong": "#1C1C1E",
+            "bg": "#0A0A0F",
+            "surface": "#12121A",
+            "surface-strong": "#181822",
             "text": "#F5F5F7",
-            "muted": "#86868B",
-            "line": "#2C2C2E",
+            "muted": "#8A8A9A",
+            "line": "#2A2A3A",
             "dark": "#000000",
             "white": "#FFFFFF",
-            "blue": "#a8ff3e",
-            "green": "#7ee02d",
-            "orange": "#c8ff66",
-            "purple": "#5cb816",
-            "lavender": "#1A1A1A",
+            "blue": "#A8FF3E",
+            "green": "#2ED573",
+            "orange": "#FF9F43",
+            "purple": "#7EE02D",
+            "lavender": "#1F1F2D",
+            "shadow": "0 20px 60px rgba(0,0,0,0.48)",
+            "shadow-soft": "0 20px 54px rgba(0,0,0,0.36)",
         },
     },
 ]
@@ -84,6 +88,10 @@ def safe_print(msg):
 
 
 async def generate():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--only", help="Generate only the variant with this output filename.")
+    args = parser.parse_args()
+
     PREVIEWS_DIR.mkdir(parents=True, exist_ok=True)
 
     async with async_playwright() as p:
@@ -94,6 +102,9 @@ async def generate():
         )
 
         for variant in VARIANTS:
+            if args.only and variant["output"] != args.only:
+                continue
+
             template_path = ROOT / variant["template"]
             if not template_path.exists():
                 safe_print(f"[!] 跳过，模板不存在: {template_path}")
@@ -102,7 +113,8 @@ async def generate():
             output_path = PREVIEWS_DIR / variant["output"]
             file_url = template_path.resolve().as_uri()
             encoded_vars = quote(json.dumps(variant["vars"]))
-            url = f"{file_url}?vars={encoded_vars}"
+            theme = quote(variant.get("theme", "default"))
+            url = f"{file_url}?theme={theme}&vars={encoded_vars}"
 
             safe_print(f"[...] 生成 {output_path.name}")
             await page.goto(url, wait_until="networkidle")
