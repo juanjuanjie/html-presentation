@@ -1192,6 +1192,9 @@
         const preview = theme.template || item.template;
         const swatch = theme.swatch || paletteSwatch(item.palette);
         const image = theme.image || item.image;
+        const encodedVars = theme.vars && Object.keys(theme.vars).length
+          ? encodeURIComponent(JSON.stringify(theme.vars))
+          : '';
         return "<button type=\"button\" class=\"palette-theme\""
           + " data-preview=\"" + preview + "\""
           + " data-slug=\"" + item.slug + "\""
@@ -1199,6 +1202,7 @@
           + " data-preview-theme=\"" + theme.key + "\""
           + " data-preview-name=\"" + theme.name + "\""
           + " data-image=\"" + image + "\""
+          + (encodedVars ? " data-vars=\"" + encodedVars + "\"" : "")
           + " aria-label=\"预览 " + item.name + " " + theme.name + "\">"
           + "<span class=\"swatch\" style=\"background:" + swatch + "\" data-color=\"" + theme.name + "\"></span>"
           + "<span>" + theme.name + "</span>"
@@ -1252,9 +1256,12 @@
           ? getThemeList(item).find((theme) => (theme.scheme || item.scheme) === activeFilter)
           : null;
         const displayImage = matchedTheme && matchedTheme.image ? matchedTheme.image : item.image;
+        const displayTemplate = matchedTheme && matchedTheme.template ? matchedTheme.template : item.template;
+        const displayVars = matchedTheme && matchedTheme.vars ? encodeURIComponent(JSON.stringify(matchedTheme.vars)) : '';
+        const displayHref = displayVars ? `${displayTemplate}?vars=${displayVars}` : displayTemplate;
         return `
         <article class="template-card">
-          <a class="preview ${item.scheme}" href="${item.template}" target="_blank" rel="noreferrer" aria-label="预览 ${item.name}" data-default-image="${displayImage}">
+          <a class="preview ${item.scheme}" href="${displayHref}" target="_blank" rel="noreferrer" aria-label="预览 ${item.name}" data-default-image="${displayImage}" data-default-template="${displayTemplate}" data-default-vars="${displayVars}">
             <img src="${displayImage}" alt="${item.name} 封面页截图" loading="lazy">
           </a>
           <div class="card-body">
@@ -1780,16 +1787,24 @@
       loadPreview(currentTemplateUrl, 'custom', '自定义配色', buildCustomVars(item));
     });
 
-    function updateCardPreview(card, image) {
+    function buildTemplateUrl(template, vars) {
+      if (!vars) return template;
+      const sep = template.includes('?') ? '&' : '?';
+      return `${template}${sep}vars=${vars}`;
+    }
+
+    function updateCardPreview(card, image, template, vars) {
       const img = card && card.querySelector('.preview img');
       if (img && image) img.src = image;
+      const link = card && card.querySelector('.preview');
+      if (link && template) link.href = buildTemplateUrl(template, vars);
     }
 
     grid.addEventListener('mouseover', (e) => {
       const themeBtn = e.target.closest('.palette-theme[data-image]');
       if (!themeBtn) return;
       const card = themeBtn.closest('.template-card');
-      if (card) updateCardPreview(card, themeBtn.dataset.image);
+      if (card) updateCardPreview(card, themeBtn.dataset.image, themeBtn.dataset.preview, themeBtn.dataset.vars);
     });
 
     grid.addEventListener('mouseout', (e) => {
@@ -1801,7 +1816,7 @@
       // 移到同一张卡片的其他配色按钮时不恢复，让 mouseover 处理下一张封面
       if (related && related.closest && related.closest('.palette-theme') && related.closest('.template-card') === card) return;
       const preview = card.querySelector('.preview');
-      if (preview) updateCardPreview(card, preview.dataset.defaultImage);
+      if (preview) updateCardPreview(card, preview.dataset.defaultImage, preview.dataset.defaultTemplate, '');
     });
 
     document.addEventListener('click', (e) => {
@@ -1812,8 +1827,12 @@
       const card = previewTrigger.closest('.template-card');
       if (card && previewTrigger.dataset.image) {
         const preview = card.querySelector('.preview');
-        if (preview) preview.dataset.defaultImage = previewTrigger.dataset.image;
-        updateCardPreview(card, previewTrigger.dataset.image);
+        if (preview) {
+          preview.dataset.defaultImage = previewTrigger.dataset.image;
+          preview.dataset.defaultTemplate = previewTrigger.dataset.preview;
+          preview.dataset.defaultVars = previewTrigger.dataset.vars || '';
+        }
+        updateCardPreview(card, previewTrigger.dataset.image, previewTrigger.dataset.preview, previewTrigger.dataset.vars);
       }
       openPalettePreview(
         previewTrigger.dataset.preview,
