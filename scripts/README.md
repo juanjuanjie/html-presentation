@@ -12,11 +12,12 @@
 
 ## 这是什么？
 
-本目录提供三个独立的 Python 脚本，分别负责封面管理、封面替换和幻灯片截图导出。三者可单独使用，也可串联成完整流水线：
+本目录提供四个独立的 Python 脚本，分别负责封面管理、封面替换、幻灯片截图导出和配色变体封面生成。四者可单独使用，也可串联成完整流水线：
 
 1. 用 `extract_covers.py` 从各主题模板提取经典封面并维护索引。
 2. 用 `apply_cover.py` 把某个封面应用到目标演示文稿的第一页。
 3. 用 `screenshot_html_slides.py` 把最终 HTML 导出为 1920×1080 PNG 序列。
+4. 用 `generate_variant_previews.py` 为配色变体生成对应封面预览图。
 
 ## 环境准备
 
@@ -41,10 +42,11 @@ playwright install chromium
 
 ```
 scripts/
-├── README.md                  # 本文件
-├── apply_cover.py             # 把封面 HTML 应用到演示文稿第一页
-├── extract_covers.py          # 从主题模板提取经典封面并更新索引
-└── screenshot_html_slides.py  # 截图导出 1920×1080 PNG 序列
+├── README.md                    # 本文件
+├── apply_cover.py               # 把封面 HTML 应用到演示文稿第一页
+├── extract_covers.py            # 从主题模板提取经典封面并更新索引
+├── generate_variant_previews.py # 为配色变体生成封面预览图
+└── screenshot_html_slides.py    # 截图导出 1920×1080 PNG 序列
 ```
 
 ---
@@ -266,6 +268,36 @@ python scripts/screenshot_html_slides.py \
 - 交互式终端运行时会提示选择缩放预设，非交互环境（如 CI）默认使用 `1.0x`。
 - 如果 slide 中使用了 `deck-stage` 自定义元素的 Shadow DOM 覆盖层，脚本会自动隐藏其 `.overlay`。
 - 动画类 `.anim` 的元素会被强制设为 `opacity: 1`，确保截图时所有内容可见。
+
+---
+
+## generate_variant_previews.py
+
+### 核心功能
+
+为同一 HTML 模板的多个配色变体生成封面预览图。脚本通过 URL 参数向模板注入不同的 CSS 变量，截取第一页 slide 并保存到 `assets/previews/`，用于模板广场首页的封面联动预览。
+
+### 输入
+
+脚本内置需要生成的变体列表（`VARIANTS`），每个变体指定：
+
+| 字段 | 说明 |
+|------|------|
+| `template` | 模板 HTML 文件路径，相对于项目根目录。 |
+| `output` | 输出文件名，保存到 `assets/previews/`。 |
+| `vars` | 要注入的 CSS 变量键值对。 |
+
+### 输出
+
+`assets/previews/` 下的 PNG 封面图，分辨率 1920×1080。
+
+### 使用方法
+
+```bash
+python scripts/generate_variant_previews.py
+```
+
+新增配色变体时，在脚本内的 `VARIANTS` 列表追加对应条目即可。
 
 ---
 

@@ -113,7 +113,8 @@ html-presentation/
 │   ├── README.md                      # 脚本详细文档
 │   ├── screenshot_html_slides.py      # 截图导出 1920×1080 PNG
 │   ├── extract_covers.py             # 从主题模板提取经典封面
-│   └── apply_cover.py                # 把封面应用到演示文稿第一页
+│   ├── apply_cover.py                # 把封面应用到演示文稿第一页
+│   └── generate_variant_previews.py   # 为配色变体生成封面预览
 ├── templates/
 │   └── presentation.html              # 基础模板（复制起点）
 ├── themes/                            # 完整主题库
@@ -135,6 +136,8 @@ html-presentation/
 │       ├── covers/                    # 封面预览图
 │       ├── blockframe.png
 │       ├── blockframe-dark.png
+│       ├── blockframe-retro-paper.png
+│       ├── blockframe-mono-pop.png
 │       ├── blue-professional.png
 │       ├── purple-gold-presentation.png
 │       └── apple-bento-grid.png
