@@ -108,7 +108,6 @@ html-presentation/
 ├── requirements.txt                   # Python 依赖
 ├── .gitignore                         # Git 忽略配置
 ├── index.html                         # GitHub Pages 模板广场首页
-├── korea-leverage-blockframe.html     # BlockFrame 主题示例演示文稿
 ├── scripts/                           # 脚本工具集
 │   ├── README.md                      # 脚本详细文档
 │   ├── screenshot_html_slides.py      # 截图导出 1920×1080 PNG
