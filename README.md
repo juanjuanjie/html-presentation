@@ -140,7 +140,8 @@ html-presentation/
 │       ├── blockframe-mono-pop.png
 │       ├── blue-professional.png
 │       ├── purple-gold-presentation.png
-│       └── apple-bento-grid.png
+│       ├── apple-bento-grid.png
+│       └── apple-bento-grid-dark-green.png
 ├── docs/                              # 项目文档
 │   └── plans/                         # 设计方案
 ├── frontend-slides/                   # 原始 Skill/插件文档（精简）

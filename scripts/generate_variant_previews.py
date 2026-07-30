@@ -50,6 +50,25 @@ VARIANTS = [
             "cream": "#FFFFFF",
         },
     },
+    {
+        "template": "themes/apple-bento-grid/template.html",
+        "output": "apple-bento-grid-dark-green.png",
+        "vars": {
+            "bg": "#0A0A0A",
+            "surface": "#141414",
+            "surface-strong": "#1C1C1E",
+            "text": "#F5F5F7",
+            "muted": "#86868B",
+            "line": "#2C2C2E",
+            "dark": "#000000",
+            "white": "#FFFFFF",
+            "blue": "#34C759",
+            "green": "#30D158",
+            "orange": "#66D265",
+            "purple": "#248A3D",
+            "lavender": "#1A1A1A",
+        },
+    },
 ]
 
 VIEWPORT_WIDTH = 1920
