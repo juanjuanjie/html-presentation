@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>韩国散户杠杆 · BlockFrame 演示</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --pink: #FE90E8;
+      --blue: #C0F7FE;
+      --green: #99E885;
+      --yellow: #F7CB46;
+      --cream: #FFDC8B;
+      --black: #000000;
+      --white: #FFFFFF;
+      --offwhite: #FFFDF5;
+      --border: 4px solid var(--black);
+      --shadow: 8px 8px 0px var(--black);
+      --shadow-sm: 4px 4px 0px var(--black);
+      --radius: 0px;
+      --radius-sm: 4px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      background: var(--offwhite);
+      color: var(--black);
+    }
+
+    .slides-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: none;
+      padding: 60px 10vw;
+      overflow: hidden;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    .nav-controls {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      gap: 12px;
+      z-index: 1000;
+    }
+
+    .nav-btn {
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--black);
+      background: var(--white);
+      cursor: pointer;
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px var(--black);
+    }
+
+    .nav-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px var(--black);
+    }
+
+    .slide-counter {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 1000;
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 3px solid var(--black);
+      background: var(--white);
+      padding: 10px 18px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nb-card {
+      border: var(--border);
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .nb-label {
+      display: inline-block;
+      border: 4px solid var(--black);
+      padding: 12px 28px;
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nb-label-pink { background: var(--pink); }
+    .nb-label-cream { background: var(--cream); }
+    .nb-label-green { background: var(--green); }
+    .nb-label-yellow { background: var(--yellow); }
+    .nb-label-blue { background: var(--blue); }
+
+    .nb-btn {
+      display: inline-block;
+      border: 3px solid var(--black);
+      padding: 14px 32px;
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      text-decoration: none;
+      color: var(--black);
+      background: var(--yellow);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .nb-heading-xl {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 900;
+      font-size: clamp(48px, 6vw, 96px);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+    }
+
+    .nb-heading-lg {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 800;
+      font-size: clamp(32px, 4vw, 64px);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+
+    .nb-heading-md {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 700;
+      font-size: clamp(24px, 2.5vw, 40px);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    .nb-body {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-size: clamp(20px, 1.5vw, 26px);
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .nb-mono {
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-weight: 500;
+      font-size: 24px;
+      letter-spacing: 0.02em;
+    }
+
+    .corner-bracket {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--black);
+    }
+    .corner-bracket.tl { border-right: none; border-bottom: none; top: 0; left: 0; }
+    .corner-bracket.tr { border-left: none; border-bottom: none; top: 0; right: 0; }
+    .corner-bracket.bl { border-right: none; border-top: none; bottom: 0; left: 0; }
+    .corner-bracket.br { border-left: none; border-top: none; bottom: 0; right: 0; }
+
+    /* ============ SLIDE 1: PROJECT COVER ============ */
+    .slide-project-cover {
+      background: var(--offwhite);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .slide-project-cover .project-cover-frame {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      padding: 72px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .slide-project-cover .project-cover-label {
+      width: fit-content;
+      margin-bottom: 24px;
+      background: var(--pink);
+      font-size: 20px;
+      padding: 12px 26px;
+    }
+    .slide-project-cover .project-cover-title {
+      font-size: clamp(56px, 6vw, 90px);
+      line-height: 1.2;
+      max-width: 90%;
+      text-transform: none;
+    }
+    .slide-project-cover .project-cover-highlight {
+      position: relative;
+      display: inline-block;
+      z-index: 0;
+      background: transparent;
+    }
+    .slide-project-cover .project-cover-highlight::before {
+      content: "";
+      position: absolute;
+      top: 0.22em;
+      bottom: 0.22em;
+      left: -0.05em;
+      right: -0.05em;
+      background: var(--cream);
+      transform: rotate(-2deg) skewX(-4deg);
+      z-index: -1;
+    }
+    .slide-project-cover .project-cover-subtitle {
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: clamp(22px, 2vw, 32px);
+      font-weight: 600;
+      max-width: 800px;
+      line-height: 1.7;
+    }
+    .slide-project-cover .project-cover-badge {
+      position: absolute;
+      bottom: -22px;
+      left: 90px;
+      width: 220px;
+      height: 50px;
+      background: var(--blue);
+      border: 4px solid var(--black);
+      box-shadow: var(--shadow-sm);
+      transform: rotate(-3deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: 18px;
+      font-weight: 800;
+      z-index: 5;
+    }
+
+    /* ============ SLIDE 2: HOOK HERO ============ */
+    .slide-1 {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: var(--cream);
+      position: relative;
+    }
+    .slide-1 .hero-frame {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      border: var(--border);
+      background: var(--offwhite);
+      padding: 60px;
+      box-shadow: var(--shadow);
+    }
+    .slide-1 .hero-label { margin-bottom: 24px; }
+    .slide-1 .hero-title { margin-bottom: 32px; }
+    .slide-1 .hero-subtitle {
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: 24px;
+      font-weight: 500;
+      max-width: 560px;
+    }
+    .slide-1 .deco-pink-rect {
+      position: absolute;
+      top: -30px;
+      right: 80px;
+      width: 100px;
+      height: 100px;
+      background: var(--pink);
+      border: var(--border);
+      box-shadow: var(--shadow-sm);
+      transform: rotate(12deg);
+      z-index: 5;
+    }
+    .slide-1 .deco-yellow-bar {
+      position: absolute;
+      bottom: -18px;
+      left: 80px;
+      width: 220px;
+      height: 58px;
+      background: var(--yellow);
+      border: var(--border);
+      box-shadow: var(--shadow-sm);
+      transform: rotate(-3deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: 24px;
+      font-weight: 800;
+      z-index: 5;
+    }
+
+    /* ============ SLIDE 3: TWO CHANNELS ============ */
+    .slide-2 {
+      background: var(--offwhite);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 56px;
+      align-content: center;
+      align-items: stretch;
+    }
+    .slide-2.active { display: grid; }
+    .slide-2 .col-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      height: 100%;
+    }
+    .slide-2 .col-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .slide-2 .intro-card {
+      border: var(--border);
+      background: var(--white);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+    }
+    .slide-2 .intro-card h3 {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .slide-2 .intro-card p {
+      font-size: 24px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    .slide-2 .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+      align-self: flex-start;
+      border: 3px solid var(--black);
+      padding: 10px 20px;
+      background: var(--yellow);
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    /* ============ SLIDE 4: THREE FEATURE CARDS ============ */
+    .slide-3 {
+      background: var(--cream);
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide-header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 36px;
+    }
+    .slide-3 .slide-header { margin-bottom: 48px; }
+    .slide-3 .cards-row {
+      display: flex;
+      gap: 32px;
+      width: 100%;
+    }
+    .slide-3 .feature-card {
+      flex: 1;
+      border: var(--border);
+      background: var(--white);
+      padding: 36px;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .slide-3 .feature-icon {
+      width: 64px;
+      height: 64px;
+      border: 3px solid var(--black);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .slide-3 .icon-pink { background: var(--pink); }
+    .slide-3 .icon-cream { background: var(--cream); }
+    .slide-3 .icon-green { background: var(--green); }
+    .slide-3 .feature-card h3 {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    .slide-3 .feature-card p {
+      font-size: 24px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    .slide-3 .card-deco {
+      position: absolute;
+      top: -12px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--black);
+      background: var(--yellow);
+    }
+
+    /* ============ SLIDE 5: CHART / DATA ============ */
+    .slide-4 {
+      background: var(--cream);
+      flex-direction: column;
+      justify-content: center;
+      gap: 48px;
+      padding-bottom: 110px;
+    }
+    .slide-4 .slide-header {
+      flex-shrink: 0;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .slide-4 .chart-frame {
+      border: var(--border);
+      background: var(--white);
+      box-shadow: var(--shadow);
+      padding: 32px 40px;
+      width: calc(100% - 16px);
+      max-width: 1200px;
+      margin: 0 auto;
+      max-height: 62vh;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow: hidden;
+    }
+    .slide-4 .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-shrink: 0;
+    }
+    .slide-4 .chart-legend {
+      display: flex;
+      gap: 16px;
+    }
+    .slide-4 .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: 17px;
+      font-weight: 600;
+    }
+    .slide-4 .legend-swatch {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--black);
+    }
+    .slide-4 .chart-body {
+      display: flex;
+      gap: 32px;
+      flex: 1 1 auto;
+      min-height: 0;
+      align-items: stretch;
+      width: 100%;
+    }
+    .chart-svg {
+      display: block;
+      flex: 1 1 auto;
+      min-width: 0;
+      min-height: 0;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .slide-4 .data-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 0 0 240px;
+      width: 240px;
+      min-width: 0;
+    }
+    .slide-4 .data-box {
+      flex: 1 1 0;
+      min-height: 0;
+      border: 3px solid var(--black);
+      background: var(--cream);
+      padding: 18px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+    }
+    .slide-4 .data-box .data-num {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 900;
+      font-size: 36px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .slide-4 .data-box .data-label {
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: 17px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* ============ SLIDE 6: BIG STATEMENT ============ */
+    .slide-5 {
+      background: var(--offwhite);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+    .slide-5 .quote-frame {
+      border: var(--border);
+      background: var(--white);
+      padding: 60px 80px;
+      box-shadow: var(--shadow);
+      max-width: 1000px;
+      position: relative;
+    }
+    .slide-5 .quote-text {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 900;
+      font-size: clamp(28px, 3.5vw, 52px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .slide-5 .quote-author {
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .slide-5 .deco-quote-marks {
+      position: absolute;
+      top: -30px;
+      left: 40px;
+      font-size: 120px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--cream);
+      -webkit-text-stroke: 3px var(--black);
+    }
+
+    /* ============ SLIDE 7: SPLIT IMAGE + TEXT ============ */
+    .slide-6 {
+      background: var(--cream);
+      flex-direction: row;
+      gap: 0;
+      padding: 0;
+    }
+    .slide-6 .split-visual {
+      flex: 1;
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 72px 8vw 72px 10vw;
+      position: relative;
+      overflow: hidden;
+    }
+    .slide-6 .split-visual .visual-box {
+      width: min(64vh, 82%);
+      max-width: 440px;
+      aspect-ratio: 1;
+      border: 4px solid var(--white);
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .slide-6 .split-visual .visual-box::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 100%;
+      height: 100%;
+      background: var(--cream);
+      border: 4px solid var(--white);
+      z-index: -1;
+    }
+    .slide-6 .split-visual .visual-label {
+      position: absolute;
+      top: 56px;
+      left: 10vw;
+      border: 4px solid var(--white);
+      background: var(--cream);
+      color: var(--black);
+      padding: 18px 34px;
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: 28px;
+      font-weight: 800;
+      transform: rotate(-4deg);
+    }
+    .slide-6 .split-content {
+      flex: 1;
+      padding: 72px 10vw 72px 6vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 34px;
+      background: var(--offwhite);
+      border-left: var(--border);
+    }
+    .slide-6 .split-content > * { max-width: 720px; }
+    .slide-6 .content-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .slide-6 .content-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      font-size: 24px;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+    .slide-6 .content-list .list-num {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      border: 3px solid var(--black);
+      background: var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    /* ============ SLIDE 8: STATISTICS ============ */
+    .slide-8 {
+      background: var(--cream);
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide-8 .slide-header { margin-bottom: 48px; }
+    .slide-8 .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      width: 100%;
+    }
+    .slide-8 .stat-card {
+      border: var(--border);
+      background: var(--white);
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      position: relative;
+    }
+    .slide-8 .stat-card:nth-child(odd) { transform: rotate(-2deg); }
+    .slide-8 .stat-card:nth-child(even) { transform: rotate(2deg); }
+    .slide-8 .stat-number {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 900;
+      font-size: clamp(36px, 4vw, 64px);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .slide-8 .stat-label {
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: 17px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .slide-8 .stat-deco {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--black);
+    }
+
+    /* ============ SLIDE 9: REMINDER CARDS ============ */
+    .slide-9 {
+      background: var(--offwhite);
+      flex-direction: column;
+      justify-content: center;
+      padding-bottom: 110px;
+    }
+    .slide-9 .slide-header { margin-bottom: 48px; }
+    .slide-9 .reminder-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+    }
+    .slide-9 .reminder-card {
+      border: var(--border);
+      background: var(--white);
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 240px;
+    }
+    .slide-9 .reminder-card:nth-child(1) { background: var(--cream); }
+    .slide-9 .reminder-card:nth-child(2) { background: var(--blue); }
+    .slide-9 .reminder-card:nth-child(3) { background: var(--green); }
+    .slide-9 .reminder-num {
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--black);
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-weight: 800;
+      font-size: 22px;
+    }
+    .slide-9 .reminder-title {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 800;
+      font-size: 26px;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .slide-9 .reminder-text {
+      font-size: 20px;
+      line-height: 1.55;
+      font-weight: 500;
+    }
+
+    /* ============ SLIDE 10: CLOSING ============ */
+    .slide-10 {
+      background: var(--black);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: var(--white);
+    }
+    .slide-10 .close-frame {
+      border: 4px solid var(--white);
+      background: var(--black);
+      padding: 60px 80px;
+      box-shadow: 12px 12px 0px var(--yellow);
+      position: relative;
+    }
+    .slide-10 .close-title {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 900;
+      font-size: clamp(40px, 5vw, 80px);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+    .slide-10 .close-subtitle {
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--cream);
+      margin-bottom: 40px;
+    }
+    .slide-10 .close-btn {
+      display: inline-block;
+      border: 3px solid var(--white);
+      padding: 16px 40px;
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      text-decoration: none;
+      color: var(--black);
+      background: var(--yellow);
+      box-shadow: 6px 6px 0px var(--white);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .slide-10 .deco-star {
+      position: absolute;
+      top: -20px;
+      right: 60px;
+      width: 50px;
+      height: 50px;
+      background: var(--yellow);
+      border: 3px solid var(--white);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .slide { padding: 40px 10vw; }
+      .slide-2 {
+        grid-template-columns: 1fr;
+        align-content: center;
+        align-items: stretch;
+      }
+      .slide-6 {
+        flex-direction: column;
+      }
+      .slide-6 .split-visual { padding: 40px 10vw; }
+      .slide-6 .split-visual .visual-label {
+        left: 10vw;
+        top: 36px;
+      }
+      .slide-6 .split-content {
+        border-left: none;
+        border-top: var(--border);
+        padding: 40px 10vw;
+      }
+      .slide-3 .cards-row { flex-direction: column; }
+      .slide-8 .stats-grid { grid-template-columns: repeat(3, 1fr); }
+      .slide-9 .reminder-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .slide-8 .stats-grid { grid-template-columns: 1fr; }
+      .slide-9 .reminder-grid { grid-template-columns: 1fr; }
+      .slide-1 .hero-frame { padding: 32px; }
+      .slide-5 .quote-frame { padding: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slide-counter" id="slideCounter">01 / 10</div>
+
+  <div class="nav-controls">
+    <button class="nav-btn" onclick="prevSlide()">&#8592;</button>
+    <button class="nav-btn" onclick="nextSlide()">&#8594;</button>
+  </div>
+
+  <div class="slides-container">
+
+    <!-- SLIDE 1: Project Cover -->
+    <section class="slide slide-project-cover active">
+      <div class="project-cover-frame">
+        <div>
+          <div class="nb-label project-cover-label">韩国股市 · 散户杠杆</div>
+          <h1 class="nb-heading-xl project-cover-title">韩国散户<br>杠杆高到<br><mark class="project-cover-highlight">什么程度</mark>？</h1>
+        </div>
+        <p class="project-cover-subtitle">别光看新闻，今天教你用数据自己算。</p>
+        <div class="project-cover-badge">KOREA LEVERAGE</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: Hook Hero -->
+    <section class="slide slide-1">
+      <div class="hero-frame">
+        <div class="corner-bracket tl"></div>
+        <div class="corner-bracket tr"></div>
+        <div class="corner-bracket bl"></div>
+        <div class="corner-bracket br"></div>
+        <div class="nb-label hero-label">核心问题</div>
+        <h1 class="nb-heading-xl hero-title">暴跌背后<br>杠杆怎么测？</h1>
+        <p class="hero-subtitle">韩国散户的杠杆主要来自两个渠道：信用融资 与 杠杆 ETF。</p>
+        <div class="deco-pink-rect"></div>
+        <div class="deco-yellow-bar">两种渠道</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: Two Channels -->
+    <section class="slide slide-2">
+      <div class="col-left">
+        <div class="nb-label nb-label-yellow">两大渠道</div>
+        <h2 class="nb-heading-lg">信用融资<br>+ 杠杆 ETF</h2>
+        <p class="nb-body" style="max-width: 480px;">一个是直接向券商借钱买股票，一个是通过 ETF 被动放大持仓。两条路径都会把市场波动进一步放大。</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <span class="stat-pill">融资余额</span>
+          <span class="stat-pill">杠杆 ETF</span>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="intro-card">
+          <h3>信用融资</h3>
+          <p>券商借给散户炒股的钱，总额计入融资余额。周期短、有强制平仓线，属于纯粹的交易杠杆。</p>
+        </div>
+        <div class="intro-card">
+          <h3>杠杆 ETF</h3>
+          <p>基金公司拿投资者的钱买入真实股票，再通过融资把持仓规模放大，常见 2x / 3x 杠杆。</p>
+        </div>
+        <div class="intro-card">
+          <h3>关键区别</h3>
+          <p>融资是个人直接借钱；ETF 是集体通过基金被动加杠杆，还会反向推动正股波动。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: Three Feature Cards -->
+    <section class="slide slide-3">
+      <div class="slide-header">
+        <div class="nb-label nb-label-pink">信用融资</div>
+        <h2 class="nb-heading-lg">融资余额怎么看</h2>
+      </div>
+      <div class="cards-row">
+        <div class="feature-card">
+          <div class="card-deco"></div>
+          <div class="feature-icon icon-pink">1</div>
+          <h3>融资余额</h3>
+          <p>券商借给投资者炒股的钱。只能买交易所挂牌股票和 ETF，有平仓线，日内或几天内了结。</p>
+        </div>
+        <div class="feature-card">
+          <div class="card-deco"></div>
+          <div class="feature-icon icon-cream">2</div>
+          <h3>存管金</h3>
+          <p>投资者放在券商账户里的自有资金。融资余额除以存管金，得到 R2 杠杆率。</p>
+        </div>
+        <div class="feature-card">
+          <div class="card-deco"></div>
+          <div class="feature-icon icon-green">3</div>
+          <h3>证券质押贷款</h3>
+          <p>拿已有股票抵押借钱，用途不受限、周期更长。属于资产变现，不是纯交易杠杆。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: Leverage ETF Split -->
+    <section class="slide slide-6">
+      <div class="split-visual">
+        <div class="visual-box">
+          <span style="color: var(--black); font-family: Inter, 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 64px; text-align: center;">2x / 3x</span>
+        </div>
+        <div class="visual-label">杠杆 ETF</div>
+      </div>
+      <div class="split-content">
+        <div class="nb-label nb-label-green">本轮推手</div>
+        <h2 class="nb-heading-md">个股杠杆 ETF<br>把杠杆推向高潮</h2>
+        <ul class="content-list">
+          <li>
+            <span class="list-num">01</span>
+            <span>2026年5月27日，三星、海力士等个股杠杆 ETF 密集上市。</span>
+          </li>
+          <li>
+            <span class="list-num">02</span>
+            <span>基金公司真的拿钱去买股票，再通过银行/券商融资放大持仓。</span>
+          </li>
+          <li>
+            <span class="list-num">03</span>
+            <span>韩国实行 T+2 结算：今天交易，后天才交收，数据会滞后两天。</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: Double Amplification Quote -->
+    <section class="slide slide-5">
+      <div class="quote-frame">
+        <div class="deco-quote-marks">"</div>
+        <div class="corner-bracket tl"></div>
+        <div class="corner-bracket tr"></div>
+        <div class="corner-bracket bl"></div>
+        <div class="corner-bracket br"></div>
+        <p class="quote-text">原本 3% 的波动 → 被动买入推高到 5% → 两倍杠杆后到你手里变成 10%</p>
+        <p class="quote-author">杠杆 ETF 的双重放大效应</p>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: Leverage Thermometer Chart -->
+    <section class="slide slide-4">
+      <div class="slide-header">
+        <div class="nb-label nb-label-cream">综合工具</div>
+        <h2 class="nb-heading-md">kimpremium.com 杠杆温度计</h2>
+      </div>
+      <div class="chart-frame">
+        <div class="chart-header">
+          <h2 class="nb-heading-md">R2 杠杆率 vs 综合杠杆温度</h2>
+          <div class="chart-legend">
+            <div class="legend-item"><div class="legend-swatch" style="background: var(--pink);"></div>融资余额 / 存管金</div>
+            <div class="legend-item"><div class="legend-swatch" style="background: var(--yellow);"></div>含杠杆 ETF 综合</div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <svg class="chart-svg" viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg">
+            <line x1="60" y1="20" x2="60" y2="280" stroke="#000" stroke-width="3"/>
+            <line x1="60" y1="280" x2="780" y2="280" stroke="#000" stroke-width="3"/>
+            <line x1="60" y1="80"  x2="780" y2="80"  stroke="#000" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+            <line x1="60" y1="150" x2="780" y2="150" stroke="#000" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+            <line x1="60" y1="215" x2="780" y2="215" stroke="#000" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+            <text x="48" y="285" text-anchor="end" font-family="Space Grotesk, Noto Sans SC, monospace" font-size="14" font-weight="600">0</text>
+            <text x="48" y="220" text-anchor="end" font-family="Space Grotesk, Noto Sans SC, monospace" font-size="14" font-weight="600">低</text>
+            <text x="48" y="155" text-anchor="end" font-family="Space Grotesk, Noto Sans SC, monospace" font-size="14" font-weight="600">中</text>
+            <text x="48" y="85"  text-anchor="end" font-family="Space Grotesk, Noto Sans SC, monospace" font-size="14" font-weight="600">高</text>
+
+            <!-- R2 line -->
+            <polyline points="120,240 280,230 440,225 600,220 760,215" fill="none" stroke="#FE90E8" stroke-width="4"/>
+            <circle cx="120" cy="240" r="5" fill="#FE90E8" stroke="#000" stroke-width="2"/>
+            <circle cx="280" cy="230" r="5" fill="#FE90E8" stroke="#000" stroke-width="2"/>
+            <circle cx="440" cy="225" r="5" fill="#FE90E8" stroke="#000" stroke-width="2"/>
+            <circle cx="600" cy="220" r="5" fill="#FE90E8" stroke="#000" stroke-width="2"/>
+            <circle cx="760" cy="215" r="5" fill="#FE90E8" stroke="#000" stroke-width="2"/>
+
+            <!-- Comprehensive temp line -->
+            <polyline points="120,220 280,190 440,150 600,110 760,80" fill="none" stroke="#F7CB46" stroke-width="4"/>
+            <circle cx="120" cy="220" r="5" fill="#F7CB46" stroke="#000" stroke-width="2"/>
+            <circle cx="280" cy="190" r="5" fill="#F7CB46" stroke="#000" stroke-width="2"/>
+            <circle cx="440" cy="150" r="5" fill="#F7CB46" stroke="#000" stroke-width="2"/>
+            <circle cx="600" cy="110" r="5" fill="#F7CB46" stroke="#000" stroke-width="2"/>
+            <circle cx="760" cy="80" r="5" fill="#F7CB46" stroke="#000" stroke-width="2"/>
+
+            <text x="120" y="320" text-anchor="middle" font-family="Space Grotesk, Noto Sans SC, monospace" font-size="18" font-weight="700">Q1</text>
+            <text x="280" y="320" text-anchor="middle" font-family="Space Grotesk, Noto Sans SC, monospace" font-size="18" font-weight="700">Q2</text>
+            <text x="440" y="320" text-anchor="middle" font-family="Space Grotesk, Noto Sans SC, monospace" font-size="18" font-weight="700">Q3</text>
+            <text x="600" y="320" text-anchor="middle" font-family="Space Grotesk, Noto Sans SC, monospace" font-size="18" font-weight="700">Q4</text>
+            <text x="760" y="320" text-anchor="middle" font-family="Space Grotesk, Noto Sans SC, monospace" font-size="18" font-weight="700">Q5</text>
+          </svg>
+          <div class="data-column">
+            <div class="data-box">
+              <span class="data-num">融资余额</span>
+              <span class="data-label">R2 分子</span>
+            </div>
+            <div class="data-box">
+              <span class="data-num">杠杆 ETF</span>
+              <span class="data-label">加权净申赎</span>
+            </div>
+            <div class="data-box">
+              <span class="data-num">存管金</span>
+              <span class="data-label">R2 分母</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: Five Data Sources -->
+    <section class="slide slide-8">
+      <div class="slide-header">
+        <div class="nb-label nb-label-green">数据源</div>
+        <h2 class="nb-heading-lg">五个免费渠道</h2>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-deco" style="background: var(--pink);"></div>
+          <div class="stat-number">01</div>
+          <div class="stat-label">KOFIA</div>
+          <p style="font-size: 15px; margin-top: 8px; line-height: 1.4;">freesis.kofia.or.kr 融资余额、存管金</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-deco" style="background: var(--cream);"></div>
+          <div class="stat-number">02</div>
+          <div class="stat-label">SEIBRO</div>
+          <p style="font-size: 15px; margin-top: 8px; line-height: 1.4;">seibro.or.kr ETF 份额与规模</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-deco" style="background: var(--green);"></div>
+          <div class="stat-number">03</div>
+          <div class="stat-label">KRX</div>
+          <p style="font-size: 15px; margin-top: 8px; line-height: 1.4;">data.krx.co.kr 个人/机构买卖比例</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-deco" style="background: var(--yellow);"></div>
+          <div class="stat-number">04</div>
+          <div class="stat-label">K-ETF</div>
+          <p style="font-size: 15px; margin-top: 8px; line-height: 1.4;">k-etf.com 杠杆 ETF 实时行情</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-deco" style="background: var(--blue);"></div>
+          <div class="stat-number">05</div>
+          <div class="stat-label">分析师测算</div>
+          <p style="font-size: 15px; margin-top: 8px; line-height: 1.4;">X/Twitter 多模型交叉对比</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: Reminder Cards -->
+    <section class="slide slide-9">
+      <div class="slide-header">
+        <div class="nb-label nb-label-blue">重要提醒</div>
+        <h2 class="nb-heading-lg">不要盲信单一数字</h2>
+      </div>
+      <div class="reminder-grid">
+        <div class="reminder-card">
+          <div class="reminder-num">1</div>
+          <div class="reminder-title">只是一种测算</div>
+          <div class="reminder-text">kimpremium.com 的温度计只是 DiscusFish 的测算方式，不是唯一标准。</div>
+        </div>
+        <div class="reminder-card">
+          <div class="reminder-num">2</div>
+          <div class="reminder-title">多模型交叉</div>
+          <div class="reminder-text">不同分析师用不同逻辑测算，结论可能不同，需要多维度对比。</div>
+        </div>
+        <div class="reminder-card">
+          <div class="reminder-num">3</div>
+          <div class="reminder-title">理解背后机制</div>
+          <div class="reminder-text">关键不是数字本身，而是知道杠杆从哪来、怎么算、何时会反向收缩。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: Closing -->
+    <section class="slide slide-10">
+      <div class="close-frame">
+        <div class="deco-star"></div>
+        <h2 class="close-title">看懂杠杆<br>再看市场</h2>
+        <p class="close-subtitle">掌握测算方法，下一次异动时比大多数人更快看懂底牌。</p>
+        <a class="close-btn" href="#">下期再见</a>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const counter = document.getElementById('slideCounter');
+    const totalSlides = slides.length;
+
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentSlide);
+      });
+      counter.textContent = String(currentSlide + 1).padStart(2, '0') + ' / ' + String(totalSlides).padStart(2, '0');
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSlide();
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateSlide();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevSlide();
+      }
+    });
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        nextSlide();
+      } else if (touchEndX - touchStartX > 50) {
+        prevSlide();
+      }
+    });
+
+    updateSlide();
+  </script>
+
+</body>
+</html>

@@ -35,6 +35,16 @@
     "text_light": "#746f66",
     "description": "近黑电影感背景，紫色结构强调与金色高亮；暖白色文字保证可读性。"
   },
+  "palette_light": {
+    "bg": "#FFFDF5",
+    "bg_cover": "#F7F3E6",
+    "primary": "#111111",
+    "accent_gold": "#F7CB46",
+    "text": "#111111",
+    "text_muted": "#444444",
+    "text_light": "#777777",
+    "description": "暖米白底色搭配黑色主文字与黄色强调，明亮清爽的视频友好配色。"
+  },
   "typography": {
     "display": "Space Grotesk",
     "body": "Inter",

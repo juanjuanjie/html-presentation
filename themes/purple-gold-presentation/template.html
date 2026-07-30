@@ -21,6 +21,28 @@
       --accent-medium: rgba(185, 142, 255, 0.18);
       --border: rgba(255, 255, 255, 0.16);
       --card-bg: rgba(255, 255, 255, 0.055);
+      --cover-muted: rgba(255, 255, 255, 0.3);
+      --cover-subtitle: rgba(255, 255, 255, 0.5);
+      --strikethrough: rgba(255, 255, 255, 0.3);
+      --timeline-connector: rgba(255, 255, 255, 0.22);
+    }
+
+    html[data-theme="light"] {
+      --bg: #FFFDF5;
+      --bg-cover: #F7F3E6;
+      --primary: #111111;
+      --accent-gold: #F7CB46;
+      --text: #111111;
+      --text-muted: #444444;
+      --text-light: #777777;
+      --accent-light: rgba(247, 203, 70, 0.18);
+      --accent-medium: rgba(247, 203, 70, 0.30);
+      --border: rgba(0, 0, 0, 0.12);
+      --card-bg: rgba(0, 0, 0, 0.04);
+      --cover-muted: rgba(0, 0, 0, 0.25);
+      --cover-subtitle: rgba(0, 0, 0, 0.55);
+      --strikethrough: rgba(0, 0, 0, 0.25);
+      --timeline-connector: rgba(0, 0, 0, 0.18);
     }
 
     * {
@@ -228,14 +250,17 @@
     }
 
     .highlight-mark {
-      background: linear-gradient(180deg, transparent 28%, #ffc402 28%);
+      background: linear-gradient(
+        180deg,
+        transparent 0 74%,
+        var(--accent-gold) 74% 100%
+      );
       color: var(--text);
-      padding: 0 0.35rem;
-      border-radius: 4px;
+      padding: 0 0.06em;
       font-weight: 700;
     }
 
-    .text-gray { color: rgba(255, 255, 255, 0.3); }
+    .text-gray { color: var(--text-light); }
     .text-purple { color: var(--primary); }
     .text-yellow { color: var(--accent-gold); }
 
@@ -250,7 +275,7 @@
       right: -2px;
       top: 50%;
       height: 3px;
-      background: rgba(255, 255, 255, 0.3);
+      background: var(--strikethrough);
       border-radius: 2px;
       transform: translateY(-50%) rotate(-3deg);
     }
@@ -279,10 +304,10 @@
       width: fit-content;
       margin-bottom: 48px;
       padding: 12px 24px;
-      border: 1px solid rgba(185, 142, 255, 0.18);
+      border: 1px solid var(--accent-medium);
       border-radius: 100px;
-      background: rgba(185, 142, 255, 0.10);
-      color: rgba(255, 255, 255, 0.85);
+      background: var(--accent-light);
+      color: var(--text);
       font-size: 1.1rem;
       font-weight: 600;
       letter-spacing: 0.06em;
@@ -301,7 +326,7 @@
       width: 4px;
       height: 4px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
+      background: var(--cover-muted);
       flex-shrink: 0;
     }
 
@@ -325,7 +350,7 @@
     }
 
     .layout-cover .cover-gray {
-      color: rgba(255, 255, 255, 0.3);
+      color: var(--text-light);
     }
 
     .layout-cover .cover-purple {
@@ -348,14 +373,14 @@
       right: -2px;
       top: 50%;
       height: 3px;
-      background: rgba(255, 255, 255, 0.3);
+      background: var(--strikethrough);
       border-radius: 2px;
       transform: translateY(-50%) rotate(-3deg);
     }
 
     .layout-cover .cover-subtitle {
       margin: 0 0 20px;
-      color: rgba(255, 255, 255, 0.5);
+      color: var(--cover-subtitle);
       font-size: clamp(1.7rem, 3vw, 2.4rem);
       font-weight: 300;
       line-height: 1.7;
@@ -363,7 +388,7 @@
 
     .layout-cover .cover-bottom-line {
       margin: 0;
-      color: rgba(255, 255, 255, 0.5);
+      color: var(--cover-subtitle);
       font-size: clamp(1.7rem, 3vw, 2.4rem);
       font-weight: 500;
       line-height: 1.6;
@@ -806,7 +831,7 @@
       transform: translateX(-50%);
       width: 2.4rem;
       height: 3px;
-      background: rgba(255, 255, 255, 0.22);
+      background: var(--timeline-connector);
     }
 
     .step-circle {
@@ -978,6 +1003,20 @@
       .detail-block { padding: 0.8rem 1rem; }
     }
   </style>
+  <script>
+    (function () {
+      const raw = new URLSearchParams(window.location.search).get('vars');
+      if (!raw) return;
+      try {
+        const vars = JSON.parse(raw);
+        Object.entries(vars).forEach(([name, value]) => {
+          if (/^[a-zA-Z0-9_-]+$/.test(name)) {
+            document.documentElement.style.setProperty(`--${name}`, value);
+          }
+        });
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
 
@@ -1398,6 +1437,12 @@
   </div>
 
   <script>
+    (function initTheme() {
+      const params = new URLSearchParams(window.location.search);
+      const theme = params.get('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+
     const slides = document.querySelectorAll('.slide');
     const currentEl = document.getElementById('current');
     const totalEl = document.getElementById('total');

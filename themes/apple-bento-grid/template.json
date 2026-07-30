@@ -1,0 +1,44 @@
+{
+  "slug": "apple-bento-grid",
+  "name": "Apple Bento Grid",
+  "tagline": "白色与浅灰画布上的苹果式便当盒网格，用高级黑白灰组织复杂产品信息。",
+  "mood": [
+    "modern",
+    "ordered",
+    "polished",
+    "modular",
+    "premium"
+  ],
+  "occasion": [
+    "产品发布",
+    "SaaS 功能介绍",
+    "技术方案",
+    "设计系统展示",
+    "产品路线图"
+  ],
+  "tone": [
+    "clean",
+    "precise",
+    "calm",
+    "product-led"
+  ],
+  "formality": "medium-high",
+  "density": "medium",
+  "scheme": "light",
+  "palette": {
+    "bg": "#FFFFFF",
+    "surface": "#F8F8FA",
+    "text": "#202124",
+    "muted": "#6E6E73",
+    "line": "#DEDEE2",
+    "dark": "#111113",
+    "accent_dark": "#303136",
+    "accent_mid": "#66676C",
+    "accent_soft": "#96979C",
+    "accent_deep": "#494A50"
+  },
+  "best_for": "需要以现代、清晰且精美的方式展示产品模块、功能结构、关键指标和路线图的演示。",
+  "avoid_for": "需要强烈手作质感、复古纸张风格或高饱和视觉冲击的内容。",
+  "slide_count": 10,
+  "navigation": "键盘、按钮和触摸滑动翻页，带页码与底部进度条。"
+}

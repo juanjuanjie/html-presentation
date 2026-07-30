@@ -658,6 +658,20 @@
       .slide-5 .quote-frame { padding: 32px; }
     }
   </style>
+  <script>
+    (function () {
+      const raw = new URLSearchParams(window.location.search).get('vars');
+      if (!raw) return;
+      try {
+        const vars = JSON.parse(raw);
+        Object.entries(vars).forEach(([name, value]) => {
+          if (/^[a-zA-Z0-9_-]+$/.test(name)) {
+            document.documentElement.style.setProperty(`--${name}`, value);
+          }
+        });
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
 

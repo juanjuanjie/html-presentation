@@ -16,6 +16,19 @@ colors:
   border: "rgba(255, 255, 255, 0.16)"
   card-bg: "rgba(255, 255, 255, 0.055)"
 
+colors-light:
+  bg: "#FFFDF5"
+  bg-cover: "#F7F3E6"
+  primary: "#111111"
+  accent-gold: "#F7CB46"
+  text: "#111111"
+  text-muted: "#444444"
+  text-light: "#777777"
+  accent-light: "rgba(247, 203, 70, 0.18)"
+  accent-medium: "rgba(247, 203, 70, 0.30)"
+  border: "rgba(0, 0, 0, 0.12)"
+  card-bg: "rgba(0, 0, 0, 0.04)"
+
 typography:
   h1:
     fontFamily: "'Space Grotesk', sans-serif"
@@ -181,6 +194,7 @@ rules:
   - "Process diagrams use the vertical inline timeline: a numbered circle, title + note, and a short horizontal connector to the next step."
   - "Keep slides low-density and video-friendly: generous whitespace, large type, and clear focal points."
   - "No gradients, no glow, no glassmorphism. The look is flat, cinematic, and restrained."
+  - "Optional light theme: a warm cream background (#FFFDF5) with black structure text and yellow emphasis (#F7CB46). Toggle via the theme switcher in the top-right corner of the rendered deck."
 
 best_for:
   - "Video tutorial slides and screen recordings"

@@ -9,7 +9,7 @@ from playwright.async_api import async_playwright
 
 
 DEFAULT_SELECTOR = ".slide"
-DEFAULT_HIDDEN_SELECTORS = [".controls", ".dots", ".progress", ".hint", ".nav-controls", ".nav-btn", ".nav-arrows", ".nav-dots", ".slide-counter", ".keyboard-hint"]
+DEFAULT_HIDDEN_SELECTORS = [".controls", ".dots", ".progress", ".hint", ".nav-controls", ".nav-btn", ".nav-arrows", ".nav-dots", ".slide-counter", ".keyboard-hint", ".theme-switcher"]
 DEFAULT_VIEWPORT_WIDTH = 1920
 DEFAULT_VIEWPORT_HEIGHT = 1080
 DEFAULT_DEVICE_SCALE = 2

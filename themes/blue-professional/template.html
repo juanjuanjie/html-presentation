@@ -221,10 +221,13 @@
     }
 
     .highlight-mark {
-      background: linear-gradient(180deg, transparent 28%, rgba(30, 43, 250, 0.4) 28%);
+      background: linear-gradient(
+        180deg,
+        transparent 0 74%,
+        color-mix(in srgb, var(--primary) 48%, transparent) 74% 100%
+      );
       color: inherit;
-      padding: 0 0.35rem;
-      border-radius: 4px;
+      padding: 0 0.06em;
       font-weight: 700;
     }
 
@@ -928,6 +931,20 @@
       .detail-block { padding: 0.8rem 1rem; }
     }
   </style>
+  <script>
+    (function () {
+      const raw = new URLSearchParams(window.location.search).get('vars');
+      if (!raw) return;
+      try {
+        const vars = JSON.parse(raw);
+        Object.entries(vars).forEach(([name, value]) => {
+          if (/^[a-zA-Z0-9_-]+$/.test(name)) {
+            document.documentElement.style.setProperty(`--${name}`, value);
+          }
+        });
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
 

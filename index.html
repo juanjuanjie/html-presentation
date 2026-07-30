@@ -22,6 +22,7 @@
     }
 
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
@@ -176,6 +177,10 @@
     .stat strong { display: block; margin-bottom: 6px; font-size: 22px; line-height: 1; }
     .stat span { color: var(--muted); font-size: 13px; line-height: 1.35; }
 
+    .palette .swatch.active {
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px #111;
+    }
+
     .toolbar {
       margin: 24px 0 16px;
       display: grid;
@@ -253,6 +258,12 @@
       justify-content: space-between;
       gap: 12px;
     }
+    .card-head-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
     .card-title {
       margin: 0;
       font-size: 22px;
@@ -272,6 +283,26 @@
       font-weight: 800;
       white-space: nowrap;
     }
+    .doc-btn {
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #d4d4d8;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #18181b;
+      padding: 0 9px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .doc-btn:hover { background: #f4f4f5; border-color: #a1a1aa; }
+    .doc-btn:focus-visible {
+      outline: 3px solid rgba(30, 43, 250, 0.2);
+      outline-offset: 2px;
+    }
     .description {
       margin: 0;
       color: var(--muted);
@@ -289,13 +320,42 @@
       line-height: 1;
     }
     .palette {
-      display: flex;
+      display: grid;
+      grid-template-columns: auto 1fr;
       align-items: center;
-      gap: 8px;
+      gap: 8px 10px;
     }
     .palette-label {
       font-size: 12px;
       color: var(--muted);
+    }
+    .palette-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .palette-theme {
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      padding: 4px 8px 4px 5px;
+      color: #27272a;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .palette-theme:hover {
+      border-color: #a1a1aa;
+      background: #fafafa;
+    }
+    .palette-theme .swatch {
+      width: 22px;
+      height: 22px;
+      cursor: inherit;
     }
     .swatch {
       position: relative;
@@ -327,7 +387,6 @@
     .swatch:hover::after {
       opacity: 1;
     }
-    .card-actions { display: flex; gap: 10px; flex-wrap: wrap; }
     .btn {
       min-height: 40px;
       display: inline-flex;
@@ -343,21 +402,6 @@
     }
     .btn:hover { background: var(--soft); }
     .btn.primary { border-color: #111; background: #111; color: #fff; }
-
-    .workflow {
-      margin-top: 24px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fff;
-      box-shadow: var(--shadow);
-      padding: 18px;
-    }
-    .workflow h2 { margin: 0 0 14px; font-size: 20px; letter-spacing: -0.02em; }
-    .workflow-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-    .workflow-item { border: 1px solid var(--line); border-radius: 7px; padding: 14px; background: #fcfcfc; }
-    .workflow-item code { color: var(--muted); font-size: 12px; }
-    .workflow-item strong { display: block; margin: 7px 0 4px; }
-    .workflow-item p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
 
     footer {
       border-top: 1px solid var(--line);
@@ -391,7 +435,6 @@
       .hero { grid-template-columns: 1fr; }
       .toolbar { grid-template-columns: 1fr; }
       .grid { grid-template-columns: 1fr; }
-      .workflow-grid { grid-template-columns: 1fr; }
     }
 
     /* ============================================================
@@ -716,11 +759,184 @@
       color: var(--muted);
     }
 
+    /* ============================================================
+       Theme Picker & Inline Preview Modal
+       ============================================================ */
+    .preview-modal[hidden] { display: none; }
+    .preview-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 110;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .preview-modal__mask {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .preview-modal__dialog {
+      position: relative;
+      width: min(1200px, 100%);
+      max-height: min(92vh, 880px);
+      display: flex;
+      flex-direction: column;
+      background: var(--card);
+      color: var(--fg);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28), 8px 8px 0 #F7CB46;
+      overflow: hidden;
+      animation: md-pop 0.18s ease-out;
+    }
+    .preview-modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+      flex-shrink: 0;
+    }
+    .preview-modal__title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .preview-modal__close {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: #111;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+    .preview-modal__close:hover { background: var(--soft); }
+    .preview-modal__close:active { transform: scale(0.94); }
+    .preview-modal__close svg { width: 18px; height: 18px; }
+    .preview-modal__body {
+      position: relative;
+      flex: 1;
+      overflow: hidden;
+      background: #fff;
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr);
+    }
+    .preview-modal__iframe {
+      width: min(100%, calc((92vh - 230px) * 16 / 9));
+      height: auto;
+      max-height: 100%;
+      aspect-ratio: 16 / 9;
+      align-self: center;
+      justify-self: center;
+      border: 0;
+      display: block;
+      background: #111;
+    }
+
+    .theme-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 14px 16px;
+      width: 100%;
+      border-bottom: 1px solid var(--line);
+      background: #fafafa;
+    }
+    .theme-option {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: left;
+      min-width: 190px;
+      flex: 1;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .theme-option:hover {
+      border-color: var(--muted);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    .theme-option__swatch {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: inset 0 0 0 4px #fff;
+      flex-shrink: 0;
+    }
+    .theme-option__text { min-width: 0; }
+    .theme-option__name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      display: block;
+    }
+    .theme-option__desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      display: block;
+      margin-top: 3px;
+    }
+    .custom-palette {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr)) auto;
+      gap: 10px;
+      align-items: end;
+      width: 100%;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .custom-field {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+    .custom-field label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .custom-field input[type="color"] {
+      width: 100%;
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      padding: 3px;
+      cursor: pointer;
+    }
+    .custom-palette .btn {
+      min-width: 116px;
+      flex: none;
+    }
+
     @media (max-width: 640px) {
       .md-modal { padding: 8px; }
       .md-modal__dialog { max-height: 100%; border-radius: 10px; }
       .md-modal__body { padding: 22px 20px 28px; }
       .md-content { font-size: 15px; }
+      .custom-palette { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .custom-palette .btn { grid-column: 1 / -1; width: 100%; }
     }
   </style>
 </head>
@@ -748,9 +964,9 @@
         <a class="author-line" href="https://space.bilibili.com/229150291" target="_blank" rel="noreferrer" aria-label="访问卷卷姐 juan 的 B 站空间"><img class="author-avatar" src="assets/avatar.png" alt="卷卷姐"><span>卷卷姐 juan</span></a>
       </div>
       <div class="hero-panel" aria-label="项目统计">
-        <div class="stat"><strong>4</strong><span>可用模板</span></div>
+        <div class="stat"><strong>3</strong><span>可用模板</span></div>
+        <div class="stat"><strong>7</strong><span>预设配色</span></div>
         <div class="stat"><strong>16:9</strong><span>真实封面截图</span></div>
-        <div class="stat"><strong>10vw</strong><span>视频安全边距</span></div>
         <div class="stat"><strong>Pages</strong><span>自动部署</span></div>
       </div>
     </section>
@@ -763,19 +979,11 @@
           <button class="segment" data-filter="light" type="button">浅色</button>
           <button class="segment" data-filter="dark" type="button">暗色</button>
         </div>
-        <div id="count" class="count">4 个模板</div>
+        <div id="count" class="count">3 个模板</div>
       </div>
       <div id="template-grid" class="grid"></div>
     </section>
 
-    <section id="workflow" class="workflow" aria-labelledby="workflow-title">
-      <h2 id="workflow-title">GitHub Pages 发布流程</h2>
-      <div class="workflow-grid">
-        <div class="workflow-item"><code>01</code><strong>提交模板</strong><p>修改 themes 下的 template.html、design.md 或 template.json。</p></div>
-        <div class="workflow-item"><code>02</code><strong>自动部署</strong><p>push 到 main 后，GitHub Actions 会上传当前静态站点。</p></div>
-        <div class="workflow-item"><code>03</code><strong>公开访问</strong><p>部署成功后，就可以分享 GitHub Pages 生成的模板库链接。</p></div>
-      </div>
-    </section>
   </main>
 
   <footer>
@@ -806,14 +1014,14 @@
       <div id="md-modal-body" class="md-modal__body">
         <div id="md-state-loading" class="md-state" hidden>
           <div class="md-spinner" aria-hidden="true"></div>
-          <div>正在加载…</div>
+          <div>正在加载...</div>
         </div>
         <div id="md-state-error" class="md-state" hidden>
           <div class="md-error__icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="13"></line><line x1="12" y1="16.5" x2="12" y2="16.5"></line></svg>
           </div>
           <div id="md-error-msg" class="md-error__msg">无法加载文件</div>
-          <div id="md-error-hint" class="md-error__hint">请确认文件存在，或直接<a id="md-error-link" href="#" target="_blank" rel="noreferrer">打开原文件</a>查看。</div>
+          <div id="md-error-hint" class="md-error__hint">请确认文件存在，或直接 <a id="md-error-link" href="#" target="_blank" rel="noreferrer">打开原文件</a> 查看。</div>
           <div id="md-error-path" class="md-error__path"></div>
         </div>
         <div id="md-content" class="md-content" hidden></div>
@@ -860,7 +1068,7 @@
       "id": "blue-professional/classic",
       "theme": "blue-professional",
       "file": "themes/blue-professional/covers/classic.html",
-      "name": "Blue Professional · 经典封面",
+      "name": "Professional · 经典封面",
       "style": "classic",
       "preview": "assets/previews/covers/blue-professional_classic.png",
       "best_for": "保留主题原始风格的通用封面",
@@ -875,7 +1083,7 @@
       "id": "purple-gold-presentation/classic",
       "theme": "purple-gold-presentation",
       "file": "themes/purple-gold-presentation/covers/classic.html",
-      "name": "Purple Gold Presentation · 经典封面",
+      "name": "Professional · 经典封面",
       "style": "classic",
       "preview": "assets/previews/covers/purple-gold-presentation_classic.png",
       "best_for": "保留主题原始风格的通用封面",
@@ -890,10 +1098,10 @@
       "id": "purple-gold-presentation/tutorial",
       "theme": "purple-gold-presentation",
       "file": "themes/purple-gold-presentation/covers/tutorial.html",
-      "name": "Purple Gold Presentation · 教程风封面",
+      "name": "Professional · Tutorial Cover",
       "style": "tutorial",
       "preview": "assets/previews/covers/purple-gold-presentation_tutorial.png",
-      "best_for": "AI 教程、实战教学、零基础入门类视频封面",
+      "best_for": "AI tutorial and practical walkthrough cover",
       "placeholders": [
         "title",
         "subtitle",
@@ -907,50 +1115,52 @@
   </script>
 
   <script>
-    const templates = [
+    let templates = [
       {
         slug: 'blockframe',
         name: 'BlockFrame',
         scheme: 'light',
         image: 'assets/previews/blockframe.png?v=2',
-        tagline: '新粗野主义糖果色块与项目开源封面，适合 HTML 视频分镜和教程展示。',
+        tagline: '新粗野风格',
         palette: ['#FFFDF5', '#FE90E8', '#C0F7FE', '#99E885', '#F7CB46'],
-        tags: ['开源项目', '视频分镜', '新粗野主义'],
+        tags: ['open source', 'video storyboard', 'graphic'],
         template: 'themes/blockframe/template.html',
-        docs: 'themes/blockframe/design.md'
-      },
-      {
-        slug: 'blockframe-dark',
-        name: 'BlockFrame Dark',
-        scheme: 'dark',
-        image: 'assets/previews/blockframe-dark.png?v=2',
-        tagline: '暗色项目封面、纯黑画布与糖果色强调，适合高对比的视频分镜。',
-        palette: ['#0a0a0a', '#141414', '#f6f6f6', '#F7CB46', '#c4b5fd'],
-        tags: ['视频分镜', '高对比', '暗色粗野主义'],
-        template: 'themes/blockframe-dark/template.html',
-        docs: 'themes/blockframe-dark/design.md'
-      },
-      {
-        slug: 'blue-professional',
-        name: 'Blue Professional',
-        scheme: 'light',
-        image: 'assets/previews/blue-professional.png?v=2',
-        tagline: '奶油色纸张背景搭配电光钴蓝强调，干净现代的专业风格。',
-        palette: ['#FDFAE7', '#1E2BFA', '#111111', '#6B6B6B'],
-        tags: ['B2B SaaS', '投资者更新', '咨询交付'],
-        template: 'themes/blue-professional/template.html',
-        docs: 'themes/blue-professional/design.md'
+        docs: 'themes/blockframe/design.md',
+        themes: [
+          { key: 'candy-light', name: '糖果亮色', desc: '米白画布 + 粉蓝绿黄高饱和色块', swatch: 'linear-gradient(135deg, #FFFDF5 0 34%, #FE90E8 34% 52%, #C0F7FE 52% 70%, #99E885 70% 86%, #F7CB46 86%)', vars: { offwhite: '#FFFDF5', black: '#000000', white: '#FFFFFF', pink: '#FE90E8', blue: '#C0F7FE', green: '#99E885', yellow: '#F7CB46', cream: '#FFDC8B' } },
+          { key: 'retro-paper', name: '复古纸感', desc: '暖纸底 + 复古红蓝绿，适合怀旧教程', swatch: 'linear-gradient(135deg, #F6E7C8 0 42%, #D94F45 42% 62%, #2B6CB0 62% 80%, #3E8F5B 80%)', vars: { offwhite: '#F6E7C8', black: '#1F1714', white: '#FFF8EA', pink: '#D94F7B', blue: '#2B6CB0', green: '#3E8F5B', yellow: '#E9B949', cream: '#F0C987' } },
+          { key: 'mono-pop', name: '黑白荧光', desc: '白底 + 黄色主色 + 荧光绿强调', swatch: 'linear-gradient(135deg, #FFFFFF 0 44%, #FFE45C 44% 64%, #A8FF3E 64% 82%, #000000 82%)', vars: { offwhite: '#FFFFFF', black: '#000000', white: '#FFFFFF', pink: '#FFE45C', blue: '#A8FF3E', green: '#A8FF3E', yellow: '#FFE45C', cream: '#FFFFFF' } },
+          { key: 'dark-candy', name: '暗黑糖果', desc: '纯黑画布 + 糖果色霓虹强调', swatch: 'linear-gradient(135deg, #0A0A0A 0 46%, #F7CB46 46% 62%, #FE90E8 62% 78%, #C0F7FE 78%)', template: 'themes/blockframe-dark/template.html', docs: 'themes/blockframe-dark/design.md', variant: 'dark', vars: { black: '#0A0A0A', card: '#141414', 'card-elevated': '#1C1C1C', white: '#F6F6F6', muted: '#A0A0A0', 'border-color': '#F6F6F6', yellow: '#F7CB46', pink: '#FE90E8', blue: '#C0F7FE', green: '#99E885', cream: '#FFDC8B' } }
+        ]
       },
       {
         slug: 'purple-gold-presentation',
-        name: 'Purple Gold Presentation',
+        name: 'Professional',
         scheme: 'dark',
         image: 'assets/previews/purple-gold-presentation.png?v=2',
-        tagline: '使用“PPT 正在被 HTML 淘汰”项目封面，紫色标题与金色强调。',
-        palette: ['#08090d', '#b98eff', '#ffc402', '#f6f2e8'],
-        tags: ['PPT 替代', '知识分享', '暗色电影感'],
+        tagline: 'Tech-forward, minimal, Apple-inspired presentation system.',
+        palette: ['#08090d', '#b98eff', '#ffc402', '#f6f2e8', '#FFFDF5', '#111111', '#F7CB46'],
+        tags: ['tech', 'minimal', 'apple style'],
         template: 'themes/purple-gold-presentation/template.html',
-        docs: 'themes/purple-gold-presentation/design.md'
+        docs: 'themes/purple-gold-presentation/design.md',
+        themes: [
+          { key: 'cream-blue', name: '奶油钴蓝', desc: '奶油纸底 + 电光钴蓝，克制专业', swatch: 'linear-gradient(135deg, #FDFAE7 0 58%, #1E2BFA 58% 78%, #111111 78%)', template: 'themes/blue-professional/template.html', vars: { bg: '#FDFAE7', primary: '#1E2BFA', text: '#111111', 'text-muted': '#6B6B6B', 'text-light': '#9A9A9A' } },
+          { key: 'dark', name: '紫金暗色', desc: '近黑电影感背景，紫色结构 + 金色强调', swatch: 'linear-gradient(135deg, #08090d 0 50%, #b98eff 50% 72%, #ffc402 72%)', vars: { bg: '#08090D', 'bg-cover': '#070609', primary: '#B98EFF', 'accent-gold': '#FFC402', text: '#F6F2E8', 'text-muted': '#AAA59A', 'text-light': '#746F66' } }
+        ]
+      },
+      {
+        slug: 'apple-bento-grid',
+        name: 'Apple Bento Grid',
+        scheme: 'light',
+        image: 'assets/previews/apple-bento-grid.png?v=1',
+        tagline: '苹果便当盒设计风格',
+        palette: ['#FFFFFF', '#F8F8FA', '#DEDEE2', '#96979C', '#494A50', '#111113'],
+        tags: ['bento grid', 'product', 'apple style', 'modular'],
+        template: 'themes/apple-bento-grid/template.html',
+        docs: 'themes/apple-bento-grid/design.md',
+        themes: [
+          { key: 'classic', name: '黑白灰便当', desc: '透明浅灰卡 + 黑色核心卡 + 分层中性灰', swatch: 'linear-gradient(135deg, #FFFFFF 0 38%, #F8F8FA 38% 56%, #DEDEE2 56% 68%, #96979C 68% 79%, #494A50 79% 90%, #111113 90%)', vars: { bg: '#FFFFFF', surface: '#F8F8FA', 'surface-strong': '#F1F1F3', text: '#202124', muted: '#6E6E73', line: '#DEDEE2', dark: '#111113', white: '#FFFFFF', blue: '#303136', green: '#66676C', orange: '#96979C', purple: '#494A50', lavender: '#F3F3F5' } }
+        ]
       }
     ];
 
@@ -959,6 +1169,39 @@
     const count = document.querySelector('#count');
     const segments = Array.from(document.querySelectorAll('.segment'));
     let activeFilter = 'all';
+
+    function getThemeList(item) {
+      return item.themes && item.themes.length
+        ? item.themes
+        : [{ key: 'default', name: '默认配色', desc: '模板默认 CSS 配色', swatch: paletteSwatch(item.palette), vars: {} }];
+    }
+
+    function paletteSwatch(colors) {
+      const list = (colors || []).slice(0, 5);
+      if (!list.length) return '#ffffff';
+      const step = 100 / list.length;
+      const stops = list.map((color, index) => {
+        return color + ' ' + Math.round(index * step) + '% ' + Math.round((index + 1) * step) + '%';
+      }).join(', ');
+      return 'linear-gradient(135deg, ' + stops + ')';
+    }
+
+    function renderPaletteOptions(item) {
+      return getThemeList(item).map((theme) => {
+        const preview = theme.template || item.template;
+        const swatch = theme.swatch || paletteSwatch(item.palette);
+        return "<button type=\"button\" class=\"palette-theme\""
+          + " data-preview=\"" + preview + "\""
+          + " data-slug=\"" + item.slug + "\""
+          + " data-name=\"" + item.name + "\""
+          + " data-preview-theme=\"" + theme.key + "\""
+          + " data-preview-name=\"" + theme.name + "\""
+          + " aria-label=\"预览 " + item.name + " " + theme.name + "\">"
+          + "<span class=\"swatch\" style=\"background:" + swatch + "\" data-color=\"" + theme.name + "\"></span>"
+          + "<span>" + theme.name + "</span>"
+          + "</button>";
+      }).join('');
+    }
 
     function getCoverIndex() {
       if (window.__COVER_INDEX__ && window.__COVER_INDEX__.covers) {
@@ -1009,17 +1252,17 @@
           <div class="card-body">
             <div class="card-head">
               <h3 class="card-title">${item.name}</h3>
-              <span class="badge">${item.scheme}</span>
+              <div class="card-head-actions">
+                <span class="badge">${item.scheme}</span>
+                <button type="button" class="doc-btn" data-doc="${item.docs}" data-title="${item.name} · 设计文档" data-type="markdown">设计文档</button>
+              </div>
             </div>
             <p class="description">${item.tagline}</p>
             <div class="palette">
               <span class="palette-label">配色</span>
-              ${item.palette.map((color) => `<span class="swatch" style="background:${color}" data-color="${color}"></span>`).join('')}
-            </div>
-            <div class="chips">${item.tags.map((tag) => `<span class="chip">${tag}</span>`).join('')}</div>
-            <div class="card-actions">
-              <a class="btn primary" href="${item.template}" target="_blank" rel="noreferrer">实时预览</a>
-              <button type="button" class="btn" data-doc="${item.docs}" data-title="${item.name} · 设计文档" data-type="markdown">设计文档</button>
+              <div class="palette-options">
+                ${renderPaletteOptions(item)}
+              </div>
             </div>
             ${renderCoversInline(item.slug, coverIndex)}
           </div>
@@ -1197,7 +1440,7 @@
     function showError(msg, hint, url) {
       errorMsg.textContent = msg;
       const hintEl = document.getElementById('md-error-hint');
-      hintEl.innerHTML = (hint || '请确认文件存在，或直接<a id="md-error-link" href="#" target="_blank" rel="noreferrer">打开原文件</a>查看。');
+      hintEl.innerHTML = (hint || '请确认文件存在，或直接 <a id="md-error-link" href="#" target="_blank" rel="noreferrer">打开原文件</a> 查看。');
       const newLink = document.getElementById('md-error-link');
       if (newLink) newLink.href = url;
       errorPath.textContent = url;
@@ -1236,7 +1479,7 @@
         showState('content');
         body.scrollTop = 0;
       } catch (e) {
-        showError('无法加载文件', '请确认文件存在，或直接<a id="md-error-link" href="#" target="_blank" rel="noreferrer">打开原文件</a>查看。', url);
+        showError('无法加载文件', '请确认文件存在，或直接 <a id="md-error-link" href="#" target="_blank" rel="noreferrer">打开原文件</a> 查看。', url);
       }
     }
 
@@ -1286,5 +1529,289 @@
     });
   })();
   </script>
+
+  <!-- Theme picker & inline preview modal -->
+  <div id="preview-modal" class="preview-modal" hidden role="dialog" aria-modal="true" aria-labelledby="preview-modal-title">
+    <div class="preview-modal__mask" data-preview-close></div>
+    <div class="preview-modal__dialog">
+      <header class="preview-modal__header">
+        <h2 id="preview-modal-title" class="preview-modal__title">选择配色</h2>
+        <button type="button" class="preview-modal__close" data-preview-close aria-label="关闭">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+          </svg>
+        </button>
+      </header>
+      <div id="preview-modal-body" class="preview-modal__body">
+        <div id="theme-picker" class="theme-picker">
+          <button type="button" class="theme-option" data-preview-theme="cream-blue" data-preview-name="奶油钴蓝">
+            <span class="theme-option__swatch" style="background: linear-gradient(135deg, #FDFAE7 0 58%, #1E2BFA 58% 78%, #111111 78%);"></span>
+            <span class="theme-option__name">奶油钴蓝</span>
+            <span class="theme-option__desc">奶油纸底 + 电光钴蓝</span>
+          </button>
+          <button type="button" class="theme-option" data-preview-theme="dark" data-preview-name="紫金暗色">
+            <span class="theme-option__swatch" style="background: linear-gradient(135deg, #08090d 0 50%, #b98eff 50% 72%, #ffc402 72%);"></span>
+            <span class="theme-option__name">紫金暗色</span>
+            <span class="theme-option__desc">近黑背景 + 紫色结构 + 金色强调</span>
+          </button>
+        </div>
+        <form id="custom-palette" class="custom-palette">
+          <div class="custom-field">
+            <label for="custom-bg">背景</label>
+            <input id="custom-bg" name="bg" type="color" value="#fffdf5">
+          </div>
+          <div class="custom-field">
+            <label for="custom-primary">主色</label>
+            <input id="custom-primary" name="primary" type="color" value="#1e2bfa">
+          </div>
+          <div class="custom-field">
+            <label for="custom-accent">强调</label>
+            <input id="custom-accent" name="accent" type="color" value="#f7cb46">
+          </div>
+          <div class="custom-field">
+            <label for="custom-text">文字</label>
+            <input id="custom-text" name="text" type="color" value="#111111">
+          </div>
+          <div class="custom-field">
+            <label for="custom-muted">弱文字</label>
+            <input id="custom-muted" name="muted" type="color" value="#6b6b6b">
+          </div>
+          <button type="submit" class="btn primary">查看自定义</button>
+        </form>
+        <iframe id="preview-iframe" class="preview-modal__iframe" hidden></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    const previewModal = document.getElementById('preview-modal');
+    const previewTitle = document.getElementById('preview-modal-title');
+    const themePicker = document.getElementById('theme-picker');
+    const customPalette = document.getElementById('custom-palette');
+    const previewIframe = document.getElementById('preview-iframe');
+    let currentTemplateUrl = '';
+    let currentTemplateName = '';
+    let currentTemplateSlug = '';
+    let currentVars = {};
+    let previewNonce = 0;
+
+    function findTemplate(slug) {
+      return templates.find((item) => item.slug === slug);
+    }
+
+    function hexToRgb(hex) {
+      const clean = String(hex || '').replace('#', '');
+      const full = clean.length === 3 ? clean.split('').map((c) => c + c).join('') : clean;
+      const value = Number.parseInt(full || '000000', 16);
+      return { r: value >> 16, g: (value >> 8) & 255, b: value & 255 };
+    }
+
+    function rgba(hex, alpha) {
+      const { r, g, b } = hexToRgb(hex);
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    function shadeHex(hex, amount) {
+      const { r, g, b } = hexToRgb(hex);
+      const clamp = (n) => Math.max(0, Math.min(255, n));
+      return `#${[clamp(r + amount), clamp(g + amount), clamp(b + amount)].map((n) => n.toString(16).padStart(2, '0')).join('')}`;
+    }
+
+    function derivedVars(vars) {
+      const next = { ...vars };
+      if (next.primary) {
+        next['accent-light'] = rgba(next.primary, 0.10);
+        next['accent-medium'] = rgba(next.primary, 0.18);
+      }
+      if (next.text) {
+        next.border = rgba(next.text, 0.16);
+        next['card-bg'] = rgba(next.text, 0.055);
+        next['cover-muted'] = rgba(next.text, 0.30);
+        next['cover-subtitle'] = rgba(next.text, 0.50);
+        next.strikethrough = rgba(next.text, 0.30);
+        next['timeline-connector'] = rgba(next.text, 0.22);
+      }
+      if (next.yellow) {
+        next.shadow = `8px 8px 0px ${next.yellow}`;
+        next['shadow-sm'] = `4px 4px 0px ${next.yellow}`;
+        next['glow-yellow'] = rgba(next.yellow, 0.35);
+      }
+      if (next.pink) {
+        next['glow-pink'] = rgba(next.pink, 0.35);
+      }
+      if (next.blue) {
+        next['glow-blue'] = rgba(next.blue, 0.30);
+      }
+      if (next.green) {
+        next['glow-green'] = rgba(next.green, 0.30);
+      }
+      if (next['border-color']) {
+        next.border = `4px solid ${next['border-color']}`;
+      }
+      return next;
+    }
+
+    function injectVars() {
+      try {
+        const doc = previewIframe.contentDocument;
+        if (!doc || !Object.keys(currentVars).length) return;
+        Object.entries(derivedVars(currentVars)).forEach(([name, value]) => {
+          doc.documentElement.style.setProperty(`--${name}`, value);
+        });
+      } catch (e) {}
+    }
+
+    function customValuesFromVars(vars) {
+      return {
+        bg: vars.bg || vars.offwhite || vars.black || '#fffdf5',
+        primary: vars.primary || vars.yellow || vars.pink || vars.blue || '#1e2bfa',
+        accent: vars['accent-gold'] || vars.green || vars.blue || vars.yellow || '#f7cb46',
+        text: vars.text || vars.white || vars.black || '#111111',
+        muted: vars['text-muted'] || vars.muted || vars['text-light'] || '#6b6b6b'
+      };
+    }
+
+    function syncCustomFields(vars) {
+      const values = customValuesFromVars(vars || {});
+      customPalette.elements.bg.value = values.bg;
+      customPalette.elements.primary.value = values.primary;
+      customPalette.elements.accent.value = values.accent;
+      customPalette.elements.text.value = values.text;
+      customPalette.elements.muted.value = values.muted;
+    }
+
+    function buildCustomVars(item) {
+      const values = {
+        bg: customPalette.elements.bg.value,
+        primary: customPalette.elements.primary.value,
+        accent: customPalette.elements.accent.value,
+        text: customPalette.elements.text.value,
+        muted: customPalette.elements.muted.value
+      };
+      const templateUrl = currentTemplateUrl || item.template;
+      if (templateUrl.includes('blockframe-dark')) {
+        return { black: values.bg, card: shadeHex(values.bg, 18), 'card-elevated': shadeHex(values.bg, 28), white: values.text, muted: values.muted, 'border-color': values.text, yellow: values.accent, pink: values.primary, blue: values.accent, green: values.primary, cream: values.text };
+      }
+      if (templateUrl.includes('blockframe/')) {
+        return { offwhite: values.bg, black: values.text, white: '#ffffff', pink: values.primary, blue: values.accent, green: values.muted, yellow: values.accent, cream: shadeHex(values.bg, -16) };
+      }
+      if (templateUrl.includes('purple-gold-presentation')) {
+        return { bg: values.bg, 'bg-cover': shadeHex(values.bg, -6), primary: values.primary, 'accent-gold': values.accent, text: values.text, 'text-muted': values.muted, 'text-light': values.muted };
+      }
+      if (templateUrl.includes('apple-bento-grid')) {
+        return { bg: values.bg, surface: shadeHex(values.bg, -8), 'surface-strong': shadeHex(values.bg, -16), text: values.text, muted: values.muted, dark: values.text, white: '#ffffff', blue: values.primary, green: values.accent, orange: values.accent, purple: values.primary, lavender: shadeHex(values.bg, -12), line: shadeHex(values.bg, -24) };
+      }
+      return { bg: values.bg, primary: values.primary, text: values.text, 'text-muted': values.muted, 'text-light': values.muted };
+    }
+
+    function loadPreview(url, theme, themeName, vars) {
+      const separator = url.includes('?') ? '&' : '?';
+      previewNonce += 1;
+      currentVars = vars || {};
+      const encodedVars = encodeURIComponent(JSON.stringify(derivedVars(currentVars)));
+      previewIframe.src = `${url}${separator}theme=${encodeURIComponent(theme || 'default')}&palette=${previewNonce}&vars=${encodedVars}`;
+      previewIframe.hidden = false;
+      window.setTimeout(injectVars, 80);
+      previewTitle.textContent = themeName ? `${currentTemplateName} · ${themeName}` : currentTemplateName;
+    }
+
+    function closePalettePreview() {
+      previewModal.hidden = true;
+      previewIframe.hidden = true;
+      previewIframe.src = '';
+      currentVars = {};
+      document.body.style.overflow = '';
+    }
+
+    function openPalettePreview(url, name, slug, initialTheme) {
+      const item = findTemplate(slug);
+      if (!item) return;
+      currentTemplateUrl = url;
+      currentTemplateName = name;
+      currentTemplateSlug = slug;
+
+      previewModal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      previewTitle.textContent = `选择 ${name} 配色`;
+      themePicker.hidden = false;
+      themePicker.innerHTML = '';
+
+      getThemeList(item).forEach((theme) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'theme-option';
+        btn.dataset.previewTheme = theme.key;
+        btn.dataset.previewName = theme.name;
+        btn.dataset.previewUrl = theme.template || item.template;
+        btn.innerHTML = `
+          <span class="theme-option__swatch" style="background: ${theme.swatch || paletteSwatch(item.palette)};"></span>
+          <span class="theme-option__text">
+            <span class="theme-option__name">${theme.name}</span>
+            <span class="theme-option__desc">${theme.desc || '模板默认配色'}</span>
+          </span>
+        `;
+        themePicker.appendChild(btn);
+      });
+
+      const themes = getThemeList(item);
+      const selected = themes.find((theme) => theme.key === initialTheme) || themes[0];
+      syncCustomFields(selected.vars || {});
+      currentTemplateUrl = selected.template || url;
+      loadPreview(currentTemplateUrl, selected.key, selected.name, selected.vars || {});
+    }
+
+    previewIframe.addEventListener('load', injectVars);
+
+    customPalette.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const item = findTemplate(currentTemplateSlug);
+      if (!item) return;
+      loadPreview(currentTemplateUrl, 'custom', '自定义配色', buildCustomVars(item));
+    });
+
+    document.addEventListener('click', (e) => {
+      const previewTrigger = e.target.closest('[data-preview]');
+      if (!previewTrigger) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      openPalettePreview(
+        previewTrigger.dataset.preview,
+        previewTrigger.dataset.name,
+        previewTrigger.dataset.slug,
+        previewTrigger.dataset.previewTheme
+      );
+    }, true);
+
+    document.addEventListener('click', (e) => {
+      const themeTrigger = e.target.closest('.theme-option[data-preview-theme]');
+      if (!themeTrigger || previewModal.hidden) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const item = findTemplate(currentTemplateSlug);
+      const selected = item && getThemeList(item).find((theme) => theme.key === themeTrigger.dataset.previewTheme);
+      if (!selected) return;
+      syncCustomFields(selected.vars || {});
+      currentTemplateUrl = selected.template || item.template;
+      loadPreview(currentTemplateUrl, selected.key, selected.name, selected.vars || {});
+    }, true);
+
+    document.addEventListener('click', (e) => {
+      const closeTrigger = e.target.closest('[data-preview-close]');
+      if (!closeTrigger || previewModal.hidden) return;
+      e.preventDefault();
+      closePalettePreview();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || previewModal.hidden) return;
+      e.preventDefault();
+      closePalettePreview();
+    });
+  })();
+  </script>
 </body>
 </html>
+
+

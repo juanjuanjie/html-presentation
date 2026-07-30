@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Bento Grid Presentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f8f8fa;
+      --surface-strong: #f1f1f3;
+      --text: #202124;
+      --muted: #6e6e73;
+      --line: #dedee2;
+      --dark: #111113;
+      --white: #ffffff;
+      --blue: #303136;
+      --green: #66676c;
+      --orange: #96979c;
+      --purple: #494a50;
+      --lavender: #f3f3f5;
+      --shadow: 0 18px 45px rgba(26, 26, 35, 0.05);
+      --shadow-soft: 0 8px 24px rgba(26, 26, 35, 0.028);
+      --radius-lg: 28px;
+      --radius-md: 20px;
+      --radius-sm: 14px;
+      --font: "Noto Sans SC", "Inter", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      letter-spacing: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, a { font: inherit; }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 26px;
+      padding: 54px 64px 76px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(36px);
+      transition: opacity 0.42s ease, transform 0.42s ease, visibility 0.42s;
+    }
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      z-index: 2;
+    }
+    .slide.prev { transform: translateX(-36px); }
+
+    .slide-head {
+      min-height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+    .title-lockup {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-width: 0;
+    }
+    .chapter {
+      width: 60px;
+      height: 60px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--dark);
+      color: var(--white);
+      box-shadow: 0 9px 24px rgba(17, 17, 19, 0.18);
+      font: 600 22px/1 "Inter", sans-serif;
+    }
+    .slide-head h2 {
+      margin: 0;
+      font-size: clamp(34px, 3.1vw, 58px);
+      line-height: 1.08;
+      font-weight: 800;
+    }
+    .eyebrow {
+      color: var(--muted);
+      font: 600 14px/1.2 "Inter", sans-serif;
+      white-space: nowrap;
+    }
+
+    .bento {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: repeat(6, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .tile {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(248, 248, 250, 0.68);
+      box-shadow: var(--shadow-soft);
+      padding: 26px;
+    }
+    .tile.white { background: rgba(255, 255, 255, 0.94); }
+    .tile.dark {
+      border-color: var(--dark);
+      background: var(--dark);
+      color: var(--white);
+      box-shadow: var(--shadow);
+    }
+    .tile.lavender { background: rgba(243, 243, 245, 0.76); }
+    .tile h1, .tile h2, .tile h3, .tile p { margin-top: 0; }
+    .tile h1 {
+      margin-bottom: 18px;
+      font-size: clamp(52px, 5vw, 92px);
+      line-height: 1.02;
+      font-weight: 900;
+    }
+    .tile h3 {
+      margin-bottom: 10px;
+      font-size: clamp(20px, 1.5vw, 28px);
+      line-height: 1.2;
+      font-weight: 750;
+    }
+    .tile p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: clamp(13px, 0.92vw, 17px);
+      line-height: 1.65;
+    }
+    .tile.dark p { color: rgba(255, 255, 255, 0.62); }
+    .tile-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      color: var(--muted);
+      font: 700 12px/1 "Inter", sans-serif;
+    }
+    .tile-label::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+    .dark .tile-label { color: rgba(255, 255, 255, 0.6); }
+    .dark .tile-label::before { background: var(--purple); }
+
+    .icon-chip {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      color: var(--white);
+      font: 800 13px/1 "Inter", sans-serif;
+      box-shadow: 0 8px 18px rgba(20, 20, 25, 0.12);
+    }
+    .blue { background: var(--blue); }
+    .green { background: var(--green); }
+    .orange { background: var(--orange); }
+    .purple { background: var(--purple); }
+    .icon-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .mini-kicker { color: var(--muted); font-size: 13px; font-weight: 650; }
+
+    .metric {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin: 8px 0 6px;
+    }
+    .metric strong {
+      font: 800 clamp(40px, 3.4vw, 66px)/1 "Inter", sans-serif;
+    }
+    .metric span { color: var(--green); font-size: 15px; font-weight: 750; }
+    .spark {
+      height: 92px;
+      display: flex;
+      align-items: end;
+      gap: 8px;
+      margin-top: 18px;
+    }
+    .spark i {
+      display: block;
+      flex: 1;
+      min-width: 8px;
+      border-radius: 8px 8px 3px 3px;
+      background: var(--purple);
+      opacity: 0.82;
+    }
+
+    .core-viz {
+      position: absolute;
+      right: 7%;
+      bottom: 9%;
+      width: 220px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid rgba(150, 151, 156, 0.26);
+      box-shadow: inset 0 0 0 34px rgba(150, 151, 156, 0.05);
+    }
+    .core-viz::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 22px;
+      height: 22px;
+      transform: translate(-50%, -50%);
+      border-radius: 7px;
+      background: var(--purple);
+      box-shadow: 0 0 0 12px rgba(150, 151, 156, 0.12);
+    }
+    .core-viz::after {
+      content: "";
+      position: absolute;
+      inset: -22px;
+      border: 1px solid rgba(150, 151, 156, 0.16);
+      border-radius: 50%;
+    }
+
+    .mini-ui {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .ui-line {
+      height: 11px;
+      border-radius: 999px;
+      background: var(--surface-strong);
+    }
+    .ui-line.short { width: 58%; }
+    .ui-window {
+      margin-top: 20px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--white);
+    }
+    .window-dots { display: flex; gap: 5px; margin-bottom: 12px; }
+    .window-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+    .window-dots i:first-child { background: #77787d; }
+    .window-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 9px; }
+    .window-grid div { height: 48px; border-radius: 9px; background: var(--lavender); }
+
+    .feature-list { display: grid; gap: 12px; margin-top: 18px; }
+    .feature-row {
+      display: grid;
+      grid-template-columns: 38px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(210, 210, 215, 0.7);
+    }
+    .feature-row:last-child { border-bottom: 0; }
+    .feature-row b { font-size: 14px; }
+    .feature-row small { display: block; margin-top: 3px; color: var(--muted); }
+    .status {
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(32, 33, 36, 0.08);
+      color: #5f6065;
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .ring {
+      --value: 72%;
+      width: 138px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      margin: 16px auto 0;
+      border-radius: 50%;
+      background: conic-gradient(var(--blue) var(--value), var(--surface-strong) 0);
+    }
+    .ring::before {
+      content: attr(data-value);
+      width: 104px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(248, 248, 250, 0.68);
+      color: var(--text);
+      font: 800 27px/1 "Inter", sans-serif;
+    }
+
+    .bar-list { display: grid; gap: 15px; margin-top: 20px; }
+    .bar-row {
+      display: grid;
+      grid-template-columns: 110px 1fr 42px;
+      gap: 12px;
+      align-items: center;
+      font-size: 13px;
+    }
+    .bar-track { height: 10px; overflow: hidden; border-radius: 999px; background: var(--surface-strong); }
+    .bar-fill { height: 100%; border-radius: inherit; background: var(--blue); }
+    .bar-row:nth-child(2) .bar-fill { background: var(--green); }
+    .bar-row:nth-child(3) .bar-fill { background: var(--purple); }
+    .bar-row:nth-child(4) .bar-fill { background: var(--orange); }
+
+    .node-map {
+      position: relative;
+      height: 100%;
+      min-height: 260px;
+    }
+    .node {
+      position: absolute;
+      min-width: 132px;
+      padding: 15px 17px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--white);
+      box-shadow: var(--shadow-soft);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .node.core {
+      left: 50%;
+      top: 50%;
+      min-width: 160px;
+      transform: translate(-50%, -50%);
+      border-color: var(--dark);
+      background: var(--dark);
+      color: var(--white);
+    }
+    .node.n1 { left: 5%; top: 8%; }
+    .node.n2 { right: 5%; top: 8%; }
+    .node.n3 { left: 5%; bottom: 8%; }
+    .node.n4 { right: 5%; bottom: 8%; }
+    .connector {
+      position: absolute;
+      height: 1px;
+      background: var(--line);
+      transform-origin: left center;
+    }
+    .c1 { width: 31%; left: 24%; top: 31%; transform: rotate(22deg); }
+    .c2 { width: 31%; left: 50%; top: 52%; transform: rotate(-22deg); }
+    .c3 { width: 31%; left: 24%; top: 69%; transform: rotate(-22deg); }
+    .c4 { width: 31%; left: 50%; top: 48%; transform: rotate(22deg); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      height: 100%;
+    }
+    .step-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      padding: 28px;
+    }
+    .step-card:nth-child(2) { background: rgba(243, 243, 245, 0.76); }
+    .step-card:nth-child(4) { background: var(--dark); color: var(--white); }
+    .step-card::before {
+      content: attr(data-mark);
+      position: absolute;
+      right: 18px;
+      bottom: -34px;
+      color: rgba(32, 33, 36, 0.055);
+      font: 800 190px/1 "Inter", sans-serif;
+      pointer-events: none;
+    }
+    .step-card:nth-child(4)::before { color: rgba(255, 255, 255, 0.055); }
+    .step-num {
+      display: block;
+      margin-bottom: 66px;
+      color: var(--muted);
+      font: 700 15px/1 "Inter", sans-serif;
+    }
+    .step-card h3 { margin: 0 0 12px; font-size: 27px; }
+    .step-card p { margin: 0; color: var(--muted); line-height: 1.65; }
+    .step-card.dark p { color: rgba(255, 255, 255, 0.62); }
+    .step-dot {
+      position: absolute;
+      right: 24px;
+      top: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: var(--blue);
+    }
+    .step-card:nth-child(2) .step-dot { background: var(--purple); }
+    .step-card:nth-child(3) .step-dot { background: var(--green); }
+    .step-card:nth-child(4) .step-dot { background: var(--orange); }
+
+    .check-list { display: grid; gap: 11px; margin-top: 18px; }
+    .check-list div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .check-list i {
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: rgba(32, 33, 36, 0.08);
+      color: #5f6065;
+      font-style: normal;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .quote {
+      max-width: 900px;
+      font-size: clamp(30px, 2.6vw, 50px);
+      line-height: 1.32;
+      font-weight: 700;
+    }
+    .quote em { color: var(--purple); font-style: normal; }
+    .avatar-stack { display: flex; align-items: center; margin-top: 28px; }
+    .avatar {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      margin-right: -8px;
+      border: 3px solid var(--dark);
+      border-radius: 50%;
+      color: var(--white);
+      font: 700 12px/1 "Inter", sans-serif;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 14px;
+      left: 8%;
+      right: 8%;
+      height: 2px;
+      background: var(--line);
+    }
+    .milestone { position: relative; padding-top: 46px; }
+    .milestone::before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      border: 5px solid var(--white);
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 1px var(--line);
+    }
+    .milestone:nth-child(2)::before { background: var(--green); }
+    .milestone:nth-child(3)::before { background: var(--purple); }
+    .milestone:nth-child(4)::before { background: var(--orange); }
+    .milestone b { display: block; margin-bottom: 7px; font-size: 18px; }
+    .milestone span { color: var(--muted); font-size: 13px; line-height: 1.55; }
+
+    .nav-controls {
+      position: fixed;
+      right: 30px;
+      bottom: 24px;
+      z-index: 20;
+      display: flex;
+      gap: 8px;
+    }
+    .nav-btn {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: var(--shadow-soft);
+    }
+    .nav-btn:hover { border-color: var(--dark); background: var(--dark); color: var(--white); }
+    .nav-btn:disabled { opacity: 0.3; cursor: default; }
+    .slide-counter {
+      position: fixed;
+      left: 64px;
+      bottom: 30px;
+      z-index: 20;
+      color: var(--muted);
+      font: 700 13px/1 "Inter", sans-serif;
+    }
+    .progress {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      z-index: 20;
+      height: 3px;
+      background: var(--dark);
+      transition: width 0.35s ease;
+    }
+
+    .cover-copy { grid-column: 1 / 8; grid-row: 1 / 5; display: flex; flex-direction: column; justify-content: center; }
+    .cover-copy .tagline { max-width: 680px; font-size: 19px; }
+    .cover-hero { grid-column: 8 / 13; grid-row: 1 / 5; }
+    .cover-mini-a { grid-column: 1 / 5; grid-row: 5 / 7; }
+    .cover-mini-b { grid-column: 5 / 9; grid-row: 5 / 7; }
+    .cover-mini-c { grid-column: 9 / 13; grid-row: 5 / 7; }
+
+    .agenda-a { grid-column: 1 / 7; grid-row: 1 / 4; }
+    .agenda-b { grid-column: 7 / 13; grid-row: 1 / 4; }
+    .agenda-c { grid-column: 1 / 7; grid-row: 4 / 7; }
+    .agenda-d { grid-column: 7 / 13; grid-row: 4 / 7; }
+
+    @media (max-height: 760px) {
+      .slide { padding: 34px 46px 58px; gap: 18px; }
+      .slide-head { min-height: 52px; }
+      .chapter { width: 50px; height: 50px; font-size: 18px; }
+      .tile { padding: 20px; border-radius: 22px; }
+      .step-num { margin-bottom: 28px; }
+      .slide-counter { left: 46px; bottom: 22px; }
+      .nav-controls { bottom: 14px; }
+    }
+  </style>
+  <script>
+    (function () {
+      const raw = new URLSearchParams(window.location.search).get('vars');
+      if (!raw) return;
+      try {
+        const vars = JSON.parse(raw);
+        Object.entries(vars).forEach(([name, value]) => {
+          if (/^[a-zA-Z0-9_-]+$/.test(name)) {
+            document.documentElement.style.setProperty(`--${name}`, value);
+          }
+        });
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <main class="deck">
+    <section class="slide active">
+      <div class="slide-head">
+        <div class="title-lockup"><span class="chapter">01</span><h2>Apple Bento Grid</h2></div>
+        <span class="eyebrow">MODULAR PRODUCT STORY / 2026</span>
+      </div>
+      <div class="bento">
+        <article class="tile white cover-copy">
+          <span class="tile-label">PRODUCT SYSTEM</span>
+          <h1>复杂能力，<br>简单呈现。</h1>
+          <p class="tagline">用有秩序的便当盒网格，将产品价值、关键数据与体验亮点装进一套清晰的叙事系统。</p>
+        </article>
+        <article class="tile dark cover-hero">
+          <span class="tile-label">CORE ENGINE</span>
+          <h3>让每个模块各司其职，<br>又彼此协同。</h3>
+          <p>One canvas. Every capability in place.</p>
+          <div class="core-viz"></div>
+        </article>
+        <article class="tile cover-mini-a">
+          <div class="icon-row"><span class="icon-chip blue">FX</span><span class="mini-kicker">PROCESS</span></div>
+          <h3>更快的流程</h3>
+          <p>把高频动作压缩为少数明确步骤。</p>
+        </article>
+        <article class="tile cover-mini-b">
+          <div class="icon-row"><span class="icon-chip green">SYNC</span><span class="mini-kicker">COLLAB</span></div>
+          <h3>自然地协同</h3>
+          <p>状态、权限和进度始终保持一致。</p>
+        </article>
+        <article class="tile cover-mini-c">
+          <div class="icon-row"><span class="icon-chip orange">LOCK</span><span class="mini-kicker">TRUST</span></div>
+          <h3>默认即安全</h3>
+          <p>安全能力嵌入每一次操作。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-head">
+        <div class="title-lockup"><span class="chapter">02</span><h2>苹果便当盒网格</h2></div>
+        <span class="eyebrow">DESIGN PRINCIPLES</span>
+      </div>
+      <div class="bento">
+        <article class="tile white agenda-a">
+          <span class="tile-label">01 / CLARITY</span>
+          <h3>Efficiency, perfectly aligned.</h3>
+          <p>重要信息拥有更大的空间，辅助信息保持紧凑。网格建立秩序，留白维持呼吸感。</p>
+          <div class="feature-list">
+            <div class="feature-row"><span class="icon-chip blue">01</span><div><b>快速理解</b><small>先看结论，再看依据</small></div><span class="status">清晰</span></div>
+            <div class="feature-row"><span class="icon-chip green">02</span><div><b>模块复用</b><small>卡片可以独立组合</small></div><span class="status">灵活</span></div>
+          </div>
+        </article>
+        <article class="tile dark agenda-b">
+          <span class="tile-label">02 / FOCUS</span>
+          <h3>一个深色核心，建立视觉重心。</h3>
+          <p>黑色主卡承载最重要的观点，其余内容围绕它展开。</p>
+          <div class="core-viz" style="width:150px"></div>
+        </article>
+        <article class="tile agenda-c">
+          <span class="tile-label">03 / SYSTEM</span>
+          <h3>Deconstructing complexity.</h3>
+          <p>大、中、小三档卡片组成稳定的节奏，使复杂产品也能被快速扫读。</p>
+          <div class="ui-window">
+            <div class="window-dots"><i></i><i></i><i></i></div>
+            <div class="window-grid"><div></div><div></div></div>
+          </div>
+        </article>
+        <article class="tile white agenda-d">
+          <span class="tile-label">04 / POLISH</span>
+          <h3>细腻，不喧闹。</h3>
+          <p>微阴影、浅灰底、柔和边框和分层中性灰共同构成精美质感。</p>
+          <div class="icon-row" style="margin-top:28px">
+            <span class="icon-chip blue">B</span><span class="icon-chip green">G</span><span class="icon-chip orange">O</span><span class="icon-chip purple">P</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-head">
+        <div class="title-lockup"><span class="chapter">03</span><h2>产品能力全景</h2></div>
+        <span class="eyebrow">CAPABILITY OVERVIEW</span>
+      </div>
+      <div class="bento">
+        <article class="tile dark" style="grid-column:1/7;grid-row:1/7">
+          <span class="tile-label">QUANTUM CORE</span>
+          <h1 style="font-size:clamp(46px,4.2vw,78px)">Performance<br>without friction.</h1>
+          <p style="max-width:560px">核心引擎统一编排数据、自动化和权限，让复杂系统保持轻盈。</p>
+          <div class="core-viz"></div>
+        </article>
+        <article class="tile white" style="grid-column:7/10;grid-row:1/4">
+          <div class="icon-row"><span class="icon-chip blue">API</span><span class="mini-kicker">GLOBAL EDGE</span></div>
+          <h3>全球同步</h3><p>跨区域节点自动选择最优路径。</p>
+          <div class="mini-ui"><div class="ui-line"></div><div class="ui-line short"></div></div>
+        </article>
+        <article class="tile" style="grid-column:10/13;grid-row:1/4">
+          <div class="icon-row"><span class="icon-chip green">ZT</span><span class="mini-kicker">ZERO TRUST</span></div>
+          <h3>零信任安全</h3><p>每次访问都经过动态验证。</p>
+          <div class="ring" data-value="96%" style="--value:96%;width:96px"></div>
+        </article>
+        <article class="tile lavender" style="grid-column:7/10;grid-row:4/7">
+          <div class="icon-row"><span class="icon-chip purple">AI</span><span class="mini-kicker">COPILOT</span></div>
+          <h3>智能协作</h3><p>从意图理解到任务执行形成闭环。</p>
+          <div class="spark"><i style="height:24%"></i><i style="height:42%"></i><i style="height:65%"></i><i style="height:88%"></i><i style="height:72%"></i></div>
+        </article>
+        <article class="tile white" style="grid-column:10/13;grid-row:4/7">
+          <div class="icon-row"><span class="icon-chip orange">∞</span><span class="mini-kicker">FLUID SCALE</span></div>
+          <h3>弹性扩展</h3><p>容量随着业务变化自动伸缩。</p>
+          <div class="metric"><strong>3.8x</strong><span>效率</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-head">
+        <div class="title-lockup"><span class="chapter">04</span><h2>关键指标</h2></div>
+        <span class="eyebrow">IMPACT AT A GLANCE</span>
+      </div>
+      <div class="bento">
+        <article class="tile white" style="grid-column:1/5;grid-row:1/3"><span class="tile-label">ADOPTION</span><div class="metric"><strong>86%</strong><span>+18%</span></div><p>团队在首周完成核心流程迁移。</p></article>
+        <article class="tile" style="grid-column:5/9;grid-row:1/3"><span class="tile-label">VELOCITY</span><div class="metric"><strong>2.4x</strong><span>更快</span></div><p>从需求确认到交付的平均速度。</p></article>
+        <article class="tile lavender" style="grid-column:9/13;grid-row:1/3"><span class="tile-label">SATISFACTION</span><div class="metric"><strong>4.8</strong><span>/ 5</span></div><p>来自关键用户的体验评分。</p></article>
+        <article class="tile white" style="grid-column:1/8;grid-row:3/7">
+          <span class="tile-label">WORKFLOW EFFICIENCY</span><h3>价值在每一个环节累积</h3>
+          <div class="bar-list">
+            <div class="bar-row"><span>需求分析</span><div class="bar-track"><div class="bar-fill" style="width:84%"></div></div><b>84</b></div>
+            <div class="bar-row"><span>协作同步</span><div class="bar-track"><div class="bar-fill" style="width:76%"></div></div><b>76</b></div>
+            <div class="bar-row"><span>自动执行</span><div class="bar-track"><div class="bar-fill" style="width:91%"></div></div><b>91</b></div>
+            <div class="bar-row"><span>风险控制</span><div class="bar-track"><div class="bar-fill" style="width:68%"></div></div><b>68</b></div>
+          </div>
+        </article>
+        <article class="tile dark" style="grid-column:8/13;grid-row:3/7">
+          <span class="tile-label">SYSTEM HEALTH</span><h3>稳定性成为增长底座</h3><p>关键服务持续保持高可用，性能波动被控制在极小区间。</p>
+          <div class="ring" data-value="99.98%" style="--value:99.8%;margin-top:28px"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-head">
+        <div class="title-lockup"><span class="chapter">05</span><h2>模块化架构</h2></div>
+        <span class="eyebrow">ONE CORE, MANY MODULES</span>
+      </div>
+      <div class="bento">
+        <article class="tile white" style="grid-column:1/4;grid-row:1/7">
+          <span class="tile-label">DESIGN LOGIC</span><h3>统一核心，按需组合</h3>
+          <p>每个模块都能独立升级，也能通过统一数据层协同工作。</p>
+          <div class="check-list">
+            <div><i>✓</i>统一身份与权限</div><div><i>✓</i>统一事件与数据</div><div><i>✓</i>统一自动化规则</div><div><i>✓</i>开放扩展接口</div>
+          </div>
+        </article>
+        <article class="tile" style="grid-column:4/10;grid-row:1/7">
+          <span class="tile-label">SYSTEM MAP</span>
+          <div class="node-map">
+            <i class="connector c1"></i><i class="connector c2"></i><i class="connector c3"></i><i class="connector c4"></i>
+            <div class="node n1">数据连接器</div><div class="node n2">智能工作流</div><div class="node core">统一产品核心</div><div class="node n3">权限与审计</div><div class="node n4">分析与洞察</div>
+          </div>
+        </article>
+        <article class="tile lavender" style="grid-column:10/13;grid-row:1/4"><div class="icon-row"><span class="icon-chip purple">01</span></div><h3>松耦合</h3><p>模块边界清晰，升级互不干扰。</p></article>
+        <article class="tile dark" style="grid-column:10/13;grid-row:4/7"><div class="icon-row"><span class="icon-chip green">02</span></div><h3>强协同</h3><p>同一上下文贯穿所有工作环节。</p></article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-head">
+        <div class="title-lockup"><span class="chapter">06</span><h2>从想法到结果</h2></div>
+        <span class="eyebrow">A FOUR-STEP FLOW</span>
+      </div>
+      <div class="steps">
+        <article class="step-card" data-mark="01"><span class="step-num">01 / DISCOVER</span><span class="step-dot"></span><h3>理解</h3><p>汇总上下文，识别真正需要解决的问题。</p></article>
+        <article class="step-card" data-mark="02"><span class="step-num">02 / DESIGN</span><span class="step-dot"></span><h3>编排</h3><p>把任务、角色和规则组合成清晰流程。</p></article>
+        <article class="step-card" data-mark="03"><span class="step-num">03 / DELIVER</span><span class="step-dot"></span><h3>执行</h3><p>自动完成重复动作，关键节点保留判断。</p></article>
+        <article class="step-card dark" data-mark="04"><span class="step-num">04 / LEARN</span><span class="step-dot"></span><h3>进化</h3><p>用结果反馈优化下一次决策与行动。</p></article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-head">
+        <div class="title-lockup"><span class="chapter">07</span><h2>体验对比</h2></div>
+        <span class="eyebrow">BEFORE / AFTER</span>
+      </div>
+      <div class="bento">
+        <article class="tile" style="grid-column:1/6;grid-row:1/7">
+          <span class="tile-label">BEFORE</span><h3>工具很多，体验却是割裂的</h3><p>信息散落在不同系统，重复操作占据大量时间。</p>
+          <div class="feature-list">
+            <div class="feature-row"><span class="icon-chip orange">A</span><div><b>上下文丢失</b><small>切换工具时需要重新理解</small></div></div>
+            <div class="feature-row"><span class="icon-chip orange">B</span><div><b>状态不同步</b><small>进度依靠人工更新</small></div></div>
+            <div class="feature-row"><span class="icon-chip orange">C</span><div><b>责任不清晰</b><small>关键动作缺少可追踪记录</small></div></div>
+          </div>
+        </article>
+        <article class="tile dark" style="grid-column:6/13;grid-row:1/5">
+          <span class="tile-label">AFTER</span><h1 style="font-size:clamp(44px,4vw,74px)">One flow.<br>Zero friction.</h1><p>统一入口、统一上下文、统一行动，让团队只关注真正重要的工作。</p>
+        </article>
+        <article class="tile white" style="grid-column:6/9;grid-row:5/7"><div class="icon-row"><span class="icon-chip blue">1</span></div><h3>单一入口</h3><p>所有任务集中处理。</p></article>
+        <article class="tile lavender" style="grid-column:9/11;grid-row:5/7"><div class="icon-row"><span class="icon-chip purple">2</span></div><h3>实时同步</h3><p>状态自动更新。</p></article>
+        <article class="tile white" style="grid-column:11/13;grid-row:5/7"><div class="icon-row"><span class="icon-chip green">3</span></div><h3>持续学习</h3><p>结果反哺流程。</p></article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-head">
+        <div class="title-lockup"><span class="chapter">08</span><h2>客户案例</h2></div>
+        <span class="eyebrow">A SYSTEM THAT COMPOUNDS</span>
+      </div>
+      <div class="bento">
+        <article class="tile dark" style="grid-column:1/9;grid-row:1/5">
+          <span class="tile-label">NORTHSTAR LABS</span>
+          <div class="quote">“我们第一次拥有了一套既<em>足够简单</em>，又能承载复杂业务的工作系统。”</div>
+          <div class="avatar-stack"><span class="avatar blue">AL</span><span class="avatar purple">MW</span><span class="avatar green">CY</span></div>
+        </article>
+        <article class="tile lavender" style="grid-column:9/13;grid-row:1/5"><span class="tile-label">TIME TO VALUE</span><div class="metric"><strong>12</strong><span>天</span></div><p>从试点到核心团队全面上线。</p><div class="ring" data-value="92%" style="--value:92%;width:112px"></div></article>
+        <article class="tile white" style="grid-column:1/5;grid-row:5/7"><span class="tile-label">CYCLE TIME</span><div class="metric"><strong>-41%</strong></div><p>关键流程周期缩短。</p></article>
+        <article class="tile" style="grid-column:5/9;grid-row:5/7"><span class="tile-label">AUTOMATION</span><div class="metric"><strong>68%</strong></div><p>重复动作实现自动化。</p></article>
+        <article class="tile white" style="grid-column:9/13;grid-row:5/7"><span class="tile-label">TEAM NPS</span><div class="metric"><strong>+54</strong></div><p>内部推荐意愿显著提升。</p></article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-head">
+        <div class="title-lockup"><span class="chapter">09</span><h2>产品路线图</h2></div>
+        <span class="eyebrow">NOW / NEXT / LATER</span>
+      </div>
+      <div class="bento">
+        <article class="tile white" style="grid-column:1/13;grid-row:1/4">
+          <span class="tile-label">2026 ROADMAP</span><h3>沿着真实价值持续演进</h3>
+          <div class="timeline">
+            <div class="milestone"><b>Q1 · 基础</b><span>统一身份、数据模型与核心工作流。</span></div>
+            <div class="milestone"><b>Q2 · 智能</b><span>上线情境感知的协作助手。</span></div>
+            <div class="milestone"><b>Q3 · 开放</b><span>扩展生态接口与行业连接器。</span></div>
+            <div class="milestone"><b>Q4 · 自适应</b><span>实现基于反馈的流程优化。</span></div>
+          </div>
+        </article>
+        <article class="tile dark" style="grid-column:1/7;grid-row:4/7"><span class="tile-label">NEXT BET</span><h3>从自动化走向自主协同</h3><p>系统不只执行规则，还能识别机会、提出建议，并在授权范围内采取行动。</p></article>
+        <article class="tile lavender" style="grid-column:7/10;grid-row:4/7"><div class="icon-row"><span class="icon-chip purple">AI</span></div><h3>智能代理</h3><p>围绕目标持续推进任务。</p></article>
+        <article class="tile white" style="grid-column:10/13;grid-row:4/7"><div class="icon-row"><span class="icon-chip green">API</span></div><h3>开放生态</h3><p>让合作伙伴共同扩展价值。</p></article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-head">
+        <div class="title-lockup"><span class="chapter">10</span><h2>下一步</h2></div>
+        <span class="eyebrow">BUILD THE SYSTEM</span>
+      </div>
+      <div class="bento">
+        <article class="tile dark" style="grid-column:1/10;grid-row:1/7;display:flex;flex-direction:column;justify-content:center">
+          <span class="tile-label">START TODAY</span><h1>Experience<br>the synergy.</h1><p style="max-width:660px;font-size:18px">把复杂能力装进一套清晰、优雅、可扩展的产品体验。</p>
+          <div style="margin-top:34px"><span style="display:inline-flex;padding:13px 22px;border-radius:999px;background:var(--white);color:var(--dark);font-weight:750">开始构建</span></div>
+        </article>
+        <article class="tile lavender" style="grid-column:10/13;grid-row:1/4"><div class="icon-row"><span class="icon-chip purple">@</span></div><h3>联系团队</h3><p>hello@example.com</p></article>
+        <article class="tile white" style="grid-column:10/13;grid-row:4/7"><div class="icon-row"><span class="icon-chip blue">↗</span></div><h3>查看文档</h3><p>docs.example.com</p></article>
+      </div>
+    </section>
+  </main>
+
+  <div class="slide-counter"><span id="current">1</span> / <span id="total">10</span></div>
+  <div class="progress" id="progress"></div>
+  <div class="nav-controls">
+    <button class="nav-btn" id="prevBtn" type="button" aria-label="上一页">←</button>
+    <button class="nav-btn" id="nextBtn" type="button" aria-label="下一页">→</button>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const currentEl = document.getElementById('current');
+    const totalEl = document.getElementById('total');
+    const progressEl = document.getElementById('progress');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let current = 0;
+
+    totalEl.textContent = slides.length;
+
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === current);
+        slide.classList.toggle('prev', index < current);
+      });
+      currentEl.textContent = current + 1;
+      progressEl.style.width = ((current + 1) / slides.length * 100) + '%';
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === slides.length - 1;
+    }
+
+    function changeSlide(direction) {
+      current = Math.max(0, Math.min(slides.length - 1, current + direction));
+      updateSlide();
+    }
+
+    prevBtn.addEventListener('click', () => changeSlide(-1));
+    nextBtn.addEventListener('click', () => changeSlide(1));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'PageDown') {
+        event.preventDefault();
+        changeSlide(1);
+      } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        event.preventDefault();
+        changeSlide(-1);
+      } else if (event.key === 'Home') {
+        current = 0;
+        updateSlide();
+      } else if (event.key === 'End') {
+        current = slides.length - 1;
+        updateSlide();
+      }
+    });
+
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (event) => {
+      touchStartX = event.changedTouches[0].screenX;
+    }, { passive: true });
+    document.addEventListener('touchend', (event) => {
+      const delta = touchStartX - event.changedTouches[0].screenX;
+      if (Math.abs(delta) > 50) changeSlide(delta > 0 ? 1 : -1);
+    }, { passive: true });
+
+    updateSlide();
+  </script>
+</body>
+</html>

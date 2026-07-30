@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generated_at": "2026-06-25T13:59:24.405Z",
-  "template_count": 4,
+  "template_count": 5,
   "templates": [
     {
       "slug": "blockframe",
@@ -128,6 +128,37 @@
       "scheme": "dark",
       "best_for": "?????????????????????????PPT ??? HTML ?????????????????????????? B ??????",
       "avoid_for": "需要明亮/playful 配色、 heavy 渐变、企业蓝或彩虹强调的场景。也不适合浅色背景或紧凑信息密集型布局。",
+      "slide_count": 10
+    },
+    {
+      "slug": "apple-bento-grid",
+      "name": "Apple Bento Grid",
+      "tagline": "白色与浅灰画布上的苹果式便当盒网格，用高级黑白灰组织复杂产品信息。",
+      "mood": [
+        "modern",
+        "ordered",
+        "polished",
+        "modular",
+        "premium"
+      ],
+      "occasion": [
+        "产品发布",
+        "SaaS 功能介绍",
+        "技术方案",
+        "设计系统展示",
+        "产品路线图"
+      ],
+      "tone": [
+        "clean",
+        "precise",
+        "calm",
+        "product-led"
+      ],
+      "formality": "medium-high",
+      "density": "medium",
+      "scheme": "light",
+      "best_for": "需要以现代、清晰且精美的方式展示产品模块、功能结构、关键指标和路线图的演示。",
+      "avoid_for": "需要强烈手作质感、复古纸张风格或高饱和视觉冲击的内容。",
       "slide_count": 10
     }
   ]
