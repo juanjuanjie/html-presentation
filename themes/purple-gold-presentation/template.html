@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 
   <style>
     :root {
@@ -17,14 +18,19 @@
       --text: #f6f2e8;
       --text-muted: #aaa59a;
       --text-light: #746f66;
-      --accent-light: rgba(185, 142, 255, 0.10);
-      --accent-medium: rgba(185, 142, 255, 0.18);
-      --border: rgba(255, 255, 255, 0.16);
-      --card-bg: rgba(255, 255, 255, 0.055);
-      --cover-muted: rgba(255, 255, 255, 0.3);
-      --cover-subtitle: rgba(255, 255, 255, 0.5);
-      --strikethrough: rgba(255, 255, 255, 0.3);
-      --timeline-connector: rgba(255, 255, 255, 0.22);
+      --accent-light: color-mix(in srgb, var(--primary) 10%, transparent);
+      --accent-medium: color-mix(in srgb, var(--primary) 18%, transparent);
+      --border: color-mix(in srgb, var(--text) 16%, transparent);
+      --card-bg: color-mix(in srgb, var(--text) 5.5%, transparent);
+      --cover-muted: color-mix(in srgb, var(--text) 30%, transparent);
+      --cover-subtitle: color-mix(in srgb, var(--text) 50%, transparent);
+      --strikethrough: color-mix(in srgb, var(--text) 30%, transparent);
+      --timeline-connector: color-mix(in srgb, var(--text) 22%, transparent);
+      --chart-line: var(--primary);
+    }
+
+    html[data-theme="black-green"] {
+      --chart-line: #FFFFFF;
     }
 
     html[data-theme="light"] {
@@ -357,6 +363,10 @@
       color: var(--primary);
     }
 
+    .layout-cover .cover-white {
+      color: var(--text);
+    }
+
     .layout-cover .cover-yellow {
       color: var(--accent-gold);
     }
@@ -594,6 +604,25 @@
        stats. Both columns size to their content with natural rhythm
        (gap-based spacing, no forced height-distribution).
        ============================================================ */
+
+    /* ============================================================
+       LAYOUT 4.5: Sales Chart (bar/line combo)
+       ============================================================ */
+    .layout-chart .slide-content {
+      justify-content: center;
+      min-height: 0;
+    }
+
+    .layout-chart .chart-container {
+      width: 100%;
+      height: 60vh;
+      min-height: 320px;
+      border-radius: 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
     .layout-split .slide-content {
       justify-content: center;
     }
@@ -936,7 +965,94 @@
     }
 
     /* ============================================================
-       LAYOUT 10: Closing / CTA
+       LAYOUT 10: Key Steps
+       ============================================================ */
+    .layout-key-steps .slide-content {
+      justify-content: center;
+    }
+
+    .key-steps {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .key-steps::before {
+      content: '';
+      position: absolute;
+      top: 2.1rem;
+      left: 8%;
+      right: 8%;
+      height: 2px;
+      background: var(--timeline-connector);
+    }
+
+    .key-step {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    .key-step.animated {
+      animation: keyStepRise 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .key-step-number {
+      position: relative;
+      z-index: 1;
+      width: 4.2rem;
+      height: 4.2rem;
+      display: grid;
+      place-items: center;
+      margin-bottom: 1.8rem;
+      border: 1px solid var(--accent-gold);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--accent-gold);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+    }
+
+    .key-step-label {
+      margin-bottom: 0.7rem;
+      color: var(--primary);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .key-step h3 {
+      margin-bottom: 0.8rem;
+      color: var(--text);
+      font-size: clamp(1.45rem, 2vw, 1.9rem);
+      font-weight: 600;
+    }
+
+    .key-step p {
+      max-width: 15rem;
+      font-size: clamp(1rem, 1.3vw, 1.2rem);
+      line-height: 1.6;
+    }
+
+    @keyframes keyStepRise {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ============================================================
+       LAYOUT 11: Closing
        ============================================================ */
     .layout-closing {
       justify-content: center;
@@ -946,6 +1062,33 @@
 
     .layout-closing h1 {
       margin-bottom: 1rem;
+      color: var(--accent-gold);
+    }
+
+    .layout-closing .stagger-title {
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .stagger-char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(40px) rotateX(-90deg);
+      transform-origin: center bottom;    }
+
+    .stagger-char.animated {
+      animation: staggerPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes staggerPop {
+      from {
+        opacity: 0;
+        transform: translateY(40px) rotateX(-90deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+      }
     }
 
     .layout-closing .closing-sub {
@@ -953,25 +1096,6 @@
       color: var(--text-muted);
       max-width: 50vw;
       margin-bottom: 3rem;
-    }
-
-    .layout-closing .cta-btn {
-      display: inline-block;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 600;
-      color: var(--bg);
-      background: var(--primary);
-      padding: 1.1rem 2.8rem;
-      border-radius: 100px;
-      text-decoration: none;
-      letter-spacing: 0.02em;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .layout-closing .cta-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(185, 142, 255, 0.30);
     }
 
     .layout-closing .closing-contact {
@@ -990,6 +1114,17 @@
       color: var(--text-light);
       z-index: 100;
       opacity: 0.6;
+    }
+
+    @keyframes agendaFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Responsive adjustments for very small heights */
@@ -1033,10 +1168,10 @@
         </div>
 
         <h1 class="cover-title-row">
-          <span class="cover-gray cover-strike">PPT </span><span class="cover-purple">正在被</span>
+          <span class="cover-gray cover-strike">PPT </span><span class="cover-white">正在被</span>
         </h1>
         <h1 class="cover-title-row-2">
-          <span class="cover-yellow">HTML </span><span class="cover-purple">淘汰</span>
+          <span class="cover-yellow">HTML </span><span class="cover-white">淘汰</span>
         </h1>
 
         <p class="cover-subtitle">从幻灯片到交互式素材 —— 内容创作的范式转移</p>
@@ -1211,7 +1346,19 @@
       </div>
     </div>
 
-    <!-- SLIDE 5: Two Column -->
+    <!-- SLIDE 5: Sales Chart -->
+    <div class="slide layout-chart">
+      <div class="slide-header">
+        <h4>销售趋势</h4>
+        <span class="tag">增长</span>
+      </div>
+      <div class="slide-content">
+        <h2>季度营收与<span class="highlight-mark">增长动能</span></h2>
+        <div id="sales-chart" class="chart-container"></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Two Column -->
     <div class="slide layout-split">
       <div class="slide-header">
         <h4>投资者优先级</h4>
@@ -1413,18 +1560,54 @@
       </div>
     </div>
 
-    <!-- SLIDE 10: Closing -->
+    <!-- SLIDE 10: Key Steps -->
+    <div class="slide layout-key-steps">
+      <div class="slide-header">
+        <h4>关键步骤</h4>
+        <span class="tag">执行路径</span>
+      </div>
+      <div class="slide-content">
+        <h2>从目标到结果的四个关键步骤</h2>
+        <div class="key-steps">
+          <div class="key-step">
+            <div class="key-step-number">01</div>
+            <div class="key-step-label">第一步</div>
+            <h3>明确目标</h3>
+            <p>定义最终成果、判断标准与核心约束。</p>
+          </div>
+          <div class="key-step">
+            <div class="key-step-number">02</div>
+            <div class="key-step-label">第二步</div>
+            <h3>拆解任务</h3>
+            <p>将目标拆分为可执行、可追踪的关键任务。</p>
+          </div>
+          <div class="key-step">
+            <div class="key-step-number">03</div>
+            <div class="key-step-label">第三步</div>
+            <h3>执行推进</h3>
+            <p>按优先级推进任务，并及时处理关键阻塞。</p>
+          </div>
+          <div class="key-step">
+            <div class="key-step-number">04</div>
+            <div class="key-step-label">第四步</div>
+            <h3>复盘交付</h3>
+            <p>验证结果、沉淀经验并完成最终交付。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: Closing -->
     <div class="slide layout-closing">
-      <h1>感谢观看</h1>
+      <h1 class="stagger-title">感谢观看</h1>
       <p class="closing-sub">如需深入讨论这些发现，请联系研究团队。</p>
-      <a href="#" class="cta-btn">下载完整报告</a>
       <p class="closing-contact">research@example.com &nbsp;&middot;&nbsp; www.example.com</p>
     </div>
 
   </div>
 
   <!-- Navigation -->
-  <div class="slide-counter"><span id="current">1</span> / <span id="total">10</span></div>
+  <div class="slide-counter"><span id="current">1</span> / <span id="total">11</span></div>
   <div class="keyboard-hint">使用方向键翻页</div>
   <div class="progress-bar" id="progress"></div>
   <div class="nav-controls">
@@ -1453,6 +1636,144 @@
     let current = 0;
     const total = slides.length;
     totalEl.textContent = total;
+    let lastAnimatedSlide = null;
+    let salesChart = null;
+
+    function parseNumberText(text) {
+      const clean = text.replace(/,/g, '').trim();
+      const match = clean.match(/^([0-9.]+)(.*)$/);
+      if (!match) return null;
+      return {
+        target: parseFloat(match[1]),
+        suffix: match[2] || '',
+        decimals: (match[1].split('.')[1] || '').length
+      };
+    }
+
+    function animateNumber(el, duration) {
+      duration = duration || 1200;
+      const parsed = parseNumberText(el.dataset.target || el.textContent);
+      if (!parsed || isNaN(parsed.target)) return;
+      const start = performance.now();
+      function step(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = parsed.target * eased;
+        el.textContent = value.toFixed(parsed.decimals) + parsed.suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    function runCounters(slide) {
+      const counters = slide.querySelectorAll('.metric-value, .stat-num');
+      counters.forEach(function (el) {
+        if (!el.dataset.target) el.dataset.target = el.textContent;
+        animateNumber(el);
+      });
+    }
+
+    function runAgendaStagger(slide) {
+      if (!slide.classList.contains('layout-agenda')) return;
+      const items = slide.querySelectorAll('.agenda-item');
+      items.forEach(function (item, i) {
+        item.style.animation = 'none';
+        item.offsetHeight;
+        item.style.animation = 'agendaFadeIn 0.55s ease ' + (i * 0.08) + 's both';
+      });
+    }
+
+    function runKeyStepsAnimation(slide) {
+      if (!slide.classList.contains('layout-key-steps')) return;
+      const steps = slide.querySelectorAll('.key-step');
+      steps.forEach(function (step, i) {
+        step.classList.remove('animated');
+        step.style.animationDelay = (i * 0.12) + 's';
+        step.offsetHeight;
+        step.classList.add('animated');
+      });
+    }
+
+    function initSalesChart() {
+      const chartDom = document.getElementById('sales-chart');
+      if (!chartDom || salesChart) return;
+      const themeStyles = getComputedStyle(document.documentElement);
+      const chartAccent = themeStyles.getPropertyValue('--accent-gold').trim();
+      const chartLine = themeStyles.getPropertyValue('--chart-line').trim();
+      const chartMuted = themeStyles.getPropertyValue('--text-muted').trim();
+      const chartLight = themeStyles.getPropertyValue('--text-light').trim();
+      const chartBorder = themeStyles.getPropertyValue('--border').trim();
+      salesChart = echarts.init(chartDom);
+      salesChart.setOption({
+        backgroundColor: 'transparent',
+        tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
+        legend: { data: ['营收', '增长率'], textStyle: { color: chartMuted }, bottom: 8 },
+        grid: { left: '3%', right: '4%', bottom: '14%', top: '16%', containLabel: true },
+        xAxis: {
+          type: 'category',
+          data: ['Q1', 'Q2', 'Q3', 'Q4'],
+          axisLine: { lineStyle: { color: chartBorder } },
+          axisLabel: { color: chartMuted, fontSize: 14 }
+        },
+        yAxis: [
+          {
+            type: 'value',
+            name: '营收 (百万)',
+            nameTextStyle: { color: chartLight },
+            axisLine: { show: true, lineStyle: { color: chartBorder } },
+            splitLine: { lineStyle: { color: chartBorder } },
+            axisLabel: { color: chartMuted }
+          },
+          {
+            type: 'value',
+            name: '增长率',
+            nameTextStyle: { color: chartLight },
+            axisLine: { show: true, lineStyle: { color: chartBorder } },
+            splitLine: { show: false },
+            axisLabel: { formatter: '{value}%', color: chartMuted }
+          }
+        ],
+        series: [
+          {
+            name: '营收',
+            type: 'bar',
+            barWidth: '40%',
+            itemStyle: { color: chartAccent, borderRadius: [6, 6, 0, 0] },
+            data: [128, 156, 192, 238]
+          },
+          {
+            name: '增长率',
+            type: 'line',
+            yAxisIndex: 1,
+            smooth: true,
+            symbol: 'circle',
+            symbolSize: 8,
+            lineStyle: { color: chartLine, width: 3 },
+            itemStyle: { color: chartLine, borderWidth: 2, borderColor: chartLine },
+            data: [12, 22, 23, 24]
+          }
+        ]
+      });
+    }
+
+    function renderSalesChart(slide) {
+      if (!slide.classList.contains('layout-chart')) return;
+      if (!salesChart) initSalesChart();
+      if (salesChart) salesChart.resize();
+    }
+
+    function runClosingStagger(slide) {
+      const title = slide.querySelector('.stagger-title');      if (!title) return;
+      const text = title.textContent.trim();      title.innerHTML = text.split('').map(function (ch, i) {
+        return '<span class="stagger-char" style="animation-delay:' + (i * 0.08) + 's">' + (ch === ' ' ? '&nbsp;' : ch) + '</span>';
+      }).join('');
+      title.querySelectorAll('.stagger-char').forEach(function (char) {
+        requestAnimationFrame(function () {
+          char.classList.add('animated');
+        });
+      });
+    }
 
     function updateSlide() {
       slides.forEach((slide, i) => {
@@ -1467,6 +1788,16 @@
       progressEl.style.width = ((current + 1) / total * 100) + '%';
       prevBtn.disabled = current === 0;
       nextBtn.disabled = current === total - 1;
+
+      const activeSlide = slides[current];
+      if (activeSlide && activeSlide !== lastAnimatedSlide) {
+        runCounters(activeSlide);
+        runAgendaStagger(activeSlide);
+        runKeyStepsAnimation(activeSlide);
+        renderSalesChart(activeSlide);
+        runClosingStagger(activeSlide);
+        lastAnimatedSlide = activeSlide;
+      }
     }
 
     function changeSlide(dir) {
@@ -1510,6 +1841,10 @@
         changeSlide(diff > 0 ? 1 : -1);
       }
     }, { passive: true });
+
+    window.addEventListener('resize', () => {
+      if (salesChart) salesChart.resize();
+    });
 
     updateSlide();
   </script>
