@@ -968,15 +968,21 @@
        LAYOUT 10: Key Steps
        ============================================================ */
     .layout-key-steps .slide-content {
-      justify-content: center;
+      justify-content: flex-start;
+      padding-top: 2vh;
+    }
+
+    .layout-key-steps .slide-content > h2 {
+      text-align: left;
+      width: 100%;
     }
 
     .key-steps {
       position: relative;
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 2.5rem;
     }
 
     .key-steps::before {
@@ -993,6 +999,8 @@
       position: relative;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      text-align: center;
       min-width: 0;
       opacity: 0;
       transform: translateY(28px);
@@ -1005,7 +1013,7 @@
     .key-step-number {
       position: relative;
       z-index: 1;
-      width: 4.2rem;
+      width: 4.9rem;
       height: 4.2rem;
       display: grid;
       place-items: center;
@@ -1015,13 +1023,13 @@
       background: var(--bg);
       color: var(--accent-gold);
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.55rem;
+      font-size: 1.25rem;
       font-weight: 700;
     }
 
     .key-step-label {
       margin-bottom: 0.7rem;
-      color: var(--primary);
+      color: var(--accent-gold);
       font-family: 'Space Grotesk', sans-serif;
       font-size: 0.9rem;
       font-weight: 700;
@@ -1036,7 +1044,7 @@
 
     .key-step p {
       max-width: 15rem;
-      font-size: clamp(1rem, 1.3vw, 1.2rem);
+      font-size: clamp(0.92rem, 1.15vw, 1.08rem);
       line-height: 1.6;
     }
 
@@ -1049,6 +1057,179 @@
         opacity: 1;
         transform: translateY(0);
       }
+    }
+
+    /* ============================================================
+       LAYOUT 10b: Step Detail (summary -> detail continuity)
+       ============================================================ */
+    .layout-step-detail .slide-content {
+      justify-content: flex-start;
+      padding-top: 1.5vh;
+    }
+
+    .layout-step-detail .slide-content > h2 {
+      text-align: left;
+      width: 100%;
+      margin-bottom: 1.8rem;
+    }
+
+    .step-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 2.2rem;
+      width: 100%;
+    }
+
+    .step-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-light);
+      transition: color 0.3s ease;
+    }
+
+    .step-nav-item .num {
+      width: 2.2rem;
+      height: 2.2rem;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: var(--bg);
+      transition: all 0.3s ease;
+    }
+
+    .step-nav-item.active {
+      color: var(--accent-gold);
+    }
+
+    .step-nav-item.active .num {
+      border-color: var(--accent-gold);
+      background: var(--accent-gold);
+      color: var(--bg);
+    }
+
+    .step-nav-sep {
+      flex: 1;
+      height: 2px;
+      max-width: 2.5rem;
+      background: var(--border);
+    }
+
+    .step-detail-body {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3.5rem;
+      flex: 1;
+      align-items: center;
+      min-height: 0;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .step-detail-body.animated {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .step-detail-left {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .step-detail-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .step-detail-num {
+      width: 4.5rem;
+      height: 4.5rem;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--accent-gold);
+      border-radius: 10px;
+      color: var(--accent-gold);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .step-detail-label {
+      color: var(--accent-gold);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .step-detail-title {
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      color: var(--text);
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    .step-detail-desc {
+      font-size: clamp(1.25rem, 1.65vw, 1.55rem);
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    .step-detail-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .step-detail-card {
+      width: 100%;
+      padding: 2.2rem;
+      border-radius: 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+    }
+
+    .step-detail-card h4 {
+      margin-bottom: 1rem;
+      color: var(--accent-gold);
+    }
+
+    .step-detail-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .step-detail-card li {
+      position: relative;
+      padding-left: 1.4rem;
+      font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .step-detail-card li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-gold);
     }
 
     /* ============================================================
@@ -1074,7 +1255,8 @@
       display: inline-block;
       opacity: 0;
       transform: translateY(40px) rotateX(-90deg);
-      transform-origin: center bottom;    }
+      transform-origin: center bottom;
+    }
 
     .stagger-char.animated {
       animation: staggerPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
@@ -1560,44 +1742,134 @@
       </div>
     </div>
 
-    <!-- SLIDE 10: Key Steps -->
-    <div class="slide layout-key-steps">
+    <!-- SLIDE 11: Chapter overview -->
+    <div class="slide layout-key-steps" data-page="11">
       <div class="slide-header">
-        <h4>关键步骤</h4>
-        <span class="tag">执行路径</span>
+        <h4>五步流程</h4>
+        <span class="tag">总览</span>
       </div>
       <div class="slide-content">
-        <h2>从目标到结果的四个关键步骤</h2>
+        <h2>Hyperframes 视频生产的五步路径</h2>
         <div class="key-steps">
           <div class="key-step">
-            <div class="key-step-number">01</div>
+            <div class="key-step-number">1</div>
             <div class="key-step-label">第一步</div>
-            <h3>明确目标</h3>
-            <p>定义最终成果、判断标准与核心约束。</p>
+            <h3>写文案</h3>
+            <p>确定每段讲什么，文案是整条视频的骨架。</p>
           </div>
           <div class="key-step">
-            <div class="key-step-number">02</div>
+            <div class="key-step-number">2</div>
             <div class="key-step-label">第二步</div>
-            <h3>拆解任务</h3>
-            <p>将目标拆分为可执行、可追踪的关键任务。</p>
+            <h3>生成音频</h3>
+            <p>录音或 AI 配音，清理气口和停顿。</p>
           </div>
           <div class="key-step">
-            <div class="key-step-number">03</div>
+            <div class="key-step-number">3</div>
             <div class="key-step-label">第三步</div>
-            <h3>执行推进</h3>
-            <p>按优先级推进任务，并及时处理关键阻塞。</p>
+            <h3>导出 SRT</h3>
+            <p>用字幕时间戳连接声音和画面。</p>
           </div>
           <div class="key-step">
-            <div class="key-step-number">04</div>
+            <div class="key-step-number">4</div>
             <div class="key-step-label">第四步</div>
-            <h3>复盘交付</h3>
-            <p>验证结果、沉淀经验并完成最终交付。</p>
+            <h3>生成 HTML</h3>
+            <p>每句话对应画面，时间轴全部绑定。</p>
+          </div>
+          <div class="key-step">
+            <div class="key-step-number">5</div>
+            <div class="key-step-label">第五步</div>
+            <h3>渲染 MP4</h3>
+            <p>用 Hyperframes 输出视频，可局部返工。</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SLIDE 11: Closing -->
+    <!-- SLIDE 11.1: Step Detail -->
+    <div class="slide layout-step-detail" data-page="11.1">
+      <div class="slide-header">
+        <h4>五步流程</h4>
+        <span class="tag">详细拆解</span>
+      </div>
+      <div class="slide-content">
+        <div class="step-nav">
+          <div class="step-nav-item active"><span class="num">1</span>写文案</div>
+          <div class="step-nav-sep"></div>
+          <div class="step-nav-item"><span class="num">2</span>生成音频</div>
+          <div class="step-nav-sep"></div>
+          <div class="step-nav-item"><span class="num">3</span>导出字幕</div>
+          <div class="step-nav-sep"></div>
+          <div class="step-nav-item"><span class="num">4</span>生成 HTML</div>
+          <div class="step-nav-sep"></div>
+          <div class="step-nav-item"><span class="num">5</span>渲染 MP4</div>
+        </div>
+        <h2>第一步：写文案</h2>
+        <div class="step-detail-body">
+          <div class="step-detail-left">
+            <div class="step-detail-meta">
+              <div class="step-detail-num">1</div>
+              <div class="step-detail-label">STEP ONE</div>
+            </div>
+            <div class="step-detail-title">确定每段讲什么，文案是视频的骨架</div>
+            <div class="step-detail-desc">自己写或者让 AI 列大纲都行。重点是结构清晰、口语化，每个段落对应一个画面，后续所有步骤都围绕文案展开。</div>
+          </div>
+          <div class="step-detail-right">
+            <div class="step-detail-card">
+              <h4>关键原则</h4>
+              <ul>
+                <li>每段只讲一个点</li>
+                <li>用口语化短句，方便 TTS 朗读</li>
+                <li>提前标注需要图表/数字的位置</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11.2: Step Detail -->
+    <div class="slide layout-step-detail" data-page="11.2">
+      <div class="slide-header">
+        <h4>五步流程</h4>
+        <span class="tag">详细拆解</span>
+      </div>
+      <div class="slide-content">
+        <div class="step-nav">
+          <div class="step-nav-item"><span class="num">1</span>写文案</div>
+          <div class="step-nav-sep"></div>
+          <div class="step-nav-item active"><span class="num">2</span>生成音频</div>
+          <div class="step-nav-sep"></div>
+          <div class="step-nav-item"><span class="num">3</span>导出字幕</div>
+          <div class="step-nav-sep"></div>
+          <div class="step-nav-item"><span class="num">4</span>生成 HTML</div>
+          <div class="step-nav-sep"></div>
+          <div class="step-nav-item"><span class="num">5</span>渲染 MP4</div>
+        </div>
+        <h2>第二步：生成音频</h2>
+        <div class="step-detail-body">
+          <div class="step-detail-left">
+            <div class="step-detail-meta">
+              <div class="step-detail-num">2</div>
+              <div class="step-detail-label">STEP TWO</div>
+            </div>
+            <div class="step-detail-title">自己录或 AI 配音，最终要干净的音频文件</div>
+            <div class="step-detail-desc">ChatTTS 适合对话式场景，能控制笑声、停顿；IndexTTS 支持零样本音色克隆和标点断句，做视频配音很好用。</div>
+          </div>
+          <div class="step-detail-right">
+            <div class="step-detail-card">
+              <h4>工具选择</h4>
+              <ul>
+                <li>ChatTTS：对话感强、副语言特征可控</li>
+                <li>IndexTTS：音色克隆、标点精准断句</li>
+                <li>用剪映剪掉气口和停顿，得到干净文件</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13: Closing -->
     <div class="slide layout-closing">
       <h1 class="stagger-title">感谢观看</h1>
       <p class="closing-sub">如需深入讨论这些发现，请联系研究团队。</p>
@@ -1607,7 +1879,7 @@
   </div>
 
   <!-- Navigation -->
-  <div class="slide-counter"><span id="current">1</span> / <span id="total">11</span></div>
+  <div class="slide-counter"><span id="current">1</span><span id="counterSep"> / </span><span id="total">13</span></div>
   <div class="keyboard-hint">使用方向键翻页</div>
   <div class="progress-bar" id="progress"></div>
   <div class="nav-controls">
@@ -1629,6 +1901,7 @@
     const slides = document.querySelectorAll('.slide');
     const currentEl = document.getElementById('current');
     const totalEl = document.getElementById('total');
+    const counterSep = document.getElementById('counterSep');
     const progressEl = document.getElementById('progress');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
@@ -1764,8 +2037,10 @@
     }
 
     function runClosingStagger(slide) {
-      const title = slide.querySelector('.stagger-title');      if (!title) return;
-      const text = title.textContent.trim();      title.innerHTML = text.split('').map(function (ch, i) {
+      const title = slide.querySelector('.stagger-title');
+      if (!title) return;
+      const text = title.textContent.trim();
+      title.innerHTML = text.split('').map(function (ch, i) {
         return '<span class="stagger-char" style="animation-delay:' + (i * 0.08) + 's">' + (ch === ' ' ? '&nbsp;' : ch) + '</span>';
       }).join('');
       title.querySelectorAll('.stagger-char').forEach(function (char) {
@@ -1773,6 +2048,15 @@
           char.classList.add('animated');
         });
       });
+    }
+
+    function runStepDetailAnimation(slide) {
+      if (!slide.classList.contains('layout-step-detail')) return;
+      const body = slide.querySelector('.step-detail-body');
+      if (!body) return;
+      body.classList.remove('animated');
+      body.offsetHeight;
+      body.classList.add('animated');
     }
 
     function updateSlide() {
@@ -1784,7 +2068,16 @@
           slide.classList.add('prev');
         }
       });
-      currentEl.textContent = current + 1;
+      const pageCode = slides[current].dataset.page;
+      if (pageCode) {
+        currentEl.textContent = pageCode;
+        counterSep.textContent = '';
+        totalEl.textContent = '';
+      } else {
+        currentEl.textContent = current + 1;
+        counterSep.textContent = ' / ';
+        totalEl.textContent = total;
+      }
       progressEl.style.width = ((current + 1) / total * 100) + '%';
       prevBtn.disabled = current === 0;
       nextBtn.disabled = current === total - 1;
@@ -1794,6 +2087,7 @@
         runCounters(activeSlide);
         runAgendaStagger(activeSlide);
         runKeyStepsAnimation(activeSlide);
+        runStepDetailAnimation(activeSlide);
         renderSalesChart(activeSlide);
         runClosingStagger(activeSlide);
         lastAnimatedSlide = activeSlide;

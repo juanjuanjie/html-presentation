@@ -794,6 +794,92 @@
       line-height: 1.55;
     }
 
+    .chapter-flow-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.4fr;
+      gap: 3rem;
+      align-items: stretch;
+      min-height: 0;
+    }
+
+    .chapter-overview {
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .chapter-code {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(4.8rem, 8vw, 8rem);
+      line-height: 0.9;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.06em;
+    }
+
+    .chapter-overview h3 {
+      margin-top: 1.5rem;
+      color: var(--text);
+      font-size: clamp(1.8rem, 2.7vw, 2.5rem);
+    }
+
+    .chapter-overview p {
+      margin-top: 1.2rem;
+      font-size: clamp(1.1rem, 1.45vw, 1.35rem);
+    }
+
+    .chapter-rule {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.7rem;
+      margin-top: 2rem;
+    }
+
+    .chapter-rule span {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--primary);
+      background: var(--bg);
+      padding: 0.5rem 0.7rem;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .chapter-step-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      align-content: stretch;
+    }
+
+    .chapter-step-list .timeline-step {
+      max-width: none;
+      min-height: 0;
+      padding: 1.05rem 1.15rem;
+      gap: 1rem;
+    }
+
+    .chapter-step-list .timeline-step:not(:last-child)::after {
+      display: none;
+    }
+
+    .chapter-step-list .timeline-step:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .chapter-step-list .step-circle {
+      width: 3.6rem;
+      height: 3.6rem;
+      border-radius: 14px;
+      font-size: 1rem;
+    }
+
     /* ============================================================
        LAYOUT 9: Detailed 分析 (bullets with sub-items)
        ============================================================ */
@@ -1293,41 +1379,62 @@
       <p class="quote-source"><strong>战略咨询 高级合伙人</strong> &mdash; 2026 全球投资论坛</p>
     </div>
 
-    <!-- SLIDE 9: Timeline -->
+    <!-- SLIDE 9: Chapter Flow -->
     <div class="slide layout-timeline">
       <div class="slide-header">
-        <h4>战略路线图</h4>
-        <span class="tag">流程</span>
+        <h4>章节结构</h4>
+        <span class="tag">总分总 / 11.x</span>
       </div>
       <div class="slide-content">
-        <h2>应对当前周期的建议路径</h2>
-        <div class="timeline-track">
-          <div class="timeline-step">
-            <div class="step-circle">1</div>
-            <div class="step-body">
-              <div class="step-title">评估韧性</div>
-              <div class="step-desc">在压力情景下评估资产负债表实力与运营缓冲。</div>
+        <h2>先给总览，再拆步骤，最后回收结论</h2>
+        <div class="chapter-flow-grid">
+          <div class="chapter-overview">
+            <div>
+              <div class="chapter-code">11</div>
+              <h3>Hyperframes 五步工作流</h3>
+              <p>总览页先说明这一章要解决什么问题：用原生 HTML 降低知识视频生成门槛，并把声音、字幕和画面绑定成稳定流程。</p>
+            </div>
+            <div class="chapter-rule">
+              <span>总览</span>
+              <span>分步</span>
+              <span>收束</span>
             </div>
           </div>
-          <div class="timeline-step">
-            <div class="step-circle">2</div>
-            <div class="step-body">
-              <div class="step-title">保护核心收入</div>
-              <div class="step-desc">在需求稳定的细分市场中捍卫市场地位与定价权。</div>
+          <div class="chapter-step-list">
+            <div class="timeline-step">
+              <div class="step-circle">11.1</div>
+              <div class="step-body">
+                <div class="step-title">写文案</div>
+                <div class="step-desc">确定每段讲什么，文案是整条视频的骨架。</div>
+              </div>
             </div>
-          </div>
-          <div class="timeline-step">
-            <div class="step-circle">3</div>
-            <div class="step-body">
-              <div class="step-title">优化成本</div>
-              <div class="step-desc">精简管理费用，同时保留高回报投资能力。</div>
+            <div class="timeline-step">
+              <div class="step-circle">11.2</div>
+              <div class="step-body">
+                <div class="step-title">生成音频</div>
+                <div class="step-desc">录音或 AI 配音，清理气口和停顿，得到干净声音轨。</div>
+              </div>
             </div>
-          </div>
-          <div class="timeline-step">
-            <div class="step-circle">4</div>
-            <div class="step-body">
-              <div class="step-title">选择性增长</div>
-              <div class="step-desc">将资本投向具备清晰盈利路径的机会。</div>
+            <div class="timeline-step">
+              <div class="step-circle">11.3</div>
+              <div class="step-body">
+                <div class="step-title">导出 SRT</div>
+                <div class="step-desc">用毫秒级时间戳，把口播和画面节奏连接起来。</div>
+              </div>
+            </div>
+            <div class="timeline-step">
+              <div class="step-circle">11.4</div>
+              <div class="step-body">
+                <div class="step-title">AI 生成 HTML</div>
+                <div class="step-desc">把每句话变成对应画面，并沿用同一套视觉模板。</div>
+              </div>
+            </div>
+            <div class="timeline-step">
+              <div class="step-circle">11.5</div>
+              <div class="step-body">
+                <div class="step-title">渲染 MP4</div>
+                <div class="step-desc">用 Hyperframes 输出视频；不满意的分镜可以局部返工。</div>
+              </div>
             </div>
           </div>
         </div>
