@@ -298,9 +298,33 @@
     }
 
     .layout-cover .cover-content {
-      width: 100%;
-      max-width: 1100px;
+      width: 88%;
+      max-width: 1200px;
+      margin: 0 auto;
       text-align: left;
+    }
+
+    .layout-cover .cover-title-wrap {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      gap: 2vw;
+      margin-bottom: 44px;
+    }
+
+    .layout-cover .cover-titles {
+      flex: 0 1 auto;
+    }
+
+    .layout-cover .cover-character {
+      flex: 0 0 auto;
+      width: auto;
+      height: auto;
+      max-height: 36vh;
+      max-width: 18vw;
+      object-fit: contain;
+      transform: translateY(-1.5vh);
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
     }
 
     .layout-cover .cover-tag {
@@ -1233,6 +1257,148 @@
     }
 
     /* ============================================================
+       LAYOUT 11: Comparison / 对比
+       ============================================================ */
+    .layout-comparison {
+      justify-content: center;
+      align-items: stretch;
+      background: var(--bg-cover);
+    }
+
+    .layout-comparison .slide-content {
+      display: flex;
+      flex-direction: column;
+      gap: 3vh;
+    }
+
+    .layout-comparison .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 2.5vw;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    .layout-comparison .comparison-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 3vw;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .layout-comparison .comparison-card.a-side {
+      border-top: 4px solid var(--text-muted);
+    }
+
+    .layout-comparison .comparison-card.b-side {
+      border-top: 4px solid var(--accent-gold);
+    }
+
+    .layout-comparison .comparison-title {
+      font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .layout-comparison .comparison-subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 0.4rem;
+    }
+
+    .layout-comparison .comparison-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .layout-comparison .comparison-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: clamp(1.1rem, 1.55vw, 1.35rem);
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .layout-comparison .list-marker {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      margin-top: 2px;
+    }
+
+    .layout-comparison .list-marker.plus {
+      background: rgba(153, 232, 133, 0.12);
+      color: #99e885;
+    }
+
+    .layout-comparison .list-marker.minus {
+      background: rgba(255, 196, 2, 0.12);
+      color: var(--accent-gold);
+    }
+
+    .layout-comparison .vs-badge {
+      align-self: center;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .layout-comparison .comparison-verdict {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.6rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .layout-comparison .verdict-label {
+      color: var(--primary);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      flex-shrink: 0;
+      font-size: 0.95rem;
+    }
+
+    .layout-comparison .verdict-text {
+      color: var(--text-muted);
+      font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
        LAYOUT 11: Closing
        ============================================================ */
     .layout-closing {
@@ -1349,12 +1515,17 @@
           2026
         </div>
 
-        <h1 class="cover-title-row">
-          <span class="cover-gray cover-strike">PPT </span><span class="cover-white">正在被</span>
-        </h1>
-        <h1 class="cover-title-row-2">
-          <span class="cover-yellow">HTML </span><span class="cover-white">淘汰</span>
-        </h1>
+        <div class="cover-title-wrap">
+          <div class="cover-titles">
+            <h1 class="cover-title-row">
+              <span class="cover-gray cover-strike">PPT </span><span class="cover-purple">正在被</span>
+            </h1>
+            <h1 class="cover-title-row-2">
+              <span class="cover-yellow">HTML </span><span class="cover-purple">淘汰</span>
+            </h1>
+          </div>
+          <img class="cover-character" src="covers/classic-character.png" alt="卡通人物">
+        </div>
 
         <p class="cover-subtitle">从幻灯片到交互式素材 —— 内容创作的范式转移</p>
         <p class="cover-bottom-line"><span class="cover-yellow">AI</span> 让 HTML 门槛降到 <span class="cover-yellow">零</span></p>
@@ -1869,7 +2040,49 @@
       </div>
     </div>
 
-    <!-- SLIDE 13: Closing -->
+    <!-- SLIDE 13: Comparison / 对比 -->
+    <div class="slide layout-comparison">
+      <div class="slide-header">
+        <h4>方案对比</h4>
+        <span class="tag">VS</span>
+      </div>
+      <div class="slide-content">
+        <h2>传统 PPT 与 HTML 演示的<span class="highlight-mark">关键差异</span></h2>
+        <div class="comparison-grid">
+          <div class="comparison-card a-side">
+            <div>
+              <div class="comparison-title">传统 PPT</div>
+              <div class="comparison-subtitle">线性演示工具</div>
+            </div>
+            <ul class="comparison-list">
+              <li><span class="list-marker plus">+</span><span>制作门槛低，团队熟悉</span></li>
+              <li><span class="list-marker plus">+</span><span>适合面对面汇报</span></li>
+              <li><span class="list-marker minus">−</span><span>动画能力弱，难以精确卡点</span></li>
+              <li><span class="list-marker minus">−</span><span>导出视频后难以二次编辑</span></li>
+            </ul>
+          </div>
+          <div class="vs-badge">VS</div>
+          <div class="comparison-card b-side">
+            <div>
+              <div class="comparison-title">HTML 演示</div>
+              <div class="comparison-subtitle">AI 原生视频工作流</div>
+            </div>
+            <ul class="comparison-list">
+              <li><span class="list-marker plus">+</span><span>动画、图表、交互完全可控</span></li>
+              <li><span class="list-marker plus">+</span><span>AI 可直接生成并迭代</span></li>
+              <li><span class="list-marker minus">−</span><span>需要基础 HTML/CSS 概念</span></li>
+              <li><span class="list-marker minus">−</span><span>首次搭建工具链较花时间</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="comparison-verdict">
+          <div class="verdict-label">结论</div>
+          <div class="verdict-text">知识讲解类视频需要确定性渲染，HTML + Hyperframes 是更适配 AI 工作流的选择。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 14: Closing -->
     <div class="slide layout-closing">
       <h1 class="stagger-title">感谢观看</h1>
       <p class="closing-sub">如需深入讨论这些发现，请联系研究团队。</p>
@@ -1879,7 +2092,7 @@
   </div>
 
   <!-- Navigation -->
-  <div class="slide-counter"><span id="current">1</span><span id="counterSep"> / </span><span id="total">13</span></div>
+  <div class="slide-counter"><span id="current">1</span><span id="counterSep"> / </span><span id="total">14</span></div>
   <div class="keyboard-hint">使用方向键翻页</div>
   <div class="progress-bar" id="progress"></div>
   <div class="nav-controls">

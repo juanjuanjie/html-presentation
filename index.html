@@ -7,6 +7,14 @@
   <meta name="description" content="HTML Presentation 的视频友好模板目录，展示各个 HTML 幻灯片模板的真实封面截图。">
   <link rel="icon" type="image/png" href="assets/avatar.png">
   <link rel="apple-touch-icon" href="assets/avatar.png">
+  <script>
+    try {
+      const savedAppearance = localStorage.getItem('hp-appearance');
+      document.documentElement.dataset.appearance = savedAppearance === 'light' ? 'light' : 'dark';
+    } catch (_) {
+      document.documentElement.dataset.appearance = 'dark';
+    }
+  </script>
   <style>
     :root {
       --bg: #fafafa;
@@ -64,14 +72,12 @@
     .brand-mark {
       width: 34px;
       height: 34px;
-      display: grid;
-      place-items: center;
+      display: block;
       border: 2px solid #111;
       border-radius: 7px;
       background: #fff;
       box-shadow: 4px 4px 0 #f7cb46;
-      font-size: 13px;
-      font-weight: 900;
+      object-fit: cover;
     }
     .nav-links {
       display: flex;
@@ -103,10 +109,7 @@
       padding: 34px 24px 58px;
     }
     .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
-      gap: 24px;
-      align-items: end;
+      display: block;
       margin-bottom: 24px;
     }
     .eyebrow {
@@ -157,26 +160,6 @@
       background: #111;
       display: block;
     }
-    .hero-panel {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fff;
-      box-shadow: var(--shadow);
-      padding: 16px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-    .stat {
-      min-height: 78px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      padding: 12px;
-      background: #fcfcfc;
-    }
-    .stat strong { display: block; margin-bottom: 6px; font-size: 22px; line-height: 1; }
-    .stat span { color: var(--muted); font-size: 13px; line-height: 1.35; }
-
     .palette .swatch.active {
       box-shadow: 0 0 0 2px #fff, 0 0 0 4px #111;
     }
@@ -234,6 +217,7 @@
     }
     .preview {
       display: block;
+      aspect-ratio: 16 / 9;
       border-bottom: 1px solid var(--line);
       background: #f7f7f2;
       overflow: hidden;
@@ -241,6 +225,7 @@
     .preview.dark { background: #111; }
     .preview img {
       width: 100%;
+      height: 100%;
       aspect-ratio: 16 / 9;
       display: block;
       object-fit: cover;
@@ -352,6 +337,11 @@
       border-color: #a1a1aa;
       background: #fafafa;
     }
+    .palette-theme.active {
+      border-color: #2563eb;
+      background: #eff6ff;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+    }
     .palette-theme .swatch {
       width: 22px;
       height: 22px;
@@ -407,10 +397,11 @@
     .lab-section {
       margin: 56px calc(50% - 50vw) 0;
       padding: 52px max(24px, calc((100vw - 1180px) / 2)) 68px;
-      background: #0a0a0f;
-      color: #f5f5f7;
-      border-top: 1px solid #2a2a3a;
-      border-bottom: 1px solid #2a2a3a;
+      background:
+        linear-gradient(180deg, #ffffff 0%, #f7f8fb 100%);
+      color: #111827;
+      border-top: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
     }
     .lab-head {
       display: grid;
@@ -422,7 +413,7 @@
     .lab-kicker {
       width: fit-content;
       margin-bottom: 12px;
-      color: #a8ff3e;
+      color: #8a6500;
       font-size: 13px;
       font-weight: 900;
       letter-spacing: 0.08em;
@@ -438,7 +429,7 @@
     .lab-copy {
       max-width: 760px;
       margin: 16px 0 0;
-      color: #a1a1aa;
+      color: #6b7280;
       font-size: 16px;
       line-height: 1.75;
     }
@@ -452,19 +443,20 @@
       min-height: 76px;
       display: grid;
       align-content: center;
-      border: 1px solid #2a2a3a;
+      border: 1px solid #e5e7eb;
       border-radius: 8px;
-      background: #12121a;
+      background: #ffffff;
       padding: 12px;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
     }
     .lab-stat strong {
-      color: #a8ff3e;
+      color: #8a6500;
       font-size: 24px;
       line-height: 1;
     }
     .lab-stat span {
       margin-top: 6px;
-      color: #8a8a9a;
+      color: #6b7280;
       font-size: 12px;
       font-weight: 700;
     }
@@ -475,22 +467,23 @@
     }
     .lab-card {
       overflow: hidden;
-      border: 1px solid #2a2a3a;
+      border: 1px solid #e5e7eb;
       border-radius: 8px;
-      background: #181822;
+      background: #ffffff;
       transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.06);
     }
     .lab-card:hover {
       transform: translateY(-3px);
-      border-color: rgba(168, 255, 62, 0.36);
-      box-shadow: 0 18px 48px rgba(0,0,0,0.32), 0 0 34px rgba(168, 255, 62, 0.12);
+      border-color: rgba(247, 203, 70, 0.72);
+      box-shadow: 0 18px 48px rgba(15, 23, 42, 0.11);
     }
     .lab-preview {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
-      background: #000;
-      border-bottom: 1px solid #2a2a3a;
+      background: #f8fafc;
+      border-bottom: 1px solid #e5e7eb;
       overflow: hidden;
     }
     .lab-preview iframe {
@@ -505,12 +498,14 @@
       left: 10px;
       padding: 5px 10px;
       border-radius: 6px;
-      background: rgba(0,0,0,0.66);
-      color: #fff;
+      background: rgba(255,255,255,0.86);
+      color: #334155;
       font-size: 11px;
       font-weight: 850;
       letter-spacing: 0.04em;
       pointer-events: none;
+      border: 1px solid rgba(226, 232, 240, 0.92);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
     }
     .lab-card-body {
       padding: 18px;
@@ -540,9 +535,9 @@
       font-weight: 900;
       white-space: nowrap;
     }
-    .lab-badge.keep { background: rgba(46, 213, 115, 0.12); color: #2ed573; border: 1px solid rgba(46, 213, 115, 0.25); }
-    .lab-badge.maybe { background: rgba(255, 159, 67, 0.12); color: #ff9f43; border: 1px solid rgba(255, 159, 67, 0.25); }
-    .lab-badge.skip { background: rgba(138, 138, 154, 0.12); color: #8a8a9a; border: 1px solid rgba(138, 138, 154, 0.25); }
+    .lab-badge.keep { background: rgba(247, 203, 70, 0.22); color: #6b4d00; border: 1px solid rgba(196, 145, 0, 0.3); }
+    .lab-badge.maybe { background: rgba(245, 158, 11, 0.12); color: #b45309; border: 1px solid rgba(245, 158, 11, 0.24); }
+    .lab-badge.skip { background: rgba(100, 116, 139, 0.11); color: #475569; border: 1px solid rgba(100, 116, 139, 0.22); }
     .lab-meta {
       display: grid;
       gap: 9px;
@@ -554,11 +549,11 @@
       gap: 10px;
     }
     .lab-meta-label {
-      color: #8a8a9a;
+      color: #64748b;
       font-weight: 800;
     }
     .lab-meta-value {
-      color: #f5f5f7;
+      color: #334155;
     }
     .lab-tech-tags {
       display: flex;
@@ -568,8 +563,8 @@
     .lab-tech-tag {
       padding: 3px 8px;
       border-radius: 5px;
-      background: rgba(168,255,62,0.08);
-      color: #a8ff3e;
+      background: rgba(247, 203, 70, 0.2);
+      color: #6b4d00;
       font-size: 11px;
       font-weight: 750;
     }
@@ -1109,17 +1104,86 @@
       .custom-palette .btn { grid-column: 1 / -1; width: 100%; }
     }
   </style>
+  <style>
+    :root { color-scheme: light; }
+    :root[data-appearance="dark"] {
+      color-scheme: dark;
+      --bg: #0a0a0f;
+      --fg: #f5f5f7;
+      --muted: #a0a0af;
+      --card: #141419;
+      --line: #303038;
+      --soft: #202027;
+      --ink: #f5f5f7;
+      --shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .appearance-switch {
+      display: inline-flex;
+      padding: 3px;
+      gap: 2px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+    }
+    .appearance-switch button {
+      min-height: 32px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .appearance-switch button[aria-pressed="true"] { background: var(--card); color: var(--fg); box-shadow: var(--shadow); }
+    .appearance-switch button:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+    [data-appearance="dark"] .site-header { background: rgba(10,10,15,0.94); border-color: var(--line); }
+    [data-appearance="dark"] :is(.search,.segmented,.doc-btn,.palette-theme,.btn,.theme-option,.custom-palette,.custom-field input,.md-modal__dialog,.preview-modal__dialog,.md-modal__header,.preview-modal__header) { background: var(--card); color: var(--fg); border-color: var(--line); }
+    [data-appearance="dark"] :is(.nav-link,.author-line,.description,.palette-label,.segment,.cover-name,.theme-option__name,.md-modal__close,.preview-modal__close,.custom-field label,.md-content,.md-content strong,.md-content th,.md-error__msg) { color: var(--fg); }
+    [data-appearance="dark"] .author-line { background: var(--card); border-color: #454550; box-shadow: 4px 4px 0 #a8ff3e; }
+    [data-appearance="dark"] :is(.hero p,.count,.credits,.footer-inner,.md-modal__crumbs,.md-error__hint) { color: #b8b8c4; }
+    [data-appearance="dark"] .search::placeholder { color: #9898a6; opacity: 1; }
+    [data-appearance="dark"] :is(.md-content code,.md-content details,.md-content kbd,.md-content thead) { background: var(--soft); color: var(--fg); border-color: var(--line); }
+    [data-appearance="dark"] :is(.md-content a,.credits a,.footer-inner a) { color: #c8ff87; }
+    [data-appearance="dark"] :is(.nav-link:hover,.doc-btn:hover,.palette-theme:hover,.theme-option:hover,.cover-item:hover) { background: var(--soft); }
+    [data-appearance="dark"] .palette-theme.active { background: rgba(168,255,62,0.09); border-color: #a8ff3e; box-shadow: 0 0 0 2px rgba(168,255,62,0.12); }
+    [data-appearance="dark"] :is(.nav-link.primary,.segment.active,.btn.primary) { background: #a8ff3e; color: #0a0a0f; border-color: #a8ff3e; box-shadow: none; }
+    [data-appearance="dark"] .brand-mark { background: var(--card); color: var(--fg); border-color: var(--fg); box-shadow: 4px 4px 0 #a8ff3e; }
+    [data-appearance="dark"] :is(.badge,.chip,.template-card .cover-item,.template-card .cover-thumb) { background: var(--soft); color: var(--fg); border-color: var(--line); }
+    [data-appearance="dark"] .lab-section { background: #0a0a0f; color: var(--fg); border-color: var(--line); }
+    [data-appearance="dark"] :is(.lab-card,.lab-stat) { background: var(--card); border-color: var(--line); box-shadow: var(--shadow); }
+    [data-appearance="dark"] .lab-preview { background: #0a0a0f; border-color: var(--line); }
+    [data-appearance="dark"] .lab-preview-label { background: rgba(10,10,15,0.85); color: var(--fg); border-color: var(--line); }
+    [data-appearance="dark"] :is(.lab-kicker,.lab-stat strong) { color: #a8ff3e; }
+    [data-appearance="dark"] :is(.lab-copy,.lab-stat span,.lab-meta-label,.template-card .cover-style,.theme-option__desc) { color: var(--muted); }
+    [data-appearance="dark"] .lab-meta-value { color: #d4d4dc; }
+    [data-appearance="dark"] :is(.lab-badge.keep,.lab-tech-tag) { background: rgba(168,255,62,0.1); color: #a8ff3e; border-color: rgba(168,255,62,0.25); }
+    [data-appearance="dark"] .lab-badge.skip { color: #c5c5cf; }
+    [data-appearance="dark"] .lab-badge.maybe { color: #fbbf24; }
+    [data-appearance="dark"] .lab-card:hover { border-color: #668c38; }
+    @media (max-width: 640px) {
+      .nav { flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; gap: 12px; }
+      .nav-links { justify-content: flex-start; }
+      .lab-grid { grid-template-columns: minmax(0,1fr); }
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
     <nav class="nav" aria-label="主导航">
       <a class="brand" href="#top" aria-label="HTML Presentation 首页">
-        <span class="brand-mark">HP</span>
+        <img class="brand-mark" src="assets/avatar.png" alt="卷卷姐">
         <span>HTML Presentation</span>
       </a>
       <div class="nav-links">
+        <div class="appearance-switch" role="group" aria-label="页面外观">
+          <button type="button" data-appearance="light" aria-pressed="true">浅色模式</button>
+          <button type="button" data-appearance="dark" aria-pressed="false">暗色模式</button>
+        </div>
         <a class="nav-link" href="#templates">模板</a>
-        <a class="nav-link" href="#component-lab">组件实验室</a>
+        <a class="nav-link" href="#motion">动效</a>
         <a class="nav-link" href="#" data-md="README.md" data-title="README" data-crumb="README.md" data-type="markdown">README</a>
         <a class="nav-link" href="#" data-md="themes/index.json" data-title="模板索引" data-crumb="themes/index.json" data-type="json">模板索引</a>
         <a class="nav-link primary" href="https://www.bilibili.com/video/BV1g5j46iE5C/?spm_id_from=333.1387.homepage.video_card.click&vd_source=a44f29c4f18178d5fbf00c97794d0f32" target="_blank" rel="noreferrer">视频教程</a>
@@ -1133,12 +1197,6 @@
         <h1 id="hero-title">HTML 视频分镜模板</h1>
         <p>这里汇总了项目里的可用主题。每张卡片都使用真实模板封面截图，可以直接打开预览，也可以查看对应的设计文档。</p>
         <a class="author-line" href="https://space.bilibili.com/229150291" target="_blank" rel="noreferrer" aria-label="访问卷卷姐 juan 的 B 站空间"><img class="author-avatar" src="assets/avatar.png" alt="卷卷姐"><span>卷卷姐 juan</span></a>
-      </div>
-      <div class="hero-panel" aria-label="项目统计">
-        <div class="stat"><strong>3</strong><span>可用模板</span></div>
-        <div class="stat"><strong>7</strong><span>预设配色</span></div>
-        <div class="stat"><strong>16:9</strong><span>真实封面截图</span></div>
-        <div class="stat"><strong>Pages</strong><span>自动部署</span></div>
       </div>
     </section>
 
@@ -1154,14 +1212,14 @@
       </div>
       <div id="template-grid" class="grid"></div>
     </section>
-    <section id="component-lab" class="lab-section" aria-labelledby="lab-title">
+    <section id="motion" class="lab-section" aria-labelledby="lab-title">
       <div class="lab-head">
         <div>
-          <div class="lab-kicker">组件实验室</div>
-          <h2 id="lab-title" class="lab-title">动效组件库</h2>
+          <div class="lab-kicker">动效</div>
+          <h2 id="lab-title" class="lab-title">动效</h2>
           <p class="lab-copy">12 个可复用演示组件。</p>
         </div>
-        <div class="lab-stats" aria-label="组件实验室统计">
+        <div class="lab-stats" aria-label="动效统计">
           <div class="lab-stat"><strong>12</strong><span>组件原型</span></div>
           <div class="lab-stat"><strong>7</strong><span>第三方库</span></div>
           <div class="lab-stat"><strong>8</strong><span>建议沉淀</span></div>
@@ -1338,15 +1396,15 @@
         slug: 'apple-bento-grid',
         name: 'Apple Bento Grid',
         scheme: 'light',
-        image: 'assets/previews/apple-bento-grid.png?v=1',
+        image: 'assets/previews/apple-bento-grid.png?v=2',
         tagline: '苹果便当盒设计风格',
         palette: ['#FFFFFF', '#F8F8FA', '#DEDEE2', '#96979C', '#494A50', '#111113'],
         tags: ['bento grid', 'product', 'apple style', 'modular'],
         template: 'themes/apple-bento-grid/template.html',
         docs: 'themes/apple-bento-grid/design.md',
         themes: [
-          { key: 'classic', name: '黑白灰便当', scheme: 'light', desc: '透明浅灰卡 + 黑色核心卡 + 分层中性灰', image: 'assets/previews/apple-bento-grid.png?v=1', swatch: 'linear-gradient(135deg, #FFFFFF 0 38%, #F8F8FA 38% 56%, #DEDEE2 56% 68%, #96979C 68% 79%, #494A50 79% 90%, #111113 90%)', vars: { bg: '#FFFFFF', surface: '#F8F8FA', 'surface-strong': '#F1F1F3', text: '#202124', muted: '#6E6E73', line: '#DEDEE2', dark: '#111113', white: '#FFFFFF', blue: '#303136', green: '#66676C', orange: '#96979C', purple: '#494A50', lavender: '#F3F3F5' } },
-          { key: 'dark-green', name: '暗绿便当', scheme: 'dark', desc: '深黑底 + 荧光绿强调，贴近组件实验室视觉', image: 'assets/previews/apple-bento-grid-dark-green.png?v=1', swatch: 'linear-gradient(135deg, #0A0A0F 0 38%, #12121A 38% 56%, #181822 56% 72%, #2A2A3A 72% 86%, #A8FF3E 86%)', vars: { bg: '#0A0A0F', surface: '#12121A', 'surface-strong': '#181822', text: '#F5F5F7', muted: '#8A8A9A', line: '#2A2A3A', dark: '#000000', white: '#FFFFFF', blue: '#A8FF3E', green: '#2ED573', orange: '#FF9F43', purple: '#7EE02D', lavender: '#1F1F2D', shadow: '0 20px 60px rgba(0,0,0,0.48)', 'shadow-soft': '0 20px 54px rgba(0,0,0,0.36)' } }
+          { key: 'classic', name: '黑白灰便当', scheme: 'light', desc: '冷白编辑网格 + 黑色核心面板，克制清晰', image: 'assets/previews/apple-bento-grid.png?v=2', swatch: 'linear-gradient(135deg, #F5F5F7 0 38%, #FFFFFF 38% 60%, #D8D9DE 60% 78%, #101114 78%)', vars: { bg: '#F5F5F7', surface: '#FFFFFF', 'surface-strong': '#EDEDF0', text: '#101114', muted: '#686970', line: '#D8D9DE', dark: '#101114', white: '#FFFFFF', blue: '#1D1E22', green: '#505158', orange: '#85868D', purple: '#35363B', lavender: '#E7E7EB' } },
+          { key: 'dark-green', name: '暗绿便当', scheme: 'dark', desc: '精密黑色网格 + 荧光绿信号，低泛光高对比', image: 'assets/previews/apple-bento-grid-dark-green.png?v=2', swatch: 'linear-gradient(135deg, #0A0A0F 0 45%, #12121A 45% 68%, #2A2A3A 68% 84%, #A8FF3E 84%)', vars: { bg: '#0A0A0F', surface: '#12121A', 'surface-strong': '#181822', text: '#F5F5F7', muted: '#A0A0AF', line: '#2A2A3A', dark: '#000000', white: '#FFFFFF', blue: '#A8FF3E', green: '#2ED573', orange: '#FF9F43', purple: '#7EE02D', lavender: '#1F1F2D', shadow: '0 16px 42px rgba(0,0,0,0.36)', 'shadow-soft': '0 8px 24px rgba(0,0,0,0.22)' } }
         ]
       }
     ];
@@ -1363,6 +1421,12 @@
         : [{ key: 'default', name: '默认配色', desc: '模板默认 CSS 配色', swatch: paletteSwatch(item.palette), vars: {} }];
     }
 
+    function getAppearanceTheme(item) {
+      const appearance = document.documentElement.dataset.appearance === 'dark' ? 'dark' : 'light';
+      const themes = getThemeList(item);
+      return themes.find((theme) => (theme.scheme || item.scheme) === appearance) || themes[0];
+    }
+
     function paletteSwatch(colors) {
       const list = (colors || []).slice(0, 5);
       if (!list.length) return '#ffffff';
@@ -1374,6 +1438,7 @@
     }
 
     function renderPaletteOptions(item) {
+      const appearanceTheme = getAppearanceTheme(item);
       return getThemeList(item).map((theme) => {
         const preview = theme.template || item.template;
         const swatch = theme.swatch || paletteSwatch(item.palette);
@@ -1381,7 +1446,8 @@
         const encodedVars = theme.vars && Object.keys(theme.vars).length
           ? encodeURIComponent(JSON.stringify(theme.vars))
           : '';
-        return "<button type=\"button\" class=\"palette-theme\""
+        const selected = theme.key === appearanceTheme.key;
+        return "<button type=\"button\" class=\"palette-theme" + (selected ? " active" : "") + "\""
           + " data-preview=\"" + preview + "\""
           + " data-slug=\"" + item.slug + "\""
           + " data-name=\"" + item.name + "\""
@@ -1389,6 +1455,7 @@
           + " data-preview-name=\"" + theme.name + "\""
           + " data-image=\"" + image + "\""
           + (encodedVars ? " data-vars=\"" + encodedVars + "\"" : "")
+          + " aria-pressed=\"" + selected + "\""
           + " aria-label=\"预览 " + item.name + " " + theme.name + "\">"
           + "<span class=\"swatch\" style=\"background:" + swatch + "\" data-color=\"" + theme.name + "\"></span>"
           + "<span>" + theme.name + "</span>"
@@ -1414,7 +1481,7 @@
           <div class="covers-list">
             ${covers.map((c) => `
               <a class="cover-item" href="${c.file}" target="_blank" rel="noreferrer" title="${c.name} · ${c.best_for || ''}">
-                <span class="cover-thumb"><img src="${c.preview}" alt="${c.name}" loading="lazy" onerror="this.src='assets/previews/${c.theme}.png?v=2'"></span>
+                <span class="cover-thumb"><img src="${c.preview}" alt="${c.name}" width="160" height="90" onerror="this.onerror=null;this.src='assets/previews/${c.theme}.png'"></span>
                 <span class="cover-info">
                   <span class="cover-name">${c.name.replace(/^[^·]+·\s*/, '')}</span>
                   <span class="cover-style">${c.style}</span>
@@ -1438,9 +1505,7 @@
 
       count.textContent = `${visible.length} 个模板`;
       grid.innerHTML = visible.map((item) => {
-        const matchedTheme = activeFilter !== 'all'
-          ? getThemeList(item).find((theme) => (theme.scheme || item.scheme) === activeFilter)
-          : null;
+        const matchedTheme = getAppearanceTheme(item);
         const displayImage = matchedTheme && matchedTheme.image ? matchedTheme.image : item.image;
         const displayTemplate = matchedTheme && matchedTheme.template ? matchedTheme.template : item.template;
         const displayVars = matchedTheme && matchedTheme.vars ? encodeURIComponent(JSON.stringify(matchedTheme.vars)) : '';
@@ -1448,7 +1513,7 @@
         return `
         <article class="template-card">
           <a class="preview ${item.scheme}" href="${displayHref}" target="_blank" rel="noreferrer" aria-label="预览 ${item.name}" data-default-image="${displayImage}" data-default-template="${displayTemplate}" data-default-vars="${displayVars}">
-            <img src="${displayImage}" alt="${item.name} 封面页截图" loading="lazy">
+            <img src="${displayImage}" alt="${item.name} 封面页截图" width="1920" height="1080" loading="eager" onerror="this.onerror=null;this.src='${item.image.split('?')[0]}'">
           </a>
           <div class="card-body">
             <div class="card-head">
@@ -2002,7 +2067,7 @@
       // 移到同一张卡片的其他配色按钮时不恢复，让 mouseover 处理下一张封面
       if (related && related.closest && related.closest('.palette-theme') && related.closest('.template-card') === card) return;
       const preview = card.querySelector('.preview');
-      if (preview) updateCardPreview(card, preview.dataset.defaultImage, preview.dataset.defaultTemplate, '');
+      if (preview) updateCardPreview(card, preview.dataset.defaultImage, preview.dataset.defaultTemplate, preview.dataset.defaultVars);
     });
 
     document.addEventListener('click', (e) => {
@@ -2056,6 +2121,13 @@
   })();
   </script>
   <script>
+    function getLabPalette() {
+      const dark = document.documentElement.dataset.appearance === 'dark';
+      return dark
+        ? { bg: '#0a0a0f', surface: '#12121a', soft: '#181822', tint: '#20202a', text: '#f5f5f7', muted: '#a0a0af', line: '#30303c', accent: '#a8ff3e', bright: '#7ee02d', onAccent: '#0a0a0f', rgb: '168,255,62', bgRgb: '10,10,15', mesh: '0xa8ff3e', light: '0xa8ff3e' }
+        : { bg: '#fafafa', surface: '#ffffff', soft: '#f5f1e6', tint: '#fff8df', text: '#18181b', muted: '#6b7280', line: '#ddd6bf', accent: '#f7cb46', bright: '#ffe27a', onAccent: '#18181b', rgb: '247,203,70', bgRgb: '250,250,250', mesh: '0xf7cb46', light: '0xffe27a' };
+    }
+
     const labComponents = [
       {
         id: 'stagger-text',
@@ -2065,12 +2137,12 @@
         scene: '标题页、章节转场、金句页',
         tech: ['GSAP', '文字拆分'],
         libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'],
-        demo: () => `
+        demo: (p = getLabPalette()) => `
 <!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;}
-.stage{width:100%;text-align:center;color:#fff;padding:40px;}
+body{margin:0;height:100vh;background:linear-gradient(135deg,${p.surface} 0%,${p.tint} 100%);display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;}
+.stage{width:100%;text-align:center;color:${p.text};padding:40px;}
 .word{display:inline-block;font-size:56px;font-weight:900;margin:0 10px;opacity:0;transform:translateY(40px) rotateX(-90deg);}
-.replay{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);padding:8px 18px;border:1px solid #333;background:transparent;color:#a8ff3e;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;}
+.replay{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);padding:8px 18px;border:1px solid ${p.line};background:${p.surface};color:${p.accent};border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;box-shadow:0 8px 18px rgba(15,23,42,0.08);}
 </style></head><body><div class="stage" id="stage"></div><button class="replay" onclick="play()">Replay</button>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
 <script>
@@ -2089,15 +2161,15 @@ play();
         scene: '数据报告、指标展示、季度复盘',
         tech: ['ECharts', '响应式数据'],
         libs: ['https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js'],
-        demo: () => `
+        demo: (p = getLabPalette()) => `
 <!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
+body{margin:0;height:100vh;background:${p.bg};display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
 #chart{width:90%;height:70%;}
 </style></head><body><div id="chart"></div>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"><\/script>
 <script>
-const chart = echarts.init(document.getElementById('chart'), 'dark');
-const option = {backgroundColor:'transparent',grid:{top:40,right:40,bottom:40,left:60},xAxis:{type:'category',data:['Q1','Q2','Q3','Q4'],axisLine:{lineStyle:{color:'#444'}}},yAxis:{type:'value',splitLine:{lineStyle:{color:'#222'}}},series:[{data:[120,200,150,280],type:'bar',itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#a8ff3e'},{offset:1,color:'#2a3a10'}]),borderRadius:[6,6,0,0]},animationDuration:1500,animationEasing:'elasticOut'}]};
+const chart = echarts.init(document.getElementById('chart'));
+const option = {backgroundColor:'transparent',grid:{top:40,right:40,bottom:40,left:60},xAxis:{type:'category',data:['Q1','Q2','Q3','Q4'],axisLine:{lineStyle:{color:'${p.line}'}},axisLabel:{color:'${p.muted}'}},yAxis:{type:'value',splitLine:{lineStyle:{color:'${p.line}'}},axisLabel:{color:'${p.muted}'}},series:[{data:[120,200,150,280],type:'bar',itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'${p.bright}'},{offset:1,color:'${p.accent}'}]),borderRadius:[6,6,0,0]},animationDuration:1500,animationEasing:'elasticOut'}]};
 chart.setOption(option);
 window.addEventListener('resize',()=>chart.resize());
 setInterval(()=>{const d=option.series[0].data.map(v=>Math.max(50,Math.round(v*(0.8+Math.random()*0.4))));chart.setOption({series:[{data:d}]});},3000);
@@ -2111,11 +2183,11 @@ setInterval(()=>{const d=option.series[0].data.map(v=>Math.max(50,Math.round(v*(
         scene: '产品发布、硬件展示、科技概念页',
         tech: ['Three.js', 'WebGL'],
         libs: ['https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'],
-        demo: () => `
+        demo: (p = getLabPalette()) => `
 <!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:radial-gradient(circle at center,#1a1a2e 0%,#0a0a0f 100%);overflow:hidden;}
-#info{position:absolute;bottom:20px;left:20px;color:#fff;font-family:'Inter',sans-serif;}
-#info h3{margin:0;font-size:18px;}#info p{margin:4px 0 0;color:#8a8a9a;font-size:12px;}
+body{margin:0;height:100vh;background:radial-gradient(circle at center,${p.surface} 0%,${p.tint} 100%);overflow:hidden;}
+#info{position:absolute;bottom:20px;left:20px;color:${p.text};font-family:'Inter',sans-serif;}
+#info h3{margin:0;font-size:18px;}#info p{margin:4px 0 0;color:${p.muted};font-size:12px;}
 </style></head><body>
 <div id="info"><h3>Product X</h3><p>Drag to rotate · Scroll to zoom</p></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>
@@ -2123,8 +2195,8 @@ body{margin:0;height:100vh;background:radial-gradient(circle at center,#1a1a2e 0
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,0.1,100);camera.position.set(0,1.5,4);
 const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setSize(innerWidth,innerHeight);document.body.appendChild(renderer.domElement);
-const geo=new THREE.IcosahedronGeometry(1,1);const mat=new THREE.MeshStandardMaterial({color:0xa8ff3e,roughness:0.2,metalness:0.6,flatShading:true});const mesh=new THREE.Mesh(geo,mat);scene.add(mesh);
-const light1=new THREE.PointLight(0xffffff,1);light1.position.set(3,3,3);scene.add(light1);const light2=new THREE.PointLight(0x00ffff,0.6);light2.position.set(-3,-2,3);scene.add(light2);
+const geo=new THREE.IcosahedronGeometry(1,1);const mat=new THREE.MeshStandardMaterial({color:${p.mesh},roughness:0.28,metalness:0.35,flatShading:true});const mesh=new THREE.Mesh(geo,mat);scene.add(mesh);
+const light1=new THREE.PointLight(0xffffff,1.2);light1.position.set(3,3,3);scene.add(light1);const light2=new THREE.PointLight(${p.light},0.7);light2.position.set(-3,-2,3);scene.add(light2);
 const ringGeo=new THREE.TorusGeometry(1.6,0.02,16,100);const ringMat=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.3});const ring=new THREE.Mesh(ringGeo,ringMat);ring.rotation.x=Math.PI/2;scene.add(ring);
 let mouseX=0,mouseY=0;document.addEventListener('mousemove',e=>{mouseX=(e.clientX/innerWidth-0.5)*2;mouseY=(e.clientY/innerHeight-0.5)*2;});
 function animate(){mesh.rotation.y+=0.005;mesh.rotation.x+=0.002;ring.rotation.z-=0.003;mesh.position.x+= (mouseX*0.5-mesh.position.x)*0.05;mesh.position.y+= (-mouseY*0.3-mesh.position.y)*0.05;camera.lookAt(0,0,0);renderer.render(scene,camera);requestAnimationFrame(animate);}animate();
@@ -2139,12 +2211,12 @@ window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camer
         scene: '封面、氛围页、艺术概念页',
         tech: ['p5.js', 'Generative Art'],
         libs: ['https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js'],
-        demo: () => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;overflow:hidden;background:#000;}canvas{display:block;}</style></head><body>
+        demo: (p = getLabPalette()) => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;overflow:hidden;background:${p.surface};}canvas{display:block;}</style></head><body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"><\/script>
 <script>
 let particles=[];function setup(){createCanvas(windowWidth,windowHeight);for(let i=0;i<80;i++)particles.push({x:random(width),y:random(height),r:random(2,8),dx:random(-1,1),dy:random(-1,1)});}
-function draw(){background(10,10,15,40);noStroke();for(let p of particles){fill(168,255,62,map(p.r,2,8,30,120));ellipse(p.x,p.y,p.r*2);p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>width)p.dx*=-1;if(p.y<0||p.y>height)p.dy*=-1;}}
+function draw(){background(${p.bgRgb},34);noStroke();for(let p of particles){fill(${p.rgb},map(p.r,2,8,28,105));ellipse(p.x,p.y,p.r*2);p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>width)p.dx*=-1;if(p.y<0||p.y>height)p.dy*=-1;}}
 function windowResized(){resizeCanvas(windowWidth,windowHeight);}
 <\/script></body></html>`
       },
@@ -2156,15 +2228,15 @@ function windowResized(){resizeCanvas(windowWidth,windowHeight);}
         scene: '创意目录、特点罗列、互动游戏页',
         tech: ['Matter.js', '2D Physics'],
         libs: ['https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js'],
-        demo: () => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;height:100vh;background:#0a0a0f;overflow:hidden;}canvas{display:block;}</style></head><body>
+        demo: (p = getLabPalette()) => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;height:100vh;background:${p.bg};overflow:hidden;}canvas{display:block;}</style></head><body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"><\/script>
 <script>
 const {Engine,Render,Runner,Bodies,Composite,Mouse,MouseConstraint}=Matter;
 const engine=Engine.create();const w=innerWidth,h=innerHeight;
-const render=Render.create({element:document.body,engine:engine,options:{width:w,height:h,background:'#0a0a0f',wireframes:false}});
+const render=Render.create({element:document.body,engine:engine,options:{width:w,height:h,background:'${p.bg}',wireframes:false}});
 const cards=[];const texts=['AI','Data','Cloud','UX','Growth'];
-for(let i=0;i<5;i++){const box=Bodies.rectangle(w/2-200+i*100,100+i*60,110,70,{restitution:0.6,render:{fillStyle:i===0?'#a8ff3e':'#1f1f2d',strokeStyle:'#333',lineWidth:2}});cards.push(box);}
+for(let i=0;i<5;i++){const box=Bodies.rectangle(w/2-200+i*100,100+i*60,110,70,{restitution:0.6,render:{fillStyle:i===0?'${p.accent}':'${p.surface}',strokeStyle:'${p.line}',lineWidth:2}});cards.push(box);}
 const ground=Bodies.rectangle(w/2,h+40,w,80,{isStatic:true});const walls=[Bodies.rectangle(-40,h/2,80,h,{isStatic:true}),Bodies.rectangle(w+40,h/2,80,h,{isStatic:true})];
 Composite.add(engine.world,[...cards,ground,...walls]);
 const mouse=Mouse.create(render.canvas);const mc=MouseConstraint.create(engine,{mouse:mouse,constraint:{stiffness:0.2,render:{visible:false}}});Composite.add(engine.world,mc);
@@ -2180,11 +2252,11 @@ window.addEventListener('resize',()=>{render.canvas.width=innerWidth;render.canv
         scene: '开场、引语页、访谈金句',
         tech: ['GSAP', 'TextPlugin'],
         libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js'],
-        demo: () => `
+        demo: (p = getLabPalette()) => `
 <!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;font-family:'Inter','Noto Sans SC',sans-serif;}
-.stage{color:#fff;font-size:42px;font-weight:800;max-width:80%;line-height:1.4;}
-.cursor{display:inline-block;width:3px;height:1em;background:#a8ff3e;margin-left:4px;vertical-align:middle;animation:blink 0.8s infinite;}
+body{margin:0;height:100vh;background:linear-gradient(135deg,${p.surface} 0%,${p.soft} 100%);display:flex;align-items:center;justify-content:center;font-family:'Inter','Noto Sans SC',sans-serif;}
+.stage{color:${p.text};font-size:42px;font-weight:800;max-width:80%;line-height:1.4;}
+.cursor{display:inline-block;width:3px;height:1em;background:${p.accent};margin-left:4px;vertical-align:middle;animation:blink 0.8s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 </style></head><body><div class="stage"><span id="text"></span><span class="cursor"></span></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
@@ -2204,12 +2276,12 @@ type();
         scene: '多图对比、时间轴、 gallery 展示',
         tech: ['CSS Grid', 'GSAP Flip'],
         libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'],
-        demo: () => `
+        demo: (p = getLabPalette()) => `
 <!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
+body{margin:0;height:100vh;background:${p.bg};display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
 .container{width:80%;height:70%;display:grid;gap:12px;transition:all 0.8s cubic-bezier(0.16,1,0.3,1);}
-.cell{background:#1f1f2d;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:20px;border:1px solid #2a2a3a;transition:all 0.8s cubic-bezier(0.16,1,0.3,1);}
-.cell.active{background:#a8ff3e;color:#000;}
+.cell{background:${p.surface};border-radius:12px;display:flex;align-items:center;justify-content:center;color:${p.text};font-weight:800;font-size:20px;border:1px solid ${p.line};transition:all 0.8s cubic-bezier(0.16,1,0.3,1);box-shadow:0 12px 26px rgba(15,23,42,0.08);}
+.cell.active{background:${p.accent};color:${p.onAccent};}
 .layout1{grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;}
 .layout2{grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr 1fr;}
 </style></head><body><div class="container layout1" id="grid"><div class="cell active">A</div><div class="cell">B</div><div class="cell">C</div><div class="cell">D</div><div class="cell">E</div><div class="cell">F</div></div>
@@ -2227,18 +2299,18 @@ setInterval(()=>{state=state===1?2:1;grid.className='container '+(state===1?'lay
         scene: '功能介绍、流程图、状态反馈',
         tech: ['lottie-web', 'JSON 动画'],
         libs: ['https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js'],
-        demo: () => `
+        demo: (p = getLabPalette()) => `
 <!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;font-family:'Inter',sans-serif;color:#fff;}
+body{margin:0;height:100vh;background:${p.surface};display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;font-family:'Inter',sans-serif;color:${p.text};}
 #lottie{width:180px;height:180px;}
 .controls{display:flex;gap:12px;}
-button{padding:8px 16px;border:1px solid #333;background:transparent;color:#a8ff3e;border-radius:6px;cursor:pointer;font-weight:700;}
+button{padding:8px 16px;border:1px solid ${p.line};background:${p.surface};color:${p.accent};border-radius:6px;cursor:pointer;font-weight:700;box-shadow:0 8px 18px rgba(15,23,42,0.08);}
 </style></head><body><div id="lottie"></div><div class="controls"><button onclick="play()">Play</button><button onclick="pause()">Pause</button></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"><\/script>
 <script>
 const anim=lottie.loadAnimation({container:document.getElementById('lottie'),renderer:'svg',loop:true,autoplay:true,path:'https://lottie.host/56e04703-7328-4225-8234-1234567890.json'});
 // fallback simple animated svg if lottie fails
-anim.addEventListener('data_failed',()=>{document.getElementById('lottie').innerHTML='<svg viewBox="0 0 100 100" width="180" height="180"><circle cx="50" cy="50" r="40" stroke="#a8ff3e" stroke-width="4" fill="none"><animate attributeName="r" values="40;45;40" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="20" fill="#a8ff3e"><animate attributeName="r" values="20;25;20" dur="1.5s" repeatCount="indefinite"/></circle></svg>';});
+anim.addEventListener('data_failed',()=>{document.getElementById('lottie').innerHTML='<svg viewBox="0 0 100 100" width="180" height="180"><circle cx="50" cy="50" r="40" stroke="${p.accent}" stroke-width="4" fill="none"><animate attributeName="r" values="40;45;40" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="20" fill="${p.bright}"><animate attributeName="r" values="20;25;20" dur="1.5s" repeatCount="indefinite"/></circle></svg>';});
 function play(){anim.play();}function pause(){anim.pause();}
 <\/script></body></html>`
       },
@@ -2250,17 +2322,17 @@ function play(){anim.play();}function pause(){anim.pause();}
         scene: '技术架构、关系图、抽象概念页',
         tech: ['Canvas 2D', '粒子系统'],
         libs: [],
-        demo: () => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;height:100vh;background:#0a0a0f;overflow:hidden;}canvas{display:block;}</style></head><body><canvas id="c"></canvas>
+        demo: (p = getLabPalette()) => `
+<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;height:100vh;background:${p.bg};overflow:hidden;}canvas{display:block;}</style></head><body><canvas id="c"></canvas>
 <script>
 const c=document.getElementById('c'),x=c.getContext('2d');let w,h,p=[];
 function resize(){w=c.width=innerWidth;h=c.height=innerHeight;}
 resize();window.addEventListener('resize',resize);
 class P{constructor(){this.x=Math.random()*w;this.y=Math.random()*h;this.vx=(Math.random()-0.5)*0.8;this.vy=(Math.random()-0.5)*0.8;this.r=Math.random()*2+1;}
 update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>w)this.vx*=-1;if(this.y<0||this.y>h)this.vy*=-1;}
-draw(){x.beginPath();x.arc(this.x,this.y,this.r,0,Math.PI*2);x.fillStyle='rgba(168,255,62,0.8)';x.fill();}}
+draw(){x.beginPath();x.arc(this.x,this.y,this.r,0,Math.PI*2);x.fillStyle='rgba(${p.rgb},0.72)';x.fill();}}
 for(let i=0;i<60;i++)p.push(new P());
-function animate(){x.fillStyle='rgba(10,10,15,0.25)';x.fillRect(0,0,w,h);for(let i=0;i<p.length;i++){p[i].update();p[i].draw();for(let j=i+1;j<p.length;j++){const dx=p[i].x-p[j].x,dy=p[i].y-p[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){x.beginPath();x.moveTo(p[i].x,p[i].y);x.lineTo(p[j].x,p[j].y);x.strokeStyle='rgba(168,255,62,'+(1-d/120)*0.3+')';x.stroke();}}}requestAnimationFrame(animate);}
+function animate(){x.fillStyle='rgba(${p.bgRgb},0.35)';x.fillRect(0,0,w,h);for(let i=0;i<p.length;i++){p[i].update();p[i].draw();for(let j=i+1;j<p.length;j++){const dx=p[i].x-p[j].x,dy=p[i].y-p[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){x.beginPath();x.moveTo(p[i].x,p[i].y);x.lineTo(p[j].x,p[j].y);x.strokeStyle='rgba(${p.rgb},'+(1-d/120)*0.24+')';x.stroke();}}}requestAnimationFrame(animate);}
 animate();
 <\/script></body></html>`
       },
@@ -2272,13 +2344,13 @@ animate();
         scene: '长图文、故事线、时间轴滚动',
         tech: ['GSAP ScrollTrigger'],
         libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js'],
-        demo: () => `
+        demo: (p = getLabPalette()) => `
 <!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;background:#0a0a0f;color:#fff;font-family:'Inter','Noto Sans SC',sans-serif;overflow-x:hidden;}
+body{margin:0;background:${p.bg};color:${p.text};font-family:'Inter','Noto Sans SC',sans-serif;overflow-x:hidden;}
 .track{height:300vh;position:relative;}
 .panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(0.9);font-size:48px;font-weight:900;text-align:center;padding:40px;}
-.panel:nth-child(1){background:#1f1f2d;} .panel:nth-child(2){background:#2a2a3a;} .panel:nth-child(3){background:#a8ff3e;color:#000;}
-</style></head><body><div class="track"><div class="panel">第一章<br><small style="font-size:20px;color:#8a8a9a;font-weight:500;">ScrollTrigger 驱动</small></div><div class="panel">第二章<br><small style="font-size:20px;color:#8a8a9a;font-weight:500;">页面滚动触发</small></div><div class="panel">第三章<br><small style="font-size:20px;color:#333;font-weight:500;">长叙事体验</small></div></div>
+.panel:nth-child(1){background:${p.surface};} .panel:nth-child(2){background:${p.tint};} .panel:nth-child(3){background:${p.accent};color:${p.onAccent};}
+</style></head><body><div class="track"><div class="panel">第一章<br><small style="font-size:20px;color:${p.muted};font-weight:500;">ScrollTrigger 驱动</small></div><div class="panel">第二章<br><small style="font-size:20px;color:${p.muted};font-weight:500;">页面滚动触发</small></div><div class="panel">第三章<br><small style="font-size:20px;color:#333;font-weight:500;">长叙事体验</small></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"><\/script>
 <script>
@@ -2295,11 +2367,11 @@ panels.forEach((panel,i)=>{gsap.to(panel,{opacity:1,scale:1,scrollTrigger:{trigg
         scene: '流程图、地图、插画页、路线图',
         tech: ['SVG', 'GSAP stroke-dashoffset'],
         libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'],
-        demo: () => `
+        demo: (p = getLabPalette()) => `
 <!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
+body{margin:0;height:100vh;background:${p.surface};display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
 svg{width:80%;max-width:600px;height:auto;}
-.path{fill:none;stroke:#a8ff3e;stroke-width:3;stroke-linecap:round;stroke-dasharray:1000;stroke-dashoffset:1000;}
+.path{fill:none;stroke:${p.accent};stroke-width:3;stroke-linecap:round;stroke-dasharray:1000;stroke-dashoffset:1000;}
 </style></head><body>
 <svg viewBox="0 0 400 200"><path class="path" d="M20,100 C80,20 140,180 200,100 S320,20 380,100"/></svg>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
@@ -2316,12 +2388,12 @@ function draw(){gsap.fromTo(path,{strokeDashoffset:len},{strokeDashoffset:0,dura
         scene: 'KPI、成果展示、数据亮点',
         tech: ['GSAP', '数字插值'],
         libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'],
-        demo: () => `
+        demo: (p = getLabPalette()) => `
 <!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:#0a0a0f;display:flex;align-items:center;justify-content:center;gap:48px;font-family:'Inter','Noto Sans SC',sans-serif;flex-wrap:wrap;}
+body{margin:0;height:100vh;background:linear-gradient(135deg,${p.surface} 0%,${p.tint} 100%);display:flex;align-items:center;justify-content:center;gap:48px;font-family:'Inter','Noto Sans SC',sans-serif;flex-wrap:wrap;}
 .metric{text-align:center;}
-.metric .num{font-size:72px;font-weight:900;color:#a8ff3e;line-height:1;}
-.metric .label{color:#8a8a9a;font-size:14px;font-weight:700;margin-top:8px;text-transform:uppercase;letter-spacing:0.05em;}
+.metric .num{font-size:72px;font-weight:900;color:${p.accent};line-height:1;}
+.metric .label{color:${p.muted};font-size:14px;font-weight:700;margin-top:8px;text-transform:uppercase;letter-spacing:0.05em;}
 </style></head><body>
 <div class="metric"><div class="num" data-target="128">0</div><div class="label">Projects</div></div>
 <div class="metric"><div class="num" data-target="98.6">0</div><div class="label">NPS Score</div></div>
@@ -2372,7 +2444,21 @@ countAll();setInterval(countAll,4000);
       }).join('');
     }
 
-    renderComponentLab();
+    function setAppearance(mode) {
+      document.documentElement.dataset.appearance = mode === 'dark' ? 'dark' : 'light';
+      document.querySelectorAll('.appearance-switch button').forEach(button => {
+        button.setAttribute('aria-pressed', String(button.dataset.appearance === document.documentElement.dataset.appearance));
+      });
+      try { localStorage.setItem('hp-appearance', document.documentElement.dataset.appearance); } catch (_) {}
+      if (typeof render === 'function') render();
+      renderComponentLab();
+    }
+    document.querySelectorAll('.appearance-switch button').forEach(button => {
+      button.addEventListener('click', () => {
+        if (button.dataset.appearance !== document.documentElement.dataset.appearance) setAppearance(button.dataset.appearance);
+      });
+    });
+    setAppearance(document.documentElement.dataset.appearance);
   </script>
 </body>
 </html>

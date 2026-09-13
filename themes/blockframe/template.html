@@ -889,6 +889,88 @@
       font-weight: 500;
     }
 
+    /* ============ SLIDE 7.5: KEY STEPS / 第一步 第二步 第三步 ============ */
+    .slide-key-steps {
+      background: var(--offwhite);
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .slide-key-steps .slide-header {
+      margin-bottom: 56px;
+    }
+
+    .key-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 28px;
+      width: 100%;
+      position: relative;
+    }
+
+    .key-steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 48px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 4px;
+      background: var(--black);
+      z-index: 0;
+    }
+
+    .key-step-card {
+      position: relative;
+      z-index: 1;
+      border: var(--border);
+      background: var(--white);
+      padding: 34px 24px 28px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .key-step-card:nth-child(1) { background: var(--pink); }
+    .key-step-card:nth-child(2) { background: var(--blue); }
+    .key-step-card:nth-child(3) { background: var(--green); }
+    .key-step-card:nth-child(4) { background: var(--yellow); }
+
+    .key-step-num {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 900;
+      font-size: clamp(40px, 4vw, 64px);
+      line-height: 1;
+      color: var(--black);
+    }
+
+    .key-step-label {
+      display: inline-block;
+      border: 3px solid var(--black);
+      background: var(--white);
+      padding: 6px 14px;
+      font-family: 'Space Grotesk', 'Noto Sans SC', monospace;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      box-shadow: 3px 3px 0px var(--black);
+    }
+
+    .key-step-title {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-weight: 800;
+      font-size: clamp(20px, 1.8vw, 28px);
+      line-height: 1.2;
+      color: var(--black);
+    }
+
+    .key-step-desc {
+      font-size: 16px;
+      line-height: 1.55;
+      font-weight: 500;
+      color: var(--black);
+    }
 
     /* ============ SLIDE 8: STATISTICS / NUMBERS ============ */
     .slide-8 {
@@ -1571,6 +1653,40 @@
           <div class="step-num">04</div>
           <div class="step-title">上线</div>
           <div class="step-desc">部署支持、性能监控与上线后优化。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7.5: Key Steps / 第一步 第二步 第三步 -->
+    <section class="slide slide-key-steps">
+      <div class="slide-header">
+        <div class="nb-label nb-label-cream">关键步骤</div>
+        <h2 class="nb-heading-lg">从目标到结果的四个关键步骤</h2>
+      </div>
+      <div class="key-steps-grid">
+        <div class="key-step-card">
+          <div class="key-step-num">01</div>
+          <div class="key-step-label">第一步</div>
+          <div class="key-step-title">明确目标</div>
+          <div class="key-step-desc">定义最终成果、判断标准与核心约束。</div>
+        </div>
+        <div class="key-step-card">
+          <div class="key-step-num">02</div>
+          <div class="key-step-label">第二步</div>
+          <div class="key-step-title">拆解任务</div>
+          <div class="key-step-desc">将目标拆分为可执行、可追踪的关键任务。</div>
+        </div>
+        <div class="key-step-card">
+          <div class="key-step-num">03</div>
+          <div class="key-step-label">第三步</div>
+          <div class="key-step-title">执行推进</div>
+          <div class="key-step-desc">按优先级推进任务，并及时处理关键阻塞。</div>
+        </div>
+        <div class="key-step-card">
+          <div class="key-step-num">04</div>
+          <div class="key-step-label">第四步</div>
+          <div class="key-step-title">复盘交付</div>
+          <div class="key-step-desc">验证结果、沉淀经验并完成最终交付。</div>
         </div>
       </div>
     </section>
