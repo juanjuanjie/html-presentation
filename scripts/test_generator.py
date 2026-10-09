@@ -45,6 +45,9 @@ def main():
             assert page.locator("#lab-grid iframe").count() == 0
             page.locator('[value="director"]').check()
             assert page.locator("#generation-copy").is_disabled()
+            assert page.locator("#director-guide").is_visible()
+            page.locator("#director-guide summary").click()
+            assert "镜 01｜开场提问" in page.locator("#director-guide").inner_text()
             source = "\n\n".join(f"**镜 {i:02}｜画面**\n> **口播（配音）**：第{i}镜原文。" for i in range(1, 36))
             page.locator("#generation-source").fill(source)
             page.locator("#generation-build").click()

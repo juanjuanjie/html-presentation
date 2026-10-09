@@ -21,6 +21,7 @@
   function update(){
     invalidate();
     const director=mode()==='director';
+    document.getElementById('director-guide').hidden=!director;
     el('help').textContent=director?'请提供包含布局、画面、花字、动效、转场和口播的导演稿。严格按镜头顺序生成，不自动合并或增补镜头。':'请提供完整逐字稿。AI 会保留核心论点和事实，提炼成适合上课、演讲的简洁页面，无需预先拆镜头。';
     el('source-label').textContent=director?'导演稿全文':'逐字稿全文';
     const ids=shots(el('source').value);

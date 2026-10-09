@@ -1218,6 +1218,38 @@
         <label><input type="radio" name="generation-mode" value="director"><strong>导演 HTML</strong><span>导演稿 → 一镜一页 · 原文字幕 · 分镜动效</span></label>
       </div>
       <p id="generation-help"></p>
+      <details id="director-guide" class="director-guide" hidden>
+        <summary>第一次写导演稿？查看格式说明和范例</summary>
+        <div class="director-guide__content">
+          <p>导演稿不是逐字稿。请从“镜 01”开始连续编号，每一镜写清观众看到什么、文字如何出现，以及这一镜对应的完整口播。生成时会严格一镜一页。</p>
+          <ul>
+            <li><strong>布局、画面、图示：</strong>说明页面结构和观众最终看到的元素。</li>
+            <li><strong>花字：</strong>只写需要突出的短句或金句，不要复制整段口播。</li>
+            <li><strong>动效、转场：</strong>描述入场、强调和下一镜如何衔接。</li>
+            <li><strong>口播：</strong>逐字保留本镜旁白，不能遗漏、重复或改写。</li>
+          </ul>
+          <pre><code>## 镜 01｜开场提问
+
+- 布局：居中大字，画面留白
+- 画面：问题从模糊逐渐变清晰
+- 花字：学编程还值得吗？
+- 图示：抽象代码符号与一个问号
+- 动效：花字淡入，问号轻微放大
+- 转场：问题向左退出，衔接下一镜
+- 口播：如果 AI 一秒钟就能写出你练三个月的代码，那你辛苦学的编程，还值钱吗？
+
+## 镜 02｜给出结论
+
+- 布局：左右对比
+- 画面：左侧“只会写代码”，右侧“解决问题”
+- 花字：工具会变，判断不会过时
+- 图示：旧 → 新
+- 动效：左右内容依次出现，箭头最后点亮
+- 转场：强调色铺满画面后切换
+- 口播：真正不会过时的，不是某一种语言，而是你分析问题和完成产品的能力。</code></pre>
+          <p class="director-guide__note">每一段口播只能属于一个镜头。镜头编号不要跳号；制作备注不会出现在最终 HTML 画面中。</p>
+        </div>
+      </details>
       <div class="generation-fields">
         <label>原稿标题<input id="generation-name" placeholder="导入稿件后自动提取，也可以修改"></label>
         <label>使用模板<select id="generation-template"></select></label>

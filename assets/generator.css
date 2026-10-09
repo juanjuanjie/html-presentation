@@ -6,6 +6,11 @@
 .generation-panel label{display:block}.generation-panel input:not([type=radio]),.generation-panel select,.generation-panel textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--bg);color:var(--fg);font:inherit;margin:8px 0 16px}
 .generation-panel input:focus,.generation-panel select:focus,.generation-panel textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(var(--accent-rgb),.14)}
 .generation-panel textarea{resize:vertical;line-height:1.8;min-height:220px}.generation-panel p{color:var(--muted);line-height:1.7}
+.director-guide{margin:-4px 0 20px;border:1px solid var(--line);border-radius:12px;background:var(--bg);overflow:hidden}
+.director-guide summary{padding:14px 16px;font-weight:800;color:var(--accent-strong);cursor:pointer}
+.director-guide__content{padding:0 16px 16px}.director-guide__content ul{margin:0 0 16px;padding-left:22px;color:var(--muted);line-height:1.75}
+.director-guide__content pre{margin:0;max-height:360px;overflow:auto;padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--fg);font:13px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap}
+.director-guide__content .director-guide__note{margin-bottom:0;font-size:13px}
 .generation-actions{display:flex;flex-wrap:wrap;gap:12px}.generation-actions button:disabled{opacity:.5;cursor:wait}.generation-panel summary{cursor:pointer}.generation-panel #generation-check{color:var(--fg);white-space:pre-line}
 @media(max-width:700px){.generation-modes,.generation-fields{grid-template-columns:1fr}.generation-panel{padding:18px}}
 .wrap > section[hidden]{display:none!important}
