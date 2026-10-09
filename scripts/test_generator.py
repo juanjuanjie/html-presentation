@@ -24,10 +24,14 @@ def main():
             assert page.locator("#generation-build").evaluate("e => getComputedStyle(e).backgroundColor") == "rgb(185, 142, 255)"
             assert page.locator('[data-page-link="generator"]').evaluate("e => getComputedStyle(e).color") == "rgb(185, 142, 255)"
             assert page.locator("#hero-title").inner_text() == "稿件 → HTML"
-            assert page.locator("#generation-template-gallery img").count() > 3
-            page.locator('[data-template-index="2"]').click()
+            assert page.locator("#generation-template-button img").count() == 1
+            page.locator("#generation-template-button").click()
+            assert page.locator("#generation-template-menu").is_visible()
+            assert page.locator("#generation-template-menu img").count() > 3
+            page.locator('.generation-template-option[data-template-index="2"]').click()
             assert page.locator("#generation-template").input_value() == "2"
-            assert page.locator('[data-template-index="2"]').get_attribute("aria-pressed") == "true"
+            assert page.locator('.generation-template-option[data-template-index="2"]').get_attribute("aria-selected") == "true"
+            assert page.locator("#generation-template-menu").is_hidden()
             page.locator("#generation-name").fill("测试标题")
             page.locator("#generation-source").fill("Hello，大家好。这是完整逐字稿。")
             page.locator("#generation-build").click()

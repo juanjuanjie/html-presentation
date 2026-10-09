@@ -9,19 +9,31 @@
     variants.forEach(theme => options.push({name:item.name+' · '+theme.name, path:theme.template||item.template, vars:theme.vars||{}, image:theme.image||item.image, desc:theme.desc||item.tagline||''}));
   });
   options.forEach((item,i) => el('template').add(new Option(item.name,String(i))));
-  const gallery=document.getElementById('generation-template-gallery');
-  gallery.innerHTML=options.map((item,i)=>`<button type="button" class="generation-template-card" data-template-index="${i}" aria-pressed="${i===0}"><img src="${item.image}" alt="" loading="lazy" decoding="async"><span><strong>${item.name}</strong><small>${item.desc}</small></span></button>`).join('');
-  function syncTemplateGallery(){
+  const templateButton=document.getElementById('generation-template-button');
+  const templateMenu=document.getElementById('generation-template-menu');
+  templateMenu.innerHTML=options.map((item,i)=>`<button type="button" class="generation-template-option" role="option" data-template-index="${i}" aria-selected="${i===0}"><img src="${item.image}" alt="" loading="lazy" decoding="async"><span><strong>${item.name}</strong><small>${item.desc}</small></span></button>`).join('');
+  function syncTemplatePicker(){
     const selected=el('template').value;
-    gallery.querySelectorAll('[data-template-index]').forEach(card=>card.setAttribute('aria-pressed',String(card.dataset.templateIndex===selected)));
+    const item=options[Number(selected)];
+    templateButton.innerHTML=`<img src="${item.image}" alt="" decoding="async"><span><strong>${item.name}</strong><small>${item.desc}</small></span><span class="generation-template-chevron" aria-hidden="true">⌄</span>`;
+    templateMenu.querySelectorAll('[data-template-index]').forEach(option=>option.setAttribute('aria-selected',String(option.dataset.templateIndex===selected)));
   }
-  gallery.addEventListener('click',event=>{
-    const card=event.target.closest('[data-template-index]');
-    if(!card)return;
-    el('template').value=card.dataset.templateIndex;
+  function setTemplateMenu(open){
+    templateMenu.hidden=!open;
+    templateButton.setAttribute('aria-expanded',String(open));
+  }
+  templateButton.addEventListener('click',()=>setTemplateMenu(templateMenu.hidden));
+  templateMenu.addEventListener('click',event=>{
+    const option=event.target.closest('[data-template-index]');
+    if(!option)return;
+    el('template').value=option.dataset.templateIndex;
     el('template').dispatchEvent(new Event('input',{bubbles:true}));
-    syncTemplateGallery();
+    syncTemplatePicker();
+    setTemplateMenu(false);
   });
+  document.addEventListener('click',event=>{if(!event.target.closest('.generation-template-select'))setTemplateMenu(false);});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')setTemplateMenu(false);});
+  syncTemplatePicker();
   let revision = 0;
   function invalidate(){
     revision++;
@@ -43,7 +55,7 @@
   document.querySelectorAll('[name="generation-mode"]').forEach(input=>input.addEventListener('change',update));
   el('source').addEventListener('input',update);
   el('name').addEventListener('input',invalidate);
-  el('template').addEventListener('input',()=>{invalidate();syncTemplateGallery();});
+  el('template').addEventListener('input',()=>{invalidate();syncTemplatePicker();});
   el('file').addEventListener('change',async()=>{
     const file=el('file').files[0];
     if(!file)return;

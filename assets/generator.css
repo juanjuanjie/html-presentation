@@ -5,12 +5,17 @@
 .generation-modes strong{margin-left:10px}.generation-modes span{display:block;margin-top:10px;color:var(--muted);line-height:1.6}
 .generation-panel label{display:block}.generation-panel input:not([type=radio]),.generation-panel select,.generation-panel textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--bg);color:var(--fg);font:inherit;margin:8px 0 16px}
 .generation-panel input:focus,.generation-panel select:focus,.generation-panel textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(var(--accent-rgb),.14)}
-.template-picker-hint{display:block;margin-top:-10px;color:var(--muted);font-size:12px;font-weight:500}
-.generation-template-gallery{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(210px,240px);gap:12px;margin:0 0 22px;padding:2px 2px 10px;overflow-x:auto;scroll-snap-type:x proximity}
-.generation-template-card{display:grid;grid-template-columns:88px 1fr;gap:11px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--fg);font:inherit;text-align:left;cursor:pointer;scroll-snap-align:start}
-.generation-template-card:hover{border-color:var(--accent)}.generation-template-card[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px rgba(var(--accent-rgb),.2);background:var(--accent-soft)}
-.generation-template-card img{display:block;width:88px;aspect-ratio:16/9;object-fit:cover;border-radius:7px;border:1px solid var(--line);background:var(--soft)}
-.generation-template-card strong,.generation-template-card small{display:block}.generation-template-card strong{font-size:13px;line-height:1.35}.generation-template-card small{margin-top:4px;color:var(--muted);font-size:11px;line-height:1.35}
+.template-field{position:relative}.generation-template-select{position:relative;display:block;margin-top:8px}
+.generation-panel .generation-template-native{position:absolute;width:1px;height:1px;margin:0;padding:0;opacity:0;pointer-events:none}
+.generation-template-button{display:grid;width:100%;grid-template-columns:82px minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 12px 8px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit;text-align:left;cursor:pointer}
+.generation-template-button:hover,.generation-template-button[aria-expanded="true"]{border-color:var(--accent);box-shadow:0 0 0 4px rgba(var(--accent-rgb),.14)}
+.generation-template-button img,.generation-template-option img{display:block;width:82px;aspect-ratio:16/9;object-fit:cover;border:1px solid var(--line);border-radius:6px;background:var(--soft)}
+.generation-template-button strong,.generation-template-button small,.generation-template-option strong,.generation-template-option small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.generation-template-button strong,.generation-template-option strong{font-size:14px}.generation-template-button small,.generation-template-option small{margin-top:4px;color:var(--muted);font-size:11px}
+.generation-template-chevron{font-size:18px;color:var(--muted);transition:transform .16s}.generation-template-button[aria-expanded="true"] .generation-template-chevron{transform:rotate(180deg)}
+.generation-template-menu{position:absolute;z-index:30;top:calc(100% + 6px);left:0;right:0;max-height:360px;overflow:auto;padding:6px;border:1px solid var(--line);border-radius:10px;background:var(--card,#fff);box-shadow:0 20px 50px rgba(0,0,0,.22)}
+.generation-template-menu[hidden]{display:none}.generation-template-option{display:grid;width:100%;grid-template-columns:82px minmax(0,1fr);gap:12px;align-items:center;padding:8px;border:0;border-radius:7px;background:transparent;color:var(--fg);font:inherit;text-align:left;cursor:pointer}
+.generation-template-option:hover,.generation-template-option[aria-selected="true"]{background:var(--accent-soft)}.generation-template-option[aria-selected="true"] strong{color:var(--accent-strong)}
 .generation-panel textarea{resize:vertical;line-height:1.8;min-height:220px}.generation-panel p{color:var(--muted);line-height:1.7}
 .director-guide{margin:-4px 0 20px;border:1px solid var(--line);border-radius:12px;background:var(--bg);overflow:hidden}
 .director-guide summary{padding:14px 16px;font-weight:800;color:var(--accent-strong);cursor:pointer}

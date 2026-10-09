@@ -1252,9 +1252,14 @@
       </details>
       <div class="generation-fields">
         <label>原稿标题<input id="generation-name" placeholder="导入稿件后自动提取，也可以修改"></label>
-        <label>使用模板<select id="generation-template"></select><span class="template-picker-hint">也可以点击下方缩略图快速选择</span></label>
+        <label class="template-field">使用模板
+          <span class="generation-template-select">
+            <button id="generation-template-button" class="generation-template-button" type="button" aria-haspopup="listbox" aria-expanded="false"></button>
+            <span id="generation-template-menu" class="generation-template-menu" role="listbox" hidden></span>
+            <select id="generation-template" class="generation-template-native" tabindex="-1" aria-hidden="true"></select>
+          </span>
+        </label>
       </div>
-      <div id="generation-template-gallery" class="generation-template-gallery" aria-label="模板缩略图选择"></div>
       <label for="generation-file">导入稿件（Markdown / TXT，仅在本页读取）</label>
       <input id="generation-file" type="file" accept=".md,.txt,text/plain,text/markdown">
       <label for="generation-source" id="generation-source-label">逐字稿全文</label>
