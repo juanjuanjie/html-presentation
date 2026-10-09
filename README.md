@@ -18,9 +18,12 @@
 
 ## 这是什么？
 
-这是一个把 **HTML 幻灯片** 变成 **视频分镜素材** 的工作流：
+这是一个面向 AI 协作的 **HTML 演示与视频分镜生成工具**。主页可以直接导入稿件、选择模式和视觉模板，再生成一份包含完整稿件、规则与模板源码的 Agent 提示词：
 
-- 用纯文本写内容，AI 可以直接帮你生成和修改。
+- **演讲 HTML**：把逐字稿提炼为适合上课、分享和手动演示的页面。
+- **导演 HTML**：把导演稿严格转换为一镜一页、保留逐镜口播和动效要求的分镜网页。
+- 稿件只在当前浏览器页面中读取，不会上传或持久保存。
+- 用带缩略图的模板选择器预览风格，再把完整提示词交给任意 AI 工具。
 - 浏览器实时预览翻页节奏。
 - 运行一条命令，导出 1920×1080 PNG 序列。
 - 直接拖进剪辑软件，开始剪视频。
@@ -37,10 +40,20 @@
 | **高对比配色** | 深黑背景 + 紫色/黄色强调，视频压缩后依然清晰。 |
 | **单文件输出** | 所有 CSS、JS 内联，复制一个 HTML 即可开始制作。 |
 | **一键导出 PNG** | 自动隐藏控件，输出干净分镜图。 |
+| **双生成模式** | 同时覆盖“逐字稿 → 演讲 HTML”和“导演稿 → 导演 HTML”。 |
+| **一镜一页校验** | 导演模式检查镜头编号是否从 01 连续递增，避免漏镜、跳号和误合并。 |
+| **模板可视化选择** | 下拉选项同时显示缩略图、模板名和风格说明。 |
+| **静态且隐私友好** | 不接入模型密钥，不上传稿件；生成的提示词可复制或下载。 |
 
 ## 在线模板广场
 
-项目根目录的 [`index.html`](./index.html) 是一个静态模板目录页，会展示 `themes/` 下的各个 HTML 模板。首页卡片使用 `assets/previews/` 中的真实封面截图，更新模板封面后建议重新生成对应 PNG。
+项目根目录的 [`index.html`](./index.html) 是 GitHub Pages 入口，包含三个相互独立的页面：
+
+- **稿件 → HTML**：导入逐字稿或导演稿，选择模板并准备 Agent 提示词。
+- **模板**：浏览主题、配色变体、真实封面和设计文档。
+- **动效**：按需加载可复用的动效组件，避免拖慢主页面。
+
+模板卡片和生成器均使用 `assets/previews/` 中的真实截图。更新模板视觉后，应同步更新对应预览图。
 
 当前模板状态：
 
@@ -77,11 +90,29 @@
 | 演讲 HTML | 逐字稿 | 提炼观点，按内容分页 | 上课、演讲、手动翻页 |
 | 导演 HTML | 导演稿 | 一镜一页，保留逐镜口播和动效 | 视频分镜、后续录制 |
 
-首页选择模式 → 导入 `.md` / `.txt` 或粘贴全文 → 选择模板 → 准备 Agent 提示词 → 复制或下载到 AI 工具生成 HTML → 人工逐页校对。
+首页选择模式 → 导入 `.md` / `.txt` 或粘贴全文 → 通过缩略图选择模板 → 准备 Agent 提示词 → 复制或下载到 AI 工具生成 HTML → 人工逐页校对。
 
 提示词包含完整稿件、模板源码和对应规则。本站是静态工具，不直接调用 AI，也不上传或持久保存稿件；刷新前请保存自己的原稿。请通过 GitHub Pages 或本地 HTTP 服务使用，直接双击 `index.html` 时浏览器可能阻止读取模板。
 
 导演模式会检查从“镜 01”开始的连续编号；不自动补镜、合并镜头或额外添加封面。详细规则见 [两种生成模式](docs/generation-modes.md)。
+
+### 导演稿最小格式
+
+每个镜头建议包含布局、画面、花字、图示、动效、转场和口播。镜头编号必须连续；每段口播只能属于一个镜头。
+
+```md
+## 镜 01｜开场提问
+
+- 布局：居中大字，画面留白
+- 画面：问题从模糊逐渐变清晰
+- 花字：学编程还值得吗？
+- 图示：抽象代码符号与一个问号
+- 动效：花字淡入，问号轻微放大
+- 转场：问题向左退出，衔接下一镜
+- 口播：如果 AI 一秒钟就能写出你练三个月的代码，那你辛苦学的编程，还值钱吗？
+```
+
+导演 HTML 会保留每镜完整口播到 `.slide-subtitle` 节点，方便后续字幕时间轴或 Hyperframes 匹配。制作备注只用于生成，不应显示在最终画面中。
 
 ### 1. 创建演示文稿
 
@@ -120,12 +151,19 @@ html-presentation/
 ├── LICENSE                            # MIT 许可证
 ├── requirements.txt                   # Python 依赖
 ├── .gitignore                         # Git 忽略配置
-├── index.html                         # GitHub Pages 模板广场首页
+├── index.html                         # GitHub Pages 主入口与模板数据
+├── assets/                            # 首页逻辑、样式与预览资源
+│   ├── generator.css                  # 稿件生成器和模板选择器样式
+│   ├── generator.js                   # 双模式校验与提示词组装
+│   ├── navigation.js                  # 稿件 / 模板 / 动效页面切换
+│   ├── avatar.png                     # 作者头像
+│   └── previews/                      # 模板与封面缩略图
 ├── scripts/                           # 脚本工具集
 │   ├── README.md                      # 脚本详细文档
 │   ├── screenshot_html_slides.py      # 截图导出 1920×1080 PNG
-│   ├── extract_covers.py             # 从主题模板提取经典封面
-│   ├── apply_cover.py                # 把封面应用到演示文稿第一页
+│   ├── test_generator.py              # 生成器浏览器冒烟测试
+│   ├── extract_covers.py              # 从主题模板提取经典封面
+│   ├── apply_cover.py                 # 把封面应用到演示文稿第一页
 │   └── generate_variant_previews.py   # 为配色变体生成封面预览
 ├── templates/
 │   └── presentation.html              # 基础模板（复制起点）
@@ -142,20 +180,8 @@ html-presentation/
 │   └── scripts/                       # 主题库脚本
 │       ├── build-index.mjs            # 构建主题索引
 │       └── new-template.mjs           # 创建新主题骨架
-├── assets/                            # 静态资源
-│   ├── avatar.png                     # 作者头像
-│   └── previews/                      # 模板封面截图
-│       ├── covers/                    # 封面预览图
-│       ├── blockframe.png
-│       ├── blockframe-dark.png
-│       ├── blockframe-retro-paper.png
-│       ├── blockframe-mono-pop.png
-│       ├── blue-professional.png
-│       ├── purple-gold-presentation.png
-│       ├── apple-bento-grid.png
-│       └── apple-bento-grid-dark-green.png
 ├── docs/                              # 项目文档
-│   └── plans/                         # 设计方案
+│   └── generation-modes.md             # 演讲 / 导演生成规范
 ├── frontend-slides/                   # 原始 Skill/插件文档（精简）
 │   ├── README.md
 │   ├── SKILL.md
@@ -181,13 +207,15 @@ html-presentation/
 
 ## 脚本工具
 
-项目提供三个独立的 Python 脚本，位于 `scripts/` 目录，覆盖封面管理、封面替换和幻灯片截图导出：
+项目脚本位于 `scripts/` 目录，覆盖截图导出、封面管理、配色预览和生成器测试：
 
 | 脚本 | 功能 |
 |------|------|
 | `scripts/screenshot_html_slides.py` | 把 HTML 演示文稿导出为 1920×1080 PNG 序列 |
 | `scripts/extract_covers.py` | 从各主题模板提取经典封面并维护索引 |
 | `scripts/apply_cover.py` | 把封面 HTML 应用到演示文稿第一页 |
+| `scripts/generate_variant_previews.py` | 为模板配色变体生成预览图 |
+| `scripts/test_generator.py` | 验证生成模式、镜头跳号、模板选择、页面导航和移动端布局 |
 
 所有脚本通过 `Path(__file__).resolve().parent.parent` 自动定位项目根目录，命令需在项目根目录下执行。完整参数说明和使用示例见 [`scripts/README.md`](./scripts/README.md)。
 
@@ -207,6 +235,9 @@ html-presentation/
 - 每页 slide 使用 `<section class="slide">...</section>`。
 - 当前激活 slide 使用 `.active` class，翻页只操作 class。
 - 所有样式与脚本内联，不依赖外部资源。
+- 导演 HTML 严格一镜一页；镜头编号属于制作结构，不显示在最终画面中。
+- 每镜口播放入 `.slide-subtitle`，逐字保留，供 SRT 或 Hyperframes 匹配；渲染时可以隐藏，但不要删除节点。
+- 视频动效应可重播、可清理；建议提供 `window.runSlide` 和确定性的 `window.presentation.renderFrame(index, localSeconds)`。
 - 详细规范见 [`SKILL.md`](./SKILL.md)。
 
 ## 作者

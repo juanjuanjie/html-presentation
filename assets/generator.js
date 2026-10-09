@@ -15,7 +15,7 @@
   function syncTemplatePicker(){
     const selected=el('template').value;
     const item=options[Number(selected)];
-    templateButton.innerHTML=`<img src="${item.image}" alt="" decoding="async"><span><strong>${item.name}</strong><small>${item.desc}</small></span><span class="generation-template-chevron" aria-hidden="true">⌄</span>`;
+    templateButton.innerHTML=`<img src="${item.image}" alt="" decoding="async"><span><strong>${item.name}</strong><small>${item.desc}</small></span><span class="generation-template-chevron" aria-hidden="true"></span>`;
     templateMenu.querySelectorAll('[data-template-index]').forEach(option=>option.setAttribute('aria-selected',String(option.dataset.templateIndex===selected)));
   }
   function setTemplateMenu(open){

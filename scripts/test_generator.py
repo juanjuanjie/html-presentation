@@ -23,8 +23,18 @@ def main():
             page.locator('[data-appearance="light"]').click()
             assert page.locator("#generation-build").evaluate("e => getComputedStyle(e).backgroundColor") == "rgb(185, 142, 255)"
             assert page.locator('[data-page-link="generator"]').evaluate("e => getComputedStyle(e).color") == "rgb(185, 142, 255)"
+            page.locator('[data-appearance="dark"]').click()
+            page.locator('[data-md="README.md"]').click()
+            close_style = page.locator(".md-modal__close").evaluate("e => { const s=getComputedStyle(e); return [s.color,s.backgroundColor] }")
+            assert close_style[0] != close_style[1]
+            page.locator(".md-modal__close").click()
+            page.locator('[data-appearance="light"]').click()
             assert page.locator("#hero-title").inner_text() == "稿件 → HTML"
             assert page.locator("#generation-template-button img").count() == 1
+            title_box = page.locator("#generation-name").bounding_box()
+            template_box = page.locator("#generation-template-button").bounding_box()
+            assert abs(title_box["y"] - template_box["y"]) < 1
+            assert abs(title_box["height"] - template_box["height"]) < 1
             page.locator("#generation-template-button").click()
             assert page.locator("#generation-template-menu").is_visible()
             assert page.locator("#generation-template-menu img").count() > 3
