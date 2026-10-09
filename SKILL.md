@@ -1,6 +1,6 @@
 ---
 name: "html-presentation-video"
-description: "生成适合视频演示的 HTML 幻灯片：大字号、低密度、左右留白、高对比、单文件输出。"
+description: "将逐字稿生成简洁演讲 HTML，或将导演稿逐镜生成导演 HTML；沿用用户模板，单文件输出。"
 ---
 
 # HTML Presentation · 视频友好规范
@@ -8,6 +8,14 @@ description: "生成适合视频演示的 HTML 幻灯片：大字号、低密度
 > 本规范基于 [Zara Zhang](https://github.com/zarazhangrui) 的 [frontend-slides](https://github.com/zarazhangrui/frontend-slides) 与 [beautiful-html-templates](https://github.com/zarazhangrui/beautiful-html-templates) 改编，针对视频演示场景做了调整。详见项目根目录 [`NOTICE.md`](./NOTICE.md)。
 
 本规范用于指导生成适合 B 站讲解、知识分享、教程分镜的 HTML 幻灯片。
+
+## 首先选择模式
+
+- **演讲 HTML**：输入逐字稿，提炼观点，可合并段落并自由分页，以轻量动画、手动讲解为主。输出 `【演讲HTML】原稿标题.html`。
+- **导演 HTML**：输入导演稿，严格一镜一页，不增加封面、不合并或遗漏镜头；逐镜保留口播原文及标点，实现指定动效。输出 `【导演HTML】原稿标题.html`。
+- 用户要求导演 HTML 却只给逐字稿时，先请求导演稿，不默默替用户编排镜头。
+
+生成前完整阅读 [两种生成模式](docs/generation-modes.md)，遵循其模式约束与验收要求。每次另存新 HTML，不修改输入。用户指定模板和配色优先；下文紫金配色、字号、缩放、组件只是默认模板示例，不可强行覆盖其他主题。导演模式的逐镜约束优先于下文的内容精简与轻量动画建议。
 
 ## 默认视觉风格
 
@@ -171,7 +179,7 @@ description: "生成适合视频演示的 HTML 幻灯片：大字号、低密度
 - 键盘：← → / Home / End / 空格。
 - 点击：底部控制栏。
 - 触摸：左右滑动。
-- 翻页只操作 `.active` / `.exit-up` class，不使用 inline style。
+- 翻页复用所选模板的激活状态和交互；导演模式还必须执行每页的动效初始化与清理，不能只切换 class。
 
 ### 截图隐藏
 
@@ -184,10 +192,10 @@ description: "生成适合视频演示的 HTML 幻灯片：大字号、低密度
 
 ## 输出工作流
 
-1. 复制 `templates/presentation.html`。
-2. 按"单页单点"原则编写内容。
+1. 读取用户指定的完整模板；未指定时使用 `templates/presentation.html`。
+2. 按所选生成模式编写内容，另存为新文件。
 3. 浏览器打开预览翻页节奏。
-4. 运行 `python screenshot_html_slides.py xxx.html -o slides_out`。
+4. 如需静态图片，运行 `python scripts/screenshot_html_slides.py xxx.html -o slides_out`；PNG 不包含动态过程。
 5. 将 PNG 序列导入剪辑软件。
 
 ## 禁止项
@@ -195,5 +203,5 @@ description: "生成适合视频演示的 HTML 幻灯片：大字号、低密度
 - 一页多个核心观点。
 - 字号低于推荐最小值。
 - 使用外部 CSS/JS/图片资源（Google Fonts 等模板主题可例外，但基础模板应保持内联）。
-- 复杂动画、大量装饰元素。
+- 演讲模式避免复杂动画；导演模式允许稿件要求的动效，但必须可重播、可确定性定位。两种模式都避免无意义装饰。
 - 低对比度文字。

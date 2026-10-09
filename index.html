@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <link rel="stylesheet" href="assets/generator.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HTML Presentation 模板库</title>
@@ -24,6 +25,10 @@
       --line: #e5e7eb;
       --soft: #f4f4f5;
       --ink: #18181b;
+      --accent: #b98eff;
+      --accent-strong: #b98eff;
+      --accent-soft: #ede9fe;
+      --accent-rgb: 185, 142, 255;
       --radius: 8px;
       --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
       --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
@@ -76,7 +81,7 @@
       border: 2px solid #111;
       border-radius: 7px;
       background: #fff;
-      box-shadow: 4px 4px 0 #f7cb46;
+      box-shadow: 4px 4px 0 var(--accent);
       object-fit: cover;
     }
     .nav-links {
@@ -98,9 +103,9 @@
     }
     .nav-link:hover { background: var(--soft); color: #111; }
     .nav-link.primary {
-      background: #111;
+      background: var(--accent-strong);
       color: #fff;
-      box-shadow: 4px 4px 0 #f7cb46;
+      box-shadow: 4px 4px 0 #ede9fe;
     }
 
     .wrap {
@@ -150,7 +155,7 @@
       color: #3f3f46;
       font-size: 14px;
       font-weight: 750;
-      box-shadow: 4px 4px 0 #f7cb46;
+      box-shadow: 4px 4px 0 var(--accent);
     }
     .author-avatar {
       width: 24px;
@@ -180,7 +185,7 @@
       padding: 0 13px;
       outline: none;
     }
-    .search:focus { border-color: #a1a1aa; box-shadow: 0 0 0 4px rgba(161, 161, 170, 0.16); }
+    .search:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.16); }
     .segmented {
       height: 42px;
       display: inline-flex;
@@ -200,7 +205,7 @@
       font-weight: 700;
       cursor: pointer;
     }
-    .segment.active { background: #111; color: #fff; }
+    .segment.active { background: var(--accent-strong); color: #fff; }
     .count { color: var(--muted); font-size: 14px; white-space: nowrap; }
 
     .grid {
@@ -285,7 +290,7 @@
     }
     .doc-btn:hover { background: #f4f4f5; border-color: #a1a1aa; }
     .doc-btn:focus-visible {
-      outline: 3px solid rgba(30, 43, 250, 0.2);
+      outline: 3px solid rgba(var(--accent-rgb), 0.24);
       outline-offset: 2px;
     }
     .description {
@@ -338,9 +343,9 @@
       background: #fafafa;
     }
     .palette-theme.active {
-      border-color: #2563eb;
-      background: #eff6ff;
-      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.14);
     }
     .palette-theme .swatch {
       width: 22px;
@@ -391,7 +396,7 @@
       font-weight: 800;
     }
     .btn:hover { background: var(--soft); }
-    .btn.primary { border-color: #111; background: #111; color: #fff; }
+    .btn.primary { border-color: var(--accent-strong); background: var(--accent-strong); color: #fff; }
 
 
     .lab-section {
@@ -413,7 +418,7 @@
     .lab-kicker {
       width: fit-content;
       margin-bottom: 12px;
-      color: #8a6500;
+      color: var(--accent-strong);
       font-size: 13px;
       font-weight: 900;
       letter-spacing: 0.08em;
@@ -450,7 +455,7 @@
       box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
     }
     .lab-stat strong {
-      color: #8a6500;
+      color: var(--accent-strong);
       font-size: 24px;
       line-height: 1;
     }
@@ -535,7 +540,7 @@
       font-weight: 900;
       white-space: nowrap;
     }
-    .lab-badge.keep { background: rgba(247, 203, 70, 0.22); color: #6b4d00; border: 1px solid rgba(196, 145, 0, 0.3); }
+    .lab-badge.keep { background: var(--accent-soft); color: var(--accent-strong); border: 1px solid rgba(var(--accent-rgb), 0.3); }
     .lab-badge.maybe { background: rgba(245, 158, 11, 0.12); color: #b45309; border: 1px solid rgba(245, 158, 11, 0.24); }
     .lab-badge.skip { background: rgba(100, 116, 139, 0.11); color: #475569; border: 1px solid rgba(100, 116, 139, 0.22); }
     .lab-meta {
@@ -564,7 +569,7 @@
       padding: 3px 8px;
       border-radius: 5px;
       background: rgba(247, 203, 70, 0.2);
-      color: #6b4d00;
+      color: var(--accent-strong);
       font-size: 11px;
       font-weight: 750;
     }
@@ -631,7 +636,7 @@
       color: var(--fg);
       border: 1px solid var(--line);
       border-radius: 12px;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25), 8px 8px 0 #F7CB46;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25), 8px 8px 0 var(--accent);
       overflow: hidden;
       animation: md-pop 0.18s ease-out;
     }
@@ -704,7 +709,7 @@
       width: 28px;
       height: 28px;
       border: 3px solid var(--line);
-      border-top-color: #111;
+      border-top-color: var(--accent-strong);
       border-radius: 50%;
       animation: md-spin 0.8s linear infinite;
     }
@@ -764,7 +769,7 @@
     .md-content blockquote {
       margin: 16px 0;
       padding: 10px 16px;
-      border-left: 3px solid #F7CB46;
+      border-left: 3px solid var(--accent);
       background: var(--soft);
       border-radius: 0 7px 7px 0;
       color: #3f3f46;
@@ -843,9 +848,9 @@
       box-shadow: 0 1px 0 rgba(0,0,0,0.06);
     }
 
-    /* ---- highlight.js custom theme (black + yellow accents) ---- */
+    /* ---- highlight.js custom theme ---- */
     .md-content pre code.hljs { color: #e5e7eb; }
-    .hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-section, .hljs-link { color: #F7CB46; }
+    .hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-section, .hljs-link { color: #c6a1ff; }
     .hljs-string, .hljs-attr, .hljs-template-tag, .hljs-template-variable { color: #C0F7FE; }
     .hljs-number, .hljs-symbol, .hljs-bullet, .hljs-meta { color: #FE90E8; }
     .hljs-comment, .hljs-quote { color: #71717a; font-style: italic; }
@@ -953,7 +958,7 @@
       color: var(--fg);
       border: 1px solid var(--line);
       border-radius: 14px;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28), 8px 8px 0 #F7CB46;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28), 8px 8px 0 var(--accent);
       overflow: hidden;
       animation: md-pop 0.18s ease-out;
     }
@@ -1115,6 +1120,10 @@
       --line: #303038;
       --soft: #202027;
       --ink: #f5f5f7;
+      --accent: #a8ff3e;
+      --accent-strong: #a8ff3e;
+      --accent-soft: rgba(168,255,62,0.09);
+      --accent-rgb: 168, 255, 62;
       --shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
     .appearance-switch {
@@ -1138,7 +1147,9 @@
       white-space: nowrap;
     }
     .appearance-switch button[aria-pressed="true"] { background: var(--card); color: var(--fg); box-shadow: var(--shadow); }
-    .appearance-switch button:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+    [data-appearance="light"] .appearance-switch button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-strong); }
+    [data-appearance="light"] :is(.brand,.hero h1,.generation-panel h2) { color: var(--accent-strong); }
+    .appearance-switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     [data-appearance="dark"] .site-header { background: rgba(10,10,15,0.94); border-color: var(--line); }
     [data-appearance="dark"] :is(.search,.segmented,.doc-btn,.palette-theme,.btn,.theme-option,.custom-palette,.custom-field input,.md-modal__dialog,.preview-modal__dialog,.md-modal__header,.preview-modal__header) { background: var(--card); color: var(--fg); border-color: var(--line); }
     [data-appearance="dark"] :is(.nav-link,.author-line,.description,.palette-label,.segment,.cover-name,.theme-option__name,.md-modal__close,.preview-modal__close,.custom-field label,.md-content,.md-content strong,.md-content th,.md-error__msg) { color: var(--fg); }
@@ -1182,10 +1193,10 @@
           <button type="button" data-appearance="light" aria-pressed="true">浅色模式</button>
           <button type="button" data-appearance="dark" aria-pressed="false">暗色模式</button>
         </div>
-        <a class="nav-link" href="#templates">模板</a>
-        <a class="nav-link" href="#motion">动效</a>
+        <a class="nav-link" href="#generator" data-page-link="generator" aria-current="page">稿件生成</a>
+        <a class="nav-link" href="#templates" data-page-link="templates">模板</a>
+        <a class="nav-link" href="#motion" data-page-link="motion">动效</a>
         <a class="nav-link" href="#" data-md="README.md" data-title="README" data-crumb="README.md" data-type="markdown">README</a>
-        <a class="nav-link" href="#" data-md="themes/index.json" data-title="模板索引" data-crumb="themes/index.json" data-type="json">模板索引</a>
         <a class="nav-link primary" href="https://www.bilibili.com/video/BV1g5j46iE5C/?spm_id_from=333.1387.homepage.video_card.click&vd_source=a44f29c4f18178d5fbf00c97794d0f32" target="_blank" rel="noreferrer">视频教程</a>
       </div>
     </nav>
@@ -1194,13 +1205,33 @@
   <main id="top" class="wrap">
     <section class="hero" aria-labelledby="hero-title">
       <div>
-        <h1 id="hero-title">HTML 视频分镜模板</h1>
-        <p>这里汇总了项目里的可用主题。每张卡片都使用真实模板封面截图，可以直接打开预览，也可以查看对应的设计文档。</p>
+        <h1 id="hero-title">从稿件到 HTML</h1>
+        <p>上课演讲，用逐字稿提炼重点；视频分镜，用导演稿逐镜还原。选择制作模式和模板，复制完整提示词，交给你常用的 AI 生成。</p>
         <a class="author-line" href="https://space.bilibili.com/229150291" target="_blank" rel="noreferrer" aria-label="访问卷卷姐 juan 的 B 站空间"><img class="author-avatar" src="assets/avatar.png" alt="卷卷姐"><span>卷卷姐 juan</span></a>
       </div>
     </section>
 
-    <section id="templates" aria-labelledby="templates-title">
+    <section id="generator" class="generation-panel" aria-labelledby="generation-title">
+      <h2 id="generation-title">你要制作哪一种 HTML？</h2>
+      <div class="generation-modes">
+        <label><input type="radio" name="generation-mode" value="presentation" checked><strong>演讲 HTML</strong><span>逐字稿 → 重点提炼 · 自由分页 · 轻量动效</span></label>
+        <label><input type="radio" name="generation-mode" value="director"><strong>导演 HTML</strong><span>导演稿 → 一镜一页 · 原文字幕 · 分镜动效</span></label>
+      </div>
+      <p id="generation-help"></p>
+      <div class="generation-fields">
+        <label>原稿标题<input id="generation-name" placeholder="导入稿件后自动提取，也可以修改"></label>
+        <label>使用模板<select id="generation-template"></select></label>
+      </div>
+      <label for="generation-file">导入稿件（Markdown / TXT，仅在本页读取）</label>
+      <input id="generation-file" type="file" accept=".md,.txt,text/plain,text/markdown">
+      <label for="generation-source" id="generation-source-label">逐字稿全文</label>
+      <textarea id="generation-source" rows="10" placeholder="粘贴完整稿件，或从上方导入文件"></textarea>
+      <p id="generation-check" role="status" aria-live="polite"></p>
+      <div class="generation-actions"><button class="btn primary" id="generation-build" type="button">准备完整 Agent 提示词</button><button class="btn" id="generation-copy" type="button" disabled>复制提示词</button><button class="btn" id="generation-download" type="button" disabled>下载提示词</button></div>
+      <p>包含稿件全文、所选模板源码和对应生成规则。这里准备提示词，不会自动调用 AI；生成后请逐页预览再用于演讲或录制。</p>
+      <details id="generation-result"><summary>查看完整提示词</summary><textarea id="generation-prompt" rows="12" readonly aria-label="完整 Agent 提示词"></textarea></details>
+    </section>
+    <section id="templates" aria-label="模板广场" hidden>
       <div class="toolbar">
         <input id="search" class="search" type="search" placeholder="搜索模板、场景、风格..." aria-label="搜索模板">
         <div class="segmented" role="tablist" aria-label="模板色彩筛选">
@@ -1212,7 +1243,7 @@
       </div>
       <div id="template-grid" class="grid"></div>
     </section>
-    <section id="motion" class="lab-section" aria-labelledby="lab-title">
+    <section id="motion" class="lab-section" aria-labelledby="lab-title" hidden>
       <div class="lab-head">
         <div>
           <div class="lab-kicker">动效</div>
@@ -1547,6 +1578,7 @@
     });
     render();
   </script>
+  <script src="assets/generator.js"></script>
 
   <!-- marked.js for markdown parsing; highlight.js for code highlighting -->
   <!-- We load them with a small fallback loader so that a single CDN failure doesn't break the reader. -->
@@ -2125,7 +2157,7 @@
       const dark = document.documentElement.dataset.appearance === 'dark';
       return dark
         ? { bg: '#0a0a0f', surface: '#12121a', soft: '#181822', tint: '#20202a', text: '#f5f5f7', muted: '#a0a0af', line: '#30303c', accent: '#a8ff3e', bright: '#7ee02d', onAccent: '#0a0a0f', rgb: '168,255,62', bgRgb: '10,10,15', mesh: '0xa8ff3e', light: '0xa8ff3e' }
-        : { bg: '#fafafa', surface: '#ffffff', soft: '#f5f1e6', tint: '#fff8df', text: '#18181b', muted: '#6b7280', line: '#ddd6bf', accent: '#f7cb46', bright: '#ffe27a', onAccent: '#18181b', rgb: '247,203,70', bgRgb: '250,250,250', mesh: '0xf7cb46', light: '0xffe27a' };
+        : { bg: '#fafafa', surface: '#ffffff', soft: '#f3f0ff', tint: '#ede9fe', text: '#18181b', muted: '#6b7280', line: '#e0d7f2', accent: '#b98eff', bright: '#c6a1ff', onAccent: '#ffffff', rgb: '185,142,255', bgRgb: '250,250,250', mesh: '0xb98eff', light: '0xc6a1ff' };
     }
 
     const labComponents = [
@@ -2409,6 +2441,7 @@ countAll();setInterval(countAll,4000);
     function renderComponentLab() {
       const grid = document.getElementById('lab-grid');
       if (!grid) return;
+      if (document.getElementById('motion').hidden) { grid.replaceChildren(); return; }
       grid.innerHTML = labComponents.map(c => {
         const srcdoc = encodeURIComponent(c.demo());
         const badgeClass = c.keep;
@@ -2460,6 +2493,7 @@ countAll();setInterval(countAll,4000);
     });
     setAppearance(document.documentElement.dataset.appearance);
   </script>
+  <script src="assets/navigation.js"></script>
 </body>
 </html>
 

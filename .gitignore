@@ -27,4 +27,9 @@ desktop.ini
 
 # Node
 node_modules/
-docs/
+docs/*
+!docs/generation-modes.md
+
+# Local generated drafts (never publish)
+/marketgrep-professional-purple-dark.html
+/drafts/

@@ -9,7 +9,7 @@ from playwright.async_api import async_playwright
 
 
 DEFAULT_SELECTOR = ".slide"
-DEFAULT_HIDDEN_SELECTORS = [".controls", ".dots", ".progress", ".hint", ".nav-controls", ".nav-btn", ".nav-arrows", ".nav-dots", ".slide-counter", ".keyboard-hint", ".theme-switcher"]
+DEFAULT_HIDDEN_SELECTORS = [".controls", ".dots", ".progress", ".hint", ".nav-controls", ".nav-btn", ".nav-arrows", ".nav-dots", ".slide-counter", ".counter", ".keyboard-hint", ".theme-switcher"]
 DEFAULT_VIEWPORT_WIDTH = 1920
 DEFAULT_VIEWPORT_HEIGHT = 1080
 DEFAULT_DEVICE_SCALE = 2
@@ -80,6 +80,11 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=DEFAULT_DEVICE_SCALE,
         help="Device pixel ratio for sharper screenshots.",
+    )
+    parser.add_argument(
+        "--browser-executable",
+        default="",
+        help="Optional Chromium/Chrome/Edge executable path. Uses Playwright's bundled browser when omitted.",
     )
     parser.add_argument(
         "--content-scale-preset",
@@ -169,7 +174,10 @@ async def capture_slides(args: argparse.Namespace) -> None:
     content_scale = args.content_scale if args.content_scale and args.content_scale > 0 else CONTENT_SCALE_PRESETS[selected_preset]
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        launch_options = {"headless": True}
+        if args.browser_executable:
+            launch_options["executable_path"] = args.browser_executable
+        browser = await p.chromium.launch(**launch_options)
         page = await browser.new_page(
             viewport={"width": args.viewport_width, "height": args.viewport_height},
             device_scale_factor=args.device_scale,
