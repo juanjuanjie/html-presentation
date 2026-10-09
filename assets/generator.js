@@ -5,10 +5,23 @@
   const options = [];
   templates.forEach(item => {
     const variants = item.themes || [];
-    options.push({name:item.name, path:item.template, vars:{}});
-    variants.forEach(theme => options.push({name:item.name+' · '+theme.name, path:theme.template||item.template, vars:theme.vars||{}}));
+    options.push({name:item.name, path:item.template, vars:{}, image:item.image, desc:item.tagline||'模板默认风格'});
+    variants.forEach(theme => options.push({name:item.name+' · '+theme.name, path:theme.template||item.template, vars:theme.vars||{}, image:theme.image||item.image, desc:theme.desc||item.tagline||''}));
   });
   options.forEach((item,i) => el('template').add(new Option(item.name,String(i))));
+  const gallery=document.getElementById('generation-template-gallery');
+  gallery.innerHTML=options.map((item,i)=>`<button type="button" class="generation-template-card" data-template-index="${i}" aria-pressed="${i===0}"><img src="${item.image}" alt="" loading="lazy" decoding="async"><span><strong>${item.name}</strong><small>${item.desc}</small></span></button>`).join('');
+  function syncTemplateGallery(){
+    const selected=el('template').value;
+    gallery.querySelectorAll('[data-template-index]').forEach(card=>card.setAttribute('aria-pressed',String(card.dataset.templateIndex===selected)));
+  }
+  gallery.addEventListener('click',event=>{
+    const card=event.target.closest('[data-template-index]');
+    if(!card)return;
+    el('template').value=card.dataset.templateIndex;
+    el('template').dispatchEvent(new Event('input',{bubbles:true}));
+    syncTemplateGallery();
+  });
   let revision = 0;
   function invalidate(){
     revision++;
@@ -29,7 +42,8 @@
   }
   document.querySelectorAll('[name="generation-mode"]').forEach(input=>input.addEventListener('change',update));
   el('source').addEventListener('input',update);
-  ['name','template'].forEach(id=>el(id).addEventListener('input',invalidate));
+  el('name').addEventListener('input',invalidate);
+  el('template').addEventListener('input',()=>{invalidate();syncTemplateGallery();});
   el('file').addEventListener('change',async()=>{
     const file=el('file').files[0];
     if(!file)return;

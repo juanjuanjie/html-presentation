@@ -1205,7 +1205,7 @@
   <main id="top" class="wrap">
     <section class="hero" aria-labelledby="hero-title">
       <div>
-        <h1 id="hero-title">从稿件到 HTML</h1>
+        <h1 id="hero-title">稿件 → HTML</h1>
         <p>上课演讲，用逐字稿提炼重点；视频分镜，用导演稿逐镜还原。选择制作模式和模板，复制完整提示词，交给你常用的 AI 生成。</p>
         <a class="author-line" href="https://space.bilibili.com/229150291" target="_blank" rel="noreferrer" aria-label="访问卷卷姐 juan 的 B 站空间"><img class="author-avatar" src="assets/avatar.png" alt="卷卷姐"><span>卷卷姐 juan</span></a>
       </div>
@@ -1252,8 +1252,9 @@
       </details>
       <div class="generation-fields">
         <label>原稿标题<input id="generation-name" placeholder="导入稿件后自动提取，也可以修改"></label>
-        <label>使用模板<select id="generation-template"></select></label>
+        <label>使用模板<select id="generation-template"></select><span class="template-picker-hint">也可以点击下方缩略图快速选择</span></label>
       </div>
+      <div id="generation-template-gallery" class="generation-template-gallery" aria-label="模板缩略图选择"></div>
       <label for="generation-file">导入稿件（Markdown / TXT，仅在本页读取）</label>
       <input id="generation-file" type="file" accept=".md,.txt,text/plain,text/markdown">
       <label for="generation-source" id="generation-source-label">逐字稿全文</label>
