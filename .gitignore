@@ -33,3 +33,4 @@ docs/*
 # Local generated drafts (never publish)
 /marketgrep-professional-purple-dark.html
 /drafts/
+/.preview-*/

@@ -20,15 +20,20 @@ def main():
             errors = []
             page.on("pageerror", lambda error: errors.append(str(error)))
             page.goto(f"http://127.0.0.1:{server.server_port}/index.html")
-            page.locator('[data-appearance="light"]').click()
+            if page.locator("html").get_attribute("data-appearance") != "light":
+                page.locator("#appearance-toggle").click()
             assert page.locator("#generation-build").evaluate("e => getComputedStyle(e).backgroundColor") == "rgb(185, 142, 255)"
             assert page.locator('[data-page-link="generator"]').evaluate("e => getComputedStyle(e).color") == "rgb(185, 142, 255)"
-            page.locator('[data-appearance="dark"]').click()
+            page.locator("#appearance-toggle").click()
+            assert page.locator("html").get_attribute("data-appearance") == "dark"
+            assert page.locator(".icon-moon").is_visible()
             page.locator('[data-md="README.md"]').click()
             close_style = page.locator(".md-modal__close").evaluate("e => { const s=getComputedStyle(e); return [s.color,s.backgroundColor] }")
             assert close_style[0] != close_style[1]
             page.locator(".md-modal__close").click()
-            page.locator('[data-appearance="light"]').click()
+            page.locator("#appearance-toggle").click()
+            assert page.locator("html").get_attribute("data-appearance") == "light"
+            assert page.locator(".icon-sun").is_visible()
             assert page.locator("#hero-title").inner_text() == "稿件 → HTML"
             assert page.locator("#generation-template-button img").count() == 1
             title_box = page.locator("#generation-name").bounding_box()

@@ -63,7 +63,7 @@
 | **BlockFrame Dark** | 11 | 第 1 页为暗色项目封面，第 2 页保留原主题封面 | 暗色视频分镜、高对比教程、视觉冲击型展示 |
 | **Blue Professional** | 10 | 保留原专业商务封面 | B2B SaaS、投资者更新、咨询交付 |
 | **Purple Gold Presentation** | 10 | 第 1 页替换为「PPT 正在被 HTML 淘汰」项目封面；新增黄黑浅色配色可切换 | 知识分享、教程视频、暗色电影感开场 |
-| **Apple Bento Grid** | 10 | 保留原主题封面 | 产品发布、功能对比、数据仪表盘、路线图 |
+| **Doodle Cream** | 13 | 暖黄色封面、白色内容页，统一手绘人物与不规则圆形流程 | 课堂演示、知识分享、视频分镜、个人品牌内容 |
 
 每个模板卡片都提供「实时预览」和「设计文档」入口。
 
@@ -71,9 +71,9 @@
 
 ## 效果预览
 
-| BlockFrame | BlockFrame Dark | Blue Professional | Purple Gold | Apple Bento Grid |
+| Doodle Cream | BlockFrame | BlockFrame Dark | Blue Professional | Purple Gold |
 |---|---|---|---|---|
-| ![BlockFrame](assets/previews/blockframe.png) | ![BlockFrame Dark](assets/previews/blockframe-dark.png) | ![Blue Professional](assets/previews/blue-professional.png) | ![Purple Gold](assets/previews/purple-gold-presentation.png) | ![Apple Bento Grid](assets/previews/apple-bento-grid.png) |
+| ![Doodle Cream](assets/previews/doodle-cream.png) | ![BlockFrame](assets/previews/blockframe.png) | ![BlockFrame Dark](assets/previews/blockframe-dark.png) | ![Blue Professional](assets/previews/blue-professional.png) | ![Purple Gold](assets/previews/purple-gold-presentation.png) |
 
 ### 可选封面模板
 
@@ -171,8 +171,8 @@ html-presentation/
 │   ├── blockframe/                    # 新粗野主义亮色版
 │   ├── blockframe-dark/               # 新粗野主义暗色版
 │   ├── blue-professional/             # 蓝/米白专业风
+│   ├── doodle-cream/                  # 白纸暖黄手绘风与不规则圆形流程
 │   ├── purple-gold-presentation/      # 紫/金暗色电影感
-│   ├── apple-bento-grid/              # 苹果便当盒设计风格（产品/数据/路线图）
 │   ├── index.json                     # 主题索引
 │   ├── covers-index.json              # 封面索引
 │   ├── README.md                      # 主题库说明
@@ -266,7 +266,7 @@ html-presentation/
 
 - **视频友好化改造**：整体放大字号、降低信息密度、增加左右留白、提升对比度，删除噪点纹理，更适合视频压缩场景。
 - **精简结构**：删除 `.git/`、`__pycache__/`、生成日志、截图缓存等冗余文件；删除具体项目输出。
-- **精简主题库**：保留并维护适用于视频演示的 `blockframe`、`blockframe-dark`、`blue-professional`、`purple-gold-presentation`，并新增 `apple-bento-grid` 主题，同步更新了索引与说明文档。
+- **精简主题库**：保留并维护适用于视频演示的 `doodle-cream`、`blockframe`、`blockframe-dark`、`blue-professional`、`purple-gold-presentation` 等主题，并同步更新索引与说明文档。
 - **改进截图脚本**：自动隐藏更多模板自带的导航控件，导出画面更干净。
 - **整理脚本工具集**：将 `screenshot_html_slides.py`、`extract_covers.py`、`apply_cover.py` 三个脚本统一收纳到 `scripts/` 目录，脚本自动定位项目根目录，并提供完整的 [`scripts/README.md`](./scripts/README.md) 文档。
 - **新增模板广场首页**：`index.html` 可直接部署到 GitHub Pages，方便浏览和预览主题。

@@ -1,8 +1,22 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-25T13:59:24.405Z",
+  "generated_at": "2026-10-15T00:00:00+08:00",
   "template_count": 5,
   "templates": [
+    {
+      "slug": "doodle-cream",
+      "name": "Doodle Cream",
+      "tagline": "白色画布与暖黄色封面，结合统一手绘人物和不规则圆形流程的轻松演示风格。",
+      "mood": ["warm", "playful", "friendly", "hand-drawn", "clean"],
+      "occasion": ["知识分享", "课堂演示", "轻量教程", "创意提案", "个人品牌内容"],
+      "tone": ["approachable", "gentle", "clear", "informal"],
+      "formality": "medium-low",
+      "density": "medium",
+      "scheme": "light",
+      "best_for": "希望内容亲切、轻松、带一点手作感，同时仍保持清晰信息层级的知识型演示。",
+      "avoid_for": "需要严肃金融披露、传统公文感或深色电影质感的内容。",
+      "slide_count": 13
+    },
     {
       "slug": "blockframe",
       "name": "BlockFrame",
@@ -128,37 +142,6 @@
       "scheme": "dark",
       "best_for": "?????????????????????????PPT ??? HTML ?????????????????????????? B ??????",
       "avoid_for": "需要明亮/playful 配色、 heavy 渐变、企业蓝或彩虹强调的场景。也不适合浅色背景或紧凑信息密集型布局。",
-      "slide_count": 10
-    },
-    {
-      "slug": "apple-bento-grid",
-      "name": "Apple Bento Grid",
-      "tagline": "白色与浅灰画布上的苹果式便当盒网格，用高级黑白灰组织复杂产品信息。",
-      "mood": [
-        "modern",
-        "ordered",
-        "polished",
-        "modular",
-        "premium"
-      ],
-      "occasion": [
-        "产品发布",
-        "SaaS 功能介绍",
-        "技术方案",
-        "设计系统展示",
-        "产品路线图"
-      ],
-      "tone": [
-        "clean",
-        "precise",
-        "calm",
-        "product-led"
-      ],
-      "formality": "medium-high",
-      "density": "medium",
-      "scheme": "light",
-      "best_for": "需要以现代、清晰且精美的方式展示产品模块、功能结构、关键指标和路线图的演示。",
-      "avoid_for": "需要强烈手作质感、复古纸张风格或高饱和视觉冲击的内容。",
       "slide_count": 10
     }
   ]

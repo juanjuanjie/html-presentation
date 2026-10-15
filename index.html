@@ -1128,28 +1128,31 @@
     }
     .appearance-switch {
       display: inline-flex;
-      padding: 3px;
-      gap: 2px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--soft);
+      align-items: center;
+      justify-content: center;
     }
-    .appearance-switch button {
-      min-height: 32px;
-      padding: 0 10px;
-      border: 0;
-      border-radius: 5px;
-      background: transparent;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
+    .appearance-toggle {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid #111;
+      border-radius: 50%;
+      background: #111;
+      color: #fff;
       cursor: pointer;
-      white-space: nowrap;
+      transition: transform .16s ease, background .16s ease, color .16s ease, border-color .16s ease;
     }
-    .appearance-switch button[aria-pressed="true"] { background: var(--card); color: var(--fg); box-shadow: var(--shadow); }
-    [data-appearance="light"] .appearance-switch button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-strong); }
+    .appearance-toggle:hover { transform: translateY(-1px) scale(1.04); }
+    .appearance-toggle:active { transform: scale(.94); }
+    .appearance-toggle svg { width: 22px; height: 22px; display: block; }
+    .appearance-toggle .icon-moon { display: none; }
+    [data-appearance="dark"] .appearance-toggle { background: #fff; color: #0a0a0f; border-color: #fff; }
+    [data-appearance="dark"] .appearance-toggle .icon-sun { display: none; }
+    [data-appearance="dark"] .appearance-toggle .icon-moon { display: block; }
     [data-appearance="light"] :is(.brand,.hero h1,.generation-panel h2) { color: var(--accent-strong); }
-    .appearance-switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .appearance-toggle:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
     [data-appearance="dark"] .site-header { background: rgba(10,10,15,0.94); border-color: var(--line); }
     [data-appearance="dark"] :is(.search,.segmented,.doc-btn,.palette-theme,.btn,.theme-option,.custom-palette,.custom-field input,.md-modal__dialog,.preview-modal__dialog,.md-modal__header,.preview-modal__header) { background: var(--card); color: var(--fg); border-color: var(--line); }
     [data-appearance="dark"] :is(.nav-link,.author-line,.description,.palette-label,.segment,.cover-name,.theme-option__name,.md-modal__close,.preview-modal__close,.custom-field label,.md-content,.md-content strong,.md-content th,.md-error__msg) { color: var(--fg); }
@@ -1192,9 +1195,15 @@
         <span>HTML Presentation</span>
       </a>
       <div class="nav-links">
-        <div class="appearance-switch" role="group" aria-label="页面外观">
-          <button type="button" data-appearance="light" aria-pressed="true">浅色模式</button>
-          <button type="button" data-appearance="dark" aria-pressed="false">暗色模式</button>
+        <div class="appearance-switch">
+          <button type="button" class="appearance-toggle" id="appearance-toggle" aria-label="切换到暗色模式" title="切换到暗色模式">
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="3.5"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path>
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+              <path d="M20.3 15.2A8.6 8.6 0 0 1 8.8 3.7 9.1 9.1 0 1 0 20.3 15.2Z"></path>
+            </svg>
+          </button>
         </div>
         <a class="nav-link" href="#generator" data-page-link="generator" aria-current="page">稿件生成</a>
         <a class="nav-link" href="#templates" data-page-link="templates">模板</a>
@@ -1432,6 +1441,20 @@
   <script>
     let templates = [
       {
+        slug: 'doodle-cream',
+        name: 'Doodle Cream',
+        scheme: 'light',
+        image: 'assets/previews/doodle-cream.png?v=4',
+        tagline: '白纸暖黄 · 手绘人物 · 不规则流程',
+          palette: ['#FFFFFF', '#FFE477', '#222222'],
+        tags: ['hand drawn', 'warm', 'tutorial', 'classroom'],
+        template: 'themes/doodle-cream/template.html',
+        docs: 'themes/doodle-cream/design.md',
+        themes: [
+          { key: 'white-yellow', name: '白纸暖黄', scheme: 'light', desc: '白色画布 + 暖柠檬黄焦点 + 手绘人物与不规则圆形流程', image: 'assets/previews/doodle-cream.png?v=4', swatch: 'linear-gradient(135deg, #FFFFFF 0 56%, #FFE477 56% 82%, #222222 82%)', vars: { offwhite: '#FFFEFB', black: '#171717', white: '#FFFFFF', pink: '#FFFFFF', blue: '#FFFFFF', green: '#FFFFFF', yellow: '#FFE477', cream: '#FFE477', purple: '#171717', lavender: '#FFFFFF' } }
+        ]
+      },
+      {
         slug: 'blockframe',
         name: 'BlockFrame',
         scheme: 'light',
@@ -1462,21 +1485,6 @@
           { key: 'cream-blue', name: '奶油钴蓝', scheme: 'light', desc: '奶油纸底 + 电光钴蓝，克制专业', image: 'assets/previews/blue-professional.png?v=2', swatch: 'linear-gradient(135deg, #FDFAE7 0 58%, #1E2BFA 58% 78%, #111111 78%)', vars: { bg: '#FDFAE7', 'bg-cover': '#F7F3E6', primary: '#1E2BFA', 'accent-gold': '#1E2BFA', text: '#111111', 'text-muted': '#6B6B6B', 'text-light': '#9A9A9A' } },
           { key: 'dark', name: '紫金暗色', scheme: 'dark', desc: '近黑电影感背景，紫色结构 + 金色强调', image: 'assets/previews/purple-gold-presentation.png?v=2', swatch: 'linear-gradient(135deg, #08090d 0 50%, #b98eff 50% 72%, #ffc402 72%)', vars: { bg: '#08090D', 'bg-cover': '#070609', primary: '#B98EFF', 'accent-gold': '#FFC402', text: '#F6F2E8', 'text-muted': '#AAA59A', 'text-light': '#746F66' } },
           { key: 'black-green', name: '黑绿专业', scheme: 'dark', desc: '深黑画布 + 荧光绿主色，适合技术报告和能力展示', image: 'assets/previews/purple-gold-presentation.png?v=2', swatch: 'linear-gradient(135deg, #0A0A0F 0 48%, #12121A 48% 68%, #A8FF3E 68%)', vars: { bg: '#0A0A0F', 'bg-cover': '#07080C', primary: '#A8FF3E', 'accent-gold': '#A8FF3E', text: '#F5F5F7', 'text-muted': '#8A8A9A', 'text-light': '#5F6070' } }
-        ]
-      },
-      {
-        slug: 'apple-bento-grid',
-        name: 'Apple Bento Grid',
-        scheme: 'light',
-        image: 'assets/previews/apple-bento-grid.png?v=2',
-        tagline: '苹果便当盒设计风格',
-        palette: ['#FFFFFF', '#F8F8FA', '#DEDEE2', '#96979C', '#494A50', '#111113'],
-        tags: ['bento grid', 'product', 'apple style', 'modular'],
-        template: 'themes/apple-bento-grid/template.html',
-        docs: 'themes/apple-bento-grid/design.md',
-        themes: [
-          { key: 'classic', name: '黑白灰便当', scheme: 'light', desc: '冷白编辑网格 + 黑色核心面板，克制清晰', image: 'assets/previews/apple-bento-grid.png?v=2', swatch: 'linear-gradient(135deg, #F5F5F7 0 38%, #FFFFFF 38% 60%, #D8D9DE 60% 78%, #101114 78%)', vars: { bg: '#F5F5F7', surface: '#FFFFFF', 'surface-strong': '#EDEDF0', text: '#101114', muted: '#686970', line: '#D8D9DE', dark: '#101114', white: '#FFFFFF', blue: '#1D1E22', green: '#505158', orange: '#85868D', purple: '#35363B', lavender: '#E7E7EB' } },
-          { key: 'dark-green', name: '暗绿便当', scheme: 'dark', desc: '精密黑色网格 + 荧光绿信号，低泛光高对比', image: 'assets/previews/apple-bento-grid-dark-green.png?v=2', swatch: 'linear-gradient(135deg, #0A0A0F 0 45%, #12121A 45% 68%, #2A2A3A 68% 84%, #A8FF3E 84%)', vars: { bg: '#0A0A0F', surface: '#12121A', 'surface-strong': '#181822', text: '#F5F5F7', muted: '#A0A0AF', line: '#2A2A3A', dark: '#000000', white: '#FFFFFF', blue: '#A8FF3E', green: '#2ED573', orange: '#FF9F43', purple: '#7EE02D', lavender: '#1F1F2D', shadow: '0 16px 42px rgba(0,0,0,0.36)', 'shadow-soft': '0 8px 24px rgba(0,0,0,0.22)' } }
         ]
       }
     ];
@@ -2040,9 +2048,6 @@
       if (templateUrl.includes('purple-gold-presentation')) {
         return { bg: values.bg, 'bg-cover': shadeHex(values.bg, -6), primary: values.primary, 'accent-gold': values.accent, text: values.text, 'text-muted': values.muted, 'text-light': values.muted };
       }
-      if (templateUrl.includes('apple-bento-grid')) {
-        return { bg: values.bg, surface: shadeHex(values.bg, -8), 'surface-strong': shadeHex(values.bg, -16), text: values.text, muted: values.muted, dark: values.text, white: '#ffffff', blue: values.primary, green: values.accent, orange: values.accent, purple: values.primary, lavender: shadeHex(values.bg, -12), line: shadeHex(values.bg, -24) };
-      }
       return { bg: values.bg, primary: values.primary, text: values.text, 'text-muted': values.muted, 'text-light': values.muted };
     }
 
@@ -2520,17 +2525,16 @@ countAll();setInterval(countAll,4000);
 
     function setAppearance(mode) {
       document.documentElement.dataset.appearance = mode === 'dark' ? 'dark' : 'light';
-      document.querySelectorAll('.appearance-switch button').forEach(button => {
-        button.setAttribute('aria-pressed', String(button.dataset.appearance === document.documentElement.dataset.appearance));
-      });
+      const appearanceToggle = document.getElementById('appearance-toggle');
+      const nextLabel = document.documentElement.dataset.appearance === 'dark' ? '切换到浅色模式' : '切换到暗色模式';
+      appearanceToggle.setAttribute('aria-label', nextLabel);
+      appearanceToggle.title = nextLabel;
       try { localStorage.setItem('hp-appearance', document.documentElement.dataset.appearance); } catch (_) {}
       if (typeof render === 'function') render();
       renderComponentLab();
     }
-    document.querySelectorAll('.appearance-switch button').forEach(button => {
-      button.addEventListener('click', () => {
-        if (button.dataset.appearance !== document.documentElement.dataset.appearance) setAppearance(button.dataset.appearance);
-      });
+    document.getElementById('appearance-toggle').addEventListener('click', () => {
+      setAppearance(document.documentElement.dataset.appearance === 'dark' ? 'light' : 'dark');
     });
     setAppearance(document.documentElement.dataset.appearance);
   </script>

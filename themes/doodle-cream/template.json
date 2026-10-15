@@ -1,0 +1,20 @@
+{
+  "slug": "doodle-cream",
+  "name": "Handdrawn Yellow",
+  "tagline": "黄色满版封面、白色内容页、手绘人物与黑色线条组成的亲切演示风格。",
+  "mood": ["minimal", "friendly", "hand-drawn", "airy"],
+  "occasion": ["知识分享", "课堂演示", "轻量教程", "创意提案"],
+  "tone": ["approachable", "gentle", "clear"],
+  "formality": "medium-low",
+  "density": "medium",
+  "scheme": "light",
+  "palette": {
+    "paper": "#FFFFFF",
+    "ink": "#222222",
+    "yellow": "#FFE477",
+    "secondary": "#FFFFFF"
+  },
+  "font": "Xiaolai",
+  "slide_count": 13,
+  "navigation": "键盘、按钮和触摸滑动翻页，带页码进度。"
+}
