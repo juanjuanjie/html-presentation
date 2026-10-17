@@ -5,8 +5,11 @@
   const options = [];
   templates.forEach(item => {
     const variants = item.themes || [];
-    options.push({name:item.name, path:item.template, vars:{}, image:item.image, desc:item.tagline||'模板默认风格'});
-    variants.forEach(theme => options.push({name:item.name+' · '+theme.name, path:theme.template||item.template, vars:theme.vars||{}, image:theme.image||item.image, desc:theme.desc||item.tagline||''}));
+    if (variants.length) {
+      variants.forEach(theme => options.push({name:item.name+' · '+theme.name, path:theme.template||item.template, vars:theme.vars||{}, image:theme.image||item.image, desc:theme.desc||item.tagline||''}));
+    } else {
+      options.push({name:item.name, path:item.template, vars:{}, image:item.image, desc:item.tagline||'模板默认风格'});
+    }
   });
   options.forEach((item,i) => el('template').add(new Option(item.name,String(i))));
   const templateButton=document.getElementById('generation-template-button');
@@ -31,8 +34,30 @@
     syncTemplatePicker();
     setTemplateMenu(false);
   });
+  window.useGenerationTemplate=(item)=>{
+    const signature=JSON.stringify([item.path,item.vars||{}]);
+    let index=options.findIndex(option=>JSON.stringify([option.path,option.vars||{}])===signature);
+    if(index<0){
+      index=options.push({name:item.name,path:item.path,vars:item.vars||{},image:item.image,desc:item.desc||'自定义配色'})-1;
+      el('template').add(new Option(item.name,String(index)));
+      templateMenu.insertAdjacentHTML('beforeend',`<button type="button" class="generation-template-option" role="option" data-template-index="${index}" aria-selected="false"><img src="${item.image}" alt="" loading="lazy" decoding="async"><span><strong>${item.name}</strong><small>${item.desc||'自定义配色'}</small></span></button>`);
+    }
+    el('template').value=String(index);
+    el('template').dispatchEvent(new Event('input',{bubbles:true}));
+  };
   document.addEventListener('click',event=>{if(!event.target.closest('.generation-template-select'))setTemplateMenu(false);});
   document.addEventListener('keydown',event=>{if(event.key==='Escape')setTemplateMenu(false);});
+  document.querySelectorAll('.planner-fields select').forEach(select=>{
+    const label=select.closest('label');
+    const close=()=>label.classList.remove('is-select-open');
+    select.addEventListener('pointerdown',()=>label.classList.add('is-select-open'));
+    select.addEventListener('change',close);
+    select.addEventListener('blur',close);
+    select.addEventListener('keydown',event=>{
+      if(['Enter',' ','ArrowDown','ArrowUp'].includes(event.key))label.classList.add('is-select-open');
+      if(event.key==='Escape')close();
+    });
+  });
   syncTemplatePicker();
   let revision = 0;
   function invalidate(){
@@ -47,14 +72,19 @@
     invalidate();
     const director=mode()==='director';
     document.getElementById('director-guide').hidden=!director;
-    el('help').textContent=director?'请提供包含布局、画面、花字、动效、转场和口播的导演稿。严格按镜头顺序生成，不自动合并或增补镜头。':'请提供完整逐字稿。AI 会保留核心论点和事实，提炼成适合上课、演讲的简洁页面，无需预先拆镜头。';
+    const planner=document.getElementById('presentation-planner');
+    planner.classList.toggle('is-director',director);
+    planner.querySelectorAll('.presentation-only').forEach(item=>item.hidden=director);
+    el('help').textContent=director?'请提供包含布局、画面、花字、动效、转场和口播的导演稿。严格按镜头顺序生成，不自动合并或增补镜头。':'请提供完整逐字稿。AI 会先梳理内容目标、故事结构和逐页任务，再使用你选择的模板生成 HTML。';
+    document.getElementById('generation-manuscript-kind').textContent=director?'导演稿':'逐字稿';
     el('source-label').textContent=director?'导演稿全文':'逐字稿全文';
     const ids=shots(el('source').value);
-    el('check').textContent=director?(ids.length?'识别到 '+ids.length+' 个镜头；生成前会检查重复与跳号。':'支持“镜 01”“镜头 01”等镜头标题。请导入导演稿。'):'按内容组织页面，不要求段落数等于页数。';
+    el('check').textContent=director?(ids.length?'识别到 '+ids.length+' 个镜头；生成前会检查重复与跳号。':'支持“镜 01”“镜头 01”等镜头标题。请导入导演稿。'):'';
   }
   document.querySelectorAll('[name="generation-mode"]').forEach(input=>input.addEventListener('change',update));
   el('source').addEventListener('input',update);
   el('name').addEventListener('input',invalidate);
+  ['occasion','page-count','goal'].forEach(id=>el(id).addEventListener('input',invalidate));
   el('template').addEventListener('input',()=>{invalidate();syncTemplatePicker();});
   el('file').addEventListener('change',async()=>{
     const file=el('file').files[0];
@@ -75,11 +105,22 @@
 输出完整 HTML 源码或可下载 HTML 文件，不要省略 CSS、脚本或后半部分页面。生成后给出简短自检结果，不要把自检写入画面。`;
   const rules={
     presentation:`【演讲 HTML 规则】
-输入是逐字稿，不需要导演稿。按逻辑提炼观点，允许合并相关段落、重新分页，但不能改事实或遗漏核心论证。
-每页一个重点，用标题、短句、简洁图示表达，避免把长篇口播整段贴到画面。页数按内容决定，不强求一段一页。
-以轻量淡入、强调为主，适合讲者手动控制节奏，不要求复杂自动演出；不自动跳页。
-可以有标题页、总结页，但不添加冗长装饰章节。不要添加音频或 BGM。
-标题和文件名为“【演讲HTML】原稿标题”。验收：核心观点完整、文字清晰、翻页可用。`,
+输入是逐字稿，不需要导演稿。开始写代码前必须完整阅读稿件并完成内容规划，不能读到一半就开始逐段套版。
+
+第一阶段：故事规划。
+先提炼一个叙事主张：观众看完后应该理解、相信、决定或开始做什么。把全文组织成“开场 → 展开 → 收束”的叙事弧；每页只能承担一个叙事任务、表达一个主要观点。规划页与页之间的承接，避免相邻页面只是互不相关的摘抄。
+先输出一份简洁的 Story Plan，表格必须包含：页码｜叙事任务｜主要观点｜支撑内容或视觉表达｜如何承接下一页。Story Plan 之后直接生成完整 HTML，不等待用户二次确认。
+
+第二阶段：页面与视觉规划。
+逐页决定最适合内容的表达方式，例如关键句、对比、步骤、时间线、关系图、数据图、案例或总结；不得为凑版式编造事实、数字、引语或案例。每页一个重点，用标题、短句和必要的图示表达，避免把长篇口播整段贴到画面。允许合并相关段落、重新分页，但不能改变事实或遗漏核心论证，也不要求一段一页。
+
+第三阶段：按用户所选模板生成。
+模板已经由用户手动选择，它是本次设计系统的唯一依据。禁止自动匹配风格、禁止改选其他模板、禁止展示或比较所谓“22 套设计系统”。沿用模板的字体、配色变量、组件、间距、边框、插图和动效语言；需要扩展布局时，也必须像同一套模板自然生长出来。
+以轻量淡入和重点强调为主，适合讲者手动控制节奏，不自动跳页，不加入音频或 BGM。可以有标题页、必要的过渡页和总结页，但不添加空洞、重复或纯装饰页面。
+
+第四阶段：生成后逐页自检。
+检查 Story Plan 是否全部落实、每页是否只有一个主任务、前后逻辑是否连贯、事实是否忠于原稿、文字是否清晰、元素是否溢出或被裁切、是否出现滚动条、翻页与进度控件是否可用。发现问题应在交付前直接修正。
+标题和文件名为“【演讲HTML】原稿标题”。最终回答顺序：Story Plan → 完整 HTML → 简短自检结果。`,
     director:`【导演 HTML 规则】
 输入必须是导演稿。先逐镜提取布局、画面、花字、动效、转场、口播，必须读完全文。
 一镜一页，镜头数量和顺序必须完全一致。不得合并第32/33镜之类的相邻镜头，不额外插入封面、目录、结束页。
@@ -105,6 +146,11 @@
     }
     invalidate();
     const ticket=revision, selected=options[Number(el('template').value)];
+    const plan=selectedMode==='presentation'?[`【本次规划约束】`,
+      `使用场景：${el('occasion').value}`,
+      `期望页数：${el('page-count').value}`,
+      `观众看完后应该：${el('goal').value.trim()||'请根据完整稿件提炼一个清晰、具体的观看结果'}`,
+      `模板选择：用户已明确选择“${selected.name}”，不得自动更换或另行匹配风格。`].join('\n'):'';
     el('build').disabled=true;
     el('check').textContent='正在载入模板源码…';
     try{
@@ -113,12 +159,13 @@
       const template=await response.text();
       if(ticket!==revision)return;
       el('prompt').value=[common,rules[selectedMode], '原稿标题：'+title,
+        plan,
         selectedMode==='director'?'镜头总数：'+ids.length+'；编号：'+ids.join(', '):'',
         '所选模板：'+selected.name+'\n配色覆盖：'+JSON.stringify(selected.vars),
         '【稿件开始】\n'+text+'\n【稿件结束】',
         '【模板源码开始】\n'+template+'\n【模板源码结束】'].filter(Boolean).join('\n\n');
       el('copy').disabled=el('download').disabled=false;
-      el('check').textContent='提示词已准备好，共 '+el('prompt').value.length+' 字符，包含完整稿件和模板源码。复制到 AI；如超出工具长度限制，可下载为文件附件。';
+      el('check').textContent='提示词已准备好，共 '+el('prompt').value.length+' 字符，包含完整稿件、'+(selectedMode==='presentation'?'故事规划要求、':'')+'模板源码。复制到 AI；如超出工具长度限制，可下载为文件附件。';
     }catch(error){el('check').textContent=error.message+'。请通过工作台或 GitHub Pages 打开本页后重试。';}
     finally{el('build').disabled=false;}
   });

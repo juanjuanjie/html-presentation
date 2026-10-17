@@ -8,7 +8,7 @@ This document is your operating manual. Read it once at the start of any deck-bu
 
 ## 1. The full workflow
 
-For every deck-building request, follow this exact sequence. Do **not** skip the clarifying step or the preview step.
+For every deck-building request, follow this exact sequence. Do **not** skip the clarifying step or the final preview.
 
 ### Step 1 — Ask the user about occasion and mood
 
@@ -24,35 +24,11 @@ Wait for the user's answer. Do not pick yet. Even if the brief seems obvious, as
 
 Read `index.json` at the repo root. Match the user's stated occasion + mood against each template's `mood`, `tone`, `best_for`, and `formality`. **Pick up to two templates** from the available video-friendly themes. If only one template clearly fits, present just that one. The goal is to give the user a meaningful, not overwhelming, choice.
 
-### Step 3 — Build a title-slide preview of each candidate
+### Step 3 — Let the user choose a template
 
-For each selected candidate:
+Describe the shortlisted templates with their tone and best use case, then let the user choose. Do not auto-match or create separate cover variants.
 
-1. Read the template's `template.html` to learn its visual system.
-2. Take the **first slide only** (the cover / title slide of that template).
-3. Replace the placeholder content with **the user's actual deck topic / title / subtitle / author / date** — i.e., make this preview real, not generic.
-4. Save the preview as a standalone HTML file in a temp folder, e.g. `previews/01-<slug>.html`.
-
-Preview files should be self-contained — opening any of them shows that template's title slide, populated with the user's real content.
-
-### Step 4 — Open all 3 previews in the browser, send paths to user
-
-Open each of the 3 preview files in the browser using `open <path>` (macOS). Then send the user a message like:
-
-> "Three options to compare:
->
-> 1. **<Template A>** — <one-line tone description>
->    `/path/to/previews/01-template-a.html`
-> 2. **<Template B>** — <one-line tone description>
->    `/path/to/previews/02-template-b.html`
-> 3. **<Template C>** — <one-line tone description>
->    `/path/to/previews/03-template-c.html`
->
-> Which one feels right?"
-
-Wait for the user to pick.
-
-### Step 5 — Build the full deck in the chosen template
+### Step 4 — Build the full deck in the chosen template
 
 Once the user picks:
 
@@ -61,7 +37,7 @@ Once the user picks:
 3. If the user's deck needs more slides than the template's demo holds, duplicate existing layouts to fit; if it needs fewer, drop slides from the bottom. Update page-number labels.
 4. **If a slide needs a layout the template doesn't have, design it from scratch using the template's design system** — same fonts, same color palette, same decorative vocabulary, same spacing rhythm, same component grammar. Do not bail back to the user; do not pick a different template; do not import a new visual language. The new slide should look like a natural extension of the template, not a graft. (See §5 — designing missing layouts.)
 
-### Step 6 — Open the final deck in the browser, send the file path
+### Step 5 — Open the final deck in the browser, send the file path
 
 Open the finished deck with `open <path>`. Send the user a message like:
 
@@ -69,7 +45,7 @@ Open the finished deck with `open <path>`. Send the user a message like:
 >
 > [One line about what you did and any caveats.]"
 
-This applies to **every artifact you produce** — preview files, intermediate iterations, final deck. Always open it, always send the path.
+Open the final deck for visual verification and send the user its path.
 
 ---
 

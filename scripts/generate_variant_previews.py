@@ -11,6 +11,7 @@ generate_variant_previews.py
 import asyncio
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 from urllib.parse import quote
@@ -24,6 +25,20 @@ PREVIEWS_DIR = ROOT / "assets" / "previews"
 # 每个条目指定模板文件、输出文件名、以及要注入的 CSS 变量。
 VARIANTS = [
     {
+        "template": "themes/purple-gold-presentation/template.html",
+        "output": "blue-professional.png",
+        "theme": "cream-blue",
+        "vars": {
+            "bg": "#FDFAE7",
+            "bg-cover": "#F7F3E6",
+            "primary": "#1E2BFA",
+            "accent-gold": "#1E2BFA",
+            "text": "#111111",
+            "text-muted": "#6B6B6B",
+            "text-light": "#9A9A9A",
+        },
+    },
+    {
         "template": "themes/blockframe/template.html",
         "output": "blockframe-retro-paper.png",
         "vars": {
@@ -35,20 +50,6 @@ VARIANTS = [
             "green": "#3E8F5B",
             "yellow": "#E9B949",
             "cream": "#F0C987",
-        },
-    },
-    {
-        "template": "themes/blockframe/template.html",
-        "output": "blockframe-mono-pop.png",
-        "vars": {
-            "offwhite": "#FFFFFF",
-            "black": "#000000",
-            "white": "#FFFFFF",
-            "pink": "#FFE45C",
-            "blue": "#A8FF3E",
-            "green": "#A8FF3E",
-            "yellow": "#FFE45C",
-            "cream": "#FFFFFF",
         },
     },
 ]
@@ -73,7 +74,15 @@ async def generate():
     PREVIEWS_DIR.mkdir(parents=True, exist_ok=True)
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        browser_candidates = [
+            Path(os.environ.get("PROGRAMFILES", "")) / "Google/Chrome/Application/chrome.exe",
+            Path(os.environ.get("PROGRAMFILES(X86)", "")) / "Microsoft/Edge/Application/msedge.exe",
+        ]
+        browser_path = next((path for path in browser_candidates if path.is_file()), None)
+        launch_options = {"headless": True}
+        if browser_path:
+            launch_options["executable_path"] = str(browser_path)
+        browser = await p.chromium.launch(**launch_options)
         page = await browser.new_page(
             viewport={"width": VIEWPORT_WIDTH, "height": VIEWPORT_HEIGHT},
             device_scale_factor=DEVICE_SCALE,

@@ -10,10 +10,21 @@
   <link rel="apple-touch-icon" href="assets/avatar.png">
   <script>
     try {
-      const savedAppearance = localStorage.getItem('hp-appearance');
-      document.documentElement.dataset.appearance = savedAppearance === 'light' ? 'light' : 'dark';
+      const defaultThemeVersion = 'doodle-cream-default-v1';
+      const needsDefaultMigration = localStorage.getItem('hp-theme-default-version') !== defaultThemeVersion;
+      if (needsDefaultMigration) {
+        localStorage.setItem('hp-interface-style', 'doodle');
+        localStorage.setItem('hp-appearance', 'light');
+        localStorage.setItem('hp-theme-default-version', defaultThemeVersion);
+      }
+      const savedAppearance = localStorage.getItem('hp-appearance') || 'light';
+      const savedInterfaceStyle = localStorage.getItem('hp-interface-style') || 'doodle';
+      const isDoodle = savedInterfaceStyle === 'doodle';
+      document.documentElement.dataset.appearance = isDoodle ? 'light' : (savedAppearance === 'dark' ? 'dark' : 'light');
+      document.documentElement.dataset.uiStyle = isDoodle ? 'doodle' : 'current';
     } catch (_) {
-      document.documentElement.dataset.appearance = 'dark';
+      document.documentElement.dataset.appearance = 'light';
+      document.documentElement.dataset.uiStyle = 'doodle';
     }
   </script>
   <style>
@@ -29,6 +40,7 @@
       --accent-strong: #b98eff;
       --accent-soft: #ede9fe;
       --accent-rgb: 185, 142, 255;
+      --accent-contrast: #ffffff;
       --radius: 8px;
       --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
       --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
@@ -74,8 +86,9 @@
       letter-spacing: -0.02em;
       white-space: nowrap;
     }
+    .brand-avatar-link{display:block;line-height:0;border-radius:9px}.brand-avatar-link:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.brand-name{display:inline-flex;align-items:center;min-height:36px}
     .brand-mark {
-      width: 34px;
+      width:auto;
       height: 34px;
       display: block;
       border: 2px solid #111;
@@ -104,9 +117,18 @@
     .nav-link:hover { background: var(--soft); color: #111; }
     .nav-link.primary {
       background: var(--accent-strong);
-      color: #fff;
+      color: var(--accent-contrast);
       box-shadow: 4px 4px 0 #ede9fe;
     }
+    .design-control{position:relative}
+    .design-toggle{min-height:36px;display:inline-flex;align-items:center;gap:7px;padding:0 11px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--fg);font-size:14px;font-weight:700;cursor:pointer}
+    .design-toggle:hover,.design-toggle[aria-expanded="true"]{border-color:var(--accent);background:var(--accent-soft)}
+    .design-toggle svg{width:17px;height:17px}
+    .design-panel{position:absolute;top:calc(100% + 12px);right:0;z-index:80;width:280px;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--card);box-shadow:0 18px 50px rgba(15,23,42,.18)}
+    .design-panel__head{display:flex;align-items:start;justify-content:space-between;gap:12px;margin-bottom:14px}.design-panel__head strong{display:block;font-size:15px}.design-panel__head span{display:block;margin-top:3px;color:var(--muted);font-size:11px;line-height:1.4}
+    .design-reset{border:0;background:transparent;color:var(--muted);font-size:12px;cursor:pointer}.design-reset:hover{color:var(--accent-strong)}
+    .design-style-picker{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}.design-style-option{min-height:38px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);font-size:12px;font-weight:800;cursor:pointer}.design-style-option.active{border-color:var(--fg);box-shadow:0 0 0 1px var(--fg)}
+    .design-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.design-field{display:grid;grid-template-columns:34px 1fr;align-items:center;gap:8px;padding:7px;border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:12px}.design-field input{width:34px;height:28px;padding:0;border:0;background:transparent;cursor:pointer}.design-field input::-webkit-color-swatch-wrapper{padding:0}.design-field input::-webkit-color-swatch{border:1px solid var(--line);border-radius:5px}
 
     .wrap {
       max-width: 1180px;
@@ -117,6 +139,7 @@
       display: block;
       margin-bottom: 24px;
     }
+    .hero[hidden] { display: none; }
     .eyebrow {
       width: fit-content;
       margin-bottom: 14px;
@@ -135,6 +158,7 @@
       line-height: 0.98;
       letter-spacing: -0.035em;
     }
+    .hero-title__arrow { display: inline-block; margin: 0 .16em; }
     .hero p {
       max-width: 640px;
       margin: 18px 0 0;
@@ -172,7 +196,7 @@
     .toolbar {
       margin: 24px 0 16px;
       display: grid;
-      grid-template-columns: minmax(220px, 1fr) auto auto;
+      grid-template-columns: minmax(220px, 1fr) auto;
       gap: 10px;
       align-items: center;
     }
@@ -205,21 +229,25 @@
       font-weight: 700;
       cursor: pointer;
     }
-    .segment.active { background: var(--accent-strong); color: #fff; }
-    .count { color: var(--muted); font-size: 14px; white-space: nowrap; }
-
+    .segment.active { background: var(--accent-strong); color: var(--accent-contrast); }
     .grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
     }
     .template-card {
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
+      border-radius: 12px;
       background: var(--card);
-      box-shadow: var(--shadow);
+      box-shadow: 0 8px 24px rgba(24,24,27,.05);
+      transition: transform .18s ease,border-color .18s ease,box-shadow .18s ease;
     }
+    .template-card:hover{transform:translateY(-2px);border-color:#c4b5fd;box-shadow:0 14px 32px rgba(24,24,27,.08)}
+    .template-card{cursor:pointer}
+    .template-card.is-designing{transform:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(var(--accent-rgb),.14)}
     .preview {
       display: block;
       aspect-ratio: 16 / 9;
@@ -238,9 +266,11 @@
       background: transparent;
     }
     .card-body {
-      padding: 16px;
-      display: grid;
-      gap: 12px;
+      padding: 17px;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: 10px;
     }
     .card-head {
       display: flex;
@@ -256,39 +286,48 @@
     }
     .card-title {
       margin: 0;
-      font-size: 22px;
+      font-size: 20px;
       line-height: 1.18;
       letter-spacing: -0.02em;
     }
     .badge {
       display: inline-flex;
       align-items: center;
-      height: 26px;
+      justify-content: center;
+      height: 28px;
       border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 0 10px;
-      background: var(--soft);
-      color: #52525b;
+      border-radius: 6px;
+      padding: 0 9px;
+      background: transparent;
+      color: var(--fg);
+      font-family: inherit;
       font-size: 12px;
       font-weight: 800;
       white-space: nowrap;
     }
     .doc-btn {
-      min-height: 28px;
+      height: 28px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid #d4d4d8;
+      border: 1px solid var(--line);
       border-radius: 6px;
-      background: #ffffff;
-      color: #18181b;
+      background: transparent;
+      color: var(--fg);
       padding: 0 9px;
+      font-family: inherit;
       font-size: 12px;
       font-weight: 800;
       white-space: nowrap;
       cursor: pointer;
     }
-    .doc-btn:hover { background: #f4f4f5; border-color: #a1a1aa; }
+    .doc-btn:hover { background: transparent; border-color: var(--fg); }
+    .template-card .description{min-height:42px;margin:0;font-size:14px;line-height:1.5}
+    .template-actions{display:grid;grid-template-columns:1fr 1.25fr;gap:8px;margin-top:auto;padding-top:4px}
+    .template-action{min-height:38px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--ink);font-size:13px;font-weight:800;cursor:pointer}
+    .template-action:hover{border-color:var(--accent);background:var(--accent-soft)}
+    .template-action.primary{border-color:var(--accent-strong);background:var(--accent-strong);color:var(--accent-contrast)}
+    .template-action.primary:hover{filter:brightness(.96)}
     .doc-btn:focus-visible {
       outline: 3px solid rgba(var(--accent-rgb), 0.24);
       outline-offset: 2px;
@@ -396,17 +435,17 @@
       font-weight: 800;
     }
     .btn:hover { background: var(--soft); }
-    .btn.primary { border-color: var(--accent-strong); background: var(--accent-strong); color: #fff; }
+    .btn.primary { border-color: var(--accent-strong); background: var(--accent-strong); color: var(--accent-contrast); }
 
 
     .lab-section {
-      margin: 56px calc(50% - 50vw) 0;
-      padding: 52px max(24px, calc((100vw - 1180px) / 2)) 68px;
+      margin: 0 calc(50% - 50vw);
+      padding: 10px max(24px, calc((100vw - 1180px) / 2)) 68px;
       background:
         linear-gradient(180deg, #ffffff 0%, #f7f8fb 100%);
       color: #111827;
-      border-top: 1px solid #e5e7eb;
-      border-bottom: 1px solid #e5e7eb;
+      border-top: 0;
+      border-bottom: 0;
     }
     .lab-head {
       display: grid;
@@ -529,20 +568,6 @@
       line-height: 1.25;
       letter-spacing: -0.01em;
     }
-    .lab-badge {
-      flex-shrink: 0;
-      height: 24px;
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
-      padding: 0 9px;
-      font-size: 11px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-    .lab-badge.keep { background: var(--accent-soft); color: var(--accent-strong); border: 1px solid rgba(var(--accent-rgb), 0.3); }
-    .lab-badge.maybe { background: rgba(245, 158, 11, 0.12); color: #b45309; border: 1px solid rgba(245, 158, 11, 0.24); }
-    .lab-badge.skip { background: rgba(100, 116, 139, 0.11); color: #475569; border: 1px solid rgba(100, 116, 139, 0.22); }
     .lab-meta {
       display: grid;
       gap: 9px;
@@ -574,7 +599,7 @@
       font-weight: 750;
     }
     footer {
-      border-top: 1px solid var(--line);
+      border-top: 1px solid #e7e5e0;
       padding: 24px;
       color: var(--muted);
       font-size: 13px;
@@ -587,15 +612,6 @@
       gap: 12px;
       flex-wrap: wrap;
     }
-    .credits {
-      max-width: 1180px;
-      margin: 10px auto 0;
-      color: #a1a1aa;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-    .credits a { color: #71717a; text-decoration: underline; text-underline-offset: 3px; }
-    .credits a:hover { color: #111; }
     footer a { text-decoration: underline; text-underline-offset: 3px; }
 
     @media (max-width: 860px) {
@@ -737,6 +753,14 @@
 
     /* ---- Markdown content ---- */
     .md-content { max-width: 760px; margin: 0 auto; font-size: 16px; line-height: 1.75; color: var(--fg); }
+    .readme-page {
+      min-height: 420px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+    .readme-page .md-state { min-height: 300px; }
     .md-content > *:first-child { margin-top: 0; }
     .md-content h1, .md-content h2, .md-content h3, .md-content h4 {
       font-family: var(--font);
@@ -861,133 +885,63 @@
     .hljs-deletion { color: #fca5a5; }
     .hljs-addition { color: #99E885; }
 
-    /* ---- Inline covers inside theme card ---- */
-    .template-card .covers-inline {
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px dashed var(--line);
-    }
-    .template-card .covers-inline-title {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 0.65rem;
-    }
-    .template-card .covers-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-    .template-card .cover-item {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      padding: 0.4rem 0.7rem 0.4rem 0.4rem;
-      background: var(--soft);
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      transition: border-color 0.15s ease, background 0.15s ease;
-    }
-    .template-card .cover-item:hover {
-      background: #fff;
-      border-color: var(--muted);
-    }
-    .template-card .cover-thumb {
-      display: block;
-      width: 64px;
-      height: 36px;
-      border-radius: 4px;
-      overflow: hidden;
-      background: #111;
-      flex-shrink: 0;
-    }
-    .template-card .cover-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .template-card .cover-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-      min-width: 0;
-    }
-    .template-card .cover-name {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--ink);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 150px;
-    }
-    .template-card .cover-style {
-      font-size: 0.65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--muted);
-    }
-
     /* ============================================================
        Theme Picker & Inline Preview Modal
        ============================================================ */
     .preview-modal[hidden] { display: none; }
     .preview-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 110;
-      display: grid;
-      place-items: center;
-      padding: 24px;
+      position:relative;
+      z-index:20;
+      display:block;
+      grid-column:1/-1;
+      width:100%;
+      margin:32px 0 10px;
+      scroll-margin-top:92px;
     }
     .preview-modal__mask {
       position: absolute;
       inset: 0;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      display:none;
     }
     .preview-modal__dialog {
       position: relative;
-      width: min(1200px, 100%);
-      max-height: min(92vh, 880px);
+      width:100%;
+      height:auto;
+      max-height:none;
       display: flex;
       flex-direction: column;
       background: var(--card);
       color: var(--fg);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28), 8px 8px 0 var(--accent);
+      border:1px solid var(--line);
+      border-radius:14px;
+      box-shadow:0 18px 44px rgba(24,24,27,.10);
       overflow: hidden;
-      animation: md-pop 0.18s ease-out;
+      animation:none;
     }
     .preview-modal__header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 14px 18px;
+      min-height:64px;
+      padding:0 22px;
       border-bottom: 1px solid var(--line);
       background: #fff;
       flex-shrink: 0;
     }
-    .preview-modal__title {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-    }
+    .preview-panel-toggle{display:inline-flex;align-items:center;gap:9px;min-height:40px;padding:0 12px;border:0;background:transparent;color:var(--fg);font-size:16px;font-weight:800;cursor:pointer}.preview-panel-toggle:hover{color:var(--accent-strong)}.preview-panel-toggle__caret{color:var(--muted);font-size:9px;transition:transform .18s ease}.preview-panel-toggle[aria-expanded="true"] .preview-panel-toggle__caret{transform:rotate(90deg)}
+    .preview-toolbar{display:flex;align-items:center;gap:10px}.preview-toolbar__reset{border:0;background:transparent;color:var(--muted);font-size:13px;cursor:pointer}.preview-toolbar__reset:hover{color:var(--fg)}.preview-use{min-height:40px;padding:0 16px;border:1px solid var(--ink);border-radius:8px;background:var(--ink);color:var(--card);font-weight:800;cursor:pointer}
     .preview-modal__close {
-      width: 36px;
-      height: 36px;
+      width: auto;
+      min-width: 72px;
+      height: 34px;
       flex-shrink: 0;
       display: grid;
       place-items: center;
       border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fff;
+      padding:0 10px;
+      border-radius:7px;
+      background:transparent;
       color: #111;
       cursor: pointer;
       transition: background 0.15s ease, transform 0.15s ease;
@@ -997,59 +951,52 @@
     .preview-modal__close svg { width: 18px; height: 18px; }
     .preview-modal__body {
       position: relative;
-      flex: 1;
-      overflow: hidden;
-      background: #fff;
+      min-height:clamp(520px,68vh,720px);
+      overflow:hidden;
+      padding:24px;
+      gap:24px;
+      background:var(--soft);
       display: grid;
-      grid-template-rows: auto auto minmax(0, 1fr);
+      grid-template-columns:320px minmax(0,1fr);
+      grid-template-rows:minmax(0,1fr);
     }
-    .preview-modal__iframe {
-      width: min(100%, calc((92vh - 230px) * 16 / 9));
-      height: auto;
-      max-height: 100%;
-      aspect-ratio: 16 / 9;
-      align-self: center;
-      justify-self: center;
-      border: 0;
-      display: block;
-      background: #111;
-    }
+    .preview-modal__body[hidden]{display:none}
+    .preview-modal__stage{min-width:0;min-height:0;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#e9e9ec}
+    .preview-modal__viewport{position:relative;flex:none;overflow:hidden;background:#111;box-shadow:0 8px 28px rgba(15,23,42,.14)}
+    .preview-modal__iframe{position:absolute;inset:0;width:1920px;height:1080px;border:0;display:block;background:#111;transform-origin:0 0}
 
+    .preview-modal__controls{min-width:0;overflow:auto;padding:2px 14px 2px 0;border-right:1px solid var(--line);scrollbar-width:thin;scrollbar-color:#c7c7c7 transparent}
+    .preview-template-meta{margin-bottom:14px;padding:2px 4px 0}.preview-template-meta strong{display:block;font-size:18px}.preview-template-meta span{display:block;margin-top:6px;color:var(--muted);font-size:12px;line-height:1.5}
     .theme-picker {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 14px 16px;
+      display:grid;
+      gap:8px;
       width: 100%;
-      border-bottom: 1px solid var(--line);
-      background: #fafafa;
     }
     .theme-option {
       display: flex;
       align-items: center;
       justify-content: flex-start;
       text-align: left;
-      min-width: 190px;
-      flex: 1;
+      min-width:0;
       gap: 10px;
-      padding: 10px 12px;
+      padding:9px;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius:9px;
       background: #fff;
       cursor: pointer;
-      transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+      transition:border-color .15s ease,background .15s ease;
     }
     .theme-option:hover {
       border-color: var(--muted);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
+      background:var(--soft);
     }
+    .theme-option.active{border-color:#27272a;box-shadow:0 0 0 1px #27272a}
     .theme-option__swatch {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
+      width:44px;
+      height:32px;
+      border-radius:6px;
       border: 1px solid rgba(0,0,0,0.08);
-      box-shadow: inset 0 0 0 4px #fff;
+      box-shadow:none;
       flex-shrink: 0;
     }
     .theme-option__text { min-width: 0; }
@@ -1066,19 +1013,23 @@
       display: block;
       margin-top: 3px;
     }
+    .design-group{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden}
+    .design-group summary{display:flex;align-items:center;justify-content:space-between;min-height:48px;padding:0 16px;color:var(--fg);font-size:14px;font-weight:800;cursor:pointer;list-style:none}
+    .design-group summary::-webkit-details-marker{display:none}.design-group summary::after{content:'▶';color:#a1a1aa;font-size:8px;transition:transform .18s ease}.design-group[open] summary::after{transform:rotate(90deg)}
+    .design-group__body{padding:4px 16px 16px;border-top:1px solid var(--line)}
+    .design-group__eyebrow{margin:14px 0 6px;color:var(--muted);font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.design-group__help{margin:0 0 12px;color:var(--muted);font-size:12px;line-height:1.5}
+    .palette-presets{position:relative;display:block;width:100%;margin-bottom:14px}.palette-dropdown__trigger{display:grid;grid-template-columns:112px minmax(0,1fr) 18px;align-items:center;gap:12px;width:100%;min-height:44px;padding:4px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);cursor:pointer;text-align:left}.palette-dropdown__trigger:hover,.palette-dropdown__trigger[aria-expanded="true"]{border-color:#a1a1aa}.palette-dropdown__trigger-swatch{width:112px;height:34px;border:1px solid rgba(0,0,0,.08);border-radius:7px}.palette-dropdown__name{min-width:0;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.palette-dropdown__caret{color:#a1a1aa;font-size:8px;text-align:center;transition:transform .16s ease}.palette-dropdown__trigger[aria-expanded="true"] .palette-dropdown__caret{transform:rotate(90deg)}.palette-dropdown__menu{position:absolute;z-index:40;top:calc(100% + 6px);right:0;left:0;display:grid;gap:5px;padding:6px;border:1px solid var(--line);border-radius:11px;background:var(--card);box-shadow:0 12px 30px rgba(24,24,27,.14)}.palette-dropdown__menu[hidden]{display:none}.palette-dropdown__menu .theme-option{width:100%;min-height:42px;padding:3px 10px 3px 3px;gap:12px;border-color:transparent;border-radius:8px;background:transparent}.palette-dropdown__menu .theme-option:hover{background:var(--soft);border-color:var(--line)}.palette-dropdown__menu .theme-option.active{border-color:#b8b8b8;box-shadow:0 0 0 1px #d4d4d4}.palette-dropdown__menu .theme-option__swatch{width:112px;height:34px;border-radius:7px;flex:0 0 112px}.palette-dropdown__menu .theme-option__text{display:block;min-width:0}.palette-dropdown__menu .theme-option__name{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.palette-dropdown__menu .theme-option__desc{display:none}
     .custom-palette {
       display: grid;
-      grid-template-columns: repeat(5, minmax(120px, 1fr)) auto;
-      gap: 10px;
-      align-items: end;
+      gap:7px;
       width: 100%;
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--line);
-      background: #fff;
+      padding:0;
     }
     .custom-field {
-      display: grid;
-      gap: 5px;
+      display:grid;
+      grid-template-columns:34px 78px minmax(0,1fr);
+      align-items:center;
+      gap:9px;
       min-width: 0;
     }
     .custom-field label {
@@ -1087,27 +1038,58 @@
       font-weight: 800;
     }
     .custom-field input[type="color"] {
-      width: 100%;
-      height: 36px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fff;
-      padding: 3px;
+      width:28px;
+      height:28px;
+      border:0;
+      border-radius:5px;
+      background:transparent;
+      padding:0;
       cursor: pointer;
     }
-    .custom-palette .btn {
-      min-width: 116px;
-      flex: none;
-    }
+    .custom-field input[type="color"]::-webkit-color-swatch-wrapper{padding:0}
+    .custom-field input[type="color"]::-webkit-color-swatch{border:1px solid rgba(24,24,27,.22);border-radius:5px}
+    .custom-field input[type="color"]::-moz-color-swatch{border:1px solid rgba(24,24,27,.22);border-radius:5px}
+    .custom-field input[type="text"]{width:100%;height:30px;padding:0 6px;border:0;border-radius:5px;background:transparent;color:var(--fg);font:12px/1 ui-monospace,SFMono-Regular,Consolas,monospace;text-transform:uppercase;transition:background .15s ease,box-shadow .15s ease}
+    .custom-field input[type="text"]:hover{background:var(--soft)}
+    .custom-field input[type="text"]:focus{outline:0;background:var(--soft);box-shadow:inset 0 -2px 0 var(--accent-strong)}
+    .type-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px}.type-field{display:grid;gap:6px}.type-field label{color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.04em}.type-field select{width:100%;height:40px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);font-size:13px}
 
     @media (max-width: 640px) {
       .md-modal { padding: 8px; }
       .md-modal__dialog { max-height: 100%; border-radius: 10px; }
       .md-modal__body { padding: 22px 20px 28px; }
       .md-content { font-size: 15px; }
-      .custom-palette { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .custom-palette .btn { grid-column: 1 / -1; width: 100%; }
+      .custom-field { grid-template-columns:34px 70px minmax(0,1fr); }
     }
+    @media(max-width:800px){.preview-modal__header{padding:0 12px}.preview-modal__body{min-height:720px;padding:12px;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}.preview-modal__controls{max-height:260px;padding:0 0 12px;border-right:0;border-bottom:1px solid var(--line)}.theme-picker{grid-template-columns:repeat(2,minmax(0,1fr))}.theme-picker.palette-presets{display:block}.preview-toolbar__reset{display:none}}
+    @media (max-width: 1040px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width: 700px){.grid{grid-template-columns:1fr}}
+    html[data-page="templates"] .wrap{padding-top:26px}
+    html[data-page="templates"] .hero{margin-bottom:18px}
+    html[data-page="templates"] .hero h1{font-size:clamp(34px,4vw,50px);line-height:1.05}
+    html[data-page="templates"] .hero p{margin-top:10px;font-size:15px;line-height:1.55}
+    html[data-page="templates"] .author-line{display:none}
+    html[data-page="templates"] .toolbar{margin-top:18px}
+    html[data-page="templates"] .palette{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:10px}
+    html[data-page="templates"] .palette-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    html[data-page="templates"] .palette-options{display:grid;gap:6px;width:100%}
+    html[data-page="templates"] .palette-theme{position:relative;display:grid;grid-template-columns:112px minmax(0,1fr) 16px;align-items:center;width:100%;height:44px;min-height:44px;padding:4px;gap:12px;border-radius:10px;box-shadow:none;font-size:12px;font-weight:700;overflow:hidden}
+    html[data-page="templates"] .palette-theme:hover{border-color:#a1a1aa;background:var(--card);transform:none}
+    html[data-page="templates"] .palette-theme.active{border-color:var(--line);background:var(--card);box-shadow:none}
+    html[data-page="templates"] .palette-theme__name{min-width:0;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    html[data-page="templates"] .palette-theme__caret{color:#a1a1aa;font-size:8px;text-align:center;transition:transform .16s ease}
+    html[data-page="templates"] .card-palette-trigger[aria-expanded="true"] .palette-theme__caret{transform:rotate(90deg)}
+    html[data-page="templates"] .palette-theme .swatch{width:112px;height:34px;border-radius:7px;flex:0 0 112px}
+    html[data-page="templates"] .card-palette-menu{display:grid;gap:5px;padding:5px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+    html[data-page="templates"] .card-palette-menu[hidden]{display:none}
+    html[data-page="templates"] .card-palette-option{display:grid;grid-template-columns:112px minmax(0,1fr);align-items:center;gap:12px;width:100%;min-height:40px;padding:3px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--fg);cursor:pointer}
+    html[data-page="templates"] .card-palette-option:hover{border-color:var(--line);background:var(--soft)}
+    html[data-page="templates"] .card-palette-option.active{border-color:#a1a1aa}
+    html[data-page="templates"] .card-palette-option .swatch{width:112px;height:32px;border-radius:6px}
+    html[data-page="templates"] .card-palette-option__name{min-width:0;text-align:left;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    html[data-page="templates"] .template-use-inline{height:44px;min-height:44px;padding:0 15px;border-color:var(--line);border-radius:10px;background:#fff;color:#18181b;white-space:nowrap}
+    html[data-page="templates"] .template-use-inline:hover{border-color:#a1a1aa;background:#fafafa}
+    [data-appearance="dark"] .template-action.template-use-inline{background:#fff!important;color:#18181b!important;border-color:#d4d4d8!important}
   </style>
   <style>
     :root { color-scheme: light; }
@@ -1124,6 +1106,7 @@
       --accent-strong: #a8ff3e;
       --accent-soft: rgba(168,255,62,0.09);
       --accent-rgb: 168, 255, 62;
+      --accent-contrast: #0a0a0f;
       --shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
     .appearance-switch {
@@ -1137,10 +1120,10 @@
       padding: 0;
       display: grid;
       place-items: center;
-      border: 1px solid #111;
+      border: 1px solid #d4d4d8;
       border-radius: 50%;
-      background: #111;
-      color: #fff;
+      background: #fff;
+      color: #111;
       cursor: pointer;
       transition: transform .16s ease, background .16s ease, color .16s ease, border-color .16s ease;
     }
@@ -1148,38 +1131,148 @@
     .appearance-toggle:active { transform: scale(.94); }
     .appearance-toggle svg { width: 22px; height: 22px; display: block; }
     .appearance-toggle .icon-moon { display: none; }
-    [data-appearance="dark"] .appearance-toggle { background: #fff; color: #0a0a0f; border-color: #fff; }
+    [data-appearance="dark"] .appearance-toggle { background: #0a0a0f; color: #fff; border-color: #52525b; }
     [data-appearance="dark"] .appearance-toggle .icon-sun { display: none; }
     [data-appearance="dark"] .appearance-toggle .icon-moon { display: block; }
     [data-appearance="light"] :is(.brand,.hero h1,.generation-panel h2) { color: var(--accent-strong); }
     .appearance-toggle:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    .theme-cycle{position:relative;width:38px;min-width:38px;height:38px;padding:2px;display:grid;place-items:center;overflow:hidden;border-radius:10px;font-size:13px;font-weight:800;transform:none}
+    .theme-cycle:hover{transform:translateY(-1px) scale(1.03)}
+    .theme-cycle:active{transform:scale(.95)}
+    .theme-cycle svg{width:20px;height:20px}
+    .theme-cycle__label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+    html[data-appearance="light"][data-ui-style="current"] .appearance-toggle.theme-cycle{border:2px solid #292525;border-radius:10px;background:#fffdf6;color:#171717}
+    html[data-appearance="light"][data-ui-style="current"] .appearance-toggle.theme-cycle:hover{border-color:#292525;background:#fffdf6;filter:none}
+    html[data-ui-style="doodle"] .appearance-toggle.theme-cycle{border:2px solid #292525;border-radius:48% 52% 46% 54%/53% 47% 55% 45%;background:#fffdf6;color:#171717;transform:rotate(-1deg)}
+    html[data-ui-style="doodle"] .appearance-toggle.theme-cycle:hover{border-color:#292525;background:#fffdf6;filter:none;transform:translateY(-1px) rotate(-1deg) scale(1.03)}
+    html[data-ui-style="doodle"] .appearance-toggle.theme-cycle:active{transform:rotate(-1deg) scale(.95)}
+    html[data-appearance="dark"][data-ui-style="current"] .appearance-toggle.theme-cycle{border:2px solid #f5f5f7;border-radius:10px;background:#141419;color:#f5f5f7}
+    html[data-appearance="dark"][data-ui-style="current"] .appearance-toggle.theme-cycle:hover{border-color:#fff;background:#202027;filter:none}
     [data-appearance="dark"] .site-header { background: rgba(10,10,15,0.94); border-color: var(--line); }
     [data-appearance="dark"] :is(.search,.segmented,.doc-btn,.palette-theme,.btn,.theme-option,.custom-palette,.custom-field input,.md-modal__dialog,.preview-modal__dialog,.md-modal__header,.preview-modal__header) { background: var(--card); color: var(--fg); border-color: var(--line); }
-    [data-appearance="dark"] :is(.nav-link,.author-line,.description,.palette-label,.segment,.cover-name,.theme-option__name,.md-modal__close,.preview-modal__close,.custom-field label,.md-content,.md-content strong,.md-content th,.md-error__msg) { color: var(--fg); }
-    [data-appearance="dark"] .md-modal__close { background: var(--soft); color: #a8ff3e; border-color: #4b5f35; }
-    [data-appearance="dark"] .md-modal__close:hover { background: #a8ff3e; color: #0a0a0f; border-color: #a8ff3e; }
+    [data-appearance="dark"] :is(.nav-link,.author-line,.description,.palette-label,.segment,.theme-option__name,.md-modal__close,.preview-modal__close,.custom-field label,.md-content,.md-content strong,.md-content th,.md-error__msg) { color: var(--fg); }
+    [data-appearance="dark"] .md-modal__close { background: var(--soft); color: var(--accent-strong); border-color: var(--line); }
+    [data-appearance="dark"] .md-modal__close:hover { background: var(--accent-strong); color: var(--accent-contrast); border-color: var(--accent-strong); }
     [data-appearance="dark"] .md-modal__close svg { stroke: currentColor; stroke-width: 2.5; }
     [data-appearance="dark"] .author-line { background: var(--card); border-color: #454550; box-shadow: 4px 4px 0 #a8ff3e; }
-    [data-appearance="dark"] :is(.hero p,.count,.credits,.footer-inner,.md-modal__crumbs,.md-error__hint) { color: #b8b8c4; }
+    [data-appearance="dark"] :is(.hero p,.footer-inner,.md-modal__crumbs,.md-error__hint) { color: #b8b8c4; }
     [data-appearance="dark"] .search::placeholder { color: #9898a6; opacity: 1; }
     [data-appearance="dark"] :is(.md-content code,.md-content details,.md-content kbd,.md-content thead) { background: var(--soft); color: var(--fg); border-color: var(--line); }
-    [data-appearance="dark"] :is(.md-content a,.credits a,.footer-inner a) { color: #c8ff87; }
-    [data-appearance="dark"] :is(.nav-link:hover,.doc-btn:hover,.palette-theme:hover,.theme-option:hover,.cover-item:hover) { background: var(--soft); }
-    [data-appearance="dark"] .palette-theme.active { background: rgba(168,255,62,0.09); border-color: #a8ff3e; box-shadow: 0 0 0 2px rgba(168,255,62,0.12); }
-    [data-appearance="dark"] :is(.nav-link.primary,.segment.active,.btn.primary) { background: #a8ff3e; color: #0a0a0f; border-color: #a8ff3e; box-shadow: none; }
-    [data-appearance="dark"] .brand-mark { background: var(--card); color: var(--fg); border-color: var(--fg); box-shadow: 4px 4px 0 #a8ff3e; }
-    [data-appearance="dark"] :is(.badge,.chip,.template-card .cover-item,.template-card .cover-thumb) { background: var(--soft); color: var(--fg); border-color: var(--line); }
+    [data-appearance="dark"] :is(.md-content a,.footer-inner a) { color: #c8ff87; }
+    [data-appearance="dark"] footer { border-top-color: #292931; }
+    [data-appearance="dark"] :is(.nav-link:hover,.doc-btn:hover,.palette-theme:hover,.theme-option:hover) { background: var(--soft); }
+    [data-appearance="dark"] .palette-theme.active { background: var(--card); border-color: var(--line); box-shadow: none; }
+    [data-appearance="dark"] :is(.nav-link.primary,.segment.active,.btn.primary) { background: var(--accent-strong); color: var(--accent-contrast); border-color: var(--accent-strong); box-shadow: none; }
+    [data-appearance="dark"] .template-action:not(.primary) { background: var(--soft); color: var(--fg); border-color: var(--line); }
+    [data-appearance="dark"] .template-action:not(.primary):hover { border-color: var(--accent-strong); }
+    [data-appearance="dark"] .brand-mark { background: var(--card); color: var(--fg); border-color: var(--fg); box-shadow: 4px 4px 0 var(--accent-strong); }
+    [data-appearance="dark"] :is(.badge,.chip) { background: var(--soft); color: var(--fg); border-color: var(--line); }
+    [data-appearance="dark"] .card-head-actions :is(.badge,.doc-btn) { background: transparent; color: var(--fg); border-color: var(--line); }
     [data-appearance="dark"] .lab-section { background: #0a0a0f; color: var(--fg); border-color: var(--line); }
     [data-appearance="dark"] :is(.lab-card,.lab-stat) { background: var(--card); border-color: var(--line); box-shadow: var(--shadow); }
     [data-appearance="dark"] .lab-preview { background: #0a0a0f; border-color: var(--line); }
     [data-appearance="dark"] .lab-preview-label { background: rgba(10,10,15,0.85); color: var(--fg); border-color: var(--line); }
     [data-appearance="dark"] :is(.lab-kicker,.lab-stat strong) { color: #a8ff3e; }
-    [data-appearance="dark"] :is(.lab-copy,.lab-stat span,.lab-meta-label,.template-card .cover-style,.theme-option__desc) { color: var(--muted); }
+    [data-appearance="dark"] :is(.lab-copy,.lab-stat span,.lab-meta-label,.theme-option__desc) { color: var(--muted); }
     [data-appearance="dark"] .lab-meta-value { color: #d4d4dc; }
-    [data-appearance="dark"] :is(.lab-badge.keep,.lab-tech-tag) { background: rgba(168,255,62,0.1); color: #a8ff3e; border-color: rgba(168,255,62,0.25); }
-    [data-appearance="dark"] .lab-badge.skip { color: #c5c5cf; }
-    [data-appearance="dark"] .lab-badge.maybe { color: #fbbf24; }
+    [data-appearance="dark"] .lab-tech-tag { background: rgba(168,255,62,0.1); color: #a8ff3e; border-color: rgba(168,255,62,0.25); }
     [data-appearance="dark"] .lab-card:hover { border-color: #668c38; }
+
+    /* Doodle Cream workspace skin: based on the template's second-page frame system. */
+    :root[data-ui-style="doodle"]{--bg:#fffdf6;--fg:#171717;--muted:#625f58;--card:#fffefa;--line:#292525;--soft:#fff9e8;--ink:#171717;--accent:#ffe477;--accent-strong:#ffe477;--accent-soft:#fff2b8;--accent-rgb:255,228,119;--accent-contrast:#171717;--inner-line:#d8d2c6;--inner-line-strong:#9d978d;--shadow:none;--frame:3px solid #292525;--control-frame:1px solid #d8d2c6;--font:"Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif;color-scheme:light}
+    :root[data-ui-style="doodle"] body{background:var(--bg);color:var(--fg);background-image:none}
+    :root[data-ui-style="doodle"] :is(h1,h2,h3,.card-title,.brand,.nav-link,.segment,.template-action,.design-toggle,.preview-panel-toggle){font-family:"Xiaolai","KaiTi","STKaiti","Microsoft YaHei",cursive;color:var(--fg)}
+    :root[data-ui-style="doodle"] :is(p,label,small,.description,.palette-label,.design-panel__head span,.custom-field label,.type-field label){color:var(--muted)}
+    :root[data-ui-style="doodle"] .site-header{border-bottom:2px solid var(--fg);background:rgba(255,253,246,.96);backdrop-filter:blur(10px)}
+    :root[data-ui-style="doodle"] .brand{color:var(--fg)!important;font-size:17px}
+    :root[data-ui-style="doodle"] .brand-avatar-link{border-radius:48% 52% 46% 54%/53% 47% 55% 45%}
+    :root[data-ui-style="doodle"] .brand-mark{width:38px;height:38px;border:2px solid var(--fg);border-radius:48% 52% 46% 54%/53% 47% 55% 45%;background:var(--card);box-shadow:none;object-fit:cover;transform:rotate(-1deg)}
+    :root[data-ui-style="doodle"] .nav-link{border:2px solid transparent;border-radius:12px;color:var(--fg)}
+    :root[data-ui-style="doodle"] .nav-link:hover{border-color:var(--fg);background:var(--card)}
+    :root[data-ui-style="doodle"] .nav-link.primary{border:2px solid var(--fg);background:var(--accent);color:var(--fg);box-shadow:none}
+    :root[data-ui-style="doodle"] :is(.appearance-toggle,.design-toggle){border:2px solid var(--fg);border-radius:12px;background:var(--card);color:var(--fg)}
+    :root[data-ui-style="doodle"] :is(.appearance-toggle,.design-toggle):hover{background:var(--accent-soft);border-color:var(--fg)}
+    :root[data-ui-style="doodle"] .design-panel{border:3px solid var(--fg);border-radius:20px;background:var(--card);box-shadow:none}
+    :root[data-ui-style="doodle"] :is(.design-style-option,.design-field){border:1px solid var(--inner-line);border-radius:10px;background:var(--card);color:var(--fg)}
+    :root[data-ui-style="doodle"] .design-style-option.active{border:2px solid var(--fg);background:var(--accent);box-shadow:none}
+    :root[data-ui-style="doodle"] .hero h1{width:fit-content;max-width:850px;color:var(--fg)!important;line-height:1.08;background:none}
+    :root[data-ui-style="doodle"] .hero-title__highlight{background:linear-gradient(transparent 68%,var(--accent) 68% 92%,transparent 92%);box-decoration-break:clone;-webkit-box-decoration-break:clone}
+    :root[data-ui-style="doodle"] .hero-title__arrow{color:var(--fg);background:none}
+    :root[data-ui-style="doodle"] .hero p{color:var(--muted)}
+
+    :root[data-ui-style="doodle"] :is(.search,.segmented){border:2px solid var(--fg);border-radius:12px;background:var(--card);color:var(--fg)}
+    :root[data-ui-style="doodle"] .search:focus{border-color:var(--fg);box-shadow:0 0 0 4px rgba(255,228,119,.55)}
+    :root[data-ui-style="doodle"] .segmented{height:44px}
+    :root[data-ui-style="doodle"] .segment{border-radius:8px;color:var(--fg)}
+    :root[data-ui-style="doodle"] .segment.active{background:var(--accent);color:var(--fg)}
+    :root[data-ui-style="doodle"] .template-card{border:3px solid var(--fg);border-radius:22px;background:var(--card);box-shadow:none;transform:none}
+    :root[data-ui-style="doodle"] .template-card:nth-child(even){border-radius:22px;transform:none}
+    :root[data-ui-style="doodle"] .template-card:hover{border-color:var(--fg);box-shadow:0 10px 0 rgba(255,228,119,.7);transform:translateY(-3px)}
+    :root[data-ui-style="doodle"] .template-card.is-designing{border-color:var(--fg);box-shadow:0 0 0 4px var(--accent)}
+    :root[data-ui-style="doodle"] .preview{border-bottom:3px solid var(--fg)}
+    :root[data-ui-style="doodle"] :is(.badge,.doc-btn,.template-action,.palette-theme,.card-palette-menu,.card-palette-option){border:1px solid var(--inner-line);border-radius:10px;background:var(--card);color:var(--fg)}
+    :root[data-ui-style="doodle"] .card-head-actions :is(.badge,.doc-btn){border-color:var(--inner-line-strong);background:transparent;color:var(--fg)}
+    :root[data-ui-style="doodle"] .template-action.primary{border:2px solid var(--fg);background:var(--accent);color:var(--fg)}
+    :root[data-ui-style="doodle"] .palette-theme{border:1px solid var(--inner-line)!important;border-radius:10px!important;background:var(--card)!important;color:var(--fg)!important}
+    :root[data-ui-style="doodle"] .card-palette-menu{border-radius:12px}
+    :root[data-ui-style="doodle"] .card-palette-option{border-color:transparent}
+    :root[data-ui-style="doodle"] .card-palette-option:hover{border-color:var(--inner-line-strong);background:var(--soft)}
+    :root[data-ui-style="doodle"] .card-palette-option.active{border:2px solid var(--fg);background:var(--accent-soft)}
+    :root[data-ui-style="doodle"] .template-action.template-use-inline{border:1px solid var(--inner-line);border-radius:10px;background:var(--card)!important;color:var(--fg)!important;box-shadow:none}
+
+    :root[data-ui-style="doodle"] :is(.preview-modal__dialog,.md-modal__dialog){border:3px solid var(--fg);border-radius:22px;background:var(--card);box-shadow:none}
+    :root[data-ui-style="doodle"] :is(.preview-modal__header,.md-modal__header){border-bottom:2px solid var(--fg);background:var(--card)}
+    :root[data-ui-style="doodle"] .preview-modal__body{background:var(--bg)}
+    :root[data-ui-style="doodle"] :is(.preview-modal__stage,.design-group,.palette-dropdown__trigger,.palette-dropdown__menu,.theme-option,.custom-palette,.type-field select){border:1px solid var(--inner-line);border-radius:12px;background:var(--card);color:var(--fg)}
+    :root[data-ui-style="doodle"] .design-group{border-radius:14px;background:transparent}
+    :root[data-ui-style="doodle"] .design-group__body{border-top:1px solid var(--inner-line)}
+    :root[data-ui-style="doodle"] .palette-dropdown__trigger[aria-expanded="true"]{border:2px solid var(--fg)}
+    :root[data-ui-style="doodle"] .palette-dropdown__menu{box-shadow:0 8px 24px rgba(41,37,37,.12)}
+    :root[data-ui-style="doodle"] .palette-dropdown__menu .theme-option.active{border:2px solid var(--fg);background:var(--accent-soft)}
+    :root[data-ui-style="doodle"] .custom-palette{gap:0;padding:0;border:0;border-radius:0;background:transparent}
+    :root[data-ui-style="doodle"] .custom-field{
+      grid-template-columns:32px minmax(58px,1fr) 94px;
+      gap:10px;
+      min-height:43px;
+      padding:5px 0;
+      border:0;
+      border-bottom:1px solid #eee9df;
+      border-radius:0;
+      background:transparent;
+    }
+    :root[data-ui-style="doodle"] .custom-field:last-child{border-bottom:0}
+    :root[data-ui-style="doodle"] .custom-field label{color:#37342f;font-size:12px;font-weight:650}
+    :root[data-ui-style="doodle"] .custom-field input[type="color"]{
+      width:30px;
+      height:30px;
+      padding:0;
+      border:0;
+      border-radius:5px;
+      background:transparent;
+    }
+    :root[data-ui-style="doodle"] .custom-field input[type="text"]{
+      width:94px;
+      height:30px;
+      padding:0 6px;
+      border:0;
+      border-radius:5px;
+      background:transparent;
+      color:var(--fg);
+      box-shadow:none;
+      font-size:11px;
+    }
+    :root[data-ui-style="doodle"] .custom-field input[type="text"]:hover{background:var(--soft)}
+    :root[data-ui-style="doodle"] .custom-field input[type="text"]:focus{outline:0;background:var(--soft);box-shadow:inset 0 -2px 0 var(--accent)}
+    :root[data-ui-style="doodle"] .design-group__eyebrow{margin:14px 0 5px;color:#777168;font-size:10px;letter-spacing:.08em}
+    :root[data-ui-style="doodle"] .type-field select{border-color:var(--inner-line);background:#fff}
+    #custom-palette.custom-palette{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:visible}
+
+    :root[data-ui-style="doodle"] :is(.lab-section,.lab-card,.lab-stat,.lab-preview){border-color:var(--fg)}
+    :root[data-ui-style="doodle"] .lab-section{background:var(--bg);color:var(--fg);border-top:0;border-bottom:0}
+    :root[data-ui-style="doodle"] :is(.lab-card,.lab-stat){border:2px solid var(--fg);border-radius:18px;background:var(--card);box-shadow:none}
+    :root[data-ui-style="doodle"] .readme-page{border:0;border-radius:0;background:transparent}
+    :root[data-ui-style="doodle"] footer{border-top:1px solid #e6e1d7;background:var(--bg)}
+    :root[data-ui-style="doodle"] .footer-inner{border-top:0}
     @media (max-width: 640px) {
       .nav { flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; gap: 12px; }
       .nav-links { justify-content: flex-start; }
@@ -1190,26 +1283,23 @@
 <body>
   <header class="site-header">
     <nav class="nav" aria-label="主导航">
-      <a class="brand" href="#top" aria-label="HTML Presentation 首页">
-        <img class="brand-mark" src="assets/avatar.png" alt="卷卷姐">
-        <span>HTML Presentation</span>
-      </a>
+      <div class="brand">
+        <a class="brand-avatar-link" href="https://space.bilibili.com/229150291" target="_blank" rel="noreferrer" aria-label="访问卷卷姐 juan 的 B 站空间"><img class="brand-mark" src="assets/avatar.png" alt="卷卷姐"></a>
+        <a class="brand-name" href="#top" aria-label="返回 HTML Presentation 首页">HTML Presentation</a>
+      </div>
       <div class="nav-links">
         <div class="appearance-switch">
-          <button type="button" class="appearance-toggle" id="appearance-toggle" aria-label="切换到暗色模式" title="切换到暗色模式">
-            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-              <circle cx="12" cy="12" r="3.5"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path>
-            </svg>
-            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-              <path d="M20.3 15.2A8.6 8.6 0 0 1 8.8 3.7 9.1 9.1 0 1 0 20.3 15.2Z"></path>
-            </svg>
+          <button type="button" class="appearance-toggle theme-cycle" id="theme-cycle" aria-label="切换工作台主题">
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="3.5"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20.3 15.2A8.6 8.6 0 0 1 8.8 3.7 9.1 9.1 0 1 0 20.3 15.2Z"></path></svg>
+            <span class="theme-cycle__label" id="theme-cycle-label">浅色方案</span>
           </button>
         </div>
-        <a class="nav-link" href="#generator" data-page-link="generator" aria-current="page">稿件生成</a>
+        <a class="nav-link" href="#generator" data-page-link="generator" aria-current="page">首页</a>
         <a class="nav-link" href="#templates" data-page-link="templates">模板</a>
         <a class="nav-link" href="#motion" data-page-link="motion">动效</a>
-        <a class="nav-link" href="#" data-md="README.md" data-title="README" data-crumb="README.md" data-type="markdown">README</a>
-        <a class="nav-link primary" href="https://www.bilibili.com/video/BV1g5j46iE5C/?spm_id_from=333.1387.homepage.video_card.click&vd_source=a44f29c4f18178d5fbf00c97794d0f32" target="_blank" rel="noreferrer">视频教程</a>
+        <a class="nav-link" href="#readme" data-page-link="readme">README</a>
+        <a class="nav-link" href="https://www.bilibili.com/video/BV1g5j46iE5C/?spm_id_from=333.1387.homepage.video_card.click&vd_source=a44f29c4f18178d5fbf00c97794d0f32" target="_blank" rel="noreferrer">视频教程</a>
       </div>
     </nav>
   </header>
@@ -1218,15 +1308,14 @@
     <section class="hero" aria-labelledby="hero-title">
       <div>
         <h1 id="hero-title">稿件 → HTML</h1>
-        <p>上课演讲，用逐字稿提炼重点；视频分镜，用导演稿逐镜还原。选择制作模式和模板，复制完整提示词，交给你常用的 AI 生成。</p>
-        <a class="author-line" href="https://space.bilibili.com/229150291" target="_blank" rel="noreferrer" aria-label="访问卷卷姐 juan 的 B 站空间"><img class="author-avatar" src="assets/avatar.png" alt="卷卷姐"><span>卷卷姐 juan</span></a>
+        <p>上课演讲，先把逐字稿规划成完整故事与逐页蓝图；视频分镜，用导演稿逐镜还原。选择制作模式和模板，复制完整提示词，交给你常用的 AI 生成。</p>
       </div>
     </section>
 
     <section id="generator" class="generation-panel" aria-labelledby="generation-title">
-      <h2 id="generation-title">你要制作哪一种 HTML？</h2>
+      <h2 id="generation-title" class="generation-question">你要制作哪一种 <span class="generation-question__highlight">HTML</span>？</h2>
       <div class="generation-modes">
-        <label><input type="radio" name="generation-mode" value="presentation" checked><strong>演讲 HTML</strong><span>逐字稿 → 重点提炼 · 自由分页 · 轻量动效</span></label>
+        <label><input type="radio" name="generation-mode" value="presentation" checked><strong>演讲 HTML</strong><span>逐字稿 → 故事规划 · 页面蓝图 · 模板生成</span></label>
         <label><input type="radio" name="generation-mode" value="director"><strong>导演 HTML</strong><span>导演稿 → 一镜一页 · 原文字幕 · 分镜动效</span></label>
       </div>
       <p id="generation-help"></p>
@@ -1262,24 +1351,44 @@
           <p class="director-guide__note">每一段口播只能属于一个镜头。镜头编号不要跳号；制作备注不会出现在最终 HTML 画面中。</p>
         </div>
       </details>
-      <div class="generation-fields">
-        <label>原稿标题<input id="generation-name" placeholder="导入稿件后自动提取，也可以修改"></label>
-        <label class="template-field">使用模板
-          <span class="generation-template-select">
-            <button id="generation-template-button" class="generation-template-button" type="button" aria-haspopup="listbox" aria-expanded="false"></button>
-            <span id="generation-template-menu" class="generation-template-menu" role="listbox" hidden></span>
-            <select id="generation-template" class="generation-template-native" tabindex="-1" aria-hidden="true"></select>
-          </span>
-        </label>
-      </div>
-      <label for="generation-file">导入稿件（Markdown / TXT，仅在本页读取）</label>
-      <input id="generation-file" type="file" accept=".md,.txt,text/plain,text/markdown">
-      <label for="generation-source" id="generation-source-label">逐字稿全文</label>
-      <textarea id="generation-source" rows="10" placeholder="粘贴完整稿件，或从上方导入文件"></textarea>
-      <p id="generation-check" role="status" aria-live="polite"></p>
-      <div class="generation-actions"><button class="btn primary" id="generation-build" type="button">准备完整 Agent 提示词</button><button class="btn" id="generation-copy" type="button" disabled>复制提示词</button><button class="btn" id="generation-download" type="button" disabled>下载提示词</button></div>
-      <p>包含稿件全文、所选模板源码和对应生成规则。这里准备提示词，不会自动调用 AI；生成后请逐页预览再用于演讲或录制。</p>
-      <details id="generation-result"><summary>查看完整提示词</summary><textarea id="generation-prompt" rows="12" readonly aria-label="完整 Agent 提示词"></textarea></details>
+      <h2 id="presentation-planner-title" class="generation-question">你想让你的 <span class="generation-question__highlight">HTML</span> 是怎样的类型？</h2>
+      <section id="presentation-planner" class="presentation-planner" aria-labelledby="presentation-planner-title">
+        <div class="planner-fields">
+          <label class="presentation-only">使用场景
+            <select id="generation-occasion"><option value="知识分享">知识分享</option><option value="课堂演讲">课堂演讲</option><option value="工作汇报">工作汇报</option><option value="产品介绍">产品介绍</option><option value="公开演讲">公开演讲</option></select>
+          </label>
+          <label class="presentation-only">期望页数
+            <select id="generation-page-count"><option value="由内容决定">由内容决定</option><option value="6–8 页">6–8 页</option><option value="9–12 页">9–12 页</option><option value="13–16 页">13–16 页</option></select>
+          </label>
+          <label class="planner-goal presentation-only">观众看完后应该
+            <input id="generation-goal" placeholder="例如：理解核心方法，并愿意尝试第一步">
+          </label>
+          <label class="template-field planner-template">使用模板
+            <span class="generation-template-select">
+              <button id="generation-template-button" class="generation-template-button" type="button" aria-haspopup="listbox" aria-expanded="false"></button>
+              <span id="generation-template-menu" class="generation-template-menu" role="listbox" hidden></span>
+              <select id="generation-template" class="generation-template-native" tabindex="-1" aria-hidden="true"></select>
+            </span>
+          </label>
+        </div>
+      </section>
+      <h2 id="manuscript-title" class="generation-question">你的 <span id="generation-manuscript-kind" class="generation-question__highlight">逐字稿</span> 是怎样的？</h2>
+      <section class="manuscript-panel" aria-label="稿件内容">
+        <div class="generation-fields manuscript-fields">
+          <label class="file-field" for="generation-file">导入稿件（Markdown / TXT，仅在本页读取）
+            <input id="generation-file" type="file" accept=".md,.txt,text/plain,text/markdown">
+          </label>
+          <label>原稿标题<input id="generation-name" placeholder="导入稿件后自动提取，也可以修改"></label>
+        </div>
+        <label for="generation-source" id="generation-source-label">逐字稿全文</label>
+        <textarea id="generation-source" rows="10" placeholder="粘贴完整稿件，或从上方导入文件"></textarea>
+      </section>
+      <section class="generation-output" aria-labelledby="generation-output-title">
+        <h2 id="generation-output-title" class="generation-question"><span class="generation-question__highlight">复制完整提示词</span>到相关的 AI Agent！</h2>
+        <p id="generation-check" role="status" aria-live="polite"></p>
+        <div class="generation-actions"><button class="btn primary" id="generation-build" type="button">准备完整 Agent 提示词</button><button class="btn" id="generation-copy" type="button" disabled>复制提示词</button><button class="btn" id="generation-download" type="button" disabled>下载提示词</button></div>
+        <details id="generation-result"><summary>查看完整提示词</summary><textarea id="generation-prompt" rows="12" readonly aria-label="完整 Agent 提示词"></textarea></details>
+      </section>
     </section>
     <section id="templates" aria-label="模板广场" hidden>
       <div class="toolbar">
@@ -1289,24 +1398,25 @@
           <button class="segment" data-filter="light" type="button">浅色</button>
           <button class="segment" data-filter="dark" type="button">暗色</button>
         </div>
-        <div id="count" class="count">3 个模板</div>
       </div>
       <div id="template-grid" class="grid"></div>
     </section>
-    <section id="motion" class="lab-section" aria-labelledby="lab-title" hidden>
-      <div class="lab-head">
-        <div>
-          <div class="lab-kicker">动效</div>
-          <h2 id="lab-title" class="lab-title">动效</h2>
-          <p class="lab-copy">12 个可复用演示组件。</p>
-        </div>
-        <div class="lab-stats" aria-label="动效统计">
-          <div class="lab-stat"><strong>12</strong><span>组件原型</span></div>
-          <div class="lab-stat"><strong>7</strong><span>第三方库</span></div>
-          <div class="lab-stat"><strong>8</strong><span>建议沉淀</span></div>
-        </div>
-      </div>
+    <section id="motion" class="lab-section" aria-label="动效组件" hidden>
       <div class="lab-grid" id="lab-grid"></div>
+    </section>
+    <section id="readme" class="readme-page" aria-label="README" hidden>
+      <div id="readme-loading" class="md-state">
+        <div class="md-spinner" aria-hidden="true"></div>
+        <div>正在加载 README...</div>
+      </div>
+      <div id="readme-error" class="md-state" hidden>
+        <div class="md-error__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="13"></line><line x1="12" y1="16.5" x2="12" y2="16.5"></line></svg>
+        </div>
+        <div class="md-error__msg">无法加载 README</div>
+        <div class="md-error__hint">请确认 README.md 文件存在，或直接 <a href="README.md" target="_blank" rel="noreferrer">打开原文件</a> 查看。</div>
+      </div>
+      <article id="readme-content" class="md-content" hidden></article>
     </section>
   </main>
 
@@ -1314,9 +1424,6 @@
     <div class="footer-inner">
       <span>HTML Presentation · 视频友好模板库 · by <a href="https://space.bilibili.com/229150291" target="_blank" rel="noreferrer">卷卷姐 juan</a></span>
       <span><a href="#" data-md="NOTICE.md" data-title="致谢与来源声明" data-crumb="NOTICE.md" data-type="markdown">NOTICE</a> · <a href="LICENSE">MIT License</a></span>
-    </div>
-    <div class="credits">
-      基于 <a href="https://github.com/zarazhangrui/frontend-slides" target="_blank" rel="noreferrer">Zara Zhang</a> 开源项目 frontend-slides 与 beautiful-html-templates 改编。感谢原作者的出色工作。
     </div>
   </footer>
 
@@ -1353,91 +1460,6 @@
     </div>
   </div>
 
-  <!-- cover-index-data -->
-  <script>
-    window.__COVER_INDEX__ = {
-  "schema_version": 1,
-  "covers": [
-    {
-      "id": "blockframe/classic",
-      "theme": "blockframe",
-      "file": "themes/blockframe/covers/classic.html",
-      "name": "BlockFrame · 经典封面",
-      "style": "classic",
-      "preview": "assets/previews/covers/blockframe_classic.png",
-      "best_for": "保留主题原始风格的通用封面",
-      "placeholders": [
-        "title",
-        "subtitle",
-        "tagline",
-        "meta"
-      ]
-    },
-    {
-      "id": "blockframe-dark/classic",
-      "theme": "blockframe-dark",
-      "file": "themes/blockframe-dark/covers/classic.html",
-      "name": "BlockFrame Dark · 经典封面",
-      "style": "classic",
-      "preview": "assets/previews/covers/blockframe-dark_classic.png",
-      "best_for": "保留主题原始风格的通用封面",
-      "placeholders": [
-        "title",
-        "subtitle",
-        "tagline",
-        "meta"
-      ]
-    },
-    {
-      "id": "blue-professional/classic",
-      "theme": "blue-professional",
-      "file": "themes/blue-professional/covers/classic.html",
-      "name": "Professional · 经典封面",
-      "style": "classic",
-      "preview": "assets/previews/covers/blue-professional_classic.png",
-      "best_for": "保留主题原始风格的通用封面",
-      "placeholders": [
-        "title",
-        "subtitle",
-        "tagline",
-        "meta"
-      ]
-    },
-    {
-      "id": "purple-gold-presentation/classic",
-      "theme": "purple-gold-presentation",
-      "file": "themes/purple-gold-presentation/covers/classic.html",
-      "name": "Professional · 经典封面",
-      "style": "classic",
-      "preview": "assets/previews/covers/purple-gold-presentation_classic.png",
-      "best_for": "保留主题原始风格的通用封面",
-      "placeholders": [
-        "title",
-        "subtitle",
-        "tagline",
-        "meta"
-      ]
-    },
-    {
-      "id": "purple-gold-presentation/tutorial",
-      "theme": "purple-gold-presentation",
-      "file": "themes/purple-gold-presentation/covers/tutorial.html",
-      "name": "Professional · Tutorial Cover",
-      "style": "tutorial",
-      "preview": "assets/previews/covers/purple-gold-presentation_tutorial.png",
-      "best_for": "AI tutorial and practical walkthrough cover",
-      "placeholders": [
-        "title",
-        "subtitle",
-        "tags",
-        "category"
-      ]
-    }
-  ],
-  "generated_at": "2026-07-12T06:01:36.680405Z"
-};
-  </script>
-
   <script>
     let templates = [
       {
@@ -1467,33 +1489,32 @@
         themes: [
           { key: 'candy-light', name: '糖果亮色', scheme: 'light', desc: '米白画布 + 粉蓝绿黄高饱和色块', image: 'assets/previews/blockframe.png?v=2', swatch: 'linear-gradient(135deg, #FFFDF5 0 34%, #FE90E8 34% 52%, #C0F7FE 52% 70%, #99E885 70% 86%, #F7CB46 86%)', vars: { offwhite: '#FFFDF5', black: '#000000', white: '#FFFFFF', pink: '#FE90E8', blue: '#C0F7FE', green: '#99E885', yellow: '#F7CB46', cream: '#FFDC8B' } },
           { key: 'retro-paper', name: '复古纸感', scheme: 'light', desc: '暖纸底 + 复古红蓝绿，适合怀旧教程', image: 'assets/previews/blockframe-retro-paper.png?v=1', swatch: 'linear-gradient(135deg, #F6E7C8 0 42%, #D94F45 42% 62%, #2B6CB0 62% 80%, #3E8F5B 80%)', vars: { offwhite: '#F6E7C8', black: '#1F1714', white: '#FFF8EA', pink: '#D94F7B', blue: '#2B6CB0', green: '#3E8F5B', yellow: '#E9B949', cream: '#F0C987' } },
-          { key: 'mono-pop', name: '黑白荧光', scheme: 'light', desc: '白底 + 黄色主色 + 荧光绿强调', image: 'assets/previews/blockframe-mono-pop.png?v=1', swatch: 'linear-gradient(135deg, #FFFFFF 0 44%, #FFE45C 44% 64%, #A8FF3E 64% 82%, #000000 82%)', vars: { offwhite: '#FFFFFF', black: '#000000', white: '#FFFFFF', pink: '#FFE45C', blue: '#A8FF3E', green: '#A8FF3E', yellow: '#FFE45C', cream: '#FFFFFF' } },
           { key: 'dark-candy', name: '暗黑糖果', scheme: 'dark', desc: '纯黑画布 + 糖果色霓虹强调', image: 'assets/previews/blockframe-dark.png?v=2', swatch: 'linear-gradient(135deg, #0A0A0A 0 46%, #F7CB46 46% 62%, #FE90E8 62% 78%, #C0F7FE 78%)', template: 'themes/blockframe-dark/template.html', docs: 'themes/blockframe-dark/design.md', variant: 'dark', vars: { black: '#0A0A0A', card: '#141414', 'card-elevated': '#1C1C1C', white: '#F6F6F6', muted: '#A0A0A0', 'border-color': '#F6F6F6', yellow: '#F7CB46', pink: '#FE90E8', blue: '#C0F7FE', green: '#99E885', cream: '#FFDC8B' } }
         ]
       },
       {
         slug: 'purple-gold-presentation',
         name: 'Professional',
-        scheme: 'dark',
-        image: 'assets/previews/purple-gold-presentation.png?v=2',
+        scheme: 'light',
+        image: 'assets/previews/blue-professional.png?v=3',
         tagline: 'Tech-forward, minimal, Apple-inspired presentation system.',
         palette: ['#08090d', '#b98eff', '#ffc402', '#f6f2e8', '#FFFDF5', '#111111', '#F7CB46'],
         tags: ['tech', 'minimal', 'apple style'],
         template: 'themes/purple-gold-presentation/template.html',
         docs: 'themes/purple-gold-presentation/design.md',
         themes: [
-          { key: 'cream-blue', name: '奶油钴蓝', scheme: 'light', desc: '奶油纸底 + 电光钴蓝，克制专业', image: 'assets/previews/blue-professional.png?v=2', swatch: 'linear-gradient(135deg, #FDFAE7 0 58%, #1E2BFA 58% 78%, #111111 78%)', vars: { bg: '#FDFAE7', 'bg-cover': '#F7F3E6', primary: '#1E2BFA', 'accent-gold': '#1E2BFA', text: '#111111', 'text-muted': '#6B6B6B', 'text-light': '#9A9A9A' } },
-          { key: 'dark', name: '紫金暗色', scheme: 'dark', desc: '近黑电影感背景，紫色结构 + 金色强调', image: 'assets/previews/purple-gold-presentation.png?v=2', swatch: 'linear-gradient(135deg, #08090d 0 50%, #b98eff 50% 72%, #ffc402 72%)', vars: { bg: '#08090D', 'bg-cover': '#070609', primary: '#B98EFF', 'accent-gold': '#FFC402', text: '#F6F2E8', 'text-muted': '#AAA59A', 'text-light': '#746F66' } },
-          { key: 'black-green', name: '黑绿专业', scheme: 'dark', desc: '深黑画布 + 荧光绿主色，适合技术报告和能力展示', image: 'assets/previews/purple-gold-presentation.png?v=2', swatch: 'linear-gradient(135deg, #0A0A0F 0 48%, #12121A 48% 68%, #A8FF3E 68%)', vars: { bg: '#0A0A0F', 'bg-cover': '#07080C', primary: '#A8FF3E', 'accent-gold': '#A8FF3E', text: '#F5F5F7', 'text-muted': '#8A8A9A', 'text-light': '#5F6070' } }
+          { key: 'cream-blue', name: '奶油钴蓝', scheme: 'light', desc: '与紫金暗色保持相同内容与排版，仅切换为奶油纸底和钴蓝配色', image: 'assets/previews/blue-professional.png?v=4', template: 'themes/purple-gold-presentation/template.html', swatch: 'linear-gradient(135deg, #FDFAE7 0 58%, #1E2BFA 58% 78%, #111111 78%)', vars: { bg: '#FDFAE7', 'bg-cover': '#F7F3E6', primary: '#1E2BFA', 'accent-gold': '#1E2BFA', text: '#111111', 'text-muted': '#6B6B6B', 'text-light': '#9A9A9A' } },
+          { key: 'dark', name: '紫金暗色', scheme: 'dark', desc: '近黑电影感背景，紫色结构 + 金色强调', image: 'assets/previews/purple-gold-presentation.png?v=2', template: 'themes/purple-gold-presentation/template.html', swatch: 'linear-gradient(135deg, #08090d 0 50%, #b98eff 50% 72%, #ffc402 72%)', vars: { bg: '#08090D', 'bg-cover': '#070609', primary: '#B98EFF', 'accent-gold': '#FFC402', text: '#F6F2E8', 'text-muted': '#AAA59A', 'text-light': '#746F66' } },
+          { key: 'black-green', name: '黑绿专业', scheme: 'dark', desc: '深黑画布 + 荧光绿主色，适合技术报告和能力展示', image: 'assets/previews/purple-gold-presentation.png?v=2', template: 'themes/purple-gold-presentation/template.html', swatch: 'linear-gradient(135deg, #0A0A0F 0 48%, #12121A 48% 68%, #A8FF3E 68%)', vars: { bg: '#0A0A0F', 'bg-cover': '#07080C', primary: '#A8FF3E', 'accent-gold': '#A8FF3E', text: '#F5F5F7', 'text-muted': '#8A8A9A', 'text-light': '#5F6070' } }
         ]
       }
     ];
 
     const grid = document.querySelector('#template-grid');
     const search = document.querySelector('#search');
-    const count = document.querySelector('#count');
     const segments = Array.from(document.querySelectorAll('.segment'));
     let activeFilter = 'all';
+    let renderVersion = 0;
 
     function getThemeList(item) {
       return item.themes && item.themes.length
@@ -1501,10 +1522,11 @@
         : [{ key: 'default', name: '默认配色', desc: '模板默认 CSS 配色', swatch: paletteSwatch(item.palette), vars: {} }];
     }
 
-    function getAppearanceTheme(item) {
+    function getAppearanceTheme(item, filter = activeFilter) {
       const appearance = document.documentElement.dataset.appearance === 'dark' ? 'dark' : 'light';
+      const requestedScheme = filter === 'light' || filter === 'dark' ? filter : appearance;
       const themes = getThemeList(item);
-      return themes.find((theme) => (theme.scheme || item.scheme) === appearance) || themes[0];
+      return themes.find((theme) => (theme.scheme || item.scheme) === requestedScheme) || themes[0];
     }
 
     function paletteSwatch(colors) {
@@ -1517,100 +1539,82 @@
       return 'linear-gradient(135deg, ' + stops + ')';
     }
 
-    function renderPaletteOptions(item) {
-      const appearanceTheme = getAppearanceTheme(item);
-      return getThemeList(item).map((theme) => {
+    function renderPaletteOptions(item, selectedTheme) {
+      const appearanceTheme = selectedTheme || getAppearanceTheme(item);
+      const triggerSwatch = (appearanceTheme.swatch || paletteSwatch(item.palette)).replace('135deg', '90deg');
+      const options = getThemeList(item).map((theme) => {
         const preview = theme.template || item.template;
-        const swatch = theme.swatch || paletteSwatch(item.palette);
+        const swatch = (theme.swatch || paletteSwatch(item.palette)).replace('135deg', '90deg');
         const image = theme.image || item.image;
         const encodedVars = theme.vars && Object.keys(theme.vars).length
           ? encodeURIComponent(JSON.stringify(theme.vars))
           : '';
         const selected = theme.key === appearanceTheme.key;
-        return "<button type=\"button\" class=\"palette-theme" + (selected ? " active" : "") + "\""
-          + " data-preview=\"" + preview + "\""
+        return "<button type=\"button\" class=\"card-palette-option" + (selected ? " active" : "") + "\""
+          + " data-card-palette-preview=\"" + preview + "\""
           + " data-slug=\"" + item.slug + "\""
           + " data-name=\"" + item.name + "\""
-          + " data-preview-theme=\"" + theme.key + "\""
-          + " data-preview-name=\"" + theme.name + "\""
+          + " data-card-palette-theme=\"" + theme.key + "\""
+          + " data-card-palette-name=\"" + theme.name + "\""
+          + " data-card-palette-scheme=\"" + (theme.scheme || item.scheme) + "\""
           + " data-image=\"" + image + "\""
           + (encodedVars ? " data-vars=\"" + encodedVars + "\"" : "")
           + " aria-pressed=\"" + selected + "\""
-          + " aria-label=\"预览 " + item.name + " " + theme.name + "\">"
+          + " aria-label=\"选择 " + item.name + " " + theme.name + "\">"
           + "<span class=\"swatch\" style=\"background:" + swatch + "\" data-color=\"" + theme.name + "\"></span>"
-          + "<span>" + theme.name + "</span>"
+          + "<span class=\"card-palette-option__name\">" + theme.name + "</span>"
           + "</button>";
       }).join('');
-    }
-
-    function getCoverIndex() {
-      if (window.__COVER_INDEX__ && window.__COVER_INDEX__.covers) {
-        return Promise.resolve(window.__COVER_INDEX__);
-      }
-      return fetch('themes/covers-index.json', { cache: 'no-cache' })
-        .then((res) => res.json())
-        .catch(() => ({ covers: [] }));
-    }
-
-    function renderCoversInline(themeSlug, coverIndex) {
-      const covers = (coverIndex && coverIndex.covers || []).filter((c) => c.theme === themeSlug);
-      if (!covers.length) return '';
       return `
-        <div class="covers-inline">
-          <div class="covers-inline-title">可选封面模板</div>
-          <div class="covers-list">
-            ${covers.map((c) => `
-              <a class="cover-item" href="${c.file}" target="_blank" rel="noreferrer" title="${c.name} · ${c.best_for || ''}">
-                <span class="cover-thumb"><img src="${c.preview}" alt="${c.name}" width="160" height="90" onerror="this.onerror=null;this.src='assets/previews/${c.theme}.png'"></span>
-                <span class="cover-info">
-                  <span class="cover-name">${c.name.replace(/^[^·]+·\s*/, '')}</span>
-                  <span class="cover-style">${c.style}</span>
-                </span>
-              </a>
-            `).join('')}
-          </div>
-        </div>
+        <button type="button" class="palette-theme active card-palette-trigger" aria-expanded="false" aria-label="选择 ${item.name} 配色">
+          <span class="swatch" style="background:${triggerSwatch}"></span>
+          <span class="palette-theme__name">${appearanceTheme.name}</span>
+          <span class="palette-theme__caret" aria-hidden="true">▶</span>
+        </button>
+        <div class="card-palette-menu" hidden>${options}</div>
       `;
     }
 
-    async function render() {
+    function render() {
+      const version = ++renderVersion;
+      const renderFilter = activeFilter;
       const keyword = search.value.trim().toLowerCase();
       const visible = templates.filter((item) => {
-        const inScheme = activeFilter === 'all' || getThemeList(item).some((theme) => (theme.scheme || item.scheme) === activeFilter);
+        const inScheme = renderFilter === 'all' || getThemeList(item).some((theme) => (theme.scheme || item.scheme) === renderFilter);
         const haystack = [item.name, item.slug, item.tagline, item.scheme, ...item.tags].join(' ').toLowerCase();
         return inScheme && (!keyword || haystack.includes(keyword));
       });
 
-      const coverIndex = await getCoverIndex();
+      if (version !== renderVersion) return;
 
-      count.textContent = `${visible.length} 个模板`;
       grid.innerHTML = visible.map((item) => {
-        const matchedTheme = getAppearanceTheme(item);
+        const matchedTheme = getAppearanceTheme(item, renderFilter);
         const displayImage = matchedTheme && matchedTheme.image ? matchedTheme.image : item.image;
         const displayTemplate = matchedTheme && matchedTheme.template ? matchedTheme.template : item.template;
         const displayVars = matchedTheme && matchedTheme.vars ? encodeURIComponent(JSON.stringify(matchedTheme.vars)) : '';
         const displayHref = displayVars ? `${displayTemplate}?vars=${displayVars}` : displayTemplate;
+        const displayLabel = matchedTheme ? `${item.name} · ${matchedTheme.name}` : item.name;
         return `
-        <article class="template-card">
-          <a class="preview ${item.scheme}" href="${displayHref}" target="_blank" rel="noreferrer" aria-label="预览 ${item.name}" data-default-image="${displayImage}" data-default-template="${displayTemplate}" data-default-vars="${displayVars}">
+        <article class="template-card" data-card-preview="${displayTemplate}" data-card-name="${item.name}" data-card-slug="${item.slug}" data-card-theme="${matchedTheme ? matchedTheme.key : ''}">
+          <a class="preview ${(matchedTheme && matchedTheme.scheme) || item.scheme}" href="${displayHref}" aria-label="调整 ${item.name}" data-preview="${displayTemplate}" data-name="${item.name}" data-slug="${item.slug}" data-preview-theme="${matchedTheme ? matchedTheme.key : ''}" data-default-image="${displayImage}" data-default-template="${displayTemplate}" data-default-vars="${displayVars}" data-use-label="${displayLabel}">
             <img src="${displayImage}" alt="${item.name} 封面页截图" width="1920" height="1080" loading="eager" onerror="this.onerror=null;this.src='${item.image.split('?')[0]}'">
           </a>
           <div class="card-body">
             <div class="card-head">
               <h3 class="card-title">${item.name}</h3>
               <div class="card-head-actions">
-                <span class="badge">${item.scheme}</span>
-                <button type="button" class="doc-btn" data-doc="${item.docs}" data-title="${item.name} · 设计文档" data-type="markdown">设计文档</button>
+                <span class="badge">${((matchedTheme && matchedTheme.scheme) || item.scheme) === 'dark' ? '暗色' : '浅色'}</span>
+                <button type="button" class="doc-btn" data-doc="${item.docs}" data-title="${item.name} · 设计说明" data-type="markdown">说明</button>
               </div>
             </div>
             <p class="description">${item.tagline}</p>
             <div class="palette">
               <span class="palette-label">配色</span>
               <div class="palette-options">
-                ${renderPaletteOptions(item)}
+                ${renderPaletteOptions(item, matchedTheme)}
               </div>
+              <button class="template-action template-use-inline" type="button" data-use-template>使用模板</button>
             </div>
-            ${renderCoversInline(item.slug, coverIndex)}
           </div>
         </article>
       `;
@@ -1840,6 +1844,51 @@
         .replace(/'/g, '&#39;');
     }
 
+    let readmeLoaded = false;
+    let readmeLoading = false;
+    window.loadReadmePage = function () {
+      if (readmeLoaded || readmeLoading) return;
+      const loading = document.getElementById('readme-loading');
+      const error = document.getElementById('readme-error');
+      const pageContent = document.getElementById('readme-content');
+      if (!loading || !error || !pageContent) return;
+      readmeLoading = true;
+      loading.hidden = false;
+      error.hidden = true;
+      pageContent.hidden = true;
+
+      const loadWhenReady = async (retries) => {
+        if (!isReady() && !cdnFinished() && retries > 0) {
+          setTimeout(() => loadWhenReady(retries - 1), 100);
+          return;
+        }
+        try {
+          const res = await fetch('README.md', { cache: 'no-cache' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const raw = await res.text();
+          pageContent.innerHTML = canRenderMarkdown()
+            ? window.marked.parse(raw)
+            : renderAsPlainText(raw, 'markdown');
+          if (canHighlight()) {
+            pageContent.querySelectorAll('pre code').forEach((block) => {
+              try { window.hljs.highlightElement(block); } catch (e) {}
+            });
+          }
+          loading.hidden = true;
+          error.hidden = true;
+          pageContent.hidden = false;
+          readmeLoaded = true;
+        } catch (e) {
+          loading.hidden = true;
+          error.hidden = false;
+          pageContent.hidden = true;
+        } finally {
+          readmeLoading = false;
+        }
+      };
+      loadWhenReady(80);
+    };
+
     // ---- Event bindings ----
     document.addEventListener('click', (e) => {
       const mdTrigger = e.target.closest('[data-md]');
@@ -1879,55 +1928,48 @@
   </script>
 
   <!-- Theme picker & inline preview modal -->
-  <div id="preview-modal" class="preview-modal" hidden role="dialog" aria-modal="true" aria-labelledby="preview-modal-title">
+  <div id="preview-modal" class="preview-modal" hidden role="region" aria-labelledby="preview-modal-title">
     <div class="preview-modal__mask" data-preview-close></div>
     <div class="preview-modal__dialog">
       <header class="preview-modal__header">
-        <h2 id="preview-modal-title" class="preview-modal__title">选择配色</h2>
-        <button type="button" class="preview-modal__close" data-preview-close aria-label="关闭">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-          </svg>
-        </button>
+        <button type="button" class="preview-panel-toggle" id="preview-panel-toggle" aria-expanded="true" aria-controls="preview-modal-body"><span>编辑模板</span><span class="preview-panel-toggle__caret">▶</span></button>
+        <div class="preview-toolbar"><button type="button" class="preview-toolbar__reset" id="preview-reset">恢复默认</button><button type="button" class="preview-use" id="preview-use-template">使用此模板</button></div>
       </header>
       <div id="preview-modal-body" class="preview-modal__body">
-        <div id="theme-picker" class="theme-picker">
-          <button type="button" class="theme-option" data-preview-theme="cream-blue" data-preview-name="奶油钴蓝">
-            <span class="theme-option__swatch" style="background: linear-gradient(135deg, #FDFAE7 0 58%, #1E2BFA 58% 78%, #111111 78%);"></span>
-            <span class="theme-option__name">奶油钴蓝</span>
-            <span class="theme-option__desc">奶油纸底 + 电光钴蓝</span>
-          </button>
-          <button type="button" class="theme-option" data-preview-theme="dark" data-preview-name="紫金暗色">
-            <span class="theme-option__swatch" style="background: linear-gradient(135deg, #08090d 0 50%, #b98eff 50% 72%, #ffc402 72%);"></span>
-            <span class="theme-option__name">紫金暗色</span>
-            <span class="theme-option__desc">近黑背景 + 紫色结构 + 金色强调</span>
-          </button>
-        </div>
-        <form id="custom-palette" class="custom-palette">
-          <div class="custom-field">
-            <label for="custom-bg">背景</label>
-            <input id="custom-bg" name="bg" type="color" value="#fffdf5">
-          </div>
-          <div class="custom-field">
-            <label for="custom-primary">主色</label>
-            <input id="custom-primary" name="primary" type="color" value="#1e2bfa">
-          </div>
-          <div class="custom-field">
-            <label for="custom-accent">强调</label>
-            <input id="custom-accent" name="accent" type="color" value="#f7cb46">
-          </div>
-          <div class="custom-field">
-            <label for="custom-text">文字</label>
-            <input id="custom-text" name="text" type="color" value="#111111">
-          </div>
-          <div class="custom-field">
-            <label for="custom-muted">弱文字</label>
-            <input id="custom-muted" name="muted" type="color" value="#6b6b6b">
-          </div>
-          <button type="submit" class="btn primary">查看自定义</button>
-        </form>
-        <iframe id="preview-iframe" class="preview-modal__iframe" hidden></iframe>
+        <aside class="preview-modal__controls">
+          <div class="preview-template-meta"><strong id="preview-modal-title">模板设计</strong><span id="preview-template-description">调整配色和字体，右侧实时显示效果。</span></div>
+          <details class="design-group" open>
+            <summary>配色</summary>
+            <div class="design-group__body">
+              <div id="theme-picker" class="theme-picker palette-presets"></div>
+              <div class="design-group__eyebrow">核心颜色</div>
+              <form id="custom-palette" class="custom-palette">
+                <div class="custom-field"><input id="custom-bg" name="bg" type="color" value="#fffdf5"><label for="custom-bg">背景</label><input type="text" data-hex-for="bg" value="#FFFDF5" aria-label="背景色值"></div>
+                <div class="custom-field"><input id="custom-surface" name="surface" type="color" value="#ffffff"><label for="custom-surface">卡片</label><input type="text" data-hex-for="surface" value="#FFFFFF" aria-label="卡片色值"></div>
+                <div class="custom-field"><input id="custom-primary" name="primary" type="color" value="#1e2bfa"><label for="custom-primary">主色</label><input type="text" data-hex-for="primary" value="#1E2BFA" aria-label="主色色值"></div>
+                <div class="custom-field"><input id="custom-accent" name="accent" type="color" value="#f7cb46"><label for="custom-accent">强调</label><input type="text" data-hex-for="accent" value="#F7CB46" aria-label="强调色色值"></div>
+                <div class="custom-field"><input id="custom-secondary" name="secondary" type="color" value="#c0f7fe"><label for="custom-secondary">辅助一</label><input type="text" data-hex-for="secondary" value="#C0F7FE" aria-label="辅助色一色值"></div>
+                <div class="custom-field"><input id="custom-tertiary" name="tertiary" type="color" value="#99e885"><label for="custom-tertiary">辅助二</label><input type="text" data-hex-for="tertiary" value="#99E885" aria-label="辅助色二色值"></div>
+                <div class="custom-field"><input id="custom-text" name="text" type="color" value="#111111"><label for="custom-text">文字</label><input type="text" data-hex-for="text" value="#111111" aria-label="文字色值"></div>
+                <div class="design-group__eyebrow">辅助颜色</div>
+                <div class="custom-field"><input id="custom-muted" name="muted" type="color" value="#6b6b6b"><label for="custom-muted">弱文字</label><input type="text" data-hex-for="muted" value="#6B6B6B" aria-label="弱文字色值"></div>
+                <div class="custom-field"><input id="custom-border" name="border" type="color" value="#d4d4d8"><label for="custom-border">描边</label><input type="text" data-hex-for="border" value="#D4D4D8" aria-label="描边色值"></div>
+              </form>
+            </div>
+          </details>
+          <details class="design-group">
+            <summary>字体</summary>
+            <div class="design-group__body">
+              <div class="type-controls">
+                <div class="type-field"><label for="preview-heading-font">标题字体</label><select id="preview-heading-font"><option value="template">保持模板字体</option><option value="system">现代黑体</option><option value="handdrawn">手绘字体</option><option value="serif">典雅衬线</option><option value="mono">等宽科技</option></select></div>
+                <div class="type-field"><label for="preview-body-font">正文字体</label><select id="preview-body-font"><option value="template">保持模板字体</option><option value="system">现代黑体</option><option value="serif">易读衬线</option><option value="handdrawn">手绘字体</option><option value="mono">等宽字体</option></select></div>
+                <div class="type-field"><label for="preview-heading-size">标题字号</label><select id="preview-heading-size"><option value="1">保持模板字号</option><option value="0.9">较小 · 90%</option><option value="1.1">稍大 · 110%</option><option value="1.2">大 · 120%</option><option value="1.3">特大 · 130%</option></select></div>
+                <div class="type-field"><label for="preview-body-size">正文字号</label><select id="preview-body-size"><option value="1">保持模板字号</option><option value="0.9">较小 · 90%</option><option value="1.1">稍大 · 110%</option><option value="1.2">大 · 120%</option><option value="1.3">特大 · 130%</option></select></div>
+              </div>
+            </div>
+          </details>
+        </aside>
+        <div id="preview-stage" class="preview-modal__stage"><div id="preview-viewport" class="preview-modal__viewport"><iframe id="preview-iframe" class="preview-modal__iframe" hidden title="模板预览"></iframe></div></div>
       </div>
     </div>
   </div>
@@ -1939,11 +1981,29 @@
     const themePicker = document.getElementById('theme-picker');
     const customPalette = document.getElementById('custom-palette');
     const previewIframe = document.getElementById('preview-iframe');
+    const previewStage = document.getElementById('preview-stage');
+    const previewViewport = document.getElementById('preview-viewport');
+    const previewDescription = document.getElementById('preview-template-description');
+    const headingFont = document.getElementById('preview-heading-font');
+    const bodyFont = document.getElementById('preview-body-font');
+    const headingSize = document.getElementById('preview-heading-size');
+    const bodySize = document.getElementById('preview-body-size');
+    const previewPanelToggle = document.getElementById('preview-panel-toggle');
+    const previewModalBody = document.getElementById('preview-modal-body');
     let currentTemplateUrl = '';
     let currentTemplateName = '';
     let currentTemplateSlug = '';
     let currentVars = {};
+    let currentThemeName = '';
+    let initialThemeKey = '';
     let previewNonce = 0;
+    const fontStacks = {
+      template: '',
+      system: '"Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif',
+      handdrawn: '"Xiaolai","KaiTi","STKaiti",cursive',
+      serif: '"Noto Serif SC","Songti SC","SimSun",serif',
+      mono: '"Cascadia Mono","SFMono-Regular",Consolas,monospace'
+    };
 
     function findTemplate(slug) {
       return templates.find((item) => item.slug === slug);
@@ -2004,60 +2064,115 @@
     function injectVars() {
       try {
         const doc = previewIframe.contentDocument;
-        if (!doc || !Object.keys(currentVars).length) return;
+        if (!doc) return;
         Object.entries(derivedVars(currentVars)).forEach(([name, value]) => {
           doc.documentElement.style.setProperty(`--${name}`, value);
         });
+        let typography = doc.getElementById('hp-preview-typography');
+        if (!typography) {
+          typography = doc.createElement('style');
+          typography.id = 'hp-preview-typography';
+          doc.head.appendChild(typography);
+        }
+        const headingRule = headingFont.value === 'template' ? '' : `h1,h2,h3,.title,.cover-title{font-family:${fontStacks[headingFont.value]}!important}`;
+        const bodyRule = bodyFont.value === 'template' ? '' : `body,p,li,button,input,select,textarea{font-family:${fontStacks[bodyFont.value]}!important}`;
+        const headingSizeRule = headingSize.value === '1' ? '' : `h1,h2,h3,.title,.cover-title{zoom:${headingSize.value}}`;
+        const bodySizeRule = bodySize.value === '1' ? '' : `p,li,.subtitle,.description,.body-text{zoom:${bodySize.value}}`;
+        typography.textContent = headingRule + bodyRule + headingSizeRule + bodySizeRule;
       } catch (e) {}
+    }
+
+    function fitPreview() {
+      const width = previewStage.clientWidth;
+      const height = previewStage.clientHeight;
+      if (!width || !height) return;
+      const scale = Math.min(width / 1920, height / 1080);
+      previewViewport.style.width = `${1920 * scale}px`;
+      previewViewport.style.height = `${1080 * scale}px`;
+      previewIframe.style.transform = `scale(${scale})`;
+    }
+    const previewResizeObserver = new ResizeObserver(fitPreview);
+    previewResizeObserver.observe(previewStage);
+
+    function editableColor(value, fallback) {
+      return /^#[0-9a-f]{6}$/i.test(String(value || '')) ? value : fallback;
     }
 
     function customValuesFromVars(vars) {
       return {
         bg: vars.bg || vars.offwhite || vars.black || '#fffdf5',
-        primary: vars.primary || vars.yellow || vars.pink || vars.blue || '#1e2bfa',
-        accent: vars['accent-gold'] || vars.green || vars.blue || vars.yellow || '#f7cb46',
+        surface: vars.card || vars.white || vars['bg-cover'] || '#ffffff',
+        primary: vars.primary || vars.yellow || vars.pink || '#1e2bfa',
+        accent: vars['accent-gold'] || vars.pink || vars.purple || vars.yellow || '#f7cb46',
+        secondary: vars.blue || vars.lavender || vars.secondary || '#c0f7fe',
+        tertiary: vars.green || vars.tertiary || vars.cream || '#99e885',
         text: vars.text || vars.white || vars.black || '#111111',
-        muted: vars['text-muted'] || vars.muted || vars['text-light'] || '#6b6b6b'
+        muted: vars['text-muted'] || vars.muted || vars['text-light'] || '#6b6b6b',
+        border: editableColor(vars['border-color'] || vars.border || vars.purple, '#d4d4d8')
       };
     }
 
     function syncCustomFields(vars) {
       const values = customValuesFromVars(vars || {});
-      customPalette.elements.bg.value = values.bg;
-      customPalette.elements.primary.value = values.primary;
-      customPalette.elements.accent.value = values.accent;
-      customPalette.elements.text.value = values.text;
-      customPalette.elements.muted.value = values.muted;
+      Object.entries(values).forEach(([name, value]) => {
+        customPalette.elements[name].value = value;
+        const hex = customPalette.querySelector(`[data-hex-for="${name}"]`);
+        if (hex) hex.value = value.toUpperCase();
+      });
     }
 
     function buildCustomVars(item) {
       const values = {
         bg: customPalette.elements.bg.value,
+        surface: customPalette.elements.surface.value,
         primary: customPalette.elements.primary.value,
         accent: customPalette.elements.accent.value,
+        secondary: customPalette.elements.secondary.value,
+        tertiary: customPalette.elements.tertiary.value,
         text: customPalette.elements.text.value,
-        muted: customPalette.elements.muted.value
+        muted: customPalette.elements.muted.value,
+        border: customPalette.elements.border.value
       };
       const templateUrl = currentTemplateUrl || item.template;
+      if (templateUrl.includes('doodle-cream')) {
+        return {
+          paper: values.bg,
+          ink: values.text,
+          muted: values.muted,
+          yellow: values.primary,
+          'yellow-deep': values.primary,
+          purple: values.accent,
+          line: values.border,
+          surface: values.surface,
+          secondary: values.secondary,
+          tertiary: values.tertiary
+        };
+      }
       if (templateUrl.includes('blockframe-dark')) {
-        return { black: values.bg, card: shadeHex(values.bg, 18), 'card-elevated': shadeHex(values.bg, 28), white: values.text, muted: values.muted, 'border-color': values.text, yellow: values.accent, pink: values.primary, blue: values.accent, green: values.primary, cream: values.text };
+        return { black: values.bg, card: values.surface, 'card-elevated': shadeHex(values.surface, 12), white: values.text, muted: values.muted, 'border-color': values.border, yellow: values.primary, pink: values.accent, blue: values.secondary, green: values.tertiary, cream: values.surface };
       }
       if (templateUrl.includes('blockframe/')) {
-        return { offwhite: values.bg, black: values.text, white: '#ffffff', pink: values.primary, blue: values.accent, green: values.muted, yellow: values.accent, cream: shadeHex(values.bg, -16) };
+        return { offwhite: values.bg, black: values.text, white: values.surface, pink: values.accent, blue: values.secondary, green: values.tertiary, yellow: values.primary, cream: values.surface, purple: values.border, lavender: values.secondary };
       }
       if (templateUrl.includes('purple-gold-presentation')) {
-        return { bg: values.bg, 'bg-cover': shadeHex(values.bg, -6), primary: values.primary, 'accent-gold': values.accent, text: values.text, 'text-muted': values.muted, 'text-light': values.muted };
+        return { bg: values.bg, 'bg-cover': values.surface, primary: values.primary, 'accent-gold': values.accent, secondary: values.secondary, tertiary: values.tertiary, text: values.text, 'text-muted': values.muted, 'text-light': values.muted, border: values.border };
       }
-      return { bg: values.bg, primary: values.primary, text: values.text, 'text-muted': values.muted, 'text-light': values.muted };
+      return { bg: values.bg, surface: values.surface, primary: values.primary, accent: values.accent, secondary: values.secondary, tertiary: values.tertiary, text: values.text, 'text-muted': values.muted, 'text-light': values.muted, border: values.border };
     }
 
     function loadPreview(url, theme, themeName, vars) {
       const separator = url.includes('?') ? '&' : '?';
       previewNonce += 1;
-      currentVars = vars || {};
+      currentVars = { ...(vars || {}) };
+      if (headingFont.value !== 'template') currentVars['font-heading'] = fontStacks[headingFont.value];
+      if (bodyFont.value !== 'template') currentVars['font-body'] = fontStacks[bodyFont.value];
+      if (headingSize.value !== '1') currentVars['font-heading-scale'] = headingSize.value;
+      if (bodySize.value !== '1') currentVars['font-body-scale'] = bodySize.value;
+      currentThemeName = themeName || '默认配色';
       const encodedVars = encodeURIComponent(JSON.stringify(derivedVars(currentVars)));
       previewIframe.src = `${url}${separator}theme=${encodeURIComponent(theme || 'default')}&palette=${previewNonce}&vars=${encodedVars}`;
       previewIframe.hidden = false;
+      fitPreview();
       window.setTimeout(injectVars, 80);
       previewTitle.textContent = themeName ? `${currentTemplateName} · ${themeName}` : currentTemplateName;
     }
@@ -2067,7 +2182,27 @@
       previewIframe.hidden = true;
       previewIframe.src = '';
       currentVars = {};
-      document.body.style.overflow = '';
+      document.querySelectorAll('.template-card.is-designing').forEach((card) => card.classList.remove('is-designing'));
+    }
+
+    function compactThemeSwatch(theme, item) {
+      return (theme.swatch || paletteSwatch(item.palette)).replace('135deg', '90deg');
+    }
+
+    function closePaletteDropdown() {
+      const trigger = themePicker.querySelector('.palette-dropdown__trigger');
+      const menu = themePicker.querySelector('.palette-dropdown__menu');
+      if (!trigger || !menu) return;
+      trigger.setAttribute('aria-expanded', 'false');
+      menu.hidden = true;
+    }
+
+    function updatePaletteDropdown(theme, item) {
+      const trigger = themePicker.querySelector('.palette-dropdown__trigger');
+      if (!trigger || !theme || !item) return;
+      trigger.querySelector('.palette-dropdown__trigger-swatch').style.background = compactThemeSwatch(theme, item);
+      trigger.querySelector('.palette-dropdown__name').textContent = theme.name;
+      trigger.setAttribute('aria-label', `当前配色：${theme.name}，点击展开其他配色`);
     }
 
     function openPalettePreview(url, name, slug, initialTheme) {
@@ -2076,44 +2211,138 @@
       currentTemplateUrl = url;
       currentTemplateName = name;
       currentTemplateSlug = slug;
+      headingFont.value = 'template';
+      bodyFont.value = 'template';
+      headingSize.value = '1';
+      bodySize.value = '1';
+      previewDescription.textContent = item.tagline || '调整配色和字体，右侧实时显示效果。';
 
+      const activeCard = grid.querySelector(`.template-card[data-card-slug="${slug}"]`);
+      document.querySelectorAll('.template-card.is-designing').forEach((card) => card.classList.remove('is-designing'));
+      if (activeCard) {
+        activeCard.classList.add('is-designing');
+        grid.insertAdjacentElement('afterend', previewModal);
+      }
       previewModal.hidden = false;
-      document.body.style.overflow = 'hidden';
+      previewModalBody.hidden = false;
+      previewPanelToggle.setAttribute('aria-expanded', 'true');
       previewTitle.textContent = `选择 ${name} 配色`;
       themePicker.hidden = false;
-      themePicker.innerHTML = '';
+      themePicker.innerHTML = `
+        <button type="button" class="palette-dropdown__trigger" aria-expanded="false">
+          <span class="palette-dropdown__trigger-swatch"></span>
+          <span class="palette-dropdown__name"></span>
+          <span class="palette-dropdown__caret" aria-hidden="true">▶</span>
+        </button>
+        <div class="palette-dropdown__menu" hidden></div>
+      `;
+      const paletteMenu = themePicker.querySelector('.palette-dropdown__menu');
 
-      getThemeList(item).forEach((theme) => {
+      const themes = getThemeList(item);
+      const selected = themes.find((theme) => theme.key === initialTheme) || themes[0];
+      initialThemeKey = selected.key;
+      themes.forEach((theme) => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'theme-option';
+        btn.className = 'theme-option' + (theme.key === selected.key ? ' active' : '');
+        btn.setAttribute('aria-pressed', String(theme.key === selected.key));
         btn.dataset.previewTheme = theme.key;
         btn.dataset.previewName = theme.name;
         btn.dataset.previewUrl = theme.template || item.template;
+        btn.title = theme.name;
+        btn.setAttribute('aria-label', `使用${theme.name}配色`);
+        const compactSwatch = compactThemeSwatch(theme, item);
         btn.innerHTML = `
-          <span class="theme-option__swatch" style="background: ${theme.swatch || paletteSwatch(item.palette)};"></span>
+          <span class="theme-option__swatch" style="background: ${compactSwatch};"></span>
           <span class="theme-option__text">
             <span class="theme-option__name">${theme.name}</span>
             <span class="theme-option__desc">${theme.desc || '模板默认配色'}</span>
           </span>
         `;
-        themePicker.appendChild(btn);
+        paletteMenu.appendChild(btn);
       });
 
-      const themes = getThemeList(item);
-      const selected = themes.find((theme) => theme.key === initialTheme) || themes[0];
+      updatePaletteDropdown(selected, item);
       syncCustomFields(selected.vars || {});
       currentTemplateUrl = selected.template || url;
       loadPreview(currentTemplateUrl, selected.key, selected.name, selected.vars || {});
+      window.requestAnimationFrame(() => previewModal.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     }
 
     previewIframe.addEventListener('load', injectVars);
 
-    customPalette.addEventListener('submit', (e) => {
-      e.preventDefault();
+    function applyCustomPalette() {
       const item = findTemplate(currentTemplateSlug);
       if (!item) return;
       loadPreview(currentTemplateUrl, 'custom', '自定义配色', buildCustomVars(item));
+    }
+
+    customPalette.addEventListener('submit', (e) => e.preventDefault());
+    customPalette.querySelectorAll('input[type="color"]').forEach((input) => {
+      input.addEventListener('input', () => {
+        const hex = customPalette.querySelector(`[data-hex-for="${input.name}"]`);
+        if (hex) hex.value = input.value.toUpperCase();
+        applyCustomPalette();
+      });
+    });
+    customPalette.querySelectorAll('[data-hex-for]').forEach((input) => {
+      input.addEventListener('change', () => {
+        const value = input.value.trim();
+        if (!/^#[0-9a-f]{6}$/i.test(value)) {
+          input.value = customPalette.elements[input.dataset.hexFor].value.toUpperCase();
+          return;
+        }
+        customPalette.elements[input.dataset.hexFor].value = value;
+        input.value = value.toUpperCase();
+        applyCustomPalette();
+      });
+    });
+
+    function applyTypography() {
+      if (headingFont.value === 'template') delete currentVars['font-heading']; else currentVars['font-heading'] = fontStacks[headingFont.value];
+      if (bodyFont.value === 'template') delete currentVars['font-body']; else currentVars['font-body'] = fontStacks[bodyFont.value];
+      if (headingSize.value === '1') delete currentVars['font-heading-scale']; else currentVars['font-heading-scale'] = headingSize.value;
+      if (bodySize.value === '1') delete currentVars['font-body-scale']; else currentVars['font-body-scale'] = bodySize.value;
+      injectVars();
+    }
+    headingFont.addEventListener('change', applyTypography);
+    bodyFont.addEventListener('change', applyTypography);
+    headingSize.addEventListener('change', applyTypography);
+    bodySize.addEventListener('change', applyTypography);
+    applyTypography();
+
+    document.getElementById('preview-reset').addEventListener('click',()=>{
+      const item=findTemplate(currentTemplateSlug);
+      if(!item)return;
+      headingFont.value='template';
+      bodyFont.value='template';
+      headingSize.value='1';
+      bodySize.value='1';
+      const selected=getThemeList(item).find(theme=>theme.key===initialThemeKey)||getThemeList(item)[0];
+      currentTemplateUrl=selected.template||item.template;
+      syncCustomFields(selected.vars||{});
+      themePicker.querySelectorAll('.theme-option').forEach(button=>{
+        const active=button.dataset.previewTheme===selected.key;
+        button.classList.toggle('active',active);
+        button.setAttribute('aria-pressed',String(active));
+      });
+      updatePaletteDropdown(selected,item);
+      closePaletteDropdown();
+      loadPreview(currentTemplateUrl,selected.key,selected.name,selected.vars||{});
+    });
+
+    previewPanelToggle.addEventListener('click',()=>{
+      const expanded=previewPanelToggle.getAttribute('aria-expanded')==='true';
+      previewPanelToggle.setAttribute('aria-expanded',String(!expanded));
+      previewModalBody.hidden=expanded;
+    });
+
+    document.getElementById('preview-use-template').addEventListener('click',()=>{
+      const item=findTemplate(currentTemplateSlug);
+      if(!item||typeof window.useGenerationTemplate!=='function')return;
+      window.useGenerationTemplate({name:`${currentTemplateName} · ${currentThemeName}`,path:currentTemplateUrl,vars:derivedVars(currentVars),image:item.image,desc:'从设计工作台选择'});
+      closePalettePreview();
+      location.hash='generator';
     });
 
     function buildTemplateUrl(template, vars) {
@@ -2128,6 +2357,63 @@
       const link = card && card.querySelector('.preview');
       if (link && template) link.href = buildTemplateUrl(template, vars);
     }
+
+    grid.addEventListener('click', (e) => {
+      const trigger = e.target.closest('.card-palette-trigger');
+      const option = e.target.closest('.card-palette-option');
+      if (!trigger && !option) return;
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (trigger) {
+        const menu = trigger.nextElementSibling;
+        const expanded = trigger.getAttribute('aria-expanded') === 'true';
+        grid.querySelectorAll('.card-palette-trigger[aria-expanded="true"]').forEach((button) => {
+          button.setAttribute('aria-expanded', 'false');
+          if (button.nextElementSibling) button.nextElementSibling.hidden = true;
+        });
+        trigger.setAttribute('aria-expanded', String(!expanded));
+        if (menu) menu.hidden = expanded;
+        return;
+      }
+
+      const card = option.closest('.template-card');
+      const menu = option.closest('.card-palette-menu');
+      const paletteTrigger = menu && menu.previousElementSibling;
+      const preview = card && card.querySelector('.preview');
+      if (!card || !paletteTrigger || !preview) return;
+
+      menu.querySelectorAll('.card-palette-option').forEach((button) => {
+        const active = button === option;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      paletteTrigger.querySelector('.swatch').style.background = option.querySelector('.swatch').style.background;
+      paletteTrigger.querySelector('.palette-theme__name').textContent = option.dataset.cardPaletteName;
+      paletteTrigger.setAttribute('aria-expanded', 'false');
+      menu.hidden = true;
+
+      preview.dataset.defaultImage = option.dataset.image;
+      preview.dataset.defaultTemplate = option.dataset.cardPalettePreview;
+      preview.dataset.defaultVars = option.dataset.vars || '';
+      preview.dataset.useLabel = `${option.dataset.name} · ${option.dataset.cardPaletteName}`;
+      preview.dataset.preview = option.dataset.cardPalettePreview;
+      preview.dataset.previewTheme = option.dataset.cardPaletteTheme;
+      preview.classList.toggle('dark', option.dataset.cardPaletteScheme === 'dark');
+      card.dataset.cardPreview = option.dataset.cardPalettePreview;
+      card.dataset.cardTheme = option.dataset.cardPaletteTheme;
+      const badge = card.querySelector('.badge');
+      if (badge) badge.textContent = option.dataset.cardPaletteScheme === 'dark' ? '暗色' : '浅色';
+      updateCardPreview(card, option.dataset.image, option.dataset.cardPalettePreview, option.dataset.vars);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.palette-options')) return;
+      grid.querySelectorAll('.card-palette-trigger[aria-expanded="true"]').forEach((button) => {
+        button.setAttribute('aria-expanded', 'false');
+        if (button.nextElementSibling) button.nextElementSibling.hidden = true;
+      });
+    });
 
     grid.addEventListener('mouseover', (e) => {
       const themeBtn = e.target.closest('.palette-theme[data-image]');
@@ -2160,7 +2446,11 @@
           preview.dataset.defaultImage = previewTrigger.dataset.image;
           preview.dataset.defaultTemplate = previewTrigger.dataset.preview;
           preview.dataset.defaultVars = previewTrigger.dataset.vars || '';
+          preview.dataset.useLabel = `${previewTrigger.dataset.name} · ${previewTrigger.dataset.previewName}`;
+          preview.classList.toggle('dark', previewTrigger.dataset.previewScheme === 'dark');
         }
+        const badge = card.querySelector('.badge');
+        if (badge && previewTrigger.dataset.previewScheme) badge.textContent = previewTrigger.dataset.previewScheme === 'dark' ? '暗色' : '浅色';
         updateCardPreview(card, previewTrigger.dataset.image, previewTrigger.dataset.preview, previewTrigger.dataset.vars);
       }
       openPalettePreview(
@@ -2171,6 +2461,39 @@
       );
     }, true);
 
+    grid.addEventListener('click', (e) => {
+      if (e.target.closest('button, a, input, select, textarea, summary, details')) return;
+      const card = e.target.closest('.template-card[data-card-preview]');
+      if (!card) return;
+      openPalettePreview(card.dataset.cardPreview, card.dataset.cardName, card.dataset.cardSlug, card.dataset.cardTheme);
+    });
+
+    document.addEventListener('click', (e) => {
+      const useButton = e.target.closest('[data-use-template]');
+      if (!useButton) return;
+      const card = useButton.closest('.template-card');
+      const label = card && card.querySelector('.preview')?.dataset.useLabel;
+      const select = document.getElementById('generation-template');
+      const option = Array.from(select.options).find((item) => item.textContent === label);
+      if (!option) return;
+      select.value = option.value;
+      select.dispatchEvent(new Event('input', { bubbles: true }));
+      location.hash = 'generator';
+    });
+
+    document.addEventListener('click', (e) => {
+      const dropdownTrigger = e.target.closest('.palette-dropdown__trigger');
+      if (dropdownTrigger && !previewModal.hidden) {
+        e.preventDefault();
+        const menu = themePicker.querySelector('.palette-dropdown__menu');
+        const expanded = dropdownTrigger.getAttribute('aria-expanded') === 'true';
+        dropdownTrigger.setAttribute('aria-expanded', String(!expanded));
+        if (menu) menu.hidden = expanded;
+        return;
+      }
+      if (!e.target.closest('.palette-presets')) closePaletteDropdown();
+    });
+
     document.addEventListener('click', (e) => {
       const themeTrigger = e.target.closest('.theme-option[data-preview-theme]');
       if (!themeTrigger || previewModal.hidden) return;
@@ -2179,8 +2502,15 @@
       const item = findTemplate(currentTemplateSlug);
       const selected = item && getThemeList(item).find((theme) => theme.key === themeTrigger.dataset.previewTheme);
       if (!selected) return;
+      themePicker.querySelectorAll('.theme-option').forEach((button) => {
+        const active = button === themeTrigger;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
       syncCustomFields(selected.vars || {});
       currentTemplateUrl = selected.template || item.template;
+      updatePaletteDropdown(selected, item);
+      closePaletteDropdown();
       loadPreview(currentTemplateUrl, selected.key, selected.name, selected.vars || {});
     }, true);
 
@@ -2206,7 +2536,7 @@
         : { bg: '#fafafa', surface: '#ffffff', soft: '#f3f0ff', tint: '#ede9fe', text: '#18181b', muted: '#6b7280', line: '#e0d7f2', accent: '#b98eff', bright: '#c6a1ff', onAccent: '#ffffff', rgb: '185,142,255', bgRgb: '250,250,250', mesh: '0xb98eff', light: '0xc6a1ff' };
     }
 
-    const labComponents = [
+    const labComponentCatalog = [
       {
         id: 'stagger-text',
         name: '错开文字显现',
@@ -2484,14 +2814,22 @@ countAll();setInterval(countAll,4000);
       }
     ];
 
+    const labComponents = [
+      'echart-dynamic',
+      'stagger-text',
+      'typewriter',
+      'lottie-icon',
+      'morph-grid',
+      'counter',
+      'svg-draw'
+    ].map(id => labComponentCatalog.find(component => component.id === id)).filter(Boolean);
+
     function renderComponentLab() {
       const grid = document.getElementById('lab-grid');
       if (!grid) return;
       if (document.getElementById('motion').hidden) { grid.replaceChildren(); return; }
       grid.innerHTML = labComponents.map(c => {
         const srcdoc = encodeURIComponent(c.demo());
-        const badgeClass = c.keep;
-        const badgeText = c.keep === 'keep' ? '沉淀进 Skill' : c.keep === 'maybe' ? '待定' : '不沉淀';
         return `
           <article class="lab-card">
             <div class="lab-preview">
@@ -2501,7 +2839,6 @@ countAll();setInterval(countAll,4000);
             <div class="lab-card-body">
               <div class="lab-card-head">
                 <h3 class="lab-card-title">${c.name}</h3>
-                <span class="lab-badge ${badgeClass}">${badgeText}</span>
               </div>
               <div class="lab-meta">
                 <div class="lab-meta-row">
@@ -2523,20 +2860,131 @@ countAll();setInterval(countAll,4000);
       }).join('');
     }
 
-    function setAppearance(mode) {
-      document.documentElement.dataset.appearance = mode === 'dark' ? 'dark' : 'light';
-      const appearanceToggle = document.getElementById('appearance-toggle');
-      const nextLabel = document.documentElement.dataset.appearance === 'dark' ? '切换到浅色模式' : '切换到暗色模式';
-      appearanceToggle.setAttribute('aria-label', nextLabel);
-      appearanceToggle.title = nextLabel;
-      try { localStorage.setItem('hp-appearance', document.documentElement.dataset.appearance); } catch (_) {}
-      if (typeof render === 'function') render();
-      renderComponentLab();
-    }
-    document.getElementById('appearance-toggle').addEventListener('click', () => {
-      setAppearance(document.documentElement.dataset.appearance === 'dark' ? 'light' : 'dark');
-    });
-    setAppearance(document.documentElement.dataset.appearance);
+    (() => {
+      const root = document.documentElement;
+      const button = document.getElementById('theme-cycle');
+      const label = document.getElementById('theme-cycle-label');
+      const themes = [
+        { key:'current-light', style:'current', appearance:'light', label:'浅色方案' },
+        { key:'current-dark', style:'current', appearance:'dark', label:'深色方案' },
+        { key:'doodle-light', style:'doodle', appearance:'light', label:'Doodle Cream' }
+      ];
+      const currentIndex = () => root.dataset.uiStyle === 'doodle' ? 2 : (root.dataset.appearance === 'dark' ? 1 : 0);
+      const applyTheme = (theme, save = true) => {
+        root.dataset.uiStyle = theme.style;
+        root.dataset.appearance = theme.appearance;
+        label.textContent = theme.label;
+        const next = themes[(themes.indexOf(theme) + 1) % themes.length];
+        button.dataset.theme = theme.key;
+        button.setAttribute('aria-label', `当前为${theme.label}，点击切换到${next.label}`);
+        button.title = `切换到${next.label}`;
+        if (save) {
+          try {
+            localStorage.setItem('hp-interface-style', theme.style);
+            localStorage.setItem('hp-appearance', theme.appearance);
+          } catch (_) {}
+        }
+        if (typeof render === 'function') render();
+        renderComponentLab();
+      };
+      applyTheme(themes[currentIndex()], false);
+      button.addEventListener('click', () => applyTheme(themes[(currentIndex() + 1) % themes.length]));
+    })();
+
+    (() => {
+      const root = document.documentElement;
+      const toggle = document.getElementById('design-toggle');
+      const panel = document.getElementById('design-panel');
+      if (!toggle || !panel) return;
+      const fields = {
+        accent: document.getElementById('design-accent'),
+        bg: document.getElementById('design-bg'),
+        card: document.getElementById('design-card'),
+        text: document.getElementById('design-text')
+      };
+      const styleOptions = Array.from(document.querySelectorAll('[data-ui-style-option]'));
+      const styleStorageKey = 'hp-interface-style';
+      const legacyColorKey = 'hp-interface-colors';
+      let activeStyle = root.dataset.uiStyle === 'doodle' ? 'doodle' : 'current';
+      const colorStorageKey = () => `hp-interface-colors-${activeStyle}`;
+      const defaults = () => activeStyle === 'doodle'
+        ? {accent:'#ffe477',bg:'#fffdf6',card:'#fffefa',text:'#171717'}
+        : root.dataset.appearance === 'dark'
+          ? {accent:'#a8ff3e',bg:'#0a0a0f',card:'#12121a',text:'#f5f5f7'}
+          : {accent:'#b98eff',bg:'#fafafa',card:'#ffffff',text:'#111111'};
+      const rgb = (hex) => [1,3,5].map((start) => parseInt(hex.slice(start,start+2),16));
+      const mix = (a,b,amount) => {
+        const aa=rgb(a),bb=rgb(b);
+        return '#'+aa.map((value,index)=>Math.round(value+(bb[index]-value)*amount).toString(16).padStart(2,'0')).join('');
+      };
+      const apply = (colors,save=true) => {
+        const [r,g,b]=rgb(colors.accent);
+        const bright=(r*299+g*587+b*114)/1000;
+        root.style.setProperty('--accent',colors.accent);
+        root.style.setProperty('--accent-strong',colors.accent);
+        root.style.setProperty('--accent-rgb',`${r}, ${g}, ${b}`);
+        root.style.setProperty('--accent-soft',`rgba(${r},${g},${b},.13)`);
+        root.style.setProperty('--accent-contrast',bright>155?'#111111':'#ffffff');
+        root.style.setProperty('--bg',colors.bg);
+        root.style.setProperty('--card',colors.card);
+        root.style.setProperty('--fg',colors.text);
+        root.style.setProperty('--ink',colors.text);
+        root.style.setProperty('--muted',mix(colors.text,colors.bg,.48));
+        root.style.setProperty('--line',mix(colors.card,colors.text,.14));
+        root.style.setProperty('--soft',mix(colors.card,colors.text,.07));
+        Object.entries(fields).forEach(([key,input])=>{input.value=colors[key];});
+        if(save){try{localStorage.setItem(colorStorageKey(),JSON.stringify(colors));}catch(_){}}
+      };
+      const removeOverrides = () => {
+        ['accent','accent-strong','accent-rgb','accent-soft','accent-contrast','bg','card','fg','ink','muted','line','soft'].forEach(name=>root.style.removeProperty(`--${name}`));
+      };
+      const resetFields = () => {
+        const colors=defaults();
+        Object.entries(fields).forEach(([key,input])=>{input.value=colors[key];});
+      };
+      const readSavedColors = () => {
+        let saved=null;
+        try{saved=JSON.parse(localStorage.getItem(colorStorageKey())||'null');}catch(_){saved=null;}
+        return saved&&saved.accent&&saved.bg&&saved.card&&saved.text?saved:null;
+      };
+      const setStyle = (style,save=true) => {
+        activeStyle=style==='doodle'?'doodle':'current';
+        if(activeStyle==='doodle'&&root.dataset.appearance==='dark')setAppearance('light');
+        root.dataset.uiStyle=activeStyle;
+        if(save){try{localStorage.setItem(styleStorageKey,activeStyle);}catch(_){}}
+        styleOptions.forEach(button=>{
+          const active=button.dataset.uiStyleOption===activeStyle;
+          button.classList.toggle('active',active);
+          button.setAttribute('aria-checked',String(active));
+        });
+        removeOverrides();
+        const saved=readSavedColors();
+        if(saved)apply(saved,false);else resetFields();
+      };
+      const clear = () => {
+        try{localStorage.removeItem(colorStorageKey());}catch(_){}
+        removeOverrides();
+        resetFields();
+      };
+      try{
+        if(!localStorage.getItem('hp-interface-colors-current')&&localStorage.getItem(legacyColorKey)){
+          localStorage.setItem('hp-interface-colors-current',localStorage.getItem(legacyColorKey));
+        }
+      }catch(_){}
+      setStyle(activeStyle,false);
+      toggle.addEventListener('click',()=>{
+        const open=panel.hidden;
+        panel.hidden=!open;
+        toggle.setAttribute('aria-expanded',String(open));
+      });
+      styleOptions.forEach(button=>button.addEventListener('click',()=>setStyle(button.dataset.uiStyleOption)));
+      Object.values(fields).forEach(input=>input.addEventListener('input',()=>apply(Object.fromEntries(Object.entries(fields).map(([key,field])=>[key,field.value])))));
+      document.getElementById('design-reset').addEventListener('click',clear);
+      document.addEventListener('click',(event)=>{
+        if(!event.target.closest('.design-control')){panel.hidden=true;toggle.setAttribute('aria-expanded','false');}
+      });
+      document.addEventListener('keydown',(event)=>{if(event.key==='Escape'){panel.hidden=true;toggle.setAttribute('aria-expanded','false');}});
+    })();
   </script>
   <script src="assets/navigation.js"></script>
 </body>

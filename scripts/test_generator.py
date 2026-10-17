@@ -17,29 +17,37 @@ def main():
             chrome = Path("C:/Program Files/Google/Chrome/Application/chrome.exe")
             browser = p.chromium.launch(**({"executable_path": str(chrome)} if chrome.exists() else {}))
             page = browser.new_page(viewport={"width": 1440, "height": 1000})
+            page.set_default_timeout(5000)
             errors = []
             page.on("pageerror", lambda error: errors.append(str(error)))
-            page.goto(f"http://127.0.0.1:{server.server_port}/index.html")
+            page.goto(f"http://127.0.0.1:{server.server_port}/index.html", wait_until="domcontentloaded")
             if page.locator("html").get_attribute("data-appearance") != "light":
-                page.locator("#appearance-toggle").click()
-            assert page.locator("#generation-build").evaluate("e => getComputedStyle(e).backgroundColor") == "rgb(185, 142, 255)"
-            assert page.locator('[data-page-link="generator"]').evaluate("e => getComputedStyle(e).color") == "rgb(185, 142, 255)"
-            page.locator("#appearance-toggle").click()
+                page.locator("#theme-cycle").click()
+            assert page.locator("html").get_attribute("data-ui-style") == "doodle"
+            assert page.locator("#generation-build").evaluate("e => getComputedStyle(e).backgroundColor") == "rgb(255, 228, 119)"
+            assert page.locator('[data-page-link="generator"]').evaluate("e => getComputedStyle(e).color") == "rgb(23, 23, 23)"
+            page.locator("#theme-cycle").click()
+            assert page.locator("html").get_attribute("data-appearance") == "light"
+            assert page.locator("html").get_attribute("data-ui-style") == "current"
+            page.locator("#theme-cycle").click()
             assert page.locator("html").get_attribute("data-appearance") == "dark"
             assert page.locator(".icon-moon").is_visible()
-            page.locator('[data-md="README.md"]').click()
-            close_style = page.locator(".md-modal__close").evaluate("e => { const s=getComputedStyle(e); return [s.color,s.backgroundColor] }")
-            assert close_style[0] != close_style[1]
-            page.locator(".md-modal__close").click()
-            page.locator("#appearance-toggle").click()
+            page.locator('[data-page-link="readme"]').click()
+            page.wait_for_function("!document.querySelector('#readme').hidden && !document.querySelector('#readme-content').hidden")
+            assert page.locator("#readme-content img").count() == 9
+            page.locator("#theme-cycle").click()
             assert page.locator("html").get_attribute("data-appearance") == "light"
+            assert page.locator("html").get_attribute("data-ui-style") == "doodle"
             assert page.locator(".icon-sun").is_visible()
-            assert page.locator("#hero-title").inner_text() == "稿件 → HTML"
+            page.locator('[data-page-link="generator"]').click()
+            page.wait_for_function("!document.querySelector('#generator').hidden")
+            assert "HTML" in page.locator("#hero-title").inner_text()
             assert page.locator("#generation-template-button img").count() == 1
+            assert page.locator("#presentation-planner").is_visible()
             title_box = page.locator("#generation-name").bounding_box()
             template_box = page.locator("#generation-template-button").bounding_box()
-            assert abs(title_box["y"] - template_box["y"]) < 1
-            assert abs(title_box["height"] - template_box["height"]) < 1
+            assert title_box["width"] > 250 and title_box["height"] >= 40
+            assert template_box["width"] > 250 and template_box["height"] >= 40
             page.locator("#generation-template-button").click()
             assert page.locator("#generation-template-menu").is_visible()
             assert page.locator("#generation-template-menu img").count() > 3
@@ -49,27 +57,60 @@ def main():
             assert page.locator("#generation-template-menu").is_hidden()
             page.locator("#generation-name").fill("测试标题")
             page.locator("#generation-source").fill("Hello，大家好。这是完整逐字稿。")
+            page.locator("#generation-occasion").select_option("课堂演讲")
+            page.locator("#generation-page-count").select_option("6–8 页")
+            page.locator("#generation-goal").fill("理解核心方法，并愿意尝试第一步")
             page.locator("#generation-build").click()
             page.wait_for_function("!document.querySelector('#generation-copy').disabled")
             prompt = page.locator("#generation-prompt").input_value()
             assert "【演讲 HTML 规则】" in prompt and "<!DOCTYPE" in prompt.upper()
             assert "这是完整逐字稿。" in prompt
+            assert "Story Plan" in prompt
+            assert "使用场景：课堂演讲" in prompt
+            assert "期望页数：6–8 页" in prompt
+            assert "理解核心方法，并愿意尝试第一步" in prompt
+            assert "不得自动更换或另行匹配风格" in prompt
             assert page.locator("#templates").is_hidden()
             assert page.locator("#motion").is_hidden()
             assert page.locator("#lab-grid iframe").count() == 0
             page.locator('[data-page-link="templates"]').click()
             page.wait_for_function("!document.querySelector('#templates').hidden")
             assert page.locator("#generator").is_hidden()
+            assert page.locator(".template-card").count() == 3
+            assert page.locator(".template-use-inline").count() == 3
+            assert page.locator(".author-line").is_hidden()
+            columns = page.locator("#template-grid").evaluate("e => getComputedStyle(e).gridTemplateColumns.split(' ').length")
+            assert columns == 3
+            palette_trigger = page.locator(".template-card").nth(1).locator(".card-palette-trigger")
+            palette_trigger.click()
+            assert palette_trigger.get_attribute("aria-expanded") == "true"
+            page.locator(".template-card").nth(1).locator(".card-palette-option").first.click()
+            page.locator(".template-card").nth(1).locator(".preview").click()
+            assert page.locator("#preview-modal").is_visible()
+            assert page.locator("#theme-picker .theme-option.active").count() == 1
+            modal_columns = page.locator("#preview-modal-body").evaluate("e => getComputedStyle(e).gridTemplateColumns.split(' ').length")
+            assert modal_columns == 2
+            page.keyboard.press("Escape")
+            assert page.locator("#preview-modal").is_hidden()
+            page.locator(".template-card").first.locator("[data-use-template]").click()
+            page.wait_for_function("!document.querySelector('#generator').hidden")
+            assert page.locator("#generation-template-button strong").inner_text() == "Doodle Cream · 白纸暖黄"
+            page.locator('[data-page-link="templates"]').click()
+            page.wait_for_function("!document.querySelector('#templates').hidden")
             page.locator('[data-page-link="motion"]').click()
             page.wait_for_function("!document.querySelector('#motion').hidden")
-            assert page.locator("#lab-grid iframe").count() == 12
+            assert page.locator("#lab-grid iframe").count() == 7
             page.locator('[data-page-link="generator"]').click()
             page.wait_for_function("!document.querySelector('#generator').hidden")
-            assert page.locator("#generation-prompt").input_value() == prompt
+            assert page.locator("#generation-prompt").input_value() == ""
+            assert page.locator("#generation-copy").is_disabled()
             assert page.locator("#lab-grid iframe").count() == 0
             page.locator('[value="director"]').check()
             assert page.locator("#generation-copy").is_disabled()
             assert page.locator("#director-guide").is_visible()
+            assert page.locator("#presentation-planner").is_visible()
+            assert page.locator("#presentation-planner .presentation-only:visible").count() == 0
+            assert page.locator("#presentation-planner .planner-template").is_visible()
             page.locator("#director-guide summary").click()
             assert "镜 01｜开场提问" in page.locator("#director-guide").inner_text()
             source = "\n\n".join(f"**镜 {i:02}｜画面**\n> **口播（配音）**：第{i}镜原文。" for i in range(1, 36))
