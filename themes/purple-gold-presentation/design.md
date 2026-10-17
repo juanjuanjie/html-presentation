@@ -207,3 +207,20 @@ avoid_for:
   - "Corporate blue / formal business style requirements"
   - "Heavy gradients, glow, or glassmorphism"
   - "Light-background or high-density information layouts"
+
+## Agent 提示词规则
+
+> 本页“说明”相当于模板使用手册，供用户阅读；`design.md` 本身不会被首页读取，也不会直接写入复制出的 Agent 提示词。下面标为“已参与生成”的内容，表示首页生成器中已经配置了同等规则。
+
+### 奶油钴蓝
+
+目前没有额外的模板专属背景硬规则参与 Agent 提示词。首页会传入完整 `template.html`、奶油钴蓝配色变量和通用生成规则，由模板源码决定页面结构与视觉语言。
+
+### 紫金暗色、黑绿专业：已参与生成
+
+- 除封面和最后一页外，所有内容页统一使用当前配色的深色 `bg` 变量。
+- 禁止将紫色、金色、荧光绿或其他强调色铺成整页背景。
+- 强调色只用于文字、标签、线条、按钮、图表和小面积重点。
+- 步骤页、转场页和对比页同样不得改用整页强调色。
+
+首页仍会另外传入当前 Professional 模板源码、配色变量以及通用的字幕、转场、对比和生成规则。

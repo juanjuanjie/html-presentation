@@ -64,7 +64,7 @@
       position: sticky;
       top: 0;
       z-index: 20;
-      border-bottom: 1px solid rgba(229, 231, 235, 0.9);
+      border-bottom: 0;
       background: rgba(250, 250, 250, 0.88);
       backdrop-filter: blur(14px);
     }
@@ -230,6 +230,30 @@
       cursor: pointer;
     }
     .segment.active { background: var(--accent-strong); color: var(--accent-contrast); }
+    .template-edit-notice {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 12px 0 18px;
+      padding: 10px 12px;
+      border-left: 4px solid var(--accent-strong);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .template-edit-notice strong { color: var(--fg); }
+    .template-edit-jump {
+      flex: none;
+      padding: 5px 0;
+      border: 0;
+      background: transparent;
+      color: var(--fg);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .template-edit-jump:hover { color: var(--accent-strong); }
     .grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -961,12 +985,13 @@
       grid-template-rows:minmax(0,1fr);
     }
     .preview-modal__body[hidden]{display:none}
-    .preview-modal__stage{min-width:0;min-height:0;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#e9e9ec}
+    .preview-modal__preview{min-width:0;min-height:0;display:grid;grid-template-rows:auto auto;align-content:start;gap:10px}.preview-modal__stage{min-width:0;min-height:0;aspect-ratio:16/9;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#e9e9ec}
     .preview-modal__viewport{position:relative;flex:none;overflow:hidden;background:#111;box-shadow:0 8px 28px rgba(15,23,42,.14)}
     .preview-modal__iframe{position:absolute;inset:0;width:1920px;height:1080px;border:0;display:block;background:#111;transform-origin:0 0}
 
     .preview-modal__controls{min-width:0;overflow:auto;padding:2px 14px 2px 0;border-right:1px solid var(--line);scrollbar-width:thin;scrollbar-color:#c7c7c7 transparent}
     .preview-template-meta{margin-bottom:14px;padding:2px 4px 0}.preview-template-meta strong{display:block;font-size:18px}.preview-template-meta span{display:block;margin-top:6px;color:var(--muted);font-size:12px;line-height:1.5}
+    .page-jump{display:flex;align-items:center;gap:10px;min-width:0;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card)}.page-jump__label{flex:0 0 auto;color:var(--muted);font-size:11px;font-weight:900;letter-spacing:.08em}.page-jump__buttons{display:flex;align-items:center;gap:6px}.page-jump__button{min-width:82px;height:34px;padding:0 9px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);font-size:12px;font-weight:800;cursor:pointer}.page-jump__button:hover{border-color:#a1a1aa;background:var(--soft)}.page-jump__button.is-active{border-color:var(--fg);background:var(--fg);color:var(--card)}.page-jump__button:disabled{opacity:.38;cursor:not-allowed}.page-jump__pager{display:flex;align-items:center;gap:6px;min-width:0;margin-left:auto}.page-jump__nav{display:grid;place-items:center;width:30px;height:30px;padding:0;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--fg);font-size:16px;cursor:pointer}.page-jump__nav:hover:not(:disabled){border-color:var(--fg);background:var(--soft)}.page-jump__nav:disabled{opacity:.3;cursor:not-allowed}.page-jump__status{min-width:128px;color:var(--muted);font-size:11px;line-height:1.35;text-align:center;white-space:nowrap}
     .theme-picker {
       display:grid;
       gap:8px;
@@ -1061,7 +1086,7 @@
       .md-content { font-size: 15px; }
       .custom-field { grid-template-columns:34px 70px minmax(0,1fr); }
     }
-    @media(max-width:800px){.preview-modal__header{padding:0 12px}.preview-modal__body{min-height:720px;padding:12px;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}.preview-modal__controls{max-height:260px;padding:0 0 12px;border-right:0;border-bottom:1px solid var(--line)}.theme-picker{grid-template-columns:repeat(2,minmax(0,1fr))}.theme-picker.palette-presets{display:block}.preview-toolbar__reset{display:none}}
+    @media(max-width:800px){.preview-modal__header{padding:0 12px}.preview-modal__body{min-height:720px;padding:12px;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}.preview-modal__controls{max-height:260px;padding:0 0 12px;border-right:0;border-bottom:1px solid var(--line)}.theme-picker{grid-template-columns:repeat(2,minmax(0,1fr))}.theme-picker.palette-presets{display:block}.preview-toolbar__reset{display:none}.page-jump{flex-wrap:wrap}.page-jump__pager{width:100%;margin-left:0}.page-jump__status{flex:1}}
     @media (max-width: 1040px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (max-width: 700px){.grid{grid-template-columns:1fr}}
     html[data-page="templates"] .wrap{padding-top:26px}
@@ -1148,7 +1173,7 @@
     html[data-ui-style="doodle"] .appearance-toggle.theme-cycle:active{transform:rotate(-1deg) scale(.95)}
     html[data-appearance="dark"][data-ui-style="current"] .appearance-toggle.theme-cycle{border:2px solid #f5f5f7;border-radius:10px;background:#141419;color:#f5f5f7}
     html[data-appearance="dark"][data-ui-style="current"] .appearance-toggle.theme-cycle:hover{border-color:#fff;background:#202027;filter:none}
-    [data-appearance="dark"] .site-header { background: rgba(10,10,15,0.94); border-color: var(--line); }
+    [data-appearance="dark"] .site-header { background: rgba(10,10,15,0.94); }
     [data-appearance="dark"] :is(.search,.segmented,.doc-btn,.palette-theme,.btn,.theme-option,.custom-palette,.custom-field input,.md-modal__dialog,.preview-modal__dialog,.md-modal__header,.preview-modal__header) { background: var(--card); color: var(--fg); border-color: var(--line); }
     [data-appearance="dark"] :is(.nav-link,.author-line,.description,.palette-label,.segment,.theme-option__name,.md-modal__close,.preview-modal__close,.custom-field label,.md-content,.md-content strong,.md-content th,.md-error__msg) { color: var(--fg); }
     [data-appearance="dark"] .md-modal__close { background: var(--soft); color: var(--accent-strong); border-color: var(--line); }
@@ -1183,7 +1208,7 @@
     :root[data-ui-style="doodle"] body{background:var(--bg);color:var(--fg);background-image:none}
     :root[data-ui-style="doodle"] :is(h1,h2,h3,.card-title,.brand,.nav-link,.segment,.template-action,.design-toggle,.preview-panel-toggle){font-family:"Xiaolai","KaiTi","STKaiti","Microsoft YaHei",cursive;color:var(--fg)}
     :root[data-ui-style="doodle"] :is(p,label,small,.description,.palette-label,.design-panel__head span,.custom-field label,.type-field label){color:var(--muted)}
-    :root[data-ui-style="doodle"] .site-header{border-bottom:2px solid var(--fg);background:rgba(255,253,246,.96);backdrop-filter:blur(10px)}
+    :root[data-ui-style="doodle"] .site-header{border-bottom:0;background:rgba(255,253,246,.96);backdrop-filter:blur(10px)}
     :root[data-ui-style="doodle"] .brand{color:var(--fg)!important;font-size:17px}
     :root[data-ui-style="doodle"] .brand-avatar-link{border-radius:48% 52% 46% 54%/53% 47% 55% 45%}
     :root[data-ui-style="doodle"] .brand-mark{width:38px;height:38px;border:2px solid var(--fg);border-radius:48% 52% 46% 54%/53% 47% 55% 45%;background:var(--card);box-shadow:none;object-fit:cover;transform:rotate(-1deg)}
@@ -1205,6 +1230,8 @@
     :root[data-ui-style="doodle"] .segmented{height:44px}
     :root[data-ui-style="doodle"] .segment{border-radius:8px;color:var(--fg)}
     :root[data-ui-style="doodle"] .segment.active{background:var(--accent);color:var(--fg)}
+    :root[data-ui-style="doodle"] .template-edit-notice{border-left-color:var(--accent);color:var(--muted)}
+    :root[data-ui-style="doodle"] .template-edit-jump{color:var(--fg)}
     :root[data-ui-style="doodle"] .template-card{border:3px solid var(--fg);border-radius:22px;background:var(--card);box-shadow:none;transform:none}
     :root[data-ui-style="doodle"] .template-card:nth-child(even){border-radius:22px;transform:none}
     :root[data-ui-style="doodle"] .template-card:hover{border-color:var(--fg);box-shadow:0 10px 0 rgba(255,228,119,.7);transform:translateY(-3px)}
@@ -1230,6 +1257,7 @@
     :root[data-ui-style="doodle"] .palette-dropdown__menu{box-shadow:0 8px 24px rgba(41,37,37,.12)}
     :root[data-ui-style="doodle"] .palette-dropdown__menu .theme-option.active{border:2px solid var(--fg);background:var(--accent-soft)}
     :root[data-ui-style="doodle"] .custom-palette{gap:0;padding:0;border:0;border-radius:0;background:transparent}
+    :root[data-ui-style="doodle"] .page-jump__button.is-active{border-color:var(--fg);background:var(--accent);color:var(--fg)}
     :root[data-ui-style="doodle"] .custom-field{
       grid-template-columns:32px minmax(58px,1fr) 94px;
       gap:10px;
@@ -1371,6 +1399,12 @@
             </span>
           </label>
         </div>
+        <label class="character-field">人物图片（可选）
+          <span class="character-upload-row">
+            <input id="generation-character" type="file" accept="image/png,image/jpeg,image/webp">
+            <small id="generation-character-status">请上传你希望出现的人物；不上传时将禁止 Agent 使用任何默认小人。</small>
+          </span>
+        </label>
       </section>
       <h2 id="manuscript-title" class="generation-question">你的 <span id="generation-manuscript-kind" class="generation-question__highlight">逐字稿</span> 是怎样的？</h2>
       <section class="manuscript-panel" aria-label="稿件内容">
@@ -1398,6 +1432,10 @@
           <button class="segment" data-filter="light" type="button">浅色</button>
           <button class="segment" data-filter="dark" type="button">暗色</button>
         </div>
+      </div>
+      <div class="template-edit-notice">
+        <span>编辑区位于全部模板下方，点击任意模板卡片即可切换。</span>
+        <button class="template-edit-jump" type="button" data-editor-jump>前往编辑区 ↓</button>
       </div>
       <div id="template-grid" class="grid"></div>
     </section>
@@ -1466,14 +1504,14 @@
         slug: 'doodle-cream',
         name: 'Doodle Cream',
         scheme: 'light',
-        image: 'assets/previews/doodle-cream.png?v=4',
+        image: 'assets/previews/doodle-cream.png?v=5',
         tagline: '白纸暖黄 · 手绘人物 · 不规则流程',
           palette: ['#FFFFFF', '#FFE477', '#222222'],
         tags: ['hand drawn', 'warm', 'tutorial', 'classroom'],
         template: 'themes/doodle-cream/template.html',
         docs: 'themes/doodle-cream/design.md',
         themes: [
-          { key: 'white-yellow', name: '白纸暖黄', scheme: 'light', desc: '白色画布 + 暖柠檬黄焦点 + 手绘人物与不规则圆形流程', image: 'assets/previews/doodle-cream.png?v=4', swatch: 'linear-gradient(135deg, #FFFFFF 0 56%, #FFE477 56% 82%, #222222 82%)', vars: { offwhite: '#FFFEFB', black: '#171717', white: '#FFFFFF', pink: '#FFFFFF', blue: '#FFFFFF', green: '#FFFFFF', yellow: '#FFE477', cream: '#FFE477', purple: '#171717', lavender: '#FFFFFF' } }
+          { key: 'white-yellow', name: '白纸暖黄', scheme: 'light', desc: '白色画布 + 暖柠檬黄焦点 + 手绘人物与不规则圆形流程', image: 'assets/previews/doodle-cream.png?v=5', swatch: 'linear-gradient(135deg, #FFFFFF 0 56%, #FFE477 56% 82%, #222222 82%)', vars: { offwhite: '#FFFEFB', black: '#171717', white: '#FFFFFF', pink: '#FFFFFF', blue: '#FFFFFF', green: '#FFFFFF', yellow: '#FFE477', cream: '#FFE477', purple: '#171717', lavender: '#FFFFFF' } }
         ]
       },
       {
@@ -1505,7 +1543,7 @@
         themes: [
           { key: 'cream-blue', name: '奶油钴蓝', scheme: 'light', desc: '与紫金暗色保持相同内容与排版，仅切换为奶油纸底和钴蓝配色', image: 'assets/previews/blue-professional.png?v=4', template: 'themes/purple-gold-presentation/template.html', swatch: 'linear-gradient(135deg, #FDFAE7 0 58%, #1E2BFA 58% 78%, #111111 78%)', vars: { bg: '#FDFAE7', 'bg-cover': '#F7F3E6', primary: '#1E2BFA', 'accent-gold': '#1E2BFA', text: '#111111', 'text-muted': '#6B6B6B', 'text-light': '#9A9A9A' } },
           { key: 'dark', name: '紫金暗色', scheme: 'dark', desc: '近黑电影感背景，紫色结构 + 金色强调', image: 'assets/previews/purple-gold-presentation.png?v=2', template: 'themes/purple-gold-presentation/template.html', swatch: 'linear-gradient(135deg, #08090d 0 50%, #b98eff 50% 72%, #ffc402 72%)', vars: { bg: '#08090D', 'bg-cover': '#070609', primary: '#B98EFF', 'accent-gold': '#FFC402', text: '#F6F2E8', 'text-muted': '#AAA59A', 'text-light': '#746F66' } },
-          { key: 'black-green', name: '黑绿专业', scheme: 'dark', desc: '深黑画布 + 荧光绿主色，适合技术报告和能力展示', image: 'assets/previews/purple-gold-presentation.png?v=2', template: 'themes/purple-gold-presentation/template.html', swatch: 'linear-gradient(135deg, #0A0A0F 0 48%, #12121A 48% 68%, #A8FF3E 68%)', vars: { bg: '#0A0A0F', 'bg-cover': '#07080C', primary: '#A8FF3E', 'accent-gold': '#A8FF3E', text: '#F5F5F7', 'text-muted': '#8A8A9A', 'text-light': '#5F6070' } }
+          { key: 'black-green', name: '黑绿专业', scheme: 'dark', desc: '深黑画布 + 荧光绿主色，适合技术报告和能力展示', image: 'assets/previews/black-green-professional.png?v=1', template: 'themes/purple-gold-presentation/template.html', swatch: 'linear-gradient(135deg, #0A0A0F 0 48%, #12121A 48% 68%, #A8FF3E 68%)', vars: { bg: '#0A0A0F', 'bg-cover': '#07080C', primary: '#A8FF3E', 'accent-gold': '#A8FF3E', text: '#F5F5F7', 'text-muted': '#8A8A9A', 'text-light': '#5F6070' } }
         ]
       }
     ];
@@ -1604,7 +1642,7 @@
               <h3 class="card-title">${item.name}</h3>
               <div class="card-head-actions">
                 <span class="badge">${((matchedTheme && matchedTheme.scheme) || item.scheme) === 'dark' ? '暗色' : '浅色'}</span>
-                <button type="button" class="doc-btn" data-doc="${item.docs}" data-title="${item.name} · 设计说明" data-type="markdown">说明</button>
+                <button type="button" class="doc-btn" data-doc="${(matchedTheme && matchedTheme.docs) || item.docs}" data-title="${item.name} · 设计说明" data-type="markdown">说明</button>
               </div>
             </div>
             <p class="description">${item.tagline}</p>
@@ -1969,7 +2007,7 @@
             </div>
           </details>
         </aside>
-        <div id="preview-stage" class="preview-modal__stage"><div id="preview-viewport" class="preview-modal__viewport"><iframe id="preview-iframe" class="preview-modal__iframe" hidden title="模板预览"></iframe></div></div>
+        <div class="preview-modal__preview"><div class="page-jump" aria-label="常用页面快速定位"><span class="page-jump__label">常用页面</span><div class="page-jump__buttons"><button type="button" class="page-jump__button" data-preview-page="transition" data-page-label="转场页面">转场页面</button><button type="button" class="page-jump__button" data-preview-page="comparison" data-page-label="对比页面">对比页面</button><button type="button" class="page-jump__button" data-preview-page="steps" data-page-label="步骤页面">步骤页面</button></div><div class="page-jump__pager"><button type="button" class="page-jump__nav" id="page-jump-prev" aria-label="上一张同类页面" disabled>←</button><span id="page-jump-status" class="page-jump__status">选择一种常用页面</span><button type="button" class="page-jump__nav" id="page-jump-next" aria-label="下一张同类页面" disabled>→</button></div></div><div id="preview-stage" class="preview-modal__stage"><div id="preview-viewport" class="preview-modal__viewport"><iframe id="preview-iframe" class="preview-modal__iframe" hidden title="模板预览"></iframe></div></div></div>
       </div>
     </div>
   </div>
@@ -1990,6 +2028,10 @@
     const bodySize = document.getElementById('preview-body-size');
     const previewPanelToggle = document.getElementById('preview-panel-toggle');
     const previewModalBody = document.getElementById('preview-modal-body');
+    const pageJumpButtons = Array.from(document.querySelectorAll('[data-preview-page]'));
+    const pageJumpStatus = document.getElementById('page-jump-status');
+    const pageJumpPrevious = document.getElementById('page-jump-prev');
+    const pageJumpNext = document.getElementById('page-jump-next');
     let currentTemplateUrl = '';
     let currentTemplateName = '';
     let currentTemplateSlug = '';
@@ -1997,6 +2039,13 @@
     let currentThemeName = '';
     let initialThemeKey = '';
     let previewNonce = 0;
+    let activePreviewPage = '';
+    let activePreviewPageIndex = 0;
+    const previewPageSelectors = {
+      transition: '[data-transition-series],.transition-slide',
+      comparison: '[data-layout="comparison"],.layout-comparison,.slide-comparison,.comparison-slide',
+      steps: '[data-layout="steps"],.layout-key-steps,.slide-key-steps'
+    };
     const fontStacks = {
       template: '',
       system: '"Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif',
@@ -2080,6 +2129,79 @@
         const bodySizeRule = bodySize.value === '1' ? '' : `p,li,.subtitle,.description,.body-text{zoom:${bodySize.value}}`;
         typography.textContent = headingRule + bodyRule + headingSizeRule + bodySizeRule;
       } catch (e) {}
+    }
+
+    function previewPageTargets(type) {
+      try {
+        const doc = previewIframe.contentDocument;
+        if (!doc) return [];
+        const matches = Array.from(doc.querySelectorAll(previewPageSelectors[type]));
+        return [...new Set(matches.map((node) => node.classList.contains('slide') ? node : node.closest('.slide')).filter(Boolean))];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function refreshPageJumpAvailability() {
+      pageJumpButtons.forEach((button) => {
+        const count = previewPageTargets(button.dataset.previewPage).length;
+        const available = count > 0;
+        button.disabled = !available;
+        button.classList.toggle('is-active', available && button.dataset.previewPage === activePreviewPage);
+        button.textContent = button.dataset.pageLabel;
+      });
+      const activeCount = activePreviewPage ? previewPageTargets(activePreviewPage).length : 0;
+      pageJumpPrevious.disabled = activeCount < 2;
+      pageJumpNext.disabled = activeCount < 2;
+    }
+
+    function jumpPreviewTo(type, announce = true, requestedItemIndex = null) {
+      const targets = previewPageTargets(type);
+      const doc = previewIframe.contentDocument;
+      if (!targets.length || !doc) {
+        if (announce) pageJumpStatus.textContent = '当前模板暂时没有这一类页面。';
+        return false;
+      }
+      if (type !== activePreviewPage) activePreviewPageIndex = 0;
+      if (requestedItemIndex !== null) activePreviewPageIndex = requestedItemIndex;
+      activePreviewPageIndex = (activePreviewPageIndex + targets.length) % targets.length;
+      const target = targets[activePreviewPageIndex];
+      const slides = Array.from(doc.querySelectorAll('.slide'));
+      const index = slides.indexOf(target);
+      if (index < 0) return false;
+      const presentation = previewIframe.contentWindow && previewIframe.contentWindow.presentation;
+      if (presentation && typeof presentation.goTo === 'function') {
+        presentation.goTo(index);
+      } else {
+        const previous = doc.querySelector('[data-dir="prev"],#prevBtn,[aria-label="Previous slide"],[aria-label="上一页"]');
+        const next = doc.querySelector('[data-dir="next"],#nextBtn,[aria-label="Next slide"],[aria-label="下一页"]');
+        if (previous && next) {
+          for (let step = 0; step < slides.length; step += 1) previous.click();
+          let remaining = slides.length + 1;
+          while (!target.classList.contains('active') && remaining > 0) {
+            next.click();
+            remaining -= 1;
+          }
+        } else {
+          const FrameKeyboardEvent = previewIframe.contentWindow.KeyboardEvent;
+          doc.dispatchEvent(new FrameKeyboardEvent('keydown', { key: 'Home', bubbles: true }));
+          let remaining = slides.length + 1;
+          while (!target.classList.contains('active') && remaining > 0) {
+            doc.dispatchEvent(new FrameKeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+            remaining -= 1;
+          }
+        }
+      }
+      if (!target.classList.contains('active')) {
+        slides.forEach((slide, slideIndex) => {
+          slide.classList.toggle('active', slideIndex === index);
+          slide.classList.toggle('prev', slideIndex < index);
+        });
+      }
+      activePreviewPage = type;
+      refreshPageJumpAvailability();
+      if (announce) pageJumpStatus.textContent = `${activePreviewPageIndex + 1} / ${targets.length} · 第 ${index + 1} 页`;
+      return true;
     }
 
     function fitPreview() {
@@ -2211,6 +2333,15 @@
       currentTemplateUrl = url;
       currentTemplateName = name;
       currentTemplateSlug = slug;
+      activePreviewPage = '';
+      activePreviewPageIndex = 0;
+      pageJumpStatus.textContent = '选择一种常用页面';
+      pageJumpPrevious.disabled = true;
+      pageJumpNext.disabled = true;
+      pageJumpButtons.forEach((button) => {
+        button.disabled = false;
+        button.classList.remove('is-active');
+      });
       headingFont.value = 'template';
       bodyFont.value = 'template';
       headingSize.value = '1';
@@ -2269,7 +2400,23 @@
       window.requestAnimationFrame(() => previewModal.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     }
 
-    previewIframe.addEventListener('load', injectVars);
+    previewIframe.addEventListener('load', () => {
+      injectVars();
+      window.setTimeout(() => {
+        refreshPageJumpAvailability();
+        if (activePreviewPage) jumpPreviewTo(activePreviewPage, false);
+      }, 100);
+    });
+
+    pageJumpButtons.forEach((button) => {
+      button.addEventListener('click', () => jumpPreviewTo(button.dataset.previewPage));
+    });
+    pageJumpPrevious.addEventListener('click', () => {
+      if (activePreviewPage) jumpPreviewTo(activePreviewPage, true, activePreviewPageIndex - 1);
+    });
+    pageJumpNext.addEventListener('click', () => {
+      if (activePreviewPage) jumpPreviewTo(activePreviewPage, true, activePreviewPageIndex + 1);
+    });
 
     function applyCustomPalette() {
       const item = findTemplate(currentTemplateSlug);
@@ -2526,6 +2673,31 @@
       e.preventDefault();
       closePalettePreview();
     });
+
+    function openDefaultTemplateEditor() {
+      const templatesPage = document.getElementById('templates');
+      if (!templatesPage || templatesPage.hidden || !previewModal.hidden) return;
+      const card = grid.querySelector('.template-card[data-card-slug="doodle-cream"]') || grid.querySelector('.template-card');
+      const preview = card && card.querySelector('[data-preview]');
+      if (!card || !preview) return;
+      openPalettePreview(
+        preview.dataset.preview,
+        preview.dataset.name,
+        preview.dataset.slug,
+        preview.dataset.previewTheme
+      );
+    }
+
+    window.addEventListener('hashchange', () => {
+      if (location.hash.slice(1) === 'templates') window.setTimeout(openDefaultTemplateEditor, 0);
+    });
+    document.addEventListener('click', (e) => {
+      const jump = e.target.closest('[data-editor-jump]');
+      if (!jump) return;
+      openDefaultTemplateEditor();
+      previewModal.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    if (location.hash.slice(1) === 'templates') window.setTimeout(openDefaultTemplateEditor, 0);
   })();
   </script>
   <script>

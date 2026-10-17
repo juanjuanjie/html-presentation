@@ -253,3 +253,13 @@ dont:
   - "Do not round card corners."
   - "Do not place navigation chrome inside the slide content area; keep it fixed at the viewport edges."
   - "Do not use low-contrast text on pastel backgrounds."
+
+## Agent 提示词规则
+
+> 本页“说明”相当于模板使用手册，供用户阅读；`design.md` 本身不会被首页读取，也不会直接写入复制出的 Agent 提示词。
+
+### 当前参与情况
+
+BlockFrame 目前没有额外的模板专属硬规则参与 Agent 提示词。首页生成时会传入本模板的完整 `template.html`、当前配色变量，以及通用的字幕、转场、对比和生成规则；Agent 主要通过模板源码继承粗黑边框、硬阴影、糖果色点缀和页面结构。
+
+本说明中的 `layout_rules`、`dont` 等内容目前仅作为人工使用规范，不会因为写在这里而自动约束 Agent。

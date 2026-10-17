@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="../../assets/presentation-subtitles.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 
   <style>
@@ -214,6 +215,32 @@
     .nav-btn:disabled {
       opacity: 0.3;
       cursor: not-allowed;
+    }
+
+    /* Keep the subtitle switch in the same control row without covering navigation. */
+    .subtitle-toggle {
+      right: calc(3vw + 116px);
+      bottom: 2.5vh;
+      height: 44px;
+      min-width: 72px;
+      padding: 0 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 22px;
+      background: var(--bg);
+      color: var(--primary);
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .subtitle-toggle:hover {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: var(--bg);
+    }
+
+    .subtitle-toggle[aria-pressed="false"] {
+      background: var(--bg);
+      color: var(--text-muted);
     }
 
     .slide-counter {
@@ -1094,7 +1121,7 @@
     .layout-step-detail .slide-content > h2 {
       text-align: left;
       width: 100%;
-      margin-bottom: 1.8rem;
+      margin-bottom: 0.3rem;
     }
 
     .step-nav {
@@ -1150,8 +1177,8 @@
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
       gap: 3.5rem;
-      flex: 1;
-      align-items: center;
+      flex: 0 0 auto;
+      align-items: start;
       min-height: 0;
       opacity: 0;
       transform: translateY(24px);
@@ -1211,9 +1238,9 @@
 
     .step-detail-right {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      height: 100%;
+      height: auto;
       min-height: 0;
     }
 
@@ -1399,7 +1426,20 @@
     }
 
     /* ============================================================
-       LAYOUT 11: Closing
+       LAYOUT 12: Transition
+       ============================================================ */
+    .layout-transition { justify-content:center; align-items:center; text-align:center; background:var(--bg-cover); }
+    .layout-transition .transition-stage { width:min(1380px,100%); display:flex; flex-direction:column; align-items:center; gap:clamp(3rem,7vh,5rem); }
+    .layout-transition .transition-kicker { padding:.75rem 1.35rem; border:1px solid var(--border); border-radius:999px; background:var(--accent-light); color:var(--primary); font-family:'Space Grotesk','Noto Sans SC',sans-serif; font-size:clamp(.95rem,1.3vw,1.15rem); font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+    .layout-transition .transition-copy { width:100%; display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:clamp(2rem,4vw,5rem); }
+    .layout-transition .transition-side span { display:block; margin-bottom:1rem; color:var(--text-light); font-size:clamp(1rem,1.4vw,1.25rem); font-weight:600; letter-spacing:.08em; }
+    .layout-transition .transition-side strong { display:block; color:var(--text); font-family:'Space Grotesk','Noto Sans SC',sans-serif; font-size:clamp(3.4rem,5.2vw,6.2rem); font-weight:700; line-height:1.02; letter-spacing:-.04em; }
+    .layout-transition .transition-side.old strong { color:var(--text-light); text-decoration:line-through; text-decoration-color:var(--strikethrough); text-decoration-thickness:5px; }
+    .layout-transition .transition-side.new strong { color:var(--primary); }
+    .layout-transition .transition-arrow { color:var(--accent-gold); font-family:'Space Grotesk',sans-serif; font-size:clamp(3rem,4.5vw,5rem); font-weight:400; line-height:1; }
+
+    /* ============================================================
+       LAYOUT 13: Closing
        ============================================================ */
     .layout-closing {
       justify-content: center;
@@ -1914,7 +1954,7 @@
     </div>
 
     <!-- SLIDE 11: Chapter overview -->
-    <div class="slide layout-key-steps" data-page="11">
+    <div class="slide layout-key-steps" data-page="11" data-layout="steps" data-step-series="video-workflow" data-step-index="1">
       <div class="slide-header">
         <h4>五步流程</h4>
         <span class="tag">总览</span>
@@ -1957,7 +1997,7 @@
     </div>
 
     <!-- SLIDE 11.1: Step Detail -->
-    <div class="slide layout-step-detail" data-page="11.1">
+    <div class="slide layout-step-detail" data-page="11.1" data-layout="steps" data-step-series="video-workflow" data-step-index="2">
       <div class="slide-header">
         <h4>五步流程</h4>
         <span class="tag">详细拆解</span>
@@ -1999,7 +2039,7 @@
     </div>
 
     <!-- SLIDE 11.2: Step Detail -->
-    <div class="slide layout-step-detail" data-page="11.2">
+    <div class="slide layout-step-detail" data-page="11.2" data-layout="steps" data-step-series="video-workflow" data-step-index="3">
       <div class="slide-header">
         <h4>五步流程</h4>
         <span class="tag">详细拆解</span>
@@ -2036,6 +2076,18 @@
               </ul>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANSITION: reusable chapter turn -->
+    <div class="slide layout-transition" data-transition-series="chapter-turn" data-transition-index="1" data-caption="转变一，从堆叠信息，变成清晰表达。">
+      <div class="transition-stage">
+        <div class="transition-kicker">转变 1</div>
+        <div class="transition-copy">
+          <div class="transition-side old"><span>从</span><strong>堆叠信息</strong></div>
+          <div class="transition-arrow" aria-hidden="true">→</div>
+          <div class="transition-side new"><span>变成</span><strong>清晰表达</strong></div>
         </div>
       </div>
     </div>
@@ -2355,6 +2407,7 @@
 
     updateSlide();
   </script>
+  <script src="../../assets/presentation-subtitles.js"></script>
 
 </body>
 </html>

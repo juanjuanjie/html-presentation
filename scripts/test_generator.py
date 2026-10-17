@@ -66,18 +66,56 @@ def main():
             assert "【演讲 HTML 规则】" in prompt and "<!DOCTYPE" in prompt.upper()
             assert "这是完整逐字稿。" in prompt
             assert "Story Plan" in prompt
+            assert "【字幕与无字幕输出规则】" in prompt
+            assert "每个 .slide 内必须有且只有一个 .slide-subtitle" in prompt
+            assert "?subtitles=0" in prompt
+            assert "window.presentation.setSubtitles" in prompt
+            assert "data-subtitle-system" in prompt
+            assert "【系列转变页规则】" in prompt
+            assert ".transition-slide" in prompt
+            assert "后续转变页只允许更换编号、旧状态文字、新状态文字与对应字幕" in prompt
+            assert "禁止使用任何默认小人" in prompt
+            assert "classic-character.png" not in prompt
             assert "使用场景：课堂演讲" in prompt
             assert "期望页数：6–8 页" in prompt
             assert "理解核心方法，并愿意尝试第一步" in prompt
             assert "不得自动更换或另行匹配风格" in prompt
+            page.locator("#generation-template").select_option("0")
+            page.locator("#generation-template").dispatch_event("input")
+            page.locator("#generation-build").click()
+            page.wait_for_function("!document.querySelector('#generation-copy').disabled")
+            doodle_prompt = page.locator("#generation-prompt").input_value()
+            assert "Doodle Cream 页面背景硬规则（最高优先级）" in doodle_prompt
+            assert "#FFFEFB" in doodle_prompt
+            assert "不得为了制造节奏而交替使用黄色页" in doodle_prompt
+            page.locator("#generation-template").select_option("4")
+            page.locator("#generation-template").dispatch_event("input")
+            page.locator("#generation-build").click()
+            page.wait_for_function("!document.querySelector('#generation-copy').disabled")
+            professional_prompt = page.locator("#generation-prompt").input_value()
+            assert "Doodle Cream 页面背景硬规则（最高优先级）" not in professional_prompt
+            assert "Professional 页面背景硬规则（最高优先级）" not in professional_prompt
+            page.locator("#generation-template").select_option("0")
+            page.locator("#generation-template").dispatch_event("input")
+            page.locator("#generation-character").set_input_files(str(root / "themes/purple-gold-presentation/classic-character.png"))
+            page.wait_for_function("document.querySelector('#generation-character-status').textContent.includes('已载入')")
+            page.locator("#generation-build").click()
+            page.wait_for_function("!document.querySelector('#generation-copy').disabled")
+            prompt_with_character = page.locator("#generation-prompt").input_value()
+            assert "唯一允许使用的人物素材" in prompt_with_character
+            assert "data:image/" in prompt_with_character
+            assert "classic-character.png" not in prompt_with_character
             assert page.locator("#templates").is_hidden()
             assert page.locator("#motion").is_hidden()
             assert page.locator("#lab-grid iframe").count() == 0
             page.locator('[data-page-link="templates"]').click()
             page.wait_for_function("!document.querySelector('#templates').hidden")
+            page.wait_for_function("!document.querySelector('#preview-modal').hidden")
             assert page.locator("#generator").is_hidden()
             assert page.locator(".template-card").count() == 3
             assert page.locator(".template-use-inline").count() == 3
+            assert page.locator('.template-card[data-card-slug="doodle-cream"]').evaluate("e => e.classList.contains('is-designing')")
+            assert page.locator(".template-edit-notice").is_visible()
             assert page.locator(".author-line").is_hidden()
             columns = page.locator("#template-grid").evaluate("e => getComputedStyle(e).gridTemplateColumns.split(' ').length")
             assert columns == 3

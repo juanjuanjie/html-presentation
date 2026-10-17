@@ -1,0 +1,74 @@
+.slide-subtitle {
+  position: absolute;
+  left: 50%;
+  bottom: 72px;
+  z-index: 900;
+  width: max-content;
+  max-width: min(86vw, 1380px);
+  margin: 0;
+  padding: 10px 18px 11px;
+  border-radius: 8px;
+  background: rgba(10, 10, 10, 0.82);
+  color: #fff;
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+  font-size: clamp(16px, 1.45vw, 26px);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  text-align: center;
+  text-wrap: balance;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16);
+  transition: opacity 0.18s ease, visibility 0.18s ease;
+}
+
+.slide-subtitle:empty {
+  display: none;
+}
+
+body.subtitles-hidden .slide-subtitle {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.subtitle-toggle {
+  position: fixed;
+  right: 142px;
+  bottom: 18px;
+  z-index: 1100;
+  min-width: 76px;
+  height: 42px;
+  padding: 0 13px;
+  border: 1.5px solid rgba(23, 23, 23, 0.36);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #242424;
+  font: 600 14px/1 "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.subtitle-toggle:hover {
+  border-color: #171717;
+}
+
+.subtitle-toggle[aria-pressed="false"] {
+  background: rgba(238, 238, 238, 0.9);
+  color: #6b6b6b;
+}
+
+@media (max-width: 700px) {
+  .slide-subtitle {
+    bottom: 68px;
+    max-width: calc(100vw - 32px);
+    padding: 8px 12px;
+    font-size: 15px;
+  }
+
+  .subtitle-toggle {
+    right: 126px;
+    min-width: 66px;
+    padding: 0 9px;
+  }
+}

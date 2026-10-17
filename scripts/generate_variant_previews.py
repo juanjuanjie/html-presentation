@@ -39,6 +39,20 @@ VARIANTS = [
         },
     },
     {
+        "template": "themes/purple-gold-presentation/template.html",
+        "output": "black-green-professional.png",
+        "theme": "black-green",
+        "vars": {
+            "bg": "#0A0A0F",
+            "bg-cover": "#07080C",
+            "primary": "#A8FF3E",
+            "accent-gold": "#A8FF3E",
+            "text": "#F5F5F7",
+            "text-muted": "#8A8A9A",
+            "text-light": "#5F6070",
+        },
+    },
+    {
         "template": "themes/blockframe/template.html",
         "output": "blockframe-retro-paper.png",
         "vars": {
@@ -120,6 +134,8 @@ async def generate():
                 ".slide-counter",
                 ".keyboard-hint",
                 ".theme-switcher",
+                ".subtitle-toggle",
+                ".slide-subtitle",
             ]
             css = ", ".join(hide_selectors)
             await page.add_style_tag(content=f"{css} {{ display: none !important; }}")

@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="../../assets/presentation-subtitles.css" rel="stylesheet">
 
   <style>
     :root {
@@ -634,6 +635,18 @@
       clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
     }
 
+    /* Transition: centered before/after statement in BlockFrame Dark language */
+    .slide-transition { align-items:center; justify-content:center; background:var(--black); text-align:center; }
+    .slide-transition .transition-frame { position:relative; width:min(1320px,100%); padding:clamp(36px,5vh,64px) clamp(36px,4vw,72px); }
+    .slide-transition .transition-label { display:inline-block; margin-bottom:clamp(46px,6vh,72px); padding:10px 20px; border:3px solid var(--border-color); background:var(--pink); color:var(--black); font-family:'Space Grotesk','Noto Sans SC',monospace; font-size:clamp(18px,1.5vw,24px); font-weight:800; letter-spacing:.08em; text-transform:uppercase; transform:rotate(-1deg); }
+    .slide-transition .transition-copy { display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:clamp(28px,4vw,64px); }
+    .slide-transition .transition-side { min-width:0; }
+    .slide-transition .transition-side span { display:block; margin-bottom:14px; color:var(--muted); font-family:'Space Grotesk','Noto Sans SC',monospace; font-size:clamp(16px,1.2vw,20px); font-weight:700; letter-spacing:.08em; }
+    .slide-transition .transition-side strong { display:block; color:var(--white); font-size:clamp(42px,4.2vw,72px); font-weight:900; line-height:1.1; }
+    .slide-transition .transition-side.old strong { color:var(--muted); text-decoration:line-through; text-decoration-thickness:5px; }
+    .slide-transition .transition-side.new strong { color:var(--green); }
+    .slide-transition .transition-arrow { display:grid; place-items:center; width:92px; height:72px; border:3px solid var(--border-color); background:var(--green); color:var(--black); box-shadow:var(--shadow-sm); font-size:42px; font-weight:900; }
+
     .highlight { background: var(--yellow); color: var(--black); padding: 0 6px; }
 
     @media (max-width: 1024px) {
@@ -648,6 +661,8 @@
       .slide-4 .data-column { flex: none; width: 100%; }
       .slide-7 .timeline { grid-template-columns: 1fr; gap: 22px; padding-top: 0; }
       .slide-7 .timeline-step { min-height: auto; }
+      .slide-transition .transition-copy { grid-template-columns:1fr; }
+      .slide-transition .transition-arrow { justify-self:center; transform:rotate(90deg); }
       .slide-8 .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .slide-9 .team-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -943,6 +958,18 @@
       </div>
     </section>
 
+    <!-- TRANSITION: reusable chapter turn -->
+    <section class="slide slide-transition" data-transition-series="chapter-turn" data-transition-index="1" data-caption="转变一，从堆叠信息，变成清晰表达。">
+      <div class="transition-frame">
+        <div class="transition-label">转变 1</div>
+        <div class="transition-copy">
+          <div class="transition-side old"><span>从</span><strong>堆叠信息</strong></div>
+          <div class="transition-arrow" aria-hidden="true">→</div>
+          <div class="transition-side new"><span>变成</span><strong>清晰表达</strong></div>
+        </div>
+      </div>
+    </section>
+
     <!-- SLIDE 10: Closing -->
     <section class="slide slide-10">
       <div class="close-frame">
@@ -981,5 +1008,6 @@
     });
     showSlide(currentSlide);
   </script>
+  <script src="../../assets/presentation-subtitles.js"></script>
 </body>
 </html>
