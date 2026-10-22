@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Xiaolai&display=swap" rel="stylesheet">
   <link href="../../assets/presentation-subtitles.css" rel="stylesheet">
   <style>
-    :root{--paper:#fffefb;--ink:#171717;--muted:#555;--yellow:#ffe477;--yellow-deep:#ffe477;--purple:#ffffff;--line:#292525}
+    :root{--paper:#fffefb;--ink:#171717;--muted:#555;--yellow:#ffe477;--yellow-deep:#ffe477;--purple:#ffffff;--compare-purple:#d8d6ff;--line:#292525}
     .doodle-comparison>h2{font-size:clamp(42px,4vw,72px);white-space:nowrap}
     *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{background:var(--paper);color:var(--ink);font-family:"Xiaolai","KaiTi","STKaiti",cursive;-webkit-font-smoothing:antialiased}button{font:inherit}
     .deck{position:relative;width:100%;height:100%}.slide{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:clamp(46px,5vw,92px) clamp(60px,6vw,116px);overflow:hidden;text-align:center;background:var(--paper)}.slide.active{display:flex;animation:enter .45s ease both}@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -29,6 +29,32 @@
     .goal-grid{display:grid;grid-template-columns:100px 1fr;gap:28px;align-items:start;text-align:left}.goal-icon{font-size:68px}.black-label{display:inline-block;padding:.08em .2em .15em;background:var(--ink);color:var(--yellow);border-radius:20px 16px 22px 14px}.focus-title{white-space:nowrap;font-size:clamp(50px,4.8vw,90px)}.closing-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;width:100%;gap:4vw;text-align:left}.deck>.slide:first-child .closing-grid,.deck>.slide:last-child .closing-grid{max-width:1540px;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);gap:clamp(36px,4vw,78px);padding-inline:clamp(36px,4vw,78px)}.deck>.slide:first-child .closing-grid>.mascot,.deck>.slide:last-child .closing-grid>.mascot{justify-self:center}.contact{display:grid;grid-template-columns:72px 1fr;gap:22px;align-items:start;margin-top:24px}.contact .icon-chip{background:white;border:3px solid var(--ink)}.socials{display:flex;gap:22px;flex-wrap:wrap}.social{display:grid;place-items:center;width:92px;aspect-ratio:1;padding:0;background:#fff;border:4px solid var(--ink);border-radius:47% 53% 45% 55%/54% 46% 57% 43%;transform:rotate(-1deg)}.social:nth-child(2){border-radius:54% 46% 52% 48%/47% 55% 45% 53%;transform:rotate(1deg)}.social svg{width:48px;height:48px}.social .bili{fill:#00aeec}.social .youtube{fill:#ff0033}
     .progress{position:fixed;left:0;bottom:0;height:5px;width:0;background:var(--yellow);transition:width .35s;z-index:30}.slide-counter{position:fixed;left:24px;bottom:17px;color:#555;font-size:18px;font-weight:700;z-index:31}.nav-controls{position:fixed;right:22px;bottom:15px;display:flex;gap:9px;z-index:31;opacity:.72;transition:opacity .2s}.nav-controls:hover{opacity:1}.nav-controls button{width:48px;height:43px;border:2px solid #c8c8c8;border-radius:15px 12px 17px 11px;background:#fff;color:#555;cursor:pointer;font-size:24px;font-weight:700}.nav-controls button:hover{border-color:var(--ink);color:var(--ink);transform:translateY(-1px)}
     @media(max-width:900px){.slide{padding:45px 35px}.cover,.layout,.layout.reverse,.closing-grid,.deck>.slide:first-child .closing-grid,.deck>.slide:last-child .closing-grid{grid-template-columns:1fr}.deck>.slide:first-child .closing-grid,.deck>.slide:last-child .closing-grid{padding-inline:clamp(18px,5vw,42px)}.person,.deck>.slide:first-child .closing-grid>.mascot,.deck>.slide:last-child .closing-grid>.mascot{display:none}.cards-4{grid-template-columns:1fr}.skill-row{grid-template-columns:72px 130px 1fr}.steps{gap:10px}.arrow{display:none}.doodle-comparison__grid{grid-template-columns:1fr}.doodle-comparison__vs{width:54px;height:54px}.transition-stage{height:auto}.transition-copy{grid-template-columns:1fr;align-items:start;gap:22px}.transition-arrow{justify-self:center;padding-top:0;transform:rotate(90deg)}.transition-slide.active .transition-arrow{animation:none}.transition-side strong{font-size:clamp(38px,8vw,62px)}}
+  </style>
+  <style id="doodle-reusable-media-layouts">
+    .doodle-comparison__panel:first-child{background:var(--yellow);color:#211b0d;box-shadow:8px 9px 0 #171717}
+    .doodle-comparison__panel.is-new{background:var(--compare-purple,#d8d6ff);color:#211b0d;box-shadow:-8px 9px 0 #171717}
+    .doodle-comparison__panel .doodle-comparison__head small,.doodle-comparison__panel .doodle-comparison__list li{color:rgba(33,27,13,.72)}
+    .doodle-comparison__panel .doodle-comparison__mark{border-color:#211b0d;background:rgba(255,255,255,.72);color:#211b0d}
+    .doodle-comparison__vs{background:linear-gradient(90deg,var(--yellow) 0 50%,var(--compare-purple,#d8d6ff) 50% 100%);color:#211b0d}
+    .image-feature-layout{display:grid;grid-template-columns:minmax(390px,.78fr) minmax(560px,1.22fr);align-items:center;width:min(100%,1480px);gap:clamp(38px,4vw,76px);text-align:left}
+    .image-feature-copy{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(20px,2.5vh,32px)}
+    .image-feature-copy h2{font-size:clamp(50px,4.5vw,86px)}.image-feature-copy>p{color:var(--muted);font-size:clamp(22px,1.75vw,32px)}
+    .image-feature-note{padding:18px 22px;border-left:8px solid var(--yellow);background:var(--surface,#fff);font-size:clamp(18px,1.3vw,25px);line-height:1.5}
+    .image-feature-figure{margin:0;padding:12px;border:4px solid var(--line);border-radius:26px 19px 30px 18px;background:var(--surface,#fff);box-shadow:12px 14px 0 var(--yellow);transform:rotate(.25deg)}
+    .image-feature-placeholder{display:grid;place-items:center;min-height:clamp(390px,55vh,590px);padding:36px;border:3px dashed var(--line);border-radius:17px 13px 20px 12px;background:linear-gradient(135deg,var(--surface,#fff),color-mix(in srgb,var(--paper) 82%,var(--yellow) 18%));color:var(--muted);text-align:center}
+    .image-feature-placeholder svg{width:112px;height:112px;margin-bottom:18px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .image-feature-placeholder strong{display:block;color:var(--ink);font-size:clamp(27px,2vw,38px)}.image-feature-placeholder span{display:block;margin-top:10px;font-size:clamp(17px,1.15vw,22px)}
+    .image-feature-caption{padding:13px 8px 2px;color:var(--muted);font-size:clamp(16px,1.1vw,21px);text-align:center}
+    .dual-visual-layout{display:flex;flex-direction:column;width:min(100%,1480px);gap:clamp(22px,2.7vh,34px);text-align:left}
+    .dual-visual-layout>h2{text-align:center;font-size:clamp(46px,4.4vw,82px)}.dual-visual-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,2.4vw,40px)}
+    .dual-visual-card{display:grid;grid-template-columns:minmax(150px,.42fr) minmax(0,1fr);gap:24px;min-height:330px;padding:28px;border:4px solid var(--line);border-radius:30px 21px 35px 23px;background:#292d35;color:#f7f7f5;box-shadow:9px 10px 0 var(--yellow);transform:rotate(-.25deg)}
+    .dual-visual-card:nth-child(2){border-radius:20px 34px 23px 31px;box-shadow:-9px 10px 0 var(--compare-purple,#d8d6ff);transform:rotate(.25deg)}
+    .dual-visual-media{display:grid;place-items:center;min-height:240px;border:3px dashed #737881;border-radius:22px 17px 25px 15px;background:#1e2127;color:#bfc2c7;text-align:center}
+    .dual-visual-media svg{width:82px;height:82px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.dual-visual-media span{display:block;margin-top:10px;font-size:clamp(16px,1vw,20px)}
+    .dual-visual-copy{display:flex;min-width:0;flex-direction:column;align-items:flex-start;gap:13px}.dual-visual-label{display:inline-grid;place-items:center;min-width:54px;height:48px;padding:0 13px;border-radius:16px 13px 18px 12px;background:var(--yellow);color:#211b0d;font-weight:700}.dual-visual-card:nth-child(2) .dual-visual-label{background:var(--compare-purple,#d8d6ff)}
+    .dual-visual-copy h3{color:#f7f7f5;font-size:clamp(29px,2.1vw,41px);font-weight:700}.dual-visual-dialogue{margin-top:auto;padding:17px 19px;border-radius:18px 14px 20px 13px;background:#1e2127;color:#f7f7f5;font-size:clamp(18px,1.28vw,25px);line-height:1.5}
+    .dual-visual-hint{align-self:center;color:var(--muted);font-size:clamp(16px,1.08vw,21px)}
+    @media(max-width:900px){.image-feature-layout{grid-template-columns:1fr}.image-feature-figure{display:none}.dual-visual-grid{grid-template-columns:1fr}.dual-visual-card{grid-template-columns:100px 1fr;min-height:230px;padding:20px}.dual-visual-media{min-height:180px}}
   </style>
 </head>
 <body>
@@ -142,12 +168,30 @@
       <div class="transition-stage"><span class="transition-kicker">转变 2</span><div class="transition-copy"><div class="transition-side old"><small>从</small><strong>先啃原理、手写代码</strong></div><div class="transition-arrow" aria-hidden="true">→</div><div class="transition-side new"><small>变成</small><strong>先做、边做边补</strong></div></div></div>
     </section>
 
+    <section class="slide page-line" data-layout="image-feature" data-caption="当内容里有一张重要图片时，可以使用左文右图的布局。">
+      <div class="image-feature-layout">
+        <div class="image-feature-copy"><span class="number-tag">图片页</span><h2>有图片时<br>让画面成为主角</h2><p>左侧只保留结论和必要解释，右侧用一张大图承担主要信息。</p><div class="image-feature-note"><b>适合：</b>产品截图、数据图表、作品展示、步骤示意图。</div></div>
+        <figure class="image-feature-figure"><div class="image-feature-placeholder"><div><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="12" y="18" width="96" height="84" rx="12"/><circle cx="40" cy="45" r="9"/><path d="M20 91l26-27 18 17 14-13 22 23"/></svg><strong>替换为你的图片</strong><span>建议使用横图、截图或图表</span></div></div><figcaption class="image-feature-caption">一句简短图片说明，帮助观众理解重点。</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="slide page-line comparison-slide" data-layout="comparison" data-caption="需要比较两段对话或两张图片时，可以使用并排双卡片布局。">
+      <div class="dual-visual-layout">
+        <h2>两个画面，并排讲清差异</h2>
+        <div class="dual-visual-grid">
+          <article class="dual-visual-card"><div class="dual-visual-media"><div><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="10" y="15" width="80" height="70" rx="10"/><circle cx="35" cy="39" r="8"/><path d="M18 76l23-22 15 14 12-11 15 19"/></svg><span>图片 / 人物 A</span></div></div><div class="dual-visual-copy"><span class="dual-visual-label">A</span><h3>第一种观点</h3><p class="dual-visual-dialogue">“这里可以放第一段对话，也可以说明左侧图片表达了什么。”</p></div></article>
+          <article class="dual-visual-card"><div class="dual-visual-media"><div><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="10" y="15" width="80" height="70" rx="10"/><circle cx="65" cy="39" r="8"/><path d="M18 76l19-18 16 13 16-17 14 22"/></svg><span>图片 / 人物 B</span></div></div><div class="dual-visual-copy"><span class="dual-visual-label">B</span><h3>第二种观点</h3><p class="dual-visual-dialogue">“这里可以放第二段对话，用相同结构形成清楚、平衡的比较。”</p></div></article>
+        </div>
+        <p class="dual-visual-hint">图片与对话可以任选其一，也可以同时使用。</p>
+      </div>
+    </section>
+
     <section class="slide yellow-page" data-caption="感谢观看。">
       <div class="closing-grid"><div class="stack left"><h1><span class="black-label">感谢观看</span></h1><p>欢迎在这些平台找到我</p><div class="socials"><div class="social" aria-label="Bilibili"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="bili" d="M13 8l6 7h10l6-7 3 3-4 4h3q7 0 7 7v15q0 7-7 7H11q-7 0-7-7V22q0-7 7-7h3l-4-4Zm-2 13q-2 0-2 2v13q0 3 3 3h24q3 0 3-3V23q0-2-2-2Zm6 7a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm14 0a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z"/></svg></div><div class="social" aria-label="YouTube"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="youtube" d="M45 14q-1-6-7-7Q24 5 10 7q-6 1-7 7-2 10 0 20 1 6 7 7 14 2 28 0 6-1 7-7 2-10 0-20Z"/><path d="M20 16l13 8-13 8Z" fill="#fff"/></svg></div></div><p class="small">一起把复杂的事情讲得更简单、更清楚。</p></div><img class="mascot" src="../purple-gold-presentation/classic-character.png" alt="卷卷姐"></div>
     </section>
   </main>
 
-  <div class="slide-counter" aria-live="polite">01 / 15</div><nav class="nav-controls"><button type="button" data-dir="prev" aria-label="上一页">←</button><button type="button" data-dir="next" aria-label="下一页">→</button></nav><div class="progress" id="progress"></div>
+  <div class="slide-counter" aria-live="polite">01 / 17</div><nav class="nav-controls"><button type="button" data-dir="prev" aria-label="上一页">←</button><button type="button" data-dir="next" aria-label="下一页">→</button></nav><div class="progress" id="progress"></div>
   <script>
     (()=>{const slides=[...document.querySelectorAll('.slide')],counter=document.querySelector('.slide-counter'),progress=document.getElementById('progress');let index=0,touchStart=0;function show(next){index=Math.max(0,Math.min(slides.length-1,next));slides.forEach((s,i)=>s.classList.toggle('active',i===index));counter.textContent=`${String(index+1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;progress.style.width=`${(index+1)/slides.length*100}%`}document.querySelector('[data-dir="prev"]').onclick=()=>show(index-1);document.querySelector('[data-dir="next"]').onclick=()=>show(index+1);document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(index+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(index-1)}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1)});document.addEventListener('touchstart',e=>touchStart=e.changedTouches[0].clientX,{passive:true});document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-touchStart;if(Math.abs(d)>55)show(index+(d<0?1:-1))},{passive:true});show(0)})();
   </script>

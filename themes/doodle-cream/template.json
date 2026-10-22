@@ -12,9 +12,10 @@
     "paper": "#FFFFFF",
     "ink": "#222222",
     "yellow": "#FFE477",
+    "compare_purple": "#D8D6FF",
     "secondary": "#FFFFFF"
   },
   "font": "Xiaolai",
-  "slide_count": 13,
+  "slide_count": 17,
   "navigation": "键盘、按钮和触摸滑动翻页，带页码进度。"
 }

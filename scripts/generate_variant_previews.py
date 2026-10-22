@@ -25,6 +25,24 @@ PREVIEWS_DIR = ROOT / "assets" / "previews"
 # 每个条目指定模板文件、输出文件名、以及要注入的 CSS 变量。
 VARIANTS = [
     {
+        "template": "themes/doodle-cream-dark/template.html",
+        "output": "doodle-cream-dark.png",
+        "theme": "dark-yellow",
+        "vars": {
+            "paper": "#171510",
+            "surface": "#211E18",
+            "surface-raised": "#2A261E",
+            "ink": "#F7EFD9",
+            "muted": "#B8AE9B",
+            "yellow": "#F4CF58",
+            "yellow-deep": "#F4CF58",
+            "compare-purple": "#D8D6FF",
+            "line": "#EADFC7",
+            "accent-ink": "#211B0D",
+            "soft-line": "#514A3D",
+        },
+    },
+    {
         "template": "themes/purple-gold-presentation/template.html",
         "output": "blue-professional.png",
         "theme": "cream-blue",

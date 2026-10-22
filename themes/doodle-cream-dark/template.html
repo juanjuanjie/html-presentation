@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doodle Cream Dark · 黑纸暖黄</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Xiaolai&display=swap" rel="stylesheet">
+  <link href="../../assets/presentation-subtitles.css" rel="stylesheet">
+  <style>
+    :root{--paper:#fffefb;--ink:#171717;--muted:#555;--yellow:#ffe477;--yellow-deep:#ffe477;--purple:#ffffff;--compare-purple:#d8d6ff;--line:#292525}
+    .doodle-comparison>h2{font-size:clamp(42px,4vw,72px);white-space:nowrap}
+    *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{background:var(--paper);color:var(--ink);font-family:"Xiaolai","KaiTi","STKaiti",cursive;-webkit-font-smoothing:antialiased}button{font:inherit}
+    .deck{position:relative;width:100%;height:100%}.slide{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:clamp(46px,5vw,92px) clamp(60px,6vw,116px);overflow:hidden;text-align:center;background:var(--paper)}.slide.active{display:flex;animation:enter .45s ease both}@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    h1,h2,h3,p{margin:0}h1,h2{font-weight:700}h3,p{font-weight:400}h1{font-size:clamp(65px,7.2vw,138px);line-height:1.05}h2{font-size:clamp(48px,5.2vw,98px);line-height:1.1}h3{font-size:clamp(29px,2.7vw,52px);line-height:1.22}p{font-size:clamp(22px,2vw,38px);line-height:1.5}.small{font-size:clamp(17px,1.35vw,26px);font-weight:400;color:var(--muted)}
+    .yellow-page{background:var(--yellow)}
+    .cover{display:grid;grid-template-columns:minmax(0,1.62fr) minmax(280px,.38fr);align-items:center;width:100%;gap:2.5vw;text-align:left}.cover-copy{display:flex;flex-direction:column;align-items:flex-start;gap:30px}.cover-title{font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif;font-size:clamp(58px,6.4vw,122px);font-weight:900;line-height:1.04;letter-spacing:-.055em;white-space:nowrap}.cover-title strong{font-weight:900;display:inline-block;position:relative}.cover-title strong::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-7px;height:14px;background:var(--ink);border-radius:50%;transform:rotate(.3deg)}.cover-sub{font-family:"Microsoft YaHei","PingFang SC",sans-serif;font-size:clamp(25px,2.35vw,45px);font-weight:400;line-height:1.3;letter-spacing:-.025em}.cover-note{font-family:"Microsoft YaHei","PingFang SC",sans-serif;font-size:clamp(19px,1.6vw,30px);font-weight:400}
+    .person{width:min(100%,390px);max-height:680px;overflow:visible}.person.small-person{width:min(25vw,275px);max-height:500px}.mascot{display:block;width:min(24vw,350px);aspect-ratio:1;object-fit:cover;object-position:50% 18%;border:3px solid var(--yellow);border-radius:48% 52% 46% 54%/53% 47% 55% 45%;box-shadow:none;transform:rotate(-1deg)}.yellow-page .mascot{border-color:#fff}.mascot.small-person{width:min(20vw,270px);border-radius:54% 46% 52% 48%/47% 55% 45% 53%;transform:rotate(1deg)}.ink{stroke:var(--line);stroke-width:7;stroke-linecap:round;stroke-linejoin:round}.accent-stroke{stroke:var(--yellow-deep)}
+    .layout{display:grid;grid-template-columns:minmax(270px,.72fr) minmax(520px,1.28fr);align-items:center;width:100%;gap:4vw}.layout.reverse{grid-template-columns:minmax(520px,1.3fr) minmax(260px,.7fr)}.layout.intro-layout{align-items:start}.intro-layout>.stack{align-items:flex-start}.left{text-align:left}.stack{display:flex;flex-direction:column;align-items:center;gap:clamp(24px,3.4vh,46px)}.stack.left{align-items:flex-start}.wide{width:100%}.title{align-self:flex-start;text-align:left}.title u{text-decoration-thickness:12px;text-decoration-color:var(--ink);text-underline-offset:12px}
+    .card{position:relative;padding:clamp(24px,2.5vw,42px);border:4px solid var(--line);border-radius:30px 24px 33px 22px;background:#fff;text-align:left}.card.purple{background:#fff}.card.yellow{background:var(--yellow)}.card h3{margin-bottom:12px}.cards-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px;width:100%}.comparison-card{border-radius:38px 17px 44px 23px/25px 41px 20px 45px;transform:rotate(-.35deg)}.comparison-card:nth-child(2){border-radius:19px 43px 24px 40px/42px 22px 46px 18px;transform:rotate(.35deg)}.number-tag.white-tag{background:#fff;border:4px solid var(--ink)}.cards-4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;width:100%}.line-icon{--icon-accent:var(--yellow)}.check-page .line-icon{--icon-accent:#dedcff}.accent-fill{fill:var(--icon-accent)}.accent-mark{stroke:var(--icon-accent);fill:none}
+    .doodle-comparison{display:flex;flex-direction:column;width:min(100%,1480px);gap:clamp(22px,2.6vh,32px);text-align:left}.doodle-comparison>h2{text-align:center}.doodle-comparison__grid{display:grid;grid-template-columns:minmax(0,1fr) 74px minmax(0,1fr);align-items:stretch;gap:clamp(18px,2vw,34px)}.doodle-comparison__panel{display:flex;flex-direction:column;gap:24px;min-height:360px;padding:clamp(28px,2.6vw,42px);border:3px solid var(--line);border-radius:24px;background:#fff}.doodle-comparison__panel.is-new{box-shadow:inset 0 9px 0 var(--yellow)}.doodle-comparison__head{text-align:center}.doodle-comparison__head strong{display:block;font-size:clamp(34px,3vw,56px);line-height:1.1}.doodle-comparison__head small{display:block;margin-top:8px;color:var(--muted);font-size:clamp(16px,1.2vw,22px)}.doodle-comparison__list{display:grid;gap:15px;margin:0;padding:0;list-style:none}.doodle-comparison__list li{display:grid;grid-template-columns:30px 1fr;align-items:start;gap:12px;color:var(--muted);font-size:clamp(19px,1.45vw,27px);line-height:1.45}.doodle-comparison__mark{display:grid;place-items:center;width:28px;height:28px;border:2px solid var(--ink);border-radius:50%;background:#fff;color:var(--ink);font:700 18px/1 sans-serif}.is-new .doodle-comparison__mark{background:var(--yellow)}.doodle-comparison__vs{align-self:center;display:grid;place-items:center;width:70px;height:70px;border:3px solid var(--ink);border-radius:50%;background:var(--yellow);font:700 22px/1 sans-serif}.doodle-comparison__verdict{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:18px;padding-top:18px;border-top:2px dashed #cfc9c2;font-size:clamp(18px,1.35vw,25px)}.doodle-comparison__verdict b{padding:7px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--yellow)}
+    .number-tag{display:inline-grid;place-items:center;min-width:72px;height:62px;padding:0 15px;background:var(--yellow-deep);border-radius:18px 15px 20px 14px;font:700 clamp(29px,2.3vw,44px)/1 "Xiaolai",cursive}.number-tag.outlined{border:4px solid var(--ink)}.card-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:24px}.card-row .line-icon{width:78px;height:78px}.line-icon{fill:none;stroke:var(--ink);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}.info-list{display:grid;gap:18px;width:100%}.info-item{display:grid;grid-template-columns:64px 1fr;align-items:center;gap:18px;padding:11px 0;border-bottom:2px dashed #d7d3ce;text-align:left}.info-item:last-child{border-bottom:0}.icon-chip{display:grid;place-items:center;width:58px;height:52px;background:var(--yellow-deep);border-radius:17px 14px 18px 13px;font-size:30px;font-weight:700}
+    .photo-box{display:grid;place-items:center;min-height:235px;border:3px dashed #999;border-radius:24px 19px 27px 18px;color:#777;background:#fafafa}.photo-box svg{width:88px;height:88px;opacity:.45}.profile-card{padding:28px;border:4px solid var(--line);border-radius:31px 25px 34px 23px;background:white}.profile-card .number-tag{display:grid;margin-bottom:16px}.reference-image{position:relative;display:grid;grid-template-columns:1fr 160px;align-items:center;width:100%;min-height:270px;padding:32px 38px;overflow:hidden;background:var(--yellow);border:4px solid var(--ink);border-radius:28px 22px 31px 20px;text-align:left}.reference-image h3{font-size:clamp(34px,3vw,58px);font-weight:700}.reference-image p{margin-top:12px;font-size:clamp(18px,1.4vw,27px)}.reference-image .preview-person{width:145px;aspect-ratio:1;justify-self:end;border-width:3px;border-color:#fff}.play-mark{display:grid;place-items:center;width:72px;height:62px;margin-top:22px;background:var(--ink);color:var(--yellow);border-radius:18px 14px 20px 13px;font:700 30px/1 sans-serif}.platform-list .info-item{grid-template-columns:68px 1fr;padding:9px 0}.platform-logo{display:grid;place-items:center;width:58px;height:52px;background:#fff;border:3px solid var(--ink);border-radius:17px 14px 18px 13px}.platform-logo svg{width:36px;height:36px}.platform-list strong{display:block;font-family:"Microsoft YaHei","PingFang SC",sans-serif;font-size:clamp(19px,1.5vw,29px)}.platform-list span{font-size:clamp(15px,1.08vw,21px);color:var(--muted)}
+    .skill-list{display:grid;gap:28px;width:100%}.skill-row{display:grid;grid-template-columns:100px 170px 1fr;align-items:center;gap:24px;text-align:left}.skill-row strong{font-size:clamp(34px,3.1vw,59px);font-weight:400}.skill-row p{color:var(--muted);font-size:clamp(20px,1.65vw,31px)}
+    .steps{display:flex;align-items:center;justify-content:center;width:100%;gap:30px}.step{display:grid;place-items:center;width:clamp(165px,16vw,285px);aspect-ratio:1;border:4px solid var(--line);border-radius:47% 53% 45% 55%/54% 46% 57% 43%;padding:20px;background:#fff}.step:nth-child(1){background:var(--yellow);transform:rotate(-1deg)}.step:nth-child(2){background:#fff;transform:rotate(.8deg)}.step:nth-child(3){transform:rotate(-.5deg)}.arrow{font-size:64px;font-weight:700}.flow-overview{display:flex;align-items:center;justify-content:center;width:100%;gap:12px}.flow-node{display:flex;flex-direction:column;align-items:center;justify-content:center;width:clamp(145px,14vw,235px);aspect-ratio:1;padding:22px;border:4px solid var(--ink);border-radius:47% 53% 45% 55%/54% 46% 57% 43%;background:#fff;text-align:center;transform:rotate(-1deg)}.flow-node:nth-of-type(even){background:var(--yellow);border-radius:54% 46% 52% 48%/47% 55% 45% 53%;transform:rotate(1deg)}.flow-node strong{font-size:clamp(25px,2vw,38px);font-weight:700}.flow-node span{margin-top:8px;color:var(--muted);font-size:clamp(15px,1.05vw,20px)}.flow-arrow{font-size:34px;font-weight:700}.flow-overview.compact{align-items:flex-start;gap:0;padding-inline:clamp(10px,2vw,36px)}.flow-overview.compact .flow-node{flex:0 0 clamp(112px,10vw,164px);width:clamp(112px,10vw,164px);aspect-ratio:auto;padding:0;border:0;background:transparent;transform:none}.flow-overview.compact .flow-node strong{display:grid;place-items:center;width:clamp(54px,4.2vw,68px);height:clamp(52px,4vw,65px);border:3px solid var(--ink);border-radius:47% 53% 45% 55%/54% 46% 57% 43%;background:#fff;color:var(--ink);font:700 clamp(20px,1.45vw,28px)/1 "Xiaolai",cursive;transform:rotate(-2deg)}.flow-overview.compact .flow-node:nth-of-type(even) strong{border-radius:54% 46% 52% 48%/47% 55% 45% 53%;transform:rotate(2deg)}.flow-overview.compact .flow-node span{margin-top:12px;color:var(--ink);font-size:clamp(15px,1.05vw,20px);font-weight:700;white-space:nowrap}.flow-overview.compact .flow-arrow{flex:1 1 72px;height:3px;margin:clamp(25px,2vw,31px) -18px 0;background:var(--ink);font-size:0}.flow-overview.compact .flow-node.active strong{background:var(--yellow);box-shadow:0 0 0 6px rgba(255,228,119,.38)}.flow-detail{display:grid;grid-template-columns:minmax(250px,.65fr) minmax(520px,1.35fr);align-items:center;width:100%;gap:5vw;text-align:left}.flow-focus{display:grid;place-items:center;width:min(24vw,340px);aspect-ratio:1;padding:38px;border:5px solid var(--ink);border-radius:46% 54% 43% 57%/56% 44% 58% 42%;background:var(--yellow);text-align:center;transform:rotate(-1deg)}.flow-focus b{display:block;font-size:clamp(60px,6vw,108px);line-height:1}.flow-focus span{font-size:clamp(22px,1.8vw,34px)}.flow-copy h3{font-size:clamp(38px,3.3vw,64px);font-weight:700}.flow-copy ul{display:grid;gap:16px;margin:24px 0 0;padding:0;list-style:none}.flow-copy li{position:relative;padding-left:36px;font-size:clamp(20px,1.55vw,29px)}.flow-copy li::before{content:'✓';position:absolute;left:0;font-weight:700}
+    .quote{font-size:clamp(48px,5.6vw,106px);line-height:1.3;max-width:1300px}.quote::before{content:"“";color:var(--yellow-deep);font-size:1.5em;vertical-align:-.18em}.highlight{display:inline;background:linear-gradient(transparent 68%,var(--yellow) 68% 92%,transparent 92%);box-decoration-break:clone;-webkit-box-decoration-break:clone}
+    .transition-stage{display:flex;flex-direction:column;width:min(100%,1500px);height:clamp(340px,39vh,420px);align-items:center;justify-content:center;gap:clamp(32px,4vh,46px);text-align:center}.transition-kicker{align-self:center;padding:10px 18px 12px;border:3px solid var(--ink);border-radius:17px 13px 19px 12px;background:var(--yellow);font-size:clamp(20px,1.55vw,29px);font-weight:700;line-height:1;transform:rotate(-1deg)}.transition-copy{display:grid;width:100%;min-height:190px;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:start;gap:clamp(24px,2.2vw,42px)}.transition-side{display:flex;min-width:0;flex-direction:column;align-items:center;gap:14px;text-align:center}.transition-side small{color:var(--muted);font-size:clamp(19px,1.35vw,26px);font-weight:700}.transition-side strong{font-size:clamp(46px,3.12vw,60px);font-weight:700;line-height:1.15}.transition-side.old strong{color:#777;text-decoration:line-through;text-decoration-thickness:5px;text-decoration-color:#aaa}.transition-side.new strong{max-width:100%}.transition-arrow{align-self:start;padding-top:clamp(37px,2.35vw,45px);color:var(--ink);font:700 clamp(44px,3.6vw,69px)/1 sans-serif}.transition-slide.active .transition-kicker{animation:transitionRise .35s ease both}.transition-slide.active .transition-side.old{animation:transitionRise .4s .08s ease both}.transition-slide.active .transition-arrow{animation:transitionRise .35s .16s ease both}.transition-slide.active .transition-side.new{animation:transitionRise .4s .24s ease both}@keyframes transitionRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .goal-grid{display:grid;grid-template-columns:100px 1fr;gap:28px;align-items:start;text-align:left}.goal-icon{font-size:68px}.black-label{display:inline-block;padding:.08em .2em .15em;background:var(--ink);color:var(--yellow);border-radius:20px 16px 22px 14px}.focus-title{white-space:nowrap;font-size:clamp(50px,4.8vw,90px)}.closing-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;width:100%;gap:4vw;text-align:left}.deck>.slide:first-child .closing-grid,.deck>.slide:last-child .closing-grid{max-width:1540px;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);gap:clamp(36px,4vw,78px);padding-inline:clamp(36px,4vw,78px)}.deck>.slide:first-child .closing-grid>.mascot,.deck>.slide:last-child .closing-grid>.mascot{justify-self:center}.contact{display:grid;grid-template-columns:72px 1fr;gap:22px;align-items:start;margin-top:24px}.contact .icon-chip{background:white;border:3px solid var(--ink)}.socials{display:flex;gap:22px;flex-wrap:wrap}.social{display:grid;place-items:center;width:92px;aspect-ratio:1;padding:0;background:#fff;border:4px solid var(--ink);border-radius:47% 53% 45% 55%/54% 46% 57% 43%;transform:rotate(-1deg)}.social:nth-child(2){border-radius:54% 46% 52% 48%/47% 55% 45% 53%;transform:rotate(1deg)}.social svg{width:48px;height:48px}.social .bili{fill:#00aeec}.social .youtube{fill:#ff0033}
+    .progress{position:fixed;left:0;bottom:0;height:5px;width:0;background:var(--yellow);transition:width .35s;z-index:30}.slide-counter{position:fixed;left:24px;bottom:17px;color:#555;font-size:18px;font-weight:700;z-index:31}.nav-controls{position:fixed;right:22px;bottom:15px;display:flex;gap:9px;z-index:31;opacity:.72;transition:opacity .2s}.nav-controls:hover{opacity:1}.nav-controls button{width:48px;height:43px;border:2px solid #c8c8c8;border-radius:15px 12px 17px 11px;background:#fff;color:#555;cursor:pointer;font-size:24px;font-weight:700}.nav-controls button:hover{border-color:var(--ink);color:var(--ink);transform:translateY(-1px)}
+    @media(max-width:900px){.slide{padding:45px 35px}.cover,.layout,.layout.reverse,.closing-grid,.deck>.slide:first-child .closing-grid,.deck>.slide:last-child .closing-grid{grid-template-columns:1fr}.deck>.slide:first-child .closing-grid,.deck>.slide:last-child .closing-grid{padding-inline:clamp(18px,5vw,42px)}.person,.deck>.slide:first-child .closing-grid>.mascot,.deck>.slide:last-child .closing-grid>.mascot{display:none}.cards-4{grid-template-columns:1fr}.skill-row{grid-template-columns:72px 130px 1fr}.steps{gap:10px}.arrow{display:none}.doodle-comparison__grid{grid-template-columns:1fr}.doodle-comparison__vs{width:54px;height:54px}.transition-stage{height:auto}.transition-copy{grid-template-columns:1fr;align-items:start;gap:22px}.transition-arrow{justify-self:center;padding-top:0;transform:rotate(90deg)}.transition-slide.active .transition-arrow{animation:none}.transition-side strong{font-size:clamp(38px,8vw,62px)}}
+  </style>
+  <style id="doodle-cream-dark-theme">
+    :root{
+      color-scheme:dark;
+      --paper:#171510;
+      --surface:#211e18;
+      --surface-raised:#2a261e;
+      --ink:#f7efd9;
+      --muted:#b8ae9b;
+      --yellow:#f4cf58;
+      --yellow-deep:#f4cf58;
+      --purple:#211e18;
+      --compare-purple:#d8d6ff;
+      --line:#eadfc7;
+      --accent-ink:#211b0d;
+      --soft-line:#514a3d;
+    }
+    body{background:var(--paper);color:var(--ink)}
+    .slide{background:var(--paper)}
+    .yellow-page{background-color:var(--paper)}
+    .cover-title strong::after{background-color:var(--yellow)}
+    .title u{text-decoration-color:var(--yellow)}
+    .small,.skill-row p,.flow-node span,.transition-side small,.doodle-comparison__head small,.doodle-comparison__list li,.platform-list span{color:var(--muted)}
+    .card,.card.purple,.doodle-comparison__panel,.profile-card,.step,.step:nth-child(2),.step:nth-child(3),.flow-node,.flow-overview.compact .flow-node strong,.platform-logo,.social,.contact .icon-chip{
+      background:var(--surface);
+      color:var(--ink);
+      border-color:var(--line);
+    }
+    .card.yellow,.reference-image,.number-tag,.icon-chip,.step:nth-child(1),.flow-node:nth-of-type(even),.flow-focus,.transition-kicker,.doodle-comparison__vs,.is-new .doodle-comparison__mark{
+      background:var(--yellow);
+      color:var(--accent-ink);
+      border-color:var(--yellow);
+    }
+    .card.yellow .small,.reference-image p,.flow-node:nth-of-type(even) span{color:rgba(33,27,13,.72)}
+    .number-tag.outlined{border-color:var(--yellow)}
+    .number-tag.white-tag,.doodle-comparison__mark{background:var(--surface-raised);color:var(--ink);border-color:var(--line)}
+    .doodle-comparison__panel.is-new{box-shadow:inset 0 9px 0 var(--yellow)}
+    .doodle-comparison__verdict{border-top-color:var(--soft-line)}
+    .doodle-comparison__verdict b{background:var(--yellow);color:var(--accent-ink);border-color:var(--yellow)}
+    .info-item{border-bottom-color:var(--soft-line)}
+    .photo-box{background:var(--surface);color:var(--muted);border-color:#766d5d}
+    .reference-image .preview-person,.yellow-page .mascot{border-color:var(--yellow)}
+    .play-mark{background:var(--accent-ink);color:var(--yellow)}
+    .flow-overview.compact .flow-node.active strong{background:var(--yellow);color:var(--accent-ink);border-color:var(--yellow);box-shadow:0 0 0 6px rgba(244,207,88,.18)}
+    .transition-side.old strong{color:#918776;text-decoration-color:#665e50}
+    .black-label{background:var(--yellow);color:var(--accent-ink)}
+    .highlight{background:linear-gradient(transparent 68%,rgba(244,207,88,.82) 68% 92%,transparent 92%)}
+    .slide-counter{color:var(--muted)}
+    .nav-controls button{background:var(--surface);color:var(--muted);border-color:var(--soft-line)}
+    .nav-controls button:hover{background:var(--surface-raised);color:var(--yellow);border-color:var(--yellow)}
+  </style>
+  <style id="doodle-reusable-media-layouts">
+    .doodle-comparison__panel:first-child{background:var(--yellow);color:#211b0d;box-shadow:8px 9px 0 color-mix(in srgb,var(--yellow) 48%,transparent)}
+    .doodle-comparison__panel.is-new{background:var(--compare-purple,#d8d6ff);color:#211b0d;box-shadow:-8px 9px 0 color-mix(in srgb,var(--compare-purple,#d8d6ff) 55%,transparent)}
+    .doodle-comparison__panel .doodle-comparison__head small,.doodle-comparison__panel .doodle-comparison__list li{color:rgba(33,27,13,.72)}
+    .doodle-comparison__panel .doodle-comparison__mark{border-color:#211b0d;background:rgba(255,255,255,.72);color:#211b0d}
+    .doodle-comparison__vs{background:linear-gradient(90deg,var(--yellow) 0 50%,var(--compare-purple,#d8d6ff) 50% 100%);color:#211b0d}
+    .image-feature-layout{display:grid;grid-template-columns:minmax(390px,.78fr) minmax(560px,1.22fr);align-items:center;width:min(100%,1480px);gap:clamp(38px,4vw,76px);text-align:left}
+    .image-feature-copy{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(20px,2.5vh,32px)}
+    .image-feature-copy h2{font-size:clamp(50px,4.5vw,86px)}.image-feature-copy>p{color:var(--muted);font-size:clamp(22px,1.75vw,32px)}
+    .image-feature-note{padding:18px 22px;border-left:8px solid var(--yellow);background:var(--surface,#fff);font-size:clamp(18px,1.3vw,25px);line-height:1.5}
+    .image-feature-figure{margin:0;padding:12px;border:4px solid var(--line);border-radius:26px 19px 30px 18px;background:var(--surface,#fff);box-shadow:12px 14px 0 var(--yellow);transform:rotate(.25deg)}
+    .image-feature-placeholder{display:grid;place-items:center;min-height:clamp(390px,55vh,590px);padding:36px;border:3px dashed var(--line);border-radius:17px 13px 20px 12px;background:linear-gradient(135deg,var(--surface,#fff),color-mix(in srgb,var(--paper) 82%,var(--yellow) 18%));color:var(--muted);text-align:center}
+    .image-feature-placeholder svg{width:112px;height:112px;margin-bottom:18px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .image-feature-placeholder strong{display:block;color:var(--ink);font-size:clamp(27px,2vw,38px)}.image-feature-placeholder span{display:block;margin-top:10px;font-size:clamp(17px,1.15vw,22px)}
+    .image-feature-caption{padding:13px 8px 2px;color:var(--muted);font-size:clamp(16px,1.1vw,21px);text-align:center}
+    .dual-visual-layout{display:flex;flex-direction:column;width:min(100%,1480px);gap:clamp(22px,2.7vh,34px);text-align:left}
+    .dual-visual-layout>h2{text-align:center;font-size:clamp(46px,4.4vw,82px)}.dual-visual-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,2.4vw,40px)}
+    .dual-visual-card{display:grid;grid-template-columns:minmax(150px,.42fr) minmax(0,1fr);gap:24px;min-height:330px;padding:28px;border:4px solid var(--line);border-radius:30px 21px 35px 23px;background:#292d35;color:#f7f7f5;box-shadow:9px 10px 0 var(--yellow);transform:rotate(-.25deg)}
+    .dual-visual-card:nth-child(2){border-radius:20px 34px 23px 31px;box-shadow:-9px 10px 0 var(--compare-purple,#d8d6ff);transform:rotate(.25deg)}
+    .dual-visual-media{display:grid;place-items:center;min-height:240px;border:3px dashed #737881;border-radius:22px 17px 25px 15px;background:#1e2127;color:#bfc2c7;text-align:center}
+    .dual-visual-media svg{width:82px;height:82px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.dual-visual-media span{display:block;margin-top:10px;font-size:clamp(16px,1vw,20px)}
+    .dual-visual-copy{display:flex;min-width:0;flex-direction:column;align-items:flex-start;gap:13px}.dual-visual-label{display:inline-grid;place-items:center;min-width:54px;height:48px;padding:0 13px;border-radius:16px 13px 18px 12px;background:var(--yellow);color:#211b0d;font-weight:700}.dual-visual-card:nth-child(2) .dual-visual-label{background:var(--compare-purple,#d8d6ff)}
+    .dual-visual-copy h3{color:#f7f7f5;font-size:clamp(29px,2.1vw,41px);font-weight:700}.dual-visual-dialogue{margin-top:auto;padding:17px 19px;border-radius:18px 14px 20px 13px;background:#1e2127;color:#f7f7f5;font-size:clamp(18px,1.28vw,25px);line-height:1.5}
+    .dual-visual-hint{align-self:center;color:var(--muted);font-size:clamp(16px,1.08vw,21px)}
+    @media(max-width:900px){.image-feature-layout{grid-template-columns:1fr}.image-feature-figure{display:none}.dual-visual-grid{grid-template-columns:1fr}.dual-visual-card{grid-template-columns:100px 1fr;min-height:230px;padding:20px}.dual-visual-media{min-height:180px}}
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <defs>
+      <symbol id="woman" viewBox="0 0 360 620">
+        <path class="ink" fill="#888482" d="M106 168Q98 57 181 48Q267 48 259 171L244 261H119Z"/>
+        <path class="ink" fill="#fff" d="M125 136Q143 126 168 91Q197 125 239 139V178Q237 231 182 232Q127 230 124 178Z"/>
+        <circle cx="157" cy="160" r="7" fill="#171717"/><circle cx="211" cy="160" r="7" fill="#171717"/><path class="ink" fill="none" d="M176 190q11 11 22 0"/>
+        <path class="ink" fill="#a7a5a4" d="M110 255Q181 218 250 255L275 470H94Z"/><path class="ink" fill="#fff" d="M154 235l28 45 30-45 32 26-31 95h-61l-30-95Z"/><path class="ink" fill="#ffe477" d="M171 276h24l-4 83h-16Z"/>
+        <path class="ink" fill="#b7b5b4" d="M117 469l11 123h53V469M181 469v123h52l12-123"/><path class="ink" fill="#777" d="M128 592q-23 18-5 25h58v-25M233 592q25 18 7 25h-59v-25"/>
+        <path class="ink" fill="#fff" d="M105 277q-36 50-49 126 20 27 40 0l30-76M251 278q41 19 47-32 4-31 28-49 18 4 5 31 15-23 23-11-8 44-43 73-25 25-54 6"/>
+        <path class="ink" fill="none" d="M286 131l12-40M310 148l34-26M270 124l-15-39"/>
+      </symbol>
+      <symbol id="man" viewBox="0 0 320 620">
+        <path class="ink" fill="#777" d="M92 145Q89 66 160 58Q231 62 229 146L214 177H106Z"/><path class="ink" fill="#fff" d="M105 132q37-5 61-39 18 29 55 38v51q-5 55-58 55-55-1-58-55Z"/><circle cx="141" cy="159" r="7" fill="#171717"/><circle cx="190" cy="159" r="7" fill="#171717"/><path class="ink" fill="none" d="M151 193q13 10 25 0"/>
+        <path class="ink" fill="#fff" d="M94 254q67-33 134 0l20 238H77Z"/><path class="ink" fill="#a9a6a6" d="M103 492l12 113h47V492M162 492v113h46l12-113"/><path class="ink" fill="#2c87bc" d="M150 249h25l12 121-25 31-25-31Z"/>
+        <path class="ink" fill="#fff" d="M225 274q57 4 60-45 2-22 15-26 18 14 2 42 21-16 26-3-11 49-68 69M91 277q-35 49-38 119 20 14 38-1"/>
+        <path class="ink" fill="#666" d="M115 605q-19 8-23 15h70v-15M208 605q20 8 22 15h-68v-15"/><path class="ink" fill="none" d="M264 102l-19-31M282 92l8-39M299 111l28-24"/>
+      </symbol>
+      <symbol id="heart" viewBox="0 0 100 100"><path class="line-icon" d="M50 82S13 61 15 34q2-21 22-19 10 1 13 12 4-11 15-12 20-2 21 19 2 27-36 48Z"/><path class="accent-fill" d="M50 66S32 55 33 42q1-9 9-8 6 0 8 7 2-7 8-7 9-1 9 8 1 13-17 24Z"/></symbol>
+      <symbol id="chart" viewBox="0 0 100 100"><path class="line-icon" d="M15 82h72M24 76V53h16v23M46 76V37h16v39M68 76V20h16v56"/><path class="accent-fill" d="M25 66h14v10H25zM47 52h14v24H47zM69 32h14v44H69z"/></symbol>
+      <symbol id="note" viewBox="0 0 100 100"><path class="line-icon" d="M24 10h43l16 16v63H24Z M67 10v17h16M36 43h35M36 56h35M36 70h22"/><path class="accent-fill" d="M38 76l12-13 9 9 9-11 9 15Z" stroke="#171717" stroke-width="4"/></symbol>
+      <symbol id="check" viewBox="0 0 100 100"><path class="line-icon" d="M29 14h42v12h13v64H16V26h13ZM37 14q1-11 13-11t13 11M57 46h15M57 67h15"/><path class="accent-mark" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M30 45l7 7 12-15M30 66l7 7 12-15"/></symbol>
+    </defs>
+  </svg>
+
+  <main class="deck">
+    <section class="slide yellow-page active" data-caption="百分之百专注于一件事。">
+      <div class="closing-grid"><div class="stack left"><h1 class="focus-title"><span class="black-label">100%</span> 专注做好一件事</h1><p>不是塞满一页，而是让每页留下一个清楚的记忆点。</p></div><img class="mascot" src="../purple-gold-presentation/classic-character.png" alt="卷卷姐"></div>
+    </section>
+
+    <section class="slide page-line" data-caption="Hello，大家好，欢迎在这些平台继续观看。">
+      <div class="layout intro-layout">
+        <div class="stack"><h2 class="title">Hello<br>大家好</h2></div>
+        <div class="profile-card stack left">
+          <div class="reference-image"><div><h3>HTML 视频素材</h3><p>从网页演示到视频画面</p><span class="play-mark">▶</span></div><img class="mascot preview-person" src="../purple-gold-presentation/classic-character.png" alt="卷卷姐"></div>
+          <div class="info-list platform-list">
+            <div class="info-item"><span class="platform-logo"><svg viewBox="0 0 48 48"><path fill="#00aeec" d="M13 8l6 7h10l6-7 3 3-4 4h3q7 0 7 7v15q0 7-7 7H11q-7 0-7-7V22q0-7 7-7h3l-4-4Zm-2 13q-2 0-2 2v13q0 3 3 3h24q3 0 3-3V23q0-2-2-2Zm6 7a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm14 0a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z"/></svg></span><p><strong>Bilibili</strong><span>观看完整中文视频与制作分享</span></p></div>
+            <div class="info-item"><span class="platform-logo"><svg viewBox="0 0 48 48"><path fill="#ff0033" d="M45 14q-1-6-7-7Q24 5 10 7q-6 1-7 7-2 10 0 20 1 6 7 7 14 2 28 0 6-1 7-7 2-10 0-20Z"/><path d="M20 16l13 8-13 8Z" fill="#fff"/></svg></span><p><strong>YouTube</strong><span>订阅频道，获取后续更新</span></p></div>
+            <div class="info-item"><span class="platform-logo"><svg viewBox="0 0 48 48"><path d="M28 7q1 11 11 13v8q-7 0-11-4v10q0 10-10 11Q8 46 5 37q-3-10 7-15 4-2 8-1v8q-4-1-6 2-3 5 1 7 5 3 7-2V7Z" fill="#25f4ee"/><path d="M31 5q1 10 11 12v8q-7 0-11-4v10q0 10-10 11-10 1-13-8-3-10 7-15 4-2 8-1v8q-4-1-6 2-3 5 1 7 5 3 7-2V5Z" fill="#fe2c55" opacity=".8"/><path d="M29 6q1 10 11 12v5q-7 0-11-4v12q0 9-9 10-8 1-11-7-2-8 6-12 3-1 6-1v5q-4 0-6 3-2 5 2 7 7 3 7-6V6Z" fill="#111"/></svg></span><p><strong>抖音</strong><span>查看短视频、片段和快速技巧</span></p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide page-line" data-caption="内容可以拆成四个清楚的模块。">
+      <div class="stack wide">
+        <h2 class="title">四件值得做好的事</h2>
+        <div class="cards-4">
+          <div class="card card-row"><span class="number-tag">01</span><div><h3>看见问题</h3><p class="small">先观察，再判断。</p></div><svg class="line-icon" viewBox="0 0 100 100"><use href="#heart"/></svg></div>
+          <div class="card card-row"><span class="number-tag">02</span><div><h3>整理内容</h3><p class="small">删掉噪音，留下重点。</p></div><svg class="line-icon" viewBox="0 0 100 100"><use href="#note"/></svg></div>
+          <div class="card card-row"><span class="number-tag">03</span><div><h3>验证效果</h3><p class="small">用数据检查结果。</p></div><svg class="line-icon" viewBox="0 0 100 100"><use href="#chart"/></svg></div>
+          <div class="card card-row"><span class="number-tag">04</span><div><h3>持续优化</h3><p class="small">每次都向前一点。</p></div><svg class="line-icon" viewBox="0 0 100 100"><use href="#check"/></svg></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide page-line" data-caption="观察、速度和补位，是推动事情的三个动作。">
+      <div class="layout reverse">
+        <div class="stack left wide">
+          <h2 class="title">让事情向前走</h2>
+          <div class="skill-list">
+            <div class="skill-row"><span class="number-tag outlined">01</span><strong>观察</strong><p>先看清现状，再开始动手。</p></div>
+            <div class="skill-row"><span class="number-tag outlined">02</span><strong>速度</strong><p>小步试错，当天同步结果。</p></div>
+            <div class="skill-row"><span class="number-tag outlined">03</span><strong>补位</strong><p>发现空缺，主动向前一步。</p></div>
+          </div>
+          <h3>用行动说话，不只说“我很努力”。</h3>
+        </div>
+        <img class="mascot small-person" src="../purple-gold-presentation/classic-character.png" alt="卷卷姐">
+      </div>
+    </section>
+
+    <section class="slide" data-caption="思考、动手、再调整。">
+      <div class="stack wide"><h2>让想法慢慢长出来</h2><div class="steps"><div class="step"><h3>想一想</h3></div><span class="arrow">→</span><div class="step"><h3>做一做</h3></div><span class="arrow">→</span><div class="step"><h3>改一改</h3></div></div></div>
+    </section>
+
+    <section class="slide" data-caption="清楚比华丽更重要。">
+      <div class="stack"><p class="quote">清楚，比华丽更重要。</p><span class="number-tag">记住这一句</span></div>
+    </section>
+
+    <section class="slide page-line comparison-slide" data-layout="comparison" data-caption="比较两种表达方式，选择更适合视频生产的方案。">
+      <div class="doodle-comparison"><h2>传统 PPT 与 HTML 演示的关键差异</h2><div class="doodle-comparison__grid"><article class="doodle-comparison__panel"><div class="doodle-comparison__head"><strong>传统 PPT</strong><small>线性演示工具</small></div><ul class="doodle-comparison__list"><li><span class="doodle-comparison__mark">+</span><span>制作门槛低，团队普遍熟悉</span></li><li><span class="doodle-comparison__mark">+</span><span>适合面对面汇报与静态展示</span></li><li><span class="doodle-comparison__mark">−</span><span>动画与时间轴难以精确控制</span></li></ul></article><div class="doodle-comparison__vs">VS</div><article class="doodle-comparison__panel is-new"><div class="doodle-comparison__head"><strong>HTML 演示</strong><small>AI 原生视频工作流</small></div><ul class="doodle-comparison__list"><li><span class="doodle-comparison__mark">+</span><span>动画、图表和交互完全可控</span></li><li><span class="doodle-comparison__mark">+</span><span>可以由 AI 直接生成并持续迭代</span></li><li><span class="doodle-comparison__mark">−</span><span>首次使用需要熟悉基础工作流</span></li></ul></article></div><div class="doodle-comparison__verdict"><b>结论</b><span>需要确定性渲染和后续视频合成时，HTML 更适合完整生产流程。</span></div></div>
+    </section>
+
+    <section class="slide page-line check-page" data-caption="最后检查这四个问题。">
+      <div class="stack wide"><h2 class="title">最后检查一下</h2><div class="cards-4"><div class="card card-row"><span class="number-tag">01</span><h3>一句话能说清吗？</h3><svg class="line-icon" viewBox="0 0 100 100"><use href="#check"/></svg></div><div class="card card-row"><span class="number-tag">02</span><h3>重点能看见吗？</h3><svg class="line-icon" viewBox="0 0 100 100"><use href="#heart"/></svg></div><div class="card card-row"><span class="number-tag">03</span><h3>画面足够清楚吗？</h3><svg class="line-icon" viewBox="0 0 100 100"><use href="#note"/></svg></div><div class="card card-row purple"><span class="number-tag">04</span><h3>下一步明确吗？</h3><svg class="line-icon" viewBox="0 0 100 100"><use href="#chart"/></svg></div></div></div>
+    </section>
+
+    <section class="slide" data-caption="好内容值得被认真看见。">
+      <div class="layout reverse"><div class="stack left"><h1>好内容<br>值得被<span class="highlight">认真看见</span></h1><div class="info-list"><div class="info-item"><span class="icon-chip">01</span><p>简单：去掉不必要的信息</p></div><div class="info-item"><span class="icon-chip">02</span><p>清楚：让结构一眼可见</p></div><div class="info-item"><span class="icon-chip">03</span><p>有温度：让表达像人与人交谈</p></div></div></div><img class="mascot small-person" src="../purple-gold-presentation/classic-character.png" alt="卷卷姐"></div>
+    </section>
+
+    <section class="slide page-line" data-layout="steps" data-step-series="video-workflow" data-step-index="1" data-caption="五步完成一条 HTML 视频。">
+      <div class="stack wide"><h2 class="title">五步流程</h2><div class="flow-overview"><div class="flow-node"><strong>写文案</strong><span>确定内容骨架</span></div><b class="flow-arrow">→</b><div class="flow-node"><strong>生成音频</strong><span>获得干净配音</span></div><b class="flow-arrow">→</b><div class="flow-node"><strong>导出字幕</strong><span>连接声音画面</span></div><b class="flow-arrow">→</b><div class="flow-node"><strong>生成 HTML</strong><span>逐句设计画面</span></div><b class="flow-arrow">→</b><div class="flow-node"><strong>渲染 MP4</strong><span>检查并输出</span></div></div></div>
+    </section>
+
+    <section class="slide" data-layout="steps" data-step-series="video-workflow" data-step-index="2" data-caption="第一步，先写清楚文案。">
+      <div class="stack wide"><div class="flow-overview compact"><div class="flow-node active"><strong>1</strong><span>写文案</span></div><b class="flow-arrow">→</b><div class="flow-node"><strong>2</strong><span>生成音频</span></div><b class="flow-arrow">→</b><div class="flow-node"><strong>3</strong><span>导出字幕</span></div><b class="flow-arrow">→</b><div class="flow-node"><strong>4</strong><span>生成 HTML</span></div><b class="flow-arrow">→</b><div class="flow-node"><strong>5</strong><span>渲染 MP4</span></div></div><div class="flow-detail"><div class="flow-focus"><div><b>01</b><span>写文案</span></div></div><div class="flow-copy"><h3>文案是整条视频的骨架</h3><ul><li>每段只讲一个重点</li><li>使用适合朗读的口语短句</li><li>提前标记数字、图表和重点画面</li></ul></div></div></div>
+    </section>
+
+    <section class="slide" data-layout="steps" data-step-series="video-workflow" data-step-index="3" data-caption="第二步，生成干净的音频。">
+      <div class="stack wide"><div class="flow-overview compact"><div class="flow-node"><strong>1</strong><span>写文案</span></div><b class="flow-arrow">→</b><div class="flow-node active"><strong>2</strong><span>生成音频</span></div><b class="flow-arrow">→</b><div class="flow-node"><strong>3</strong><span>导出字幕</span></div><b class="flow-arrow">→</b><div class="flow-node"><strong>4</strong><span>生成 HTML</span></div><b class="flow-arrow">→</b><div class="flow-node"><strong>5</strong><span>渲染 MP4</span></div></div><div class="flow-detail"><div class="flow-focus"><div><b>02</b><span>生成音频</span></div></div><div class="flow-copy"><h3>让声音决定画面的节奏</h3><ul><li>自己录音或使用 AI 配音</li><li>清理气口、停顿和明显杂音</li><li>确认语速后再进入字幕环节</li></ul></div></div></div>
+    </section>
+
+    <section class="slide page-line transition-slide" data-transition-series="turning-point" data-transition-index="1" data-caption="转变一，从一门语言，变成整个产品。">
+      <div class="transition-stage"><span class="transition-kicker">转变 1</span><div class="transition-copy"><div class="transition-side old"><small>从</small><strong>一门语言</strong></div><div class="transition-arrow" aria-hidden="true">→</div><div class="transition-side new"><small>变成</small><strong>整个产品</strong></div></div></div>
+    </section>
+
+    <section class="slide page-line transition-slide" data-transition-series="turning-point" data-transition-index="2" data-caption="转变二，从先啃原理、手写代码，变成先做、边做边补。">
+      <div class="transition-stage"><span class="transition-kicker">转变 2</span><div class="transition-copy"><div class="transition-side old"><small>从</small><strong>先啃原理、手写代码</strong></div><div class="transition-arrow" aria-hidden="true">→</div><div class="transition-side new"><small>变成</small><strong>先做、边做边补</strong></div></div></div>
+    </section>
+
+    <section class="slide page-line" data-layout="image-feature" data-caption="当内容里有一张重要图片时，可以使用左文右图的布局。">
+      <div class="image-feature-layout">
+        <div class="image-feature-copy"><span class="number-tag">图片页</span><h2>有图片时<br>让画面成为主角</h2><p>左侧只保留结论和必要解释，右侧用一张大图承担主要信息。</p><div class="image-feature-note"><b>适合：</b>产品截图、数据图表、作品展示、步骤示意图。</div></div>
+        <figure class="image-feature-figure"><div class="image-feature-placeholder"><div><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="12" y="18" width="96" height="84" rx="12"/><circle cx="40" cy="45" r="9"/><path d="M20 91l26-27 18 17 14-13 22 23"/></svg><strong>替换为你的图片</strong><span>建议使用横图、截图或图表</span></div></div><figcaption class="image-feature-caption">一句简短图片说明，帮助观众理解重点。</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="slide page-line comparison-slide" data-layout="comparison" data-caption="需要比较两段对话或两张图片时，可以使用并排双卡片布局。">
+      <div class="dual-visual-layout">
+        <h2>两个画面，并排讲清差异</h2>
+        <div class="dual-visual-grid">
+          <article class="dual-visual-card"><div class="dual-visual-media"><div><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="10" y="15" width="80" height="70" rx="10"/><circle cx="35" cy="39" r="8"/><path d="M18 76l23-22 15 14 12-11 15 19"/></svg><span>图片 / 人物 A</span></div></div><div class="dual-visual-copy"><span class="dual-visual-label">A</span><h3>第一种观点</h3><p class="dual-visual-dialogue">“这里可以放第一段对话，也可以说明左侧图片表达了什么。”</p></div></article>
+          <article class="dual-visual-card"><div class="dual-visual-media"><div><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="10" y="15" width="80" height="70" rx="10"/><circle cx="65" cy="39" r="8"/><path d="M18 76l19-18 16 13 16-17 14 22"/></svg><span>图片 / 人物 B</span></div></div><div class="dual-visual-copy"><span class="dual-visual-label">B</span><h3>第二种观点</h3><p class="dual-visual-dialogue">“这里可以放第二段对话，用相同结构形成清楚、平衡的比较。”</p></div></article>
+        </div>
+        <p class="dual-visual-hint">图片与对话可以任选其一，也可以同时使用。</p>
+      </div>
+    </section>
+
+    <section class="slide yellow-page" data-caption="感谢观看。">
+      <div class="closing-grid"><div class="stack left"><h1><span class="black-label">感谢观看</span></h1><p>欢迎在这些平台找到我</p><div class="socials"><div class="social" aria-label="Bilibili"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="bili" d="M13 8l6 7h10l6-7 3 3-4 4h3q7 0 7 7v15q0 7-7 7H11q-7 0-7-7V22q0-7 7-7h3l-4-4Zm-2 13q-2 0-2 2v13q0 3 3 3h24q3 0 3-3V23q0-2-2-2Zm6 7a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm14 0a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z"/></svg></div><div class="social" aria-label="YouTube"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="youtube" d="M45 14q-1-6-7-7Q24 5 10 7q-6 1-7 7-2 10 0 20 1 6 7 7 14 2 28 0 6-1 7-7 2-10 0-20Z"/><path d="M20 16l13 8-13 8Z" fill="#fff"/></svg></div></div><p class="small">一起把复杂的事情讲得更简单、更清楚。</p></div><img class="mascot" src="../purple-gold-presentation/classic-character.png" alt="卷卷姐"></div>
+    </section>
+  </main>
+
+  <div class="slide-counter" aria-live="polite">01 / 17</div><nav class="nav-controls"><button type="button" data-dir="prev" aria-label="上一页">←</button><button type="button" data-dir="next" aria-label="下一页">→</button></nav><div class="progress" id="progress"></div>
+  <script>
+    (()=>{const slides=[...document.querySelectorAll('.slide')],counter=document.querySelector('.slide-counter'),progress=document.getElementById('progress');let index=0,touchStart=0;function show(next){index=Math.max(0,Math.min(slides.length-1,next));slides.forEach((s,i)=>s.classList.toggle('active',i===index));counter.textContent=`${String(index+1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;progress.style.width=`${(index+1)/slides.length*100}%`}document.querySelector('[data-dir="prev"]').onclick=()=>show(index-1);document.querySelector('[data-dir="next"]').onclick=()=>show(index+1);document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(index+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(index-1)}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1)});document.addEventListener('touchstart',e=>touchStart=e.changedTouches[0].clientX,{passive:true});document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-touchStart;if(Math.abs(d)>55)show(index+(d<0?1:-1))},{passive:true});show(0)})();
+  </script>
+  <script src="../../assets/presentation-subtitles.js"></script>
+</body>
+</html>

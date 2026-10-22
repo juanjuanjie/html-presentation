@@ -242,7 +242,9 @@
 用户已经上传人物图片。它是唯一允许使用的人物素材。必须原样复用，不得重画、换脸、改成 SVG、emoji、3D 或其他卡通人物，也不得用默认占位人物替换。允许按模板需要裁切和缩放，但不得改变人物内容。${hasCharacterSlot?'图片已作为 data URL 内嵌到下方模板源码的人物 img 中。':'当前模板没有预设人物位置，请在不破坏模板布局的前提下使用这张图片；人物图片 data URL：\n'+characterAsset}`
         : `【人物素材规则】
 用户没有上传人物图片。禁止使用任何默认小人、商务人物、蓝领带人物、火柴人、人物 SVG、emoji、图库人物或自行生成的人物插画。下方模板中原有但无法随提示词传输的人物图片引用已被移除；不得补回人物或创建人物占位。请用留白、文字、抽象几何图形、普通图标或模板色块重新平衡版面。`;
-      el('prompt').value=[common,rules[selectedMode],subtitleRules,transitionRules,comparisonRules,templateSpecificRules(selected), '原稿标题：'+title,
+      const logoPolicy=await window.LogoLibrary.prompt(title+'\n'+text);
+      if(ticket!==revision)return;
+      el('prompt').value=[common,logoPolicy,rules[selectedMode],subtitleRules,transitionRules,comparisonRules,templateSpecificRules(selected), '原稿标题：'+title,
         plan,
         characterPolicy,
         selectedMode==='director'?'镜头总数：'+ids.length+'；编号：'+ids.join(', '):'',

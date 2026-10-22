@@ -1134,6 +1134,7 @@
     .custom-field input[type="text"]{width:100%;height:30px;padding:0 6px;border:0;border-radius:5px;background:transparent;color:var(--fg);font:12px/1 ui-monospace,SFMono-Regular,Consolas,monospace;text-transform:uppercase;transition:background .15s ease,box-shadow .15s ease}
     .custom-field input[type="text"]:hover{background:var(--soft)}
     .custom-field input[type="text"]:focus{outline:0;background:var(--soft);box-shadow:inset 0 -2px 0 var(--accent-strong)}
+    .custom-field[hidden]{display:none!important}
     .type-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px}.type-field{display:grid;gap:6px}.type-field label{color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.04em}.type-field select{width:100%;height:40px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);font-size:13px}
 
     @media (max-width: 640px) {
@@ -1382,7 +1383,7 @@
         </div>
         <a class="nav-link" href="#generator" data-page-link="generator" aria-current="page">首页</a>
         <a class="nav-link" href="#templates" data-page-link="templates">模板</a>
-        <a class="nav-link" href="#motion" data-page-link="motion">动效</a>
+        <a class="nav-link" href="#ui-elements" data-page-link="ui-elements">UI素材库</a>
         <a class="nav-link" href="#readme" data-page-link="readme">README</a>
         <a class="nav-link" href="https://www.bilibili.com/video/BV1g5j46iE5C/?spm_id_from=333.1387.homepage.video_card.click&vd_source=a44f29c4f18178d5fbf00c97794d0f32" target="_blank" rel="noreferrer">视频教程</a>
       </div>
@@ -1496,8 +1497,8 @@
       </div>
       <div id="template-grid" class="grid"></div>
     </section>
-    <section id="motion" class="lab-section" aria-label="动效组件" hidden>
-      <div class="lab-grid" id="lab-grid"></div>
+    <section id="ui-elements" aria-label="UI素材库" hidden>
+      <iframe id="ui-elements-frame" title="UI素材库" data-src="component-lab.html?embedded=1" style="display:block;width:100%;height:1600px;border:0" allow="clipboard-write"></iframe>
     </section>
     <section id="readme" class="readme-page" aria-label="README" hidden>
       <div id="readme-loading" class="md-state">
@@ -1594,7 +1595,8 @@
         template: 'themes/doodle-cream/template.html',
         docs: 'themes/doodle-cream/design.md',
         themes: [
-          { key: 'white-yellow', name: '白纸暖黄', scheme: 'light', desc: '白色画布 + 暖柠檬黄焦点 + 手绘人物与不规则圆形流程', image: 'assets/previews/doodle-cream.png?v=5', swatch: 'linear-gradient(135deg, #FFFFFF 0 56%, #FFE477 56% 82%, #222222 82%)', vars: { offwhite: '#FFFEFB', black: '#171717', white: '#FFFFFF', pink: '#FFFFFF', blue: '#FFFFFF', green: '#FFFFFF', yellow: '#FFE477', cream: '#FFE477', purple: '#171717', lavender: '#FFFFFF' } }
+          { key: 'white-yellow', name: '白纸暖黄', scheme: 'light', desc: '白色画布 + 暖柠檬黄焦点 + 手绘人物与不规则圆形流程', image: 'assets/previews/doodle-cream.png?v=5', swatch: 'linear-gradient(135deg, #FFFFFF 0 56%, #FFE477 56% 82%, #222222 82%)', vars: { paper: '#FFFEFB', surface: '#FFFFFF', ink: '#171717', muted: '#555555', yellow: '#FFE477', 'yellow-deep': '#FFE477', purple: '#FFFFFF', 'compare-purple': '#D8D6FF', line: '#292525' } },
+          { key: 'dark-yellow', name: '黑纸暖黄', scheme: 'dark', desc: '暖黑纸张 + 奶油白墨色 + 克制的暖黄焦点，保留手绘人物与不规则流程', image: 'assets/previews/doodle-cream-dark.png?v=1', swatch: 'linear-gradient(135deg, #171510 0 56%, #F4CF58 56% 78%, #F7EFD9 78%)', template: 'themes/doodle-cream-dark/template.html', docs: 'themes/doodle-cream-dark/design.md', variant: 'dark', vars: { paper: '#171510', surface: '#211E18', 'surface-raised': '#2A261E', ink: '#F7EFD9', muted: '#B8AE9B', yellow: '#F4CF58', 'yellow-deep': '#F4CF58', 'compare-purple': '#D8D6FF', line: '#EADFC7', 'accent-ink': '#211B0D', 'soft-line': '#514A3D' } }
         ]
       },
       {
@@ -1752,6 +1754,7 @@
     });
     render();
   </script>
+  <script src="assets/logo-library.js"></script>
   <script src="assets/generator.js"></script>
 
   <!-- marked.js for markdown parsing; highlight.js for code highlighting -->
@@ -2065,16 +2068,16 @@
               <div id="theme-picker" class="theme-picker palette-presets"></div>
               <div class="design-group__eyebrow">核心颜色</div>
               <form id="custom-palette" class="custom-palette">
-                <div class="custom-field"><input id="custom-bg" name="bg" type="color" value="#fffdf5"><label for="custom-bg">背景</label><input type="text" data-hex-for="bg" value="#FFFDF5" aria-label="背景色值"></div>
-                <div class="custom-field"><input id="custom-surface" name="surface" type="color" value="#ffffff"><label for="custom-surface">卡片</label><input type="text" data-hex-for="surface" value="#FFFFFF" aria-label="卡片色值"></div>
-                <div class="custom-field"><input id="custom-primary" name="primary" type="color" value="#1e2bfa"><label for="custom-primary">主色</label><input type="text" data-hex-for="primary" value="#1E2BFA" aria-label="主色色值"></div>
-                <div class="custom-field"><input id="custom-accent" name="accent" type="color" value="#f7cb46"><label for="custom-accent">强调</label><input type="text" data-hex-for="accent" value="#F7CB46" aria-label="强调色色值"></div>
-                <div class="custom-field"><input id="custom-secondary" name="secondary" type="color" value="#c0f7fe"><label for="custom-secondary">辅助一</label><input type="text" data-hex-for="secondary" value="#C0F7FE" aria-label="辅助色一色值"></div>
-                <div class="custom-field"><input id="custom-tertiary" name="tertiary" type="color" value="#99e885"><label for="custom-tertiary">辅助二</label><input type="text" data-hex-for="tertiary" value="#99E885" aria-label="辅助色二色值"></div>
-                <div class="custom-field"><input id="custom-text" name="text" type="color" value="#111111"><label for="custom-text">文字</label><input type="text" data-hex-for="text" value="#111111" aria-label="文字色值"></div>
+                <div class="custom-field" data-palette-field="bg"><input id="custom-bg" name="bg" type="color" value="#fffdf5"><label for="custom-bg">背景</label><input type="text" data-hex-for="bg" value="#FFFDF5" aria-label="背景色值"></div>
+                <div class="custom-field" data-palette-field="surface"><input id="custom-surface" name="surface" type="color" value="#ffffff"><label for="custom-surface">卡片</label><input type="text" data-hex-for="surface" value="#FFFFFF" aria-label="卡片色值"></div>
+                <div class="custom-field" data-palette-field="primary"><input id="custom-primary" name="primary" type="color" value="#1e2bfa"><label for="custom-primary">主色</label><input type="text" data-hex-for="primary" value="#1E2BFA" aria-label="主色色值"></div>
+                <div class="custom-field" data-palette-field="accent"><input id="custom-accent" name="accent" type="color" value="#f7cb46"><label for="custom-accent">强调</label><input type="text" data-hex-for="accent" value="#F7CB46" aria-label="强调色色值"></div>
+                <div class="custom-field" data-palette-field="secondary"><input id="custom-secondary" name="secondary" type="color" value="#c0f7fe"><label for="custom-secondary">辅助一</label><input type="text" data-hex-for="secondary" value="#C0F7FE" aria-label="辅助色一色值"></div>
+                <div class="custom-field" data-palette-field="tertiary"><input id="custom-tertiary" name="tertiary" type="color" value="#99e885"><label for="custom-tertiary">辅助二</label><input type="text" data-hex-for="tertiary" value="#99E885" aria-label="辅助色二色值"></div>
+                <div class="custom-field" data-palette-field="text"><input id="custom-text" name="text" type="color" value="#111111"><label for="custom-text">文字</label><input type="text" data-hex-for="text" value="#111111" aria-label="文字色值"></div>
                 <div class="design-group__eyebrow">辅助颜色</div>
-                <div class="custom-field"><input id="custom-muted" name="muted" type="color" value="#6b6b6b"><label for="custom-muted">弱文字</label><input type="text" data-hex-for="muted" value="#6B6B6B" aria-label="弱文字色值"></div>
-                <div class="custom-field"><input id="custom-border" name="border" type="color" value="#d4d4d8"><label for="custom-border">描边</label><input type="text" data-hex-for="border" value="#D4D4D8" aria-label="描边色值"></div>
+                <div class="custom-field" data-palette-field="muted"><input id="custom-muted" name="muted" type="color" value="#6b6b6b"><label for="custom-muted">弱文字</label><input type="text" data-hex-for="muted" value="#6B6B6B" aria-label="弱文字色值"></div>
+                <div class="custom-field" data-palette-field="border"><input id="custom-border" name="border" type="color" value="#d4d4d8"><label for="custom-border">描边</label><input type="text" data-hex-for="border" value="#D4D4D8" aria-label="描边色值"></div>
               </form>
             </div>
           </details>
@@ -2090,7 +2093,7 @@
             </div>
           </details>
         </aside>
-        <div class="preview-modal__preview"><div class="page-jump" aria-label="常用页面快速定位"><span class="page-jump__label">常用页面</span><div class="page-jump__buttons"><button type="button" class="page-jump__button" data-preview-page="transition" data-page-label="转场页面">转场页面</button><button type="button" class="page-jump__button" data-preview-page="comparison" data-page-label="对比页面">对比页面</button><button type="button" class="page-jump__button" data-preview-page="steps" data-page-label="步骤页面">步骤页面</button></div><div class="page-jump__pager"><button type="button" class="page-jump__nav" id="page-jump-prev" aria-label="上一张同类页面" disabled>←</button><span id="page-jump-status" class="page-jump__status">选择一种常用页面</span><button type="button" class="page-jump__nav" id="page-jump-next" aria-label="下一张同类页面" disabled>→</button></div></div><div id="preview-stage" class="preview-modal__stage"><div id="preview-viewport" class="preview-modal__viewport"><iframe id="preview-iframe" class="preview-modal__iframe" hidden title="模板预览"></iframe></div></div></div>
+        <div class="preview-modal__preview"><div class="page-jump" aria-label="常用页面快速定位"><span class="page-jump__label">常用页面</span><div class="page-jump__buttons"><button type="button" class="page-jump__button" data-preview-page="transition" data-page-label="转场页面">转场页面</button><button type="button" class="page-jump__button" data-preview-page="comparison" data-page-label="对比页面">对比页面</button><button type="button" class="page-jump__button" data-preview-page="image" data-page-label="图文页面">图文页面</button><button type="button" class="page-jump__button" data-preview-page="steps" data-page-label="步骤页面">步骤页面</button></div><div class="page-jump__pager"><button type="button" class="page-jump__nav" id="page-jump-prev" aria-label="上一张同类页面" disabled>←</button><span id="page-jump-status" class="page-jump__status">选择一种常用页面</span><button type="button" class="page-jump__nav" id="page-jump-next" aria-label="下一张同类页面" disabled>→</button></div></div><div id="preview-stage" class="preview-modal__stage"><div id="preview-viewport" class="preview-modal__viewport"><iframe id="preview-iframe" class="preview-modal__iframe" hidden title="模板预览"></iframe></div></div></div>
       </div>
     </div>
   </div>
@@ -2127,6 +2130,7 @@
     const previewPageSelectors = {
       transition: '[data-transition-series],.transition-slide',
       comparison: '[data-layout="comparison"],.layout-comparison,.slide-comparison,.comparison-slide',
+      image: '[data-layout="image-feature"],.image-feature-layout',
       steps: '[data-layout="steps"],.layout-key-steps,.slide-key-steps'
     };
     const fontStacks = {
@@ -2303,17 +2307,44 @@
       return /^#[0-9a-f]{6}$/i.test(String(value || '')) ? value : fallback;
     }
 
+    function configurePaletteFields(templateUrl) {
+      const genericLabels = {
+        bg: '背景', surface: '卡片', primary: '主色', accent: '强调',
+        secondary: '辅助一', tertiary: '辅助二', text: '文字',
+        muted: '弱文字', border: '描边'
+      };
+      const isDoodle = String(templateUrl || '').includes('doodle-cream');
+      const isDoodleDark = String(templateUrl || '').includes('doodle-cream-dark');
+      const visible = isDoodle
+        ? new Set(isDoodleDark
+          ? ['bg', 'surface', 'primary', 'accent', 'text', 'muted', 'border']
+          : ['bg', 'primary', 'accent', 'text', 'muted', 'border'])
+        : new Set(Object.keys(genericLabels));
+      const labels = isDoodle
+        ? { ...genericLabels, bg: '纸张背景', surface: '卡片背景', primary: '暖黄强调', accent: '对比紫', text: '主要文字', muted: '次要文字', border: '手绘边线' }
+        : genericLabels;
+
+      customPalette.querySelectorAll('[data-palette-field]').forEach((field) => {
+        const name = field.dataset.paletteField;
+        field.hidden = !visible.has(name);
+        const label = field.querySelector('label');
+        if (label) label.textContent = labels[name] || name;
+        const hex = field.querySelector('[data-hex-for]');
+        if (hex) hex.setAttribute('aria-label', `${labels[name] || name}色值`);
+      });
+    }
+
     function customValuesFromVars(vars) {
       return {
-        bg: vars.bg || vars.offwhite || vars.black || '#fffdf5',
-        surface: vars.card || vars.white || vars['bg-cover'] || '#ffffff',
+        bg: vars.paper || vars.bg || vars.offwhite || vars.black || '#fffdf5',
+        surface: vars.surface || vars.card || vars.white || vars['bg-cover'] || '#ffffff',
         primary: vars.primary || vars.yellow || vars.pink || '#1e2bfa',
-        accent: vars['accent-gold'] || vars.pink || vars.purple || vars.yellow || '#f7cb46',
+        accent: vars['compare-purple'] || vars['accent-gold'] || vars.pink || vars.purple || vars.yellow || '#f7cb46',
         secondary: vars.blue || vars.lavender || vars.secondary || '#c0f7fe',
         tertiary: vars.green || vars.tertiary || vars.cream || '#99e885',
-        text: vars.text || vars.white || vars.black || '#111111',
+        text: vars.ink || vars.text || vars.white || vars.black || '#111111',
         muted: vars['text-muted'] || vars.muted || vars['text-light'] || '#6b6b6b',
-        border: editableColor(vars['border-color'] || vars.border || vars.purple, '#d4d4d8')
+        border: editableColor(vars.line || vars['border-color'] || vars.border || vars.purple, '#d4d4d8')
       };
     }
 
@@ -2346,11 +2377,13 @@
           muted: values.muted,
           yellow: values.primary,
           'yellow-deep': values.primary,
-          purple: values.accent,
+          'compare-purple': values.accent,
+          purple: values.surface,
           line: values.border,
           surface: values.surface,
-          secondary: values.secondary,
-          tertiary: values.tertiary
+          'surface-raised': shadeHex(values.surface, 12),
+          'accent-ink': values.bg,
+          'soft-line': values.border
         };
       }
       if (templateUrl.includes('blockframe-dark')) {
@@ -2477,6 +2510,7 @@
       });
 
       updatePaletteDropdown(selected, item);
+      configurePaletteFields(selected.template || item.template);
       syncCustomFields(selected.vars || {});
       currentTemplateUrl = selected.template || url;
       loadPreview(currentTemplateUrl, selected.key, selected.name, selected.vars || {});
@@ -2550,6 +2584,7 @@
       bodySize.value='1';
       const selected=getThemeList(item).find(theme=>theme.key===initialThemeKey)||getThemeList(item)[0];
       currentTemplateUrl=selected.template||item.template;
+      configurePaletteFields(currentTemplateUrl);
       syncCustomFields(selected.vars||{});
       themePicker.querySelectorAll('.theme-option').forEach(button=>{
         const active=button.dataset.previewTheme===selected.key;
@@ -2737,8 +2772,9 @@
         button.classList.toggle('active', active);
         button.setAttribute('aria-pressed', String(active));
       });
-      syncCustomFields(selected.vars || {});
       currentTemplateUrl = selected.template || item.template;
+      configurePaletteFields(currentTemplateUrl);
+      syncCustomFields(selected.vars || {});
       updatePaletteDropdown(selected, item);
       closePaletteDropdown();
       loadPreview(currentTemplateUrl, selected.key, selected.name, selected.vars || {});
@@ -2784,336 +2820,6 @@
   })();
   </script>
   <script>
-    function getLabPalette() {
-      const dark = document.documentElement.dataset.appearance === 'dark';
-      return dark
-        ? { bg: '#0a0a0f', surface: '#12121a', soft: '#181822', tint: '#20202a', text: '#f5f5f7', muted: '#a0a0af', line: '#30303c', accent: '#a8ff3e', bright: '#7ee02d', onAccent: '#0a0a0f', rgb: '168,255,62', bgRgb: '10,10,15', mesh: '0xa8ff3e', light: '0xa8ff3e' }
-        : { bg: '#fafafa', surface: '#ffffff', soft: '#f3f0ff', tint: '#ede9fe', text: '#18181b', muted: '#6b7280', line: '#e0d7f2', accent: '#b98eff', bright: '#c6a1ff', onAccent: '#ffffff', rgb: '185,142,255', bgRgb: '250,250,250', mesh: '0xb98eff', light: '0xc6a1ff' };
-    }
-
-    const labComponentCatalog = [
-      {
-        id: 'stagger-text',
-        name: '错开文字显现',
-        keep: 'keep',
-        keepReason: '高频标题动画，可封装为通用入场效果',
-        scene: '标题页、章节转场、金句页',
-        tech: ['GSAP', '文字拆分'],
-        libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'],
-        demo: (p = getLabPalette()) => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:linear-gradient(135deg,${p.surface} 0%,${p.tint} 100%);display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;}
-.stage{width:100%;text-align:center;color:${p.text};padding:40px;}
-.word{display:inline-block;font-size:56px;font-weight:900;margin:0 10px;opacity:0;transform:translateY(40px) rotateX(-90deg);}
-.replay{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);padding:8px 18px;border:1px solid ${p.line};background:${p.surface};color:${p.accent};border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;box-shadow:0 8px 18px rgba(15,23,42,0.08);}
-</style></head><body><div class="stage" id="stage"></div><button class="replay" onclick="play()">Replay</button>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
-<script>
-const text = "NEXT GEN SLIDES";
-const stage = document.getElementById('stage');
-function build(){stage.innerHTML = text.split(' ').map(w=>'<span class="word">'+w+'</span>').join('');}
-function play(){build();gsap.to('.word',{opacity:1,y:0,rotateX:0,duration:0.8,stagger:0.12,ease:'back.out(1.7)',onComplete:()=>{setTimeout(()=>gsap.to('.word',{opacity:0,y:-30,duration:0.4,stagger:0.05,onComplete:play}),1200);}});}
-play();
-<\/script></body></html>`
-      },
-      {
-        id: 'echart-dynamic',
-        name: '动态数据图表',
-        keep: 'keep',
-        keepReason: 'B端/数据类 PPT 刚需，ECharts 成熟稳定',
-        scene: '数据报告、指标展示、季度复盘',
-        tech: ['ECharts', '响应式数据'],
-        libs: ['https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js'],
-        demo: (p = getLabPalette()) => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:${p.bg};display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
-#chart{width:90%;height:70%;}
-</style></head><body><div id="chart"></div>
-<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"><\/script>
-<script>
-const chart = echarts.init(document.getElementById('chart'));
-const option = {backgroundColor:'transparent',grid:{top:40,right:40,bottom:40,left:60},xAxis:{type:'category',data:['Q1','Q2','Q3','Q4'],axisLine:{lineStyle:{color:'${p.line}'}},axisLabel:{color:'${p.muted}'}},yAxis:{type:'value',splitLine:{lineStyle:{color:'${p.line}'}},axisLabel:{color:'${p.muted}'}},series:[{data:[120,200,150,280],type:'bar',itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'${p.bright}'},{offset:1,color:'${p.accent}'}]),borderRadius:[6,6,0,0]},animationDuration:1500,animationEasing:'elasticOut'}]};
-chart.setOption(option);
-window.addEventListener('resize',()=>chart.resize());
-setInterval(()=>{const d=option.series[0].data.map(v=>Math.max(50,Math.round(v*(0.8+Math.random()*0.4))));chart.setOption({series:[{data:d}]});},3000);
-<\/script></body></html>`
-      },
-      {
-        id: 'three-product',
-        name: '3D 产品展台',
-        keep: 'keep',
-        keepReason: '产品发布场景极具冲击力，但需封装简化配置',
-        scene: '产品发布、硬件展示、科技概念页',
-        tech: ['Three.js', 'WebGL'],
-        libs: ['https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'],
-        demo: (p = getLabPalette()) => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:radial-gradient(circle at center,${p.surface} 0%,${p.tint} 100%);overflow:hidden;}
-#info{position:absolute;bottom:20px;left:20px;color:${p.text};font-family:'Inter',sans-serif;}
-#info h3{margin:0;font-size:18px;}#info p{margin:4px 0 0;color:${p.muted};font-size:12px;}
-</style></head><body>
-<div id="info"><h3>Product X</h3><p>Drag to rotate · Scroll to zoom</p></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>
-<script>
-const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,0.1,100);camera.position.set(0,1.5,4);
-const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setSize(innerWidth,innerHeight);document.body.appendChild(renderer.domElement);
-const geo=new THREE.IcosahedronGeometry(1,1);const mat=new THREE.MeshStandardMaterial({color:${p.mesh},roughness:0.28,metalness:0.35,flatShading:true});const mesh=new THREE.Mesh(geo,mat);scene.add(mesh);
-const light1=new THREE.PointLight(0xffffff,1.2);light1.position.set(3,3,3);scene.add(light1);const light2=new THREE.PointLight(${p.light},0.7);light2.position.set(-3,-2,3);scene.add(light2);
-const ringGeo=new THREE.TorusGeometry(1.6,0.02,16,100);const ringMat=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.3});const ring=new THREE.Mesh(ringGeo,ringMat);ring.rotation.x=Math.PI/2;scene.add(ring);
-let mouseX=0,mouseY=0;document.addEventListener('mousemove',e=>{mouseX=(e.clientX/innerWidth-0.5)*2;mouseY=(e.clientY/innerHeight-0.5)*2;});
-function animate(){mesh.rotation.y+=0.005;mesh.rotation.x+=0.002;ring.rotation.z-=0.003;mesh.position.x+= (mouseX*0.5-mesh.position.x)*0.05;mesh.position.y+= (-mouseY*0.3-mesh.position.y)*0.05;camera.lookAt(0,0,0);renderer.render(scene,camera);requestAnimationFrame(animate);}animate();
-window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
-<\/script></body></html>`
-      },
-      {
-        id: 'p5-generative',
-        name: '生成式画布背景',
-        keep: 'skip',
-        keepReason: '性能消耗大、风格不可控，仅作可选扩展',
-        scene: '封面、氛围页、艺术概念页',
-        tech: ['p5.js', 'Generative Art'],
-        libs: ['https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js'],
-        demo: (p = getLabPalette()) => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;overflow:hidden;background:${p.surface};}canvas{display:block;}</style></head><body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"><\/script>
-<script>
-let particles=[];function setup(){createCanvas(windowWidth,windowHeight);for(let i=0;i<80;i++)particles.push({x:random(width),y:random(height),r:random(2,8),dx:random(-1,1),dy:random(-1,1)});}
-function draw(){background(${p.bgRgb},34);noStroke();for(let p of particles){fill(${p.rgb},map(p.r,2,8,28,105));ellipse(p.x,p.y,p.r*2);p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>width)p.dx*=-1;if(p.y<0||p.y>height)p.dy*=-1;}}
-function windowResized(){resizeCanvas(windowWidth,windowHeight);}
-<\/script></body></html>`
-      },
-      {
-        id: 'matter-physics',
-        name: '物理卡片布局',
-        keep: 'skip',
-        keepReason: '过于实验性，难以与固定 slide 叙事结合',
-        scene: '创意目录、特点罗列、互动游戏页',
-        tech: ['Matter.js', '2D Physics'],
-        libs: ['https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js'],
-        demo: (p = getLabPalette()) => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;height:100vh;background:${p.bg};overflow:hidden;}canvas{display:block;}</style></head><body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"><\/script>
-<script>
-const {Engine,Render,Runner,Bodies,Composite,Mouse,MouseConstraint}=Matter;
-const engine=Engine.create();const w=innerWidth,h=innerHeight;
-const render=Render.create({element:document.body,engine:engine,options:{width:w,height:h,background:'${p.bg}',wireframes:false}});
-const cards=[];const texts=['AI','Data','Cloud','UX','Growth'];
-for(let i=0;i<5;i++){const box=Bodies.rectangle(w/2-200+i*100,100+i*60,110,70,{restitution:0.6,render:{fillStyle:i===0?'${p.accent}':'${p.surface}',strokeStyle:'${p.line}',lineWidth:2}});cards.push(box);}
-const ground=Bodies.rectangle(w/2,h+40,w,80,{isStatic:true});const walls=[Bodies.rectangle(-40,h/2,80,h,{isStatic:true}),Bodies.rectangle(w+40,h/2,80,h,{isStatic:true})];
-Composite.add(engine.world,[...cards,ground,...walls]);
-const mouse=Mouse.create(render.canvas);const mc=MouseConstraint.create(engine,{mouse:mouse,constraint:{stiffness:0.2,render:{visible:false}}});Composite.add(engine.world,mc);
-Render.run(render);const runner=Runner.create();Runner.run(runner,engine);
-window.addEventListener('resize',()=>{render.canvas.width=innerWidth;render.canvas.height=innerHeight;});
-<\/script></body></html>`
-      },
-      {
-        id: 'typewriter',
-        name: '打字机标题',
-        keep: 'keep',
-        keepReason: '简单通用，无需额外库也可实现',
-        scene: '开场、引语页、访谈金句',
-        tech: ['GSAP', 'TextPlugin'],
-        libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js'],
-        demo: (p = getLabPalette()) => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:linear-gradient(135deg,${p.surface} 0%,${p.soft} 100%);display:flex;align-items:center;justify-content:center;font-family:'Inter','Noto Sans SC',sans-serif;}
-.stage{color:${p.text};font-size:42px;font-weight:800;max-width:80%;line-height:1.4;}
-.cursor{display:inline-block;width:3px;height:1em;background:${p.accent};margin-left:4px;vertical-align:middle;animation:blink 0.8s infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
-</style></head><body><div class="stage"><span id="text"></span><span class="cursor"></span></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"><\/script>
-<script>
-gsap.registerPlugin(TextPlugin);
-const lines=["让每一页幻灯片","都像网页一样生动"];
-let i=0;function type(){if(i>=lines.length)i=0;gsap.to('#text',{text:{value:lines[i],delimiter:''},duration:1.5,ease:'none',onComplete:()=>{setTimeout(()=>{gsap.to('#text',{text:{value:''},duration:0.6,onComplete:type});},1500);}});i++;}
-type();
-<\/script></body></html>`
-      },
-      {
-        id: 'morph-grid',
-        name: '变形网格布局',
-        keep: 'keep',
-        keepReason: '布局叙事很有价值，可发展为模板切换动画',
-        scene: '多图对比、时间轴、 gallery 展示',
-        tech: ['CSS Grid', 'GSAP Flip'],
-        libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'],
-        demo: (p = getLabPalette()) => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:${p.bg};display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
-.container{width:80%;height:70%;display:grid;gap:12px;transition:all 0.8s cubic-bezier(0.16,1,0.3,1);}
-.cell{background:${p.surface};border-radius:12px;display:flex;align-items:center;justify-content:center;color:${p.text};font-weight:800;font-size:20px;border:1px solid ${p.line};transition:all 0.8s cubic-bezier(0.16,1,0.3,1);box-shadow:0 12px 26px rgba(15,23,42,0.08);}
-.cell.active{background:${p.accent};color:${p.onAccent};}
-.layout1{grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;}
-.layout2{grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr 1fr;}
-</style></head><body><div class="container layout1" id="grid"><div class="cell active">A</div><div class="cell">B</div><div class="cell">C</div><div class="cell">D</div><div class="cell">E</div><div class="cell">F</div></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
-<script>
-const grid=document.getElementById('grid');let state=1;
-setInterval(()=>{state=state===1?2:1;grid.className='container '+(state===1?'layout1':'layout2');const cells=grid.querySelectorAll('.cell');cells.forEach((c,i)=>{c.classList.toggle('active',state===1?i===0:i===1);});},2200);
-<\/script></body></html>`
-      },
-      {
-        id: 'lottie-icon',
-        name: 'Lottie 图标动画',
-        keep: 'keep',
-        keepReason: '图标/插画动画利器，但需准备 JSON 资源',
-        scene: '功能介绍、流程图、状态反馈',
-        tech: ['lottie-web', 'JSON 动画'],
-        libs: ['https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js'],
-        demo: (p = getLabPalette()) => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:${p.surface};display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;font-family:'Inter',sans-serif;color:${p.text};}
-#lottie{width:180px;height:180px;}
-.controls{display:flex;gap:12px;}
-button{padding:8px 16px;border:1px solid ${p.line};background:${p.surface};color:${p.accent};border-radius:6px;cursor:pointer;font-weight:700;box-shadow:0 8px 18px rgba(15,23,42,0.08);}
-</style></head><body><div id="lottie"></div><div class="controls"><button onclick="play()">Play</button><button onclick="pause()">Pause</button></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"><\/script>
-<script>
-const anim=lottie.loadAnimation({container:document.getElementById('lottie'),renderer:'svg',loop:true,autoplay:true,path:'https://lottie.host/56e04703-7328-4225-8234-1234567890.json'});
-// fallback simple animated svg if lottie fails
-anim.addEventListener('data_failed',()=>{document.getElementById('lottie').innerHTML='<svg viewBox="0 0 100 100" width="180" height="180"><circle cx="50" cy="50" r="40" stroke="${p.accent}" stroke-width="4" fill="none"><animate attributeName="r" values="40;45;40" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="20" fill="${p.bright}"><animate attributeName="r" values="20;25;20" dur="1.5s" repeatCount="indefinite"/></circle></svg>';});
-function play(){anim.play();}function pause(){anim.pause();}
-<\/script></body></html>`
-      },
-      {
-        id: 'particle-network',
-        name: '节点连线网络',
-        keep: 'keep',
-        keepReason: '作为背景组件非常实用，可参数化配置',
-        scene: '技术架构、关系图、抽象概念页',
-        tech: ['Canvas 2D', '粒子系统'],
-        libs: [],
-        demo: (p = getLabPalette()) => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;height:100vh;background:${p.bg};overflow:hidden;}canvas{display:block;}</style></head><body><canvas id="c"></canvas>
-<script>
-const c=document.getElementById('c'),x=c.getContext('2d');let w,h,p=[];
-function resize(){w=c.width=innerWidth;h=c.height=innerHeight;}
-resize();window.addEventListener('resize',resize);
-class P{constructor(){this.x=Math.random()*w;this.y=Math.random()*h;this.vx=(Math.random()-0.5)*0.8;this.vy=(Math.random()-0.5)*0.8;this.r=Math.random()*2+1;}
-update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>w)this.vx*=-1;if(this.y<0||this.y>h)this.vy*=-1;}
-draw(){x.beginPath();x.arc(this.x,this.y,this.r,0,Math.PI*2);x.fillStyle='rgba(${p.rgb},0.72)';x.fill();}}
-for(let i=0;i<60;i++)p.push(new P());
-function animate(){x.fillStyle='rgba(${p.bgRgb},0.35)';x.fillRect(0,0,w,h);for(let i=0;i<p.length;i++){p[i].update();p[i].draw();for(let j=i+1;j<p.length;j++){const dx=p[i].x-p[j].x,dy=p[i].y-p[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){x.beginPath();x.moveTo(p[i].x,p[i].y);x.lineTo(p[j].x,p[j].y);x.strokeStyle='rgba(${p.rgb},'+(1-d/120)*0.24+')';x.stroke();}}}requestAnimationFrame(animate);}
-animate();
-<\/script></body></html>`
-      },
-      {
-        id: 'scrolltrigger-story',
-        name: '滚动叙事段落',
-        keep: 'skip',
-        keepReason: '更适合长网页而非固定页 PPT',
-        scene: '长图文、故事线、时间轴滚动',
-        tech: ['GSAP ScrollTrigger'],
-        libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js'],
-        demo: (p = getLabPalette()) => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;background:${p.bg};color:${p.text};font-family:'Inter','Noto Sans SC',sans-serif;overflow-x:hidden;}
-.track{height:300vh;position:relative;}
-.panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(0.9);font-size:48px;font-weight:900;text-align:center;padding:40px;}
-.panel:nth-child(1){background:${p.surface};} .panel:nth-child(2){background:${p.tint};} .panel:nth-child(3){background:${p.accent};color:${p.onAccent};}
-</style></head><body><div class="track"><div class="panel">第一章<br><small style="font-size:20px;color:${p.muted};font-weight:500;">ScrollTrigger 驱动</small></div><div class="panel">第二章<br><small style="font-size:20px;color:${p.muted};font-weight:500;">页面滚动触发</small></div><div class="panel">第三章<br><small style="font-size:20px;color:#333;font-weight:500;">长叙事体验</small></div></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"><\/script>
-<script>
-gsap.registerPlugin(ScrollTrigger);
-const panels=gsap.utils.toArray('.panel');
-panels.forEach((panel,i)=>{gsap.to(panel,{opacity:1,scale:1,scrollTrigger:{trigger:panel,start:'top center',end:'bottom center',scrub:true},});if(i<panels.length-1){gsap.to(panel,{opacity:0,scale:1.1,scrollTrigger:{trigger:panels[i+1],start:'top center',end:'bottom center',scrub:true}});}});
-<\/script></body></html>`
-      },
-      {
-        id: 'svg-draw',
-        name: 'SVG 路径描绘',
-        keep: 'keep',
-        keepReason: '图解叙事利器，可沉淀为 SVG 动画辅助工具',
-        scene: '流程图、地图、插画页、路线图',
-        tech: ['SVG', 'GSAP stroke-dashoffset'],
-        libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'],
-        demo: (p = getLabPalette()) => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:${p.surface};display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
-svg{width:80%;max-width:600px;height:auto;}
-.path{fill:none;stroke:${p.accent};stroke-width:3;stroke-linecap:round;stroke-dasharray:1000;stroke-dashoffset:1000;}
-</style></head><body>
-<svg viewBox="0 0 400 200"><path class="path" d="M20,100 C80,20 140,180 200,100 S320,20 380,100"/></svg>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
-<script>
-const path=document.querySelector('.path');const len=path.getTotalLength();path.style.strokeDasharray=len;path.style.strokeDashoffset=len;
-function draw(){gsap.fromTo(path,{strokeDashoffset:len},{strokeDashoffset:0,duration:2,ease:'power2.inOut',onComplete:()=>{setTimeout(()=>{gsap.to(path,{strokeDashoffset:len,duration:0.6,onComplete:draw});},800);}});}draw();
-<\/script></body></html>`
-      },
-      {
-        id: 'counter',
-        name: '数字滚动计数器',
-        keep: 'keep',
-        keepReason: 'KPI 展示高频组件，简单且视觉冲击强',
-        scene: 'KPI、成果展示、数据亮点',
-        tech: ['GSAP', '数字插值'],
-        libs: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'],
-        demo: (p = getLabPalette()) => `
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body{margin:0;height:100vh;background:linear-gradient(135deg,${p.surface} 0%,${p.tint} 100%);display:flex;align-items:center;justify-content:center;gap:48px;font-family:'Inter','Noto Sans SC',sans-serif;flex-wrap:wrap;}
-.metric{text-align:center;}
-.metric .num{font-size:72px;font-weight:900;color:${p.accent};line-height:1;}
-.metric .label{color:${p.muted};font-size:14px;font-weight:700;margin-top:8px;text-transform:uppercase;letter-spacing:0.05em;}
-</style></head><body>
-<div class="metric"><div class="num" data-target="128">0</div><div class="label">Projects</div></div>
-<div class="metric"><div class="num" data-target="98.6">0</div><div class="label">NPS Score</div></div>
-<div class="metric"><div class="num" data-target="2400">0</div><div class="label">Users</div></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>
-<script>
-function countAll(){document.querySelectorAll('.num').forEach(el=>{const target=parseFloat(el.dataset.target);const obj={v:0};gsap.to(obj,{v:target,duration:2,ease:'power2.out',onUpdate:()=>{el.textContent=target%1===0?Math.round(obj.v).toLocaleString():obj.v.toFixed(1);},delay:Math.random()*0.3});});}
-countAll();setInterval(countAll,4000);
-<\/script></body></html>`
-      }
-    ];
-
-    const labComponents = [
-      'echart-dynamic',
-      'stagger-text',
-      'typewriter',
-      'lottie-icon',
-      'morph-grid',
-      'counter',
-      'svg-draw'
-    ].map(id => labComponentCatalog.find(component => component.id === id)).filter(Boolean);
-
-    function renderComponentLab() {
-      const grid = document.getElementById('lab-grid');
-      if (!grid) return;
-      if (document.getElementById('motion').hidden) { grid.replaceChildren(); return; }
-      grid.innerHTML = labComponents.map(c => {
-        const srcdoc = encodeURIComponent(c.demo());
-        return `
-          <article class="lab-card">
-            <div class="lab-preview">
-              <span class="lab-preview-label">LIVE PREVIEW</span>
-              <iframe src="data:text/html;charset=utf-8,${srcdoc}" loading="lazy" title="${c.name} 预览"></iframe>
-            </div>
-            <div class="lab-card-body">
-              <div class="lab-card-head">
-                <h3 class="lab-card-title">${c.name}</h3>
-              </div>
-              <div class="lab-meta">
-                <div class="lab-meta-row">
-                  <span class="lab-meta-label">场景</span>
-                  <span class="lab-meta-value">${c.scene}</span>
-                </div>
-                <div class="lab-meta-row">
-                  <span class="lab-meta-label">技术</span>
-                  <span class="lab-meta-value lab-tech-tags">${c.tech.map(t => `<span class="lab-tech-tag">${t}</span>`).join('')}</span>
-                </div>
-                <div class="lab-meta-row">
-                  <span class="lab-meta-label">评估</span>
-                  <span class="lab-meta-value">${c.keepReason}</span>
-                </div>
-              </div>
-            </div>
-          </article>
-        `;
-      }).join('');
-    }
 
     (() => {
       const root = document.documentElement;
@@ -3140,7 +2846,6 @@ countAll();setInterval(countAll,4000);
           } catch (_) {}
         }
         if (typeof render === 'function') render();
-        renderComponentLab();
       };
       applyTheme(themes[currentIndex()], false);
       button.addEventListener('click', () => applyTheme(themes[(currentIndex() + 1) % themes.length]));

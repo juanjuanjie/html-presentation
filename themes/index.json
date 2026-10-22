@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generated_at": "2026-10-15T00:00:00+08:00",
-  "template_count": 5,
+  "template_count": 6,
   "templates": [
     {
       "slug": "doodle-cream",
@@ -15,7 +15,21 @@
       "scheme": "light",
       "best_for": "希望内容亲切、轻松、带一点手作感，同时仍保持清晰信息层级的知识型演示。",
       "avoid_for": "需要严肃金融披露、传统公文感或深色电影质感的内容。",
-      "slide_count": 13
+      "slide_count": 17
+    },
+    {
+      "slug": "doodle-cream-dark",
+      "name": "Doodle Cream Dark",
+      "tagline": "暖黑纸张、奶油白手绘线条与暖黄色焦点组成的夜间手绘演示风格。",
+      "mood": ["warm", "playful", "hand-drawn", "dark", "cozy"],
+      "occasion": ["知识分享", "课堂演示", "轻量教程", "创意提案", "视频分镜素材"],
+      "tone": ["approachable", "gentle", "clear", "informal"],
+      "formality": "medium-low",
+      "density": "medium",
+      "scheme": "dark",
+      "best_for": "需要夜间观看舒适度，同时保留亲切手绘感的教程、知识分享和视频画面。",
+      "avoid_for": "需要冷峻科技霓虹、传统商务权威或高密度数据报表的内容。",
+      "slide_count": 17
     },
     {
       "slug": "blockframe",

@@ -1,13 +1,34 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>组件实验室已并入首页</title>
-  <meta http-equiv="refresh" content="0; url=index.html#component-lab">
-  <link rel="canonical" href="index.html#component-lab">
-</head>
-<body>
-  <p>组件实验室已并入首页：<a href="index.html#component-lab">打开组件实验室</a></p>
-</body>
-</html>
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UI素材库</title><link rel="stylesheet" href="assets/component-lab.css">
+<style>
+/* Match the template gallery's Doodle search and segmented controls. */
+dialog::backdrop{background:transparent}
+.embedded header{display:none}
+.library-toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 10px;align-items:center;margin:18px 0}
+input.library-search{grid-column:1/-1;width:100%;height:44px;min-width:0;padding:0 13px 0 42px;border:2px solid #24231f;border-radius:12px;background:#fffefa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2324231f' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m16 16 4.5 4.5'/%3E%3C/svg%3E") no-repeat 13px center;background-size:19px 19px;color:#24231f;font-size:14px;outline:none}
+input.library-search:focus{border-color:#24231f;box-shadow:0 0 0 4px rgba(255,228,119,.55)}
+.library-toolbar .filters{display:flex;flex-wrap:wrap;gap:6px;min-height:34px;padding:0;border:0;border-radius:0;background:transparent}
+.library-toolbar .filters button{height:34px;padding:0 11px;border:0;border-radius:8px;background:transparent;color:#24231f;font:700 14px/1 "Xiaolai","KaiTi","STKaiti","Microsoft YaHei",cursive;white-space:nowrap}
+.library-toolbar .filters button:hover{background:#f5efdc}
+.library-toolbar .filters button[aria-pressed=true]{background:#ffe477;color:#24231f}
+.library-toolbar .transparent{padding-left:4px;color:#777268}
+@media(max-width:1100px){.library-toolbar{grid-template-columns:minmax(0,1fr) auto}.library-search{grid-column:1/-1}.library-toolbar .filters{justify-self:start}}
+@media(max-width:620px){.library-toolbar .filters{flex-wrap:wrap;justify-self:stretch;gap:3px}.library-toolbar .filters button{flex:1 0 auto}.library-toolbar .transparent{grid-column:1/-1;justify-self:end}.library-toolbar .filters{grid-column:1/-1}}
+</style>
+<script>if(new URLSearchParams(location.search).has('embedded'))document.documentElement.classList.add('embedded');</script></head>
+<body><style>.preview.motion-preview{display:block}.preview.motion-preview iframe{display:block;width:100%;height:100%;transform:none}#detail-preview .motion-preview{height:240px}</style><main>
+<a class="back" href="index.html">← 返回首页</a>
+<header><div class="heading"><h1>UI素材库</h1><p>小元素，随取随用。</p></div></header>
+<div class="toolbar library-toolbar">
+<input id="search" class="library-search" type="search" aria-label="搜索素材" placeholder="搜索素材、图形、Logo…">
+<div id="filters" class="filters" role="group" aria-label="素材分类"></div>
+<label class="transparent"><input id="transparent" type="checkbox">透明网格</label>
+</div>
+<div class="grid" id="elements"></div><p id="empty" hidden>没有匹配的素材，试试其他关键词或分类。</p>
+</main>
+<dialog id="detail" aria-labelledby="detail-title"><div class="dialog-head"><h2 id="detail-title"></h2><button data-close aria-label="关闭详情">×</button></div><div id="detail-preview"></div><p id="detail-origin"></p><p id="detail-class"></p><div class="actions"><button id="detail-copy" class="accent">复制代码</button><button id="detail-prompt">复制提示词</button></div><label for="detail-code">元素代码</label><textarea id="detail-code" readonly spellcheck="false"></textarea></dialog>
+<dialog id="manual" aria-labelledby="manual-title"><div class="dialog-head"><h2 id="manual-title">手动复制</h2><button data-close aria-label="关闭">×</button></div><p>浏览器未允许自动复制，请按 Ctrl+C 复制以下内容。</p><textarea id="manual-text" readonly></textarea></dialog>
+<div id="status" class="toast" role="status" hidden></div>
+<script src="assets/logo-library.js"></script><script src="assets/motion-library.js"></script><script src="assets/component-lab.js"></script>
+<script>if(window.parent!==window&&document.documentElement.classList.contains('embedded'))new ResizeObserver(()=>parent.postMessage({type:'ui-elements-height',height:document.querySelector('main').offsetHeight+24},location.origin==='null'?'*':location.origin)).observe(document.querySelector('main'));</script>
+</body></html>
