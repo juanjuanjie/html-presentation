@@ -1,9 +1,9 @@
 window.LogoLibrary = {
- entries: [['vscode','VS Code','vscode|vs code|visual studio code'],['pycharm','PyCharm','pycharm'],['notion','Notion','notion']],
- path(id) { return 'assets/logos/'+id+(id==='notion'?'.webp':'.svg'); },
+ entries: [['vscode','VS Code','vscode|vs code|visual studio code'],['pycharm','PyCharm','pycharm'],['notion','Notion','notion'],['obsidian','Obsidian','obsidian|黑曜石']],
+ path(id) { return 'assets/logos/'+id+(['notion','obsidian'].includes(id)?'.webp':'.svg'); },
  async asset(id) {
   const r=await fetch(this.path(id));if(!r.ok)throw Error('Logo 加载失败：'+id);
-  if(id!=='notion')return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(await r.text());
+  if(!this.path(id).endsWith('.webp'))return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(await r.text());
   const bytes=new Uint8Array(await r.arrayBuffer());
   return 'data:image/webp;base64,'+btoa(Array.from(bytes,b=>String.fromCharCode(b)).join(''));
  },

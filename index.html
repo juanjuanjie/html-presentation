@@ -210,6 +210,9 @@
       outline: none;
     }
     .search:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.16); }
+    .template-search-wrap { position: relative; display: block; min-width: 0; color: var(--fg); }
+    .template-search-wrap .search { padding-left: 42px; }
+    .template-search-wrap svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); width: 19px; height: 19px; pointer-events: none; }
     .segmented {
       height: 42px;
       display: inline-flex;
@@ -1484,7 +1487,10 @@
     </section>
     <section id="templates" aria-label="模板广场" hidden>
       <div class="toolbar">
-        <input id="search" class="search" type="search" placeholder="搜索模板、场景、风格..." aria-label="搜索模板">
+        <label class="template-search-wrap">
+          <input id="search" class="search" type="search" placeholder="搜索模板、场景、风格..." aria-label="搜索模板">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+        </label>
         <div class="segmented" role="tablist" aria-label="模板色彩筛选">
           <button class="segment active" data-filter="all" type="button">全部</button>
           <button class="segment" data-filter="light" type="button">浅色</button>

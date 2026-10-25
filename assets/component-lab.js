@@ -27,6 +27,15 @@
  const $=id=>document.getElementById(id);
  const categories=['图形','图形','图形','标签','图标','图标','文字效果','文字效果','标签','箭头','图标'];
  const items=specs.map(([name,origin,html,css],i)=>({name,origin,html,css,category:categories[i],code:()=>Promise.resolve((css?'<style>'+css+'</style>\n':'')+html)}));
+ const seriesImage=new URL('assets/series-character-cutout.png',location.href).href;
+ const seriesHTML=src=>'<span class="ui-series-badge"><img class="ui-series-avatar" src="'+src+'" alt="举手讲解的小女孩"><span class="ui-series-title">小白学编程</span><span class="ui-series-dot" aria-hidden="true">·</span><span class="ui-series-episode">第一期</span></span>';
+ const seriesCSS='.ui-series-badge{position:relative;isolation:isolate;display:inline-flex;align-items:center;gap:7px;box-sizing:border-box;margin:10px 0 0 8px;padding:13px 12px 13px 65px;min-height:58px;color:#111;white-space:nowrap;font-family:"Microsoft YaHei","PingFang SC",sans-serif}.ui-series-badge::before{content:"";position:absolute;z-index:-1;inset:0 0 0 32px;border:3px solid #171717;border-left:0;border-radius:0 22px 20px 0;background:#ffe477;box-shadow:2px 2px 0 #171717}.ui-series-avatar{position:absolute;left:0;bottom:0;width:61px;height:65px;object-fit:contain;object-position:bottom;border:0;border-radius:0}.ui-series-title{font-size:21px;line-height:1.2;font-weight:900;letter-spacing:-1px}.ui-series-dot{font-size:22px;font-weight:900}.ui-series-episode{padding:5px 7px;border:2px solid #171717;border-radius:12px;font-size:15px;line-height:1.2;font-weight:800}';
+ items.push({name:'小白学编程 · 系列标签',aliases:'第一期 人物 角标 栏目 logo',category:'标签',origin:'用户封面参考 · Doodle Cream 系列角标',html:seriesHTML(seriesImage),css:seriesCSS,code:async()=>{
+   const response=await fetch(seriesImage);if(!response.ok)throw Error('人物图片加载失败');
+   const blob=await response.blob();
+   const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(Error('人物图片读取失败'));reader.readAsDataURL(blob)});
+   return '<style>'+seriesCSS+'</style>\n'+seriesHTML(data);
+ }});
  for(const [id,name,aliases] of LogoLibrary.entries)items.push({name,aliases,category:'Logo',origin:'本地 Logo 素材 · '+LogoLibrary.path(id).split('/').pop(),id,code:async()=>'<img alt="'+name+'" src="'+await LogoLibrary.asset(id)+'" style="width:64px;height:64px;object-fit:contain">'});
  let category='全部',selected,timer,detailTicket=0;
  for(const motion of window.MotionLibrary||[])items.push({name:motion.name,category:'动效',origin:'动效参考 · '+motion.tech.join(' / '),aliases:motion.scene+' '+motion.tech.join(' '),motion,code:()=>Promise.resolve(motion.demo())});
@@ -43,6 +52,7 @@
  }
  function preview(item){
   const box=document.createElement('div');box.className='preview';
+  if(item.previewBackground)box.style.background=item.previewBackground;
   if(item.motion){box.classList.add('motion-preview');const frame=document.createElement('iframe');frame.title=item.name+'动效预览';frame.loading='lazy';frame.tabIndex=-1;frame.setAttribute('sandbox','allow-scripts');frame.srcdoc=item.motion.demo();box.append(frame);return box;}
   if(item.id){const img=document.createElement('img');img.alt='';img.src=LogoLibrary.path(item.id);box.append(img)}
   else {const frame=document.createElement('iframe');frame.title=item.name+'预览';frame.tabIndex=-1;frame.setAttribute('sandbox','');frame.srcdoc='<!doctype html><html><meta charset="utf-8"><style>html,body{margin:0;height:100%;overflow:hidden}body{display:grid;place-items:center;background:transparent}.stage{transform:scale(.72);display:grid;place-items:center}'+item.css+'</style><body><div class="stage">'+item.html+'</div></body></html>';box.append(frame)}
