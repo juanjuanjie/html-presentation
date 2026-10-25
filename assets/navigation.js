@@ -1,6 +1,7 @@
 /* Hash routes keep Pages deployment simple and preserve in-page manuscript edits. */
 (() => {
   const pages = {
+    tutorials: ['HTML 系列教程', '从 HTML 演示到视频制作，跟着教程一步步动手。'],
     generator: ['稿件 → HTML', '上课演讲，用逐字稿提炼重点；视频分镜，用导演稿逐镜还原。选择制作模式和模板，复制完整提示词，交给你常用的 AI 生成。'],
     templates: ['模板广场', '先挑选适合内容的视觉风格，预览配色与布局，再回到稿件生成选择模板。'],
     'ui-elements': ['UI素材库', '小元素，随取随用。'],
@@ -27,6 +28,7 @@
     document.querySelector('.hero p').textContent = pages[next][1];
     document.documentElement.dataset.page = next;
     document.title = pages[next][0] + ' · HTML Presentation';
+    if (typeof window.setTutorialPageActive === 'function') window.setTutorialPageActive(next === 'tutorials');
     if (next === 'readme' && typeof window.loadReadmePage === 'function') {
       window.loadReadmePage();
     }

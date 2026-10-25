@@ -1,0 +1,19 @@
+#tutorials .tutorial-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+#tutorials .tutorial-main{min-width:0}
+#tutorials .tutorial-player{aspect-ratio:16/9;background:#111;border:2px solid var(--line);border-radius:18px;overflow:hidden}
+#tutorials iframe{display:block;width:100%;height:100%;border:0}
+#tutorials .tutorial-caption{display:flex;align-items:start;justify-content:space-between;gap:16px;margin-top:20px}
+#tutorials h2{font-size:19px;line-height:1.5;margin:0}
+#tutorials a{color:var(--muted);font-size:12px;white-space:nowrap;text-underline-offset:4px}
+#tutorials .tutorial-note{color:var(--muted);font-size:12px;line-height:1.8;margin-top:10px}
+#tutorials .tutorial-directory{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:20px 14px 14px;box-shadow:3px 4px 0 var(--line)}
+#tutorials .tutorial-directory-heading{display:flex;justify-content:space-between;align-items:center;padding:0 6px 16px;gap:10px}
+#tutorials button{font:inherit;color:var(--fg);cursor:pointer}
+#tutorials ol{list-style:none;padding:8px 0 0;margin:0;max-height:420px;overflow-y:auto;scrollbar-width:thin}
+#tutorials .tutorial-episode{display:grid;grid-template-columns:22px minmax(0,1fr) 36px;align-items:center;gap:8px;text-align:left;width:100%;border:1px solid transparent;border-radius:9px;background:transparent;padding:12px 8px;margin:3px 0;font-size:13px;line-height:1.6}
+#tutorials .tutorial-episode:hover{background:var(--soft)}
+#tutorials .tutorial-episode[aria-current=true]{background:var(--accent);color:var(--accent-contrast);border-color:var(--line);font-weight:700}
+#tutorials .tutorial-episode small{font-size:11px;opacity:.7;font-variant-numeric:tabular-nums}
+#tutorials button:focus-visible,#tutorials a:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+@media(max-width:1050px){#tutorials .tutorial-layout{grid-template-columns:minmax(0,1fr) 290px;gap:18px}}
+@media(max-width:760px){#tutorials .tutorial-layout{grid-template-columns:1fr}#tutorials .tutorial-caption{flex-direction:column;gap:8px}#tutorials ol{max-height:350px}}

@@ -1388,7 +1388,7 @@
         <a class="nav-link" href="#templates" data-page-link="templates">模板</a>
         <a class="nav-link" href="#ui-elements" data-page-link="ui-elements">UI素材库</a>
         <a class="nav-link" href="#readme" data-page-link="readme">README</a>
-        <a class="nav-link" href="https://www.bilibili.com/video/BV1g5j46iE5C/?spm_id_from=333.1387.homepage.video_card.click&vd_source=a44f29c4f18178d5fbf00c97794d0f32" target="_blank" rel="noreferrer">视频教程</a>
+        <a class="nav-link" href="#tutorials" data-page-link="tutorials">视频教程</a>
       </div>
     </nav>
   </header>
@@ -1505,6 +1505,19 @@
     </section>
     <section id="ui-elements" aria-label="UI素材库" hidden>
       <iframe id="ui-elements-frame" title="UI素材库" data-src="component-lab.html?embedded=1" style="display:block;width:100%;height:1600px;border:0" allow="clipboard-write"></iframe>
+    </section>
+    <section id="tutorials" aria-label="系列视频教程" hidden>
+      <div class="tutorial-layout">
+        <div class="tutorial-main">
+          <div id="tutorial-player" class="tutorial-player"></div>
+          <div class="tutorial-caption"><h2 id="tutorial-title"></h2><a id="tutorial-original" target="_blank" rel="noopener noreferrer">在 B 站观看 ↗</a></div>
+          <p class="tutorial-note">播放由 B 站提供；如加载失败或需要登录、高清画质，可前往 B 站观看。</p>
+        </div>
+        <aside class="tutorial-directory" aria-label="教程目录">
+          <div class="tutorial-directory-heading"><h2>HTML 系列教程</h2><a href="https://space.bilibili.com/229150291/lists/6797294?type=season" target="_blank" rel="noopener noreferrer">B 站合集 ↗</a></div>
+          <ol id="tutorial-episodes"></ol>
+        </aside>
+      </div>
     </section>
     <section id="readme" class="readme-page" aria-label="README" hidden>
       <div id="readme-loading" class="md-state">
@@ -2952,6 +2965,8 @@
       document.addEventListener('keydown',(event)=>{if(event.key==='Escape'){panel.hidden=true;toggle.setAttribute('aria-expanded','false');}});
     })();
   </script>
+  <link rel="stylesheet" href="assets/tutorials.css">
+  <script src="assets/tutorials.js"></script>
   <script src="assets/navigation.js"></script>
 </body>
 </html>
