@@ -8,6 +8,23 @@
 #tutorials .tutorial-note{color:var(--muted);font-size:12px;line-height:1.8;margin-top:10px}
 #tutorials .tutorial-directory{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:20px 14px 14px;box-shadow:3px 4px 0 var(--line)}
 #tutorials .tutorial-directory-heading{display:flex;justify-content:space-between;align-items:center;padding:0 6px 16px;gap:10px}
+#tutorials .tutorial-blog-promo{position:relative;margin:0 0 28px}
+#tutorials .tutorial-blog-banner{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0;padding:20px 24px;background:#fffdf5;color:#20201e;border:2px solid #20201e;border-radius:16px;box-shadow:3px 4px 0 #20201e;text-decoration:none;white-space:normal;min-width:0}
+#tutorials .tutorial-blog-banner strong{display:block;font-size:21px;line-height:1.5}
+#tutorials .tutorial-blog-banner strong+span{display:block;margin-top:5px;font-size:13px;line-height:1.8}
+#tutorials .tutorial-blog-action{flex-shrink:0;font-size:14px;font-weight:700;border-bottom:3px solid #ffe477;padding-bottom:3px}
+#tutorials .tutorial-blog-banner:hover{background:#fff9e8}
+#tutorials .tutorial-blog-highlight{background:linear-gradient(transparent 58%,#ffe477 58% 94%,transparent 94%);white-space:nowrap}
+#tutorials .tutorial-blog-copy{min-width:0}
+#tutorials .tutorial-blog-guide{position:absolute;right:36px;bottom:calc(100% + 6px);width:220px;pointer-events:none}
+#tutorials .tutorial-blog-arrow{display:block;width:100%;height:auto;overflow:visible}
+#tutorials .tutorial-blog-yellow{fill:#ffe477}
+#tutorials .tutorial-blog-trace{fill:none;stroke:#292525;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:tutorial-blog-draw 3.5s ease-in-out infinite}
+@keyframes tutorial-blog-draw{0%,8%,100%{stroke-dashoffset:1}65%,86%{stroke-dashoffset:0}}
+@media(max-width:1050px){#tutorials .tutorial-blog-banner{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){#tutorials .tutorial-blog-trace{animation:none;stroke-dashoffset:0}}
+@media(max-width:900px){#tutorials .tutorial-blog-promo{padding-top:90px}#tutorials .tutorial-blog-guide{width:140px;right:16px;top:0;bottom:auto}}
+@media(max-width:650px){#tutorials .tutorial-blog-banner{align-items:flex-start;flex-direction:column;gap:12px;padding:18px}#tutorials .tutorial-blog-banner strong{font-size:18px}}
 #tutorials button{font:inherit;color:var(--fg);cursor:pointer}
 #tutorials ol{list-style:none;padding:8px 0 0;margin:0;max-height:420px;overflow-y:auto;scrollbar-width:thin}
 #tutorials .tutorial-episode{display:grid;grid-template-columns:22px minmax(0,1fr) 36px;align-items:center;gap:8px;text-align:left;width:100%;border:1px solid transparent;border-radius:9px;background:transparent;padding:12px 8px;margin:3px 0;font-size:13px;line-height:1.6}
