@@ -34,3 +34,6 @@ docs/*
 /marketgrep-professional-purple-dark.html
 /drafts/
 /.preview-*/
+
+# Temporary reference project
+/livelings/

@@ -36,6 +36,40 @@
    const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(Error('人物图片读取失败'));reader.readAsDataURL(blob)});
    return '<style>'+seriesCSS+'</style>\n'+seriesHTML(data);
  }});
+ const personCSS='.ui-person-asset{display:inline-grid;place-items:center;width:148px;height:148px;overflow:visible}.ui-person-asset img,.ui-person-asset svg{display:block;width:100%;height:100%;object-fit:contain}';
+ function personItem(file,name,aliases,origin='卷卷姐人物素材 · SVG 矢量路径'){
+   const image=new URL('assets/'+file,location.href).href;
+   const html=src=>'<span class="ui-person-asset" role="img" aria-label="'+name+'"><img src="'+src+'" alt=""></span>';
+   return {name,aliases,category:'人物',origin,html:html(image),css:personCSS,previewBackground:'#faf9f6',code:async()=>{
+     const response=await fetch(image);if(!response.ok)throw Error('人物图片加载失败');
+     if(file.toLowerCase().endsWith('.svg')){
+       const svg=await response.text();
+       return '<style>'+personCSS+'</style>\n<span class="ui-person-asset" role="img" aria-label="'+name+'">'+svg+'</span>';
+     }
+     const blob=await response.blob();
+     const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(Error('人物图片读取失败'));reader.readAsDataURL(blob)});
+     return '<style>'+personCSS+'</style>\n'+html(data);
+   }};
+ }
+ items.push(
+   personItem('juanjuanjie/juanjuanjie-explaining.svg','卷卷姐 · 举手讲解抠图','卷卷姐 人物 矢量 SVG 举手 指引 讲解 开心 黑白 条纹'),
+   personItem('juanjuanjie/juanjuanjie-thinking.svg.png','卷卷姐 · 托腮思考','卷卷姐 人物 PNG 透明抠图 思考 琢磨 犹豫 托腮 黑白 条纹','卷卷姐人物素材 · PNG 透明抠图'),
+   personItem('juanjuanjie/juanjuanjie-reaching.svg','卷卷姐 · 伸手指引','卷卷姐 人物 矢量 SVG 全身 伸手 指引 展示 介绍 黑白 条纹'),
+   personItem('juanjuanjie/juanjuanjie-surprised-closeup.svg','卷卷姐 · 惊讶特写','卷卷姐 人物 矢量 SVG 惊讶 特写 意外 张嘴 黑白 条纹'),
+   personItem('juanjuanjie/juanjuanjie-concerned.svg','卷卷姐 · 担忧','卷卷姐 人物 矢量 SVG 担忧 严肃 困惑 无奈 黑白 条纹'),
+   personItem('juanjuanjie/juanjuanjie-questioning.svg','卷卷姐 · 疑问','卷卷姐 人物 矢量 SVG 疑问 问号 思考 困惑 黑白 条纹'),
+   personItem('juanjuanjie/juanjuanjie-surprised.svg','卷卷姐 · 惊讶','卷卷姐 人物 矢量 SVG 惊讶 意外 张嘴 黑白 条纹'),
+   personItem('juanjuanjie/juanjuanjie-daydreaming.svg','卷卷姐 · 托腮微笑','卷卷姐 人物 矢量 SVG 托腮 微笑 期待 开心 黑白 条纹')
+ );
+ const westieImage=new URL('assets/juan-westie-mascot.png',location.href).href;
+ const westieHTML=src=>'<span class="ui-juan-westie" role="img" aria-label="卷饼灵感吉祥物"><img src="'+src+'" alt=""></span>';
+ const westieCSS='.ui-juan-westie{display:inline-grid;place-items:center;width:148px;height:148px;overflow:visible;transform-origin:50% 88%;animation:ui-westie-float 3.2s ease-in-out infinite}.ui-juan-westie img{display:block;width:100%;height:100%;object-fit:contain}.ui-juan-westie:hover{animation:ui-westie-cheer .55s ease-in-out 2}@keyframes ui-westie-float{0%,100%{transform:translateY(2px) rotate(-.7deg)}50%{transform:translateY(-4px) rotate(.7deg)}}@keyframes ui-westie-cheer{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-9px) scale(1.045)}}@media(prefers-reduced-motion:reduce){.ui-juan-westie{animation:none}}';
+ items.push({name:'卷饼 · 灵感吉祥物',aliases:'卷饼 角色 动物 卡通 西高地 白梗 狗狗 灵感 教程 mascot westie',category:'角色',origin:'原创品牌吉祥物 · 卷饼 · 西高地白梗 × 极简黑白画风',html:westieHTML(westieImage),css:westieCSS,previewBackground:'#faf9f6',code:async()=>{
+   const response=await fetch(westieImage);if(!response.ok)throw Error('吉祥物图片加载失败');
+   const blob=await response.blob();
+   const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(Error('吉祥物图片读取失败'));reader.readAsDataURL(blob)});
+   return '<style>'+westieCSS+'</style>\n'+westieHTML(data);
+ }});
  for(const [id,name,aliases] of LogoLibrary.entries)items.push({name,aliases,category:'Logo',origin:'本地 Logo 素材 · '+LogoLibrary.path(id).split('/').pop(),id,code:async()=>'<img alt="'+name+'" src="'+await LogoLibrary.asset(id)+'" style="width:64px;height:64px;object-fit:contain">'});
  let category='全部',selected,timer,detailTicket=0;
  for(const motion of window.MotionLibrary||[])items.push({name:motion.name,category:'动效',origin:'动效参考 · '+motion.tech.join(' / '),aliases:motion.scene+' '+motion.tech.join(' '),motion,code:()=>Promise.resolve(motion.demo())});
@@ -76,7 +110,7 @@
    $('elements').append(card);
   }
  }
- for(const name of ['全部','图形','标签','箭头','文字效果','图标','Logo','动效'].filter(n=>n==='全部'||items.some(i=>i.category===n))){
+ for(const name of ['全部','人物','角色','图形','标签','箭头','文字效果','图标','Logo','动效'].filter(n=>n==='全部'||items.some(i=>i.category===n))){
   const b=document.createElement('button');b.textContent=name;b.setAttribute('aria-pressed',String(name===category));b.onclick=()=>{category=name;for(const el of $('filters').children)el.setAttribute('aria-pressed',String(el===b));render()};$('filters').append(b);
  }
  $('search').oninput=render;
