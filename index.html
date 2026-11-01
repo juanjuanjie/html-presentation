@@ -166,6 +166,112 @@
       font-size: 17px;
       line-height: 1.75;
     }
+    .codex-quickstart {
+      display: block;
+      margin: -4px 0 0;
+      padding: 0;
+      border: 0;
+    }
+    .codex-quickstart > summary {
+      display: list-item;
+      width: max-content;
+      margin-top: 14px;
+      padding: 0;
+      color: #171717;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    [data-appearance="dark"] .codex-quickstart > summary { color: var(--fg); }
+    .codex-quickstart > summary:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .codex-quickstart > summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; border-radius: 3px; }
+    .codex-quickstart__body {
+      display: grid;
+      grid-template-columns: minmax(220px, .64fr) minmax(0, 1.36fr);
+      gap: 30px;
+      align-items: start;
+      padding: 20px 0 0;
+    }
+    .codex-quickstart__intro { min-width: 0; }
+    .codex-quickstart__eyebrow {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+      border-radius: 10px 8px 11px 7px;
+      background: var(--accent);
+      color: #171717;
+      font-size: 12px;
+      font-weight: 850;
+      transform: rotate(-1deg);
+    }
+    .codex-quickstart h3 {
+      margin: 0;
+      color: var(--fg);
+      font-size: clamp(20px, 2vw, 26px);
+      line-height: 1.2;
+      letter-spacing: -.025em;
+    }
+    .codex-quickstart__intro > p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .codex-quickstart__content { min-width: 0; }
+    .codex-prompt-wrap { position: relative; }
+    .codex-prompt-box {
+      position: relative;
+      margin: 0;
+      padding: 18px 110px 18px 20px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--soft);
+      color: var(--fg);
+      font: 650 14px/1.8 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .codex-prompt-copy {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      min-height: 36px;
+      padding: 0 13px;
+      border: 2px solid var(--fg);
+      border-radius: 11px 8px 12px 7px;
+      background: var(--accent);
+      color: #171717;
+      font-weight: 850;
+      cursor: pointer;
+    }
+    .codex-prompt-copy:hover { transform: translateY(-1px); }
+    .codex-prompt-copy:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    .codex-quickstart__note {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .codex-quickstart__note strong { color: var(--fg); }
+    .codex-quickstart__note-mark {
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      margin-top: 1px;
+      border: 2px solid var(--fg);
+      border-radius: 50%;
+      background: var(--accent);
+      color: #171717;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .codex-copy-status { min-height: 20px; margin: 7px 0 0; color: var(--muted); font-size: 12px; }
     .author-line {
       margin-top: 16px;
       display: inline-flex;
@@ -1366,6 +1472,9 @@
       .nav { flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; gap: 12px; }
       .nav-links { justify-content: flex-start; }
       .lab-grid { grid-template-columns: minmax(0,1fr); }
+      .codex-quickstart__body { grid-template-columns: 1fr; gap: 18px; padding: 18px 0 0; }
+      .codex-prompt-box { padding: 16px; }
+      .codex-prompt-copy { position: static; width: 100%; margin-top: 10px; }
     }
   </style>
 </head>
@@ -1407,6 +1516,26 @@
         <label><input type="radio" name="generation-mode" value="director"><strong>导演 HTML</strong><span>导演稿 → 一镜一页 · 原文字幕 · 分镜动效</span></label>
       </div>
       <p id="generation-help"></p>
+      <details class="codex-quickstart">
+        <summary>已下载该项目</summary>
+        <div class="codex-quickstart__body">
+          <div class="codex-quickstart__intro">
+            <h3 id="codex-quickstart-title">在 Codex 中直接开始</h3>
+            <p>无需填写下方表单。复制提示词后，用 <strong>@</strong> 选择你电脑中的实际文件即可。</p>
+          </div>
+          <div class="codex-quickstart__content">
+            <div class="codex-prompt-wrap">
+              <pre id="codex-quick-prompt" class="codex-prompt-box">使用 @html-presentation，
+把 @我的新稿件.md
+制作成 @你喜欢的模板 的 HTML，
+输出到 @你要存放的位置，不要覆盖原稿。</pre>
+              <button id="codex-prompt-copy" class="codex-prompt-copy" type="button">复制提示词</button>
+            </div>
+            <p class="codex-quickstart__note"><span class="codex-quickstart__note-mark" aria-hidden="true">!</span><span><strong>注意：</strong>不要原样使用示例名称。粘贴到 Codex 后，请把每个 <strong>@</strong> 位置换成你电脑中对应的项目文件夹、稿件、模板和输出位置。</span></p>
+            <p id="codex-copy-status" class="codex-copy-status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+      </details>
       <details id="director-guide" class="director-guide" hidden>
         <summary>第一次写导演稿？查看格式说明和范例</summary>
         <div class="director-guide__content">
@@ -1459,12 +1588,6 @@
             </span>
           </label>
         </div>
-        <label class="character-field">人物图片（可选）
-          <span class="character-upload-row">
-            <input id="generation-character" type="file" accept="image/png,image/jpeg,image/webp">
-            <small id="generation-character-status">请上传你希望出现的人物；不上传时将禁止 Agent 使用任何默认小人。</small>
-          </span>
-        </label>
       </section>
       <h2 id="manuscript-title" class="generation-question">你的 <span id="generation-manuscript-kind" class="generation-question__highlight">逐字稿</span> 是怎样的？</h2>
       <section class="manuscript-panel" aria-label="稿件内容">
@@ -1472,7 +1595,7 @@
           <label class="file-field" for="generation-file">导入稿件（Markdown / TXT，仅在本页读取）
             <input id="generation-file" type="file" accept=".md,.txt,text/plain,text/markdown">
           </label>
-          <label>原稿标题<input id="generation-name" placeholder="导入稿件后自动提取，也可以修改"></label>
+          <label>原稿标题（可选）<input id="generation-name" placeholder="可以留空，将从稿件内容自动生成"></label>
         </div>
         <label for="generation-source" id="generation-source-label">逐字稿全文</label>
         <textarea id="generation-source" rows="10" placeholder="粘贴完整稿件，或从上方导入文件"></textarea>
@@ -1614,13 +1737,13 @@
         name: 'Doodle Cream',
         scheme: 'light',
         image: 'assets/previews/doodle-cream.png?v=5',
-        tagline: '白纸暖黄 · 手绘人物 · 不规则流程',
+        tagline: '白纸暖黄 · 圆形卷卷姐头像 · 不规则流程',
           palette: ['#FFFFFF', '#FFE477', '#222222'],
         tags: ['hand drawn', 'warm', 'tutorial', 'classroom'],
         template: 'themes/doodle-cream/template.html',
         docs: 'themes/doodle-cream/design.md',
         themes: [
-          { key: 'white-yellow', name: '白纸暖黄', scheme: 'light', desc: '白色画布 + 暖柠檬黄焦点 + 手绘人物与不规则圆形流程', image: 'assets/previews/doodle-cream.png?v=5', swatch: 'linear-gradient(135deg, #FFFFFF 0 56%, #FFE477 56% 82%, #222222 82%)', vars: { paper: '#FFFEFB', surface: '#FFFFFF', ink: '#171717', muted: '#555555', yellow: '#FFE477', 'yellow-deep': '#FFE477', purple: '#FFFFFF', 'compare-purple': '#D8D6FF', line: '#292525' } },
+          { key: 'white-yellow', name: '白纸暖黄', scheme: 'light', desc: '白色画布 + 暖柠檬黄焦点 + 圆形卷卷姐头像与不规则圆形流程', image: 'assets/previews/doodle-cream.png?v=5', swatch: 'linear-gradient(135deg, #FFFFFF 0 56%, #FFE477 56% 82%, #222222 82%)', vars: { paper: '#FFFEFB', surface: '#FFFFFF', ink: '#171717', muted: '#555555', yellow: '#FFE477', 'yellow-deep': '#FFE477', purple: '#FFFFFF', 'compare-purple': '#D8D6FF', line: '#292525' } },
           { key: 'dark-yellow', name: '黑纸暖黄', scheme: 'dark', desc: '暖黑纸张 + 奶油白墨色 + 克制的暖黄焦点，保留手绘人物与不规则流程', image: 'assets/previews/doodle-cream-dark.png?v=1', swatch: 'linear-gradient(135deg, #171510 0 56%, #F4CF58 56% 78%, #F7EFD9 78%)', template: 'themes/doodle-cream-dark/template.html', docs: 'themes/doodle-cream-dark/design.md', variant: 'dark', vars: { paper: '#171510', surface: '#211E18', 'surface-raised': '#2A261E', ink: '#F7EFD9', muted: '#B8AE9B', yellow: '#F4CF58', 'yellow-deep': '#F4CF58', 'compare-purple': '#D8D6FF', line: '#EADFC7', 'accent-ink': '#211B0D', 'soft-line': '#514A3D' } }
         ]
       },
@@ -2969,6 +3092,40 @@
         if(!event.target.closest('.design-control')){panel.hidden=true;toggle.setAttribute('aria-expanded','false');}
       });
       document.addEventListener('keydown',(event)=>{if(event.key==='Escape'){panel.hidden=true;toggle.setAttribute('aria-expanded','false');}});
+    })();
+  </script>
+  <script>
+    (() => {
+      const button = document.getElementById('codex-prompt-copy');
+      const prompt = document.getElementById('codex-quick-prompt');
+      const status = document.getElementById('codex-copy-status');
+      if (!button || !prompt || !status) return;
+      let resetTimer;
+      const fallbackCopy = (text) => {
+        const field = document.createElement('textarea');
+        field.value = text;
+        field.setAttribute('readonly', '');
+        field.style.position = 'fixed';
+        field.style.opacity = '0';
+        document.body.appendChild(field);
+        field.select();
+        const copied = document.execCommand('copy');
+        field.remove();
+        if (!copied) throw new Error('copy failed');
+      };
+      button.addEventListener('click', async () => {
+        const text = prompt.textContent.trim();
+        try {
+          if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
+          else fallbackCopy(text);
+          window.clearTimeout(resetTimer);
+          button.textContent = '已复制';
+          status.textContent = '提示词已复制。粘贴后记得选择你自己的 @ 文件位置。';
+          resetTimer = window.setTimeout(() => { button.textContent = '复制提示词'; }, 2200);
+        } catch (_) {
+          status.textContent = '自动复制失败，请手动选中上方提示词复制。';
+        }
+      });
     })();
   </script>
   <link rel="stylesheet" href="assets/tutorials.css">

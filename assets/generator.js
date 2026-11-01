@@ -60,7 +60,6 @@
   });
   syncTemplatePicker();
   let revision = 0;
-  let characterAsset = '';
   function invalidate(){
     revision++;
     el('prompt').value='';
@@ -87,39 +86,6 @@
   el('name').addEventListener('input',invalidate);
   ['occasion','page-count','goal'].forEach(id=>el(id).addEventListener('input',invalidate));
   el('template').addEventListener('input',()=>{invalidate();syncTemplatePicker();});
-  function compressCharacter(file){
-    return new Promise((resolve,reject)=>{
-      const reader=new FileReader();
-      reader.onerror=()=>reject(new Error('人物图片读取失败'));
-      reader.onload=()=>{
-        const image=new Image();
-        image.onerror=()=>reject(new Error('人物图片格式无法识别'));
-        image.onload=()=>{
-          const limit=720, scale=Math.min(1,limit/Math.max(image.naturalWidth,image.naturalHeight));
-          const canvas=document.createElement('canvas');
-          canvas.width=Math.max(1,Math.round(image.naturalWidth*scale));
-          canvas.height=Math.max(1,Math.round(image.naturalHeight*scale));
-          canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
-          resolve(canvas.toDataURL('image/webp',.9));
-        };
-        image.src=reader.result;
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-  el('character').addEventListener('change',async()=>{
-    invalidate();
-    characterAsset='';
-    const file=el('character').files[0];
-    const status=document.getElementById('generation-character-status');
-    if(!file){status.textContent='请上传你希望出现的人物；不上传时将禁止 Agent 使用任何默认小人。';return;}
-    if(!file.type.startsWith('image/')){status.textContent='请选择 PNG、JPG 或 WebP 图片。';el('character').value='';return;}
-    status.textContent='正在压缩人物图片…';
-    try{
-      characterAsset=await compressCharacter(file);
-      status.textContent='已载入「'+file.name+'」；生成时只允许使用这张人物图片。';
-    }catch(error){el('character').value='';status.textContent=error.message+'，请重新选择。';}
-  });
   el('file').addEventListener('change',async()=>{
     const file=el('file').files[0];
     if(!file)return;
@@ -199,9 +165,20 @@
 静态导出模式能显示所有最终内容；不通过强制显示所有幻灯片来解决空白。运行时校验 DOM 页数、源镜头编号、每页口播与输入一致。
 标题和文件名为“【导演HTML】原稿标题”。交付前逐页检查初始、动效中段、结束状态；报告镜头数/页数、字幕一致性和控件自检。`
   };
+  function inferredTitle(text){
+    const heading=text.match(/^\s*#{1,6}\s+(.+?)\s*$/m);
+    if(heading)return heading[1].replace(/[*_`~]/g,'').trim().slice(0,80)||'未命名稿件';
+    const firstContentLine=text.split(/\r?\n/).map(line=>line
+      .replace(/^\s*(?:[-*+]\s+|>\s*|\d+[.)、]\s*)/,'')
+      .replace(/[*_`~#]/g,'')
+      .trim()).find(Boolean);
+    return (firstContentLine||'未命名稿件').slice(0,80);
+  }
   el('build').addEventListener('click',async()=>{
-    const text=el('source').value.trim(), title=el('name').value.trim();
-    if(!text||!title){el('check').textContent='请填写标题并导入完整稿件。';return;}
+    const text=el('source').value.trim();
+    if(!text){el('check').textContent='请导入或粘贴完整稿件。';return;}
+    const manualTitle=el('name').value.trim();
+    const title=manualTitle||inferredTitle(text);
     const selectedMode=mode(), ids=shots(text);
     if(selectedMode==='director'&&(!ids.length||new Set(ids).size!==ids.length||ids.some((n,i)=>n!==i+1))){
       el('check').textContent='镜头编号无法确认或存在重复、跳号。请使用从镜 01 开始的连续编号，核对缺失镜头后再生成。';return;
@@ -226,22 +203,12 @@
       const [template,subtitleCss,subtitleJs]=await Promise.all([response.text(),subtitleCssResponse.text(),subtitleJsResponse.text()]);
       if(ticket!==revision)return;
       const characterImage=/<img\b[^>]*\bsrc=["'][^"']*(?:classic-character|character|mascot)[^"']*["'][^>]*>/gi;
-      const hasCharacterSlot=/<img\b[^>]*\bsrc=["'][^"']*(?:classic-character|character|mascot)[^"']*["'][^>]*>/i.test(template);
-      let preparedTemplate=template.replace(characterImage,tag=>characterAsset
-        ? tag.replace(/\bsrc=(["'])[^"']*\1/i,'src="" data-user-character')
-        : '');
+      let preparedTemplate=template.replace(characterImage,'');
       preparedTemplate=preparedTemplate
         .replace(/<link\b[^>]*presentation-subtitles\.css[^>]*>/i,`<style data-subtitle-system>\n${subtitleCss}\n</style>`)
         .replace(/<script\b[^>]*presentation-subtitles\.js[^>]*><\/script>/i,`<script data-subtitle-system>\n${subtitleJs.replace(/<\/script/gi,'<\\/script')}\n<\/script>`);
-      if(characterAsset&&hasCharacterSlot){
-        const assetScript=`<script id="uploaded-character-asset">const USER_CHARACTER_ASSET=${JSON.stringify(characterAsset)};document.querySelectorAll('[data-user-character]').forEach(image=>{image.src=USER_CHARACTER_ASSET;});<\/script>`;
-        preparedTemplate=preparedTemplate.replace(/<\/body>/i,assetScript+'\n</body>');
-      }
-      const characterPolicy=characterAsset
-        ? `【人物素材规则】
-用户已经上传人物图片。它是唯一允许使用的人物素材。必须原样复用，不得重画、换脸、改成 SVG、emoji、3D 或其他卡通人物，也不得用默认占位人物替换。允许按模板需要裁切和缩放，但不得改变人物内容。${hasCharacterSlot?'图片已作为 data URL 内嵌到下方模板源码的人物 img 中。':'当前模板没有预设人物位置，请在不破坏模板布局的前提下使用这张图片；人物图片 data URL：\n'+characterAsset}`
-        : `【人物素材规则】
-用户没有上传人物图片。禁止使用任何默认小人、商务人物、蓝领带人物、火柴人、人物 SVG、emoji、图库人物或自行生成的人物插画。下方模板中原有但无法随提示词传输的人物图片引用已被移除；不得补回人物或创建人物占位。请用留白、文字、抽象几何图形、普通图标或模板色块重新平衡版面。`;
+      const characterPolicy=`【人物素材规则】
+本页不接收人物图片。禁止使用任何默认小人、商务人物、蓝领带人物、火柴人、人物 SVG、emoji、图库人物或自行生成的人物插画。下方模板中的人物图片引用已被移除；不得补回人物或创建人物占位。请用留白、文字、抽象几何图形、普通图标或模板色块重新平衡版面。`;
       const logoPolicy=await window.LogoLibrary.prompt(title+'\n'+text);
       if(ticket!==revision)return;
       el('prompt').value=[common,logoPolicy,rules[selectedMode],subtitleRules,transitionRules,comparisonRules,templateSpecificRules(selected), '原稿标题：'+title,
@@ -252,7 +219,7 @@
         '【稿件开始】\n'+text+'\n【稿件结束】',
         '【模板源码开始】\n'+preparedTemplate+'\n【模板源码结束】'].filter(Boolean).join('\n\n');
       el('copy').disabled=el('download').disabled=false;
-      el('check').textContent='提示词已准备好，共 '+el('prompt').value.length+' 字符，包含完整稿件、'+(selectedMode==='presentation'?'故事规划要求、':'')+'模板源码。'+(characterAsset?'已内嵌你上传的人物图片。':'未上传人物，已禁止默认小人。')+'复制到 AI；如超出工具长度限制，可下载为文件附件。';
+      el('check').textContent='提示词已准备好，共 '+el('prompt').value.length+' 字符，包含完整稿件、'+(selectedMode==='presentation'?'故事规划要求、':'')+'模板源码。'+(manualTitle?'':'标题已自动使用“'+title+'”。')+'已禁止默认小人。复制到 AI；如超出工具长度限制，可下载为文件附件。';
     }catch(error){el('check').textContent=error.message+'。请通过工作台或 GitHub Pages 打开本页后重试。';}
     finally{el('build').disabled=false;}
   });
