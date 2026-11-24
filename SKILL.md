@@ -98,6 +98,14 @@ description: "将逐字稿生成简洁演讲 HTML，或将导演稿逐镜生成�
 
 ## 布局组件
 
+### 章节分页（新增，可与原有转场页并用）
+
+Doodle Cream（`doodle-cream`、`doodle-cream-dark`）的 `[data-layout="chapter"]` 使用左侧暖黄手绘大圆编号、右侧大标题与一句说明，关键词用 `.highlight` 高亮，不添加英文章节标签、竖线或底部进度轴。
+
+其他主题提供 `[data-layout="chapter"]` 进度轴示例：左侧大编号、右侧章节标题和说明、底部章节进度轴。模板预览中的「章节分页」按钮可直接定位。原有转场、转变布局继续保留。
+
+进度轴版式复用 `.chapter-layout`、`.chapter-heading` 和 `.chapter-track`，同步修改大编号、CHAPTER 当前章 / 总章数以及全部章节标签。已完成节点使用 `.is-complete`，当前节点使用 `.is-current` 和 `aria-current="step"`，后续节点使用 `.is-upcoming`。章节数量依据实际内容，不固定为示例的八章；目录较长时分组，避免文字拥挤。进度轴属于画面内容，不使用会被截图工具隐藏的 `.progress` 或 `.dots` 类。颜色和字体沿用所选主题，导演模式不因此额外增加镜头。
+
 ### 内容居中
 
 ```css

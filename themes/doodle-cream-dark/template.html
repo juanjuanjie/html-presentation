@@ -29,11 +29,20 @@
     .goal-grid{display:grid;grid-template-columns:100px 1fr;gap:28px;align-items:start;text-align:left}.goal-icon{font-size:68px}.black-label{display:inline-block;padding:.08em .2em .15em;background:var(--ink);color:var(--yellow);border-radius:20px 16px 22px 14px}.focus-title{white-space:nowrap;font-size:clamp(50px,4.8vw,90px)}.closing-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;width:100%;gap:4vw;text-align:left}.deck>.slide:first-child .closing-grid,.deck>.slide:last-child .closing-grid{max-width:1540px;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);gap:clamp(36px,4vw,78px);padding-inline:clamp(36px,4vw,78px)}.deck>.slide:first-child .closing-grid>.mascot,.deck>.slide:last-child .closing-grid>.mascot{justify-self:center}.contact{display:grid;grid-template-columns:72px 1fr;gap:22px;align-items:start;margin-top:24px}.contact .icon-chip{background:white;border:3px solid var(--ink)}.socials{display:flex;gap:22px;flex-wrap:wrap}.social{display:grid;place-items:center;width:92px;aspect-ratio:1;padding:0;background:#fff;border:4px solid var(--ink);border-radius:47% 53% 45% 55%/54% 46% 57% 43%;transform:rotate(-1deg)}.social:nth-child(2){border-radius:54% 46% 52% 48%/47% 55% 45% 53%;transform:rotate(1deg)}.social svg{width:48px;height:48px}.social .bili{fill:#00aeec}.social .youtube{fill:#ff0033}
     .progress{position:fixed;left:0;bottom:0;height:5px;width:0;background:var(--yellow);transition:width .35s;z-index:30}.slide-counter{position:fixed;left:24px;bottom:17px;color:#555;font-size:18px;font-weight:700;z-index:31}.nav-controls{position:fixed;right:22px;bottom:15px;display:flex;gap:9px;z-index:31;opacity:.72;transition:opacity .2s}.nav-controls:hover{opacity:1}.nav-controls button{width:48px;height:43px;border:2px solid #c8c8c8;border-radius:15px 12px 17px 11px;background:#fff;color:#555;cursor:pointer;font-size:24px;font-weight:700}.nav-controls button:hover{border-color:var(--ink);color:var(--ink);transform:translateY(-1px)}
     @media(max-width:900px){.slide{padding:45px 35px}.cover,.layout,.layout.reverse,.closing-grid,.deck>.slide:first-child .closing-grid,.deck>.slide:last-child .closing-grid{grid-template-columns:1fr}.deck>.slide:first-child .closing-grid,.deck>.slide:last-child .closing-grid{padding-inline:clamp(18px,5vw,42px)}.person,.deck>.slide:first-child .closing-grid>.mascot,.deck>.slide:last-child .closing-grid>.mascot{display:none}.cards-4{grid-template-columns:1fr}.skill-row{grid-template-columns:72px 130px 1fr}.steps{gap:10px}.arrow{display:none}.doodle-comparison__grid{grid-template-columns:1fr}.doodle-comparison__vs{width:54px;height:54px}.transition-stage{height:auto}.transition-copy{grid-template-columns:1fr;align-items:start;gap:22px}.transition-arrow{justify-self:center;padding-top:0;transform:rotate(90deg)}.transition-slide.active .transition-arrow{animation:none}.transition-side strong{font-size:clamp(38px,8vw,62px)}}
-  </style>
+/* Doodle chapter: hand-drawn numbered disc and a single clear heading. */
+.slide.chapter-slide{background:var(--paper);color:var(--ink);padding:0}
+.chapter-layout{position:absolute;inset:15% 8% 22%;display:flex;align-items:center;text-align:left}
+.chapter-heading{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.7fr);align-items:center;gap:8vw;width:100%}
+.chapter-number{display:grid;place-items:center;width:min(25vw,440px);aspect-ratio:1;border:5px solid var(--ink);border-radius:48% 52% 46% 54%/52% 48% 53% 47%;background:var(--yellow);color:var(--accent-ink);font:700 clamp(90px,10vw,190px)/1 "Xiaolai","KaiTi","STKaiti",cursive;transform:rotate(-2deg)}
+.chapter-copy{min-width:0}
+.chapter-copy .chapter-title{margin:0;color:var(--ink);font-size:clamp(44px,6.5vw,125px);line-height:1.25;overflow-wrap:anywhere}
+.chapter-copy .chapter-description{margin:3vh 0 0;color:var(--ink);font-size:clamp(20px,2.1vw,40px);line-height:1.6}
+@media(max-width:600px){.chapter-layout{inset:12% 8% 22%}.chapter-heading{grid-template-columns:1fr;gap:32px}.chapter-number{width:160px;font-size:76px;border-width:3px}.chapter-copy .chapter-title{font-size:44px}.chapter-copy .chapter-description{font-size:21px;margin-top:18px}}
+</style>
   <style id="doodle-cream-dark-theme">
     :root{
       color-scheme:dark;
-      --paper:#171510;
+      --paper:#000000;
       --surface:#211e18;
       --surface-raised:#2a261e;
       --ink:#f7efd9;
@@ -234,6 +243,13 @@
         </div>
         <p class="dual-visual-hint">图片与对话可以任选其一，也可以同时使用。</p>
       </div>
+    </section>
+
+    <section class="slide chapter-slide" data-layout="chapter" data-caption="第一章，先学会看。挑一个公认的好产品，看透它。">
+      <div class="chapter-layout"><div class="chapter-heading">
+        <div class="chapter-number" aria-label="第一章">01</div>
+        <div class="chapter-copy"><h2 class="chapter-title">先学会<span class="highlight">看</span></h2><p class="chapter-description">挑一个公认的好产品，看透它。</p></div>
+      </div></div>
     </section>
 
     <section class="slide yellow-page" data-caption="感谢观看。">

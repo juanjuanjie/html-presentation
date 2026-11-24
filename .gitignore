@@ -1,4 +1,5 @@
 # Output
+/output/
 slides_out/
 *.log
 slide_concat*.txt
@@ -37,3 +38,22 @@ docs/*
 
 # Temporary reference project
 /livelings/
+
+# Local video-production references (not part of the template library)
+/assets/git-chapter4/
+/assets/github-project/
+/assets/logos/github-chapter-sources.md
+/assets/logos/github-chapter3-sources.md
+
+# Local environments, caches and private settings
+.venv/
+venv/
+.cache/
+.pytest_cache/
+.env
+.env.*
+!.env.example
+auth.json
+cookies.txt
+*.tmp
+*.bak

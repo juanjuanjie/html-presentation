@@ -672,7 +672,29 @@
       .slide-1 .hero-frame { padding: 32px; }
       .slide-5 .quote-frame { padding: 32px; }
     }
-  </style>
+  .chapter-slide{--chapter-paper:var(--black);--chapter-ink:var(--white);--chapter-accent:var(--yellow);--chapter-muted:var(--muted)}
+
+/* Chapter divider: independent of the original transition layouts. */
+.slide.chapter-slide{background:var(--chapter-paper);color:var(--chapter-ink);padding:0}
+.chapter-layout{position:absolute;inset:16% 8% 24%;display:flex;flex-direction:column;justify-content:space-between;text-align:left}
+.chapter-heading{display:grid;grid-template-columns:22% minmax(0,1fr);align-items:center;gap:3.5%;min-height:52%}
+.chapter-number{font-size:clamp(72px,13vw,250px);font-weight:700;font-style:italic;line-height:1;color:var(--chapter-accent);letter-spacing:-.06em}
+.chapter-copy{border-left:3px solid var(--chapter-ink);padding:1.5vw 0 1.5vw 3vw;min-width:0}
+.chapter-copy .chapter-kicker{margin:0 0 2vw;color:var(--chapter-accent);font-size:clamp(14px,1.8vw,34px);font-style:italic;letter-spacing:.08em}
+.chapter-copy .chapter-title{margin:0;color:var(--chapter-ink);font-size:clamp(30px,4.8vw,92px);line-height:1.2;letter-spacing:0;overflow-wrap:anywhere}
+.chapter-copy .chapter-description{margin:1.5vw 0 0;color:var(--chapter-muted);font-size:clamp(16px,2.1vw,40px);line-height:1.4}
+.chapter-track{display:flex;list-style:none!important;margin:3vw 0 0!important;padding:0!important;width:100%}
+.chapter-track li{position:relative;flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1.5vw;padding:0!important;margin:0!important;color:var(--chapter-muted);text-align:center;font-size:clamp(12px,1.4vw,27px);line-height:1.3}
+.chapter-track li::before{content:'';position:absolute;top:calc(1.82vw + 1.5vw + 8px);left:0;width:100%;height:2px;background:var(--chapter-muted);opacity:.45}
+.chapter-track li:first-child::before{left:50%;width:50%}.chapter-track li:last-child::before{width:50%}
+.chapter-track .chapter-index{font-size:1.4vw;line-height:1.3;font-style:italic}
+.chapter-dot{position:relative;z-index:1;display:grid;place-items:center;width:18px;height:18px;box-sizing:border-box;border:2px solid var(--chapter-muted);border-radius:47% 53% 49% 51%;background:var(--chapter-paper);font:700 12px/1 sans-serif}
+.chapter-track .is-complete .chapter-dot{background:var(--chapter-ink);border-color:var(--chapter-ink);color:var(--chapter-paper)}
+.chapter-track .is-current{color:var(--chapter-accent);font-weight:700}
+.chapter-track .is-current .chapter-dot{background:var(--chapter-accent);border-color:var(--chapter-accent);transform:scale(1.5)}
+.chapter-name{max-width:95%;overflow-wrap:anywhere}
+@media(max-width:600px){.chapter-layout{inset:16% 7% 24%}.chapter-heading{grid-template-columns:22% minmax(0,1fr)}.chapter-number{font-size:17vw}.chapter-copy .chapter-title{font-size:7vw}.chapter-copy .chapter-description{font-size:3.4vw}.chapter-track{flex-wrap:wrap;row-gap:20px}.chapter-track li{flex:0 0 25%;font-size:12px;gap:10px}.chapter-track .chapter-index{font-size:12px}.chapter-track li::before{top:34px}.chapter-track li:nth-child(4)::before{width:50%}.chapter-track li:nth-child(5)::before{left:50%;width:50%}}
+</style>
   <script>
     (function () {
       const raw = new URLSearchParams(window.location.search).get('vars');
@@ -971,6 +993,13 @@
     </section>
 
     <!-- SLIDE 10: Closing -->
+    <section class="slide chapter-slide" data-layout="chapter" data-caption="第二章，先找到真正要解决的问题。">
+      <div class="chapter-layout">
+        <div class="chapter-heading"><div class="chapter-number" aria-hidden="true">02</div><div class="chapter-copy"><p class="chapter-kicker">CHAPTER 02 / 08</p><h2 class="chapter-title">找到核心问题</h2><p class="chapter-description">从观察现象，到明确方向</p></div></div>
+        <ol class="chapter-track" aria-label="章节进度"><li class="is-complete"><span class="chapter-index">01</span><span class="chapter-dot" aria-hidden="true">✓</span><span class="chapter-name">开场</span></li><li class="is-current" aria-current="step"><span class="chapter-index">02</span><span class="chapter-dot" aria-hidden="true"></span><span class="chapter-name">核心问题</span></li><li class="is-upcoming"><span class="chapter-index">03</span><span class="chapter-dot" aria-hidden="true"></span><span class="chapter-name">方法</span></li><li class="is-upcoming"><span class="chapter-index">04</span><span class="chapter-dot" aria-hidden="true"></span><span class="chapter-name">案例</span></li><li class="is-upcoming"><span class="chapter-index">05</span><span class="chapter-dot" aria-hidden="true"></span><span class="chapter-name">实践</span></li><li class="is-upcoming"><span class="chapter-index">06</span><span class="chapter-dot" aria-hidden="true"></span><span class="chapter-name">进阶</span></li><li class="is-upcoming"><span class="chapter-index">07</span><span class="chapter-dot" aria-hidden="true"></span><span class="chapter-name">回顾</span></li><li class="is-upcoming"><span class="chapter-index">08</span><span class="chapter-dot" aria-hidden="true"></span><span class="chapter-name">下一步</span></li></ol>
+      </div>
+    </section>
+
     <section class="slide slide-10">
       <div class="close-frame">
         <div class="deco-star"></div>

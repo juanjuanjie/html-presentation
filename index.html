@@ -1282,6 +1282,7 @@
     html[data-page="templates"] .template-use-inline{height:44px;min-height:44px;padding:0 15px;border-color:var(--line);border-radius:10px;background:#fff;color:#18181b;white-space:nowrap}
     html[data-page="templates"] .template-use-inline:hover{border-color:#a1a1aa;background:#fafafa}
     [data-appearance="dark"] .template-action.template-use-inline{background:#fff!important;color:#18181b!important;border-color:#d4d4d8!important}
+      .page-jump{flex-wrap:wrap}.page-jump__buttons{flex-wrap:wrap}
   </style>
   <style>
     :root { color-scheme: light; }
@@ -1680,12 +1681,12 @@
           <a class="footer-social" href="https://www.youtube.com/@juanjuanjie" target="_blank" rel="noreferrer" aria-label="访问卷卷姐 juan 的 YouTube 频道" data-tip="打开 YouTube 频道">
             <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#ff0033" d="M45 14q-1-6-7-7Q24 5 10 7q-6 1-7 7-2 10 0 20 1 6 7 7 14 2 28 0 6-1 7-7 2-10 0-20Z"/><path d="M20 16l13 8-13 8Z" fill="#fff"/></svg>
           </a>
-          <span class="footer-social" tabindex="0" role="img" aria-label="抖音：搜索卷卷姐juan" data-tip="抖音搜索：卷卷姐juan">
+          <a class="footer-social" href="https://www.douyin.com/user/MS4wLjABAAAApSP-GiGI9o0aSRVKHywZIGqRhbkFmsFwYgmz1F3UWhdlx7NB_LBBe6rhzXzckAAq" target="_blank" rel="noopener noreferrer" aria-label="访问卷卷姐 juan 的抖音主页" data-tip="抖音号：94402498332">
             <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#25f4ee" d="M18.2 5.2h3.5c.5 3.2 2.3 5.1 5.3 5.8v3.6a10 10 0 0 1-5.2-1.8v9a7.2 7.2 0 1 1-6.4-7.1v3.8a3.5 3.5 0 1 0 2.8 3.4Z" transform="translate(-1 1)"/><path fill="#fe2c55" d="M18.2 5.2h3.5c.5 3.2 2.3 5.1 5.3 5.8v3.6a10 10 0 0 1-5.2-1.8v9a7.2 7.2 0 1 1-6.4-7.1v3.8a3.5 3.5 0 1 0 2.8 3.4Z" transform="translate(1 -1)"/><path fill="#111" d="M18.2 5.2h3.5c.5 3.2 2.3 5.1 5.3 5.8v3.6a10 10 0 0 1-5.2-1.8v9a7.2 7.2 0 1 1-6.4-7.1v3.8a3.5 3.5 0 1 0 2.8 3.4Z"/></svg>
-          </span>
-          <span class="footer-social" tabindex="0" role="img" aria-label="小红书：搜索卷卷姐juan" data-tip="小红书搜索：卷卷姐juan">
+          </a>
+          <a class="footer-social" href="https://www.xiaohongshu.com/user/profile/5c4da6ee0000000010025322" target="_blank" rel="noopener noreferrer" aria-label="访问卷卷姐 juan 的小红书主页" data-tip="小红书号：227337741">
             <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="5" width="28" height="22" rx="6" fill="#ff2442"/><text x="16" y="19.2" text-anchor="middle" fill="#fff" font-size="6.6" font-weight="800" font-family="Microsoft YaHei, sans-serif">小红书</text></svg>
-          </span>
+          </a>
           <span class="footer-social" tabindex="0" role="img" aria-label="微信公众号：搜索卷卷姐juan" data-tip="微信公众号搜索：卷卷姐juan">
             <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#07c160" d="M13.2 5C7 5 2 9.1 2 14.2c0 2.9 1.6 5.4 4.1 7.1l-1 3.5 4-2a13.8 13.8 0 0 0 4.1.6h.8a8.7 8.7 0 0 1-.5-2.8c0-5 4.5-9 10.2-9h.7C23 7.8 18.6 5 13.2 5Z"/><path fill="#07c160" d="M30 20.6c0-4.1-4-7.4-8.9-7.4s-8.9 3.3-8.9 7.4 4 7.4 8.9 7.4c1 0 2-.1 2.9-.4l3.2 1.6-.8-2.8c2.2-1.3 3.6-3.4 3.6-5.8Z"/><g fill="#fff"><circle cx="9.6" cy="12.7" r="1.2"/><circle cx="16.7" cy="12.7" r="1.2"/><circle cx="18.2" cy="19.3" r="1"/><circle cx="24" cy="19.3" r="1"/></g></svg>
           </span>
@@ -1744,7 +1745,7 @@
         docs: 'themes/doodle-cream/design.md',
         themes: [
           { key: 'white-yellow', name: '白纸暖黄', scheme: 'light', desc: '白色画布 + 暖柠檬黄焦点 + 圆形卷卷姐头像与不规则圆形流程', image: 'assets/previews/doodle-cream.png?v=5', swatch: 'linear-gradient(135deg, #FFFFFF 0 56%, #FFE477 56% 82%, #222222 82%)', vars: { paper: '#FFFEFB', surface: '#FFFFFF', ink: '#171717', muted: '#555555', yellow: '#FFE477', 'yellow-deep': '#FFE477', purple: '#FFFFFF', 'compare-purple': '#D8D6FF', line: '#292525' } },
-          { key: 'dark-yellow', name: '黑纸暖黄', scheme: 'dark', desc: '暖黑纸张 + 奶油白墨色 + 克制的暖黄焦点，保留手绘人物与不规则流程', image: 'assets/previews/doodle-cream-dark.png?v=1', swatch: 'linear-gradient(135deg, #171510 0 56%, #F4CF58 56% 78%, #F7EFD9 78%)', template: 'themes/doodle-cream-dark/template.html', docs: 'themes/doodle-cream-dark/design.md', variant: 'dark', vars: { paper: '#171510', surface: '#211E18', 'surface-raised': '#2A261E', ink: '#F7EFD9', muted: '#B8AE9B', yellow: '#F4CF58', 'yellow-deep': '#F4CF58', 'compare-purple': '#D8D6FF', line: '#EADFC7', 'accent-ink': '#211B0D', 'soft-line': '#514A3D' } }
+          { key: 'dark-yellow', name: '黑纸暖黄', scheme: 'dark', desc: '纯黑背景 + 奶油白墨色 + 克制的暖黄焦点，保留手绘人物与不规则流程', image: 'assets/previews/doodle-cream-dark.png?v=1', swatch: 'linear-gradient(135deg, #000000 0 56%, #F4CF58 56% 78%, #F7EFD9 78%)', template: 'themes/doodle-cream-dark/template.html', docs: 'themes/doodle-cream-dark/design.md', variant: 'dark', vars: { paper: '#000000', surface: '#211E18', 'surface-raised': '#2A261E', ink: '#F7EFD9', muted: '#B8AE9B', yellow: '#F4CF58', 'yellow-deep': '#F4CF58', 'compare-purple': '#D8D6FF', line: '#EADFC7', 'accent-ink': '#211B0D', 'soft-line': '#514A3D' } }
         ]
       },
       {
@@ -2241,7 +2242,7 @@
             </div>
           </details>
         </aside>
-        <div class="preview-modal__preview"><div class="page-jump" aria-label="常用页面快速定位"><span class="page-jump__label">常用页面</span><div class="page-jump__buttons"><button type="button" class="page-jump__button" data-preview-page="transition" data-page-label="转场页面">转场页面</button><button type="button" class="page-jump__button" data-preview-page="comparison" data-page-label="对比页面">对比页面</button><button type="button" class="page-jump__button" data-preview-page="image" data-page-label="图文页面">图文页面</button><button type="button" class="page-jump__button" data-preview-page="steps" data-page-label="步骤页面">步骤页面</button></div><div class="page-jump__pager"><button type="button" class="page-jump__nav" id="page-jump-prev" aria-label="上一张同类页面" disabled>←</button><span id="page-jump-status" class="page-jump__status">选择一种常用页面</span><button type="button" class="page-jump__nav" id="page-jump-next" aria-label="下一张同类页面" disabled>→</button></div></div><div id="preview-stage" class="preview-modal__stage"><div id="preview-viewport" class="preview-modal__viewport"><iframe id="preview-iframe" class="preview-modal__iframe" hidden title="模板预览"></iframe></div></div></div>
+        <div class="preview-modal__preview"><div class="page-jump" aria-label="常用页面快速定位"><span class="page-jump__label">常用页面</span><div class="page-jump__buttons"><button type="button" class="page-jump__button" data-preview-page="chapter" data-page-label="章节分页">章节分页</button><button type="button" class="page-jump__button" data-preview-page="transition" data-page-label="转场页面">转场页面</button><button type="button" class="page-jump__button" data-preview-page="comparison" data-page-label="对比页面">对比页面</button><button type="button" class="page-jump__button" data-preview-page="image" data-page-label="图文页面">图文页面</button><button type="button" class="page-jump__button" data-preview-page="steps" data-page-label="步骤页面">步骤页面</button></div><div class="page-jump__pager"><button type="button" class="page-jump__nav" id="page-jump-prev" aria-label="上一张同类页面" disabled>←</button><span id="page-jump-status" class="page-jump__status">选择一种常用页面</span><button type="button" class="page-jump__nav" id="page-jump-next" aria-label="下一张同类页面" disabled>→</button></div></div><div id="preview-stage" class="preview-modal__stage"><div id="preview-viewport" class="preview-modal__viewport"><iframe id="preview-iframe" class="preview-modal__iframe" hidden title="模板预览"></iframe></div></div></div>
       </div>
     </div>
   </div>
@@ -2276,6 +2277,7 @@
     let activePreviewPage = '';
     let activePreviewPageIndex = 0;
     const previewPageSelectors = {
+      chapter: '[data-layout="chapter"]',
       transition: '[data-transition-series],.transition-slide',
       comparison: '[data-layout="comparison"],.layout-comparison,.slide-comparison,.comparison-slide',
       image: '[data-layout="image-feature"],.image-feature-layout',
